@@ -1,0 +1,35 @@
+<div class="container vh-100">
+  <div class="row justify-content-center h-100">
+      <div class="card my-auto half shadow">
+          <div class="card-body px-5">
+              <div class="text-center">
+                  <h2>Welcome</h2>
+              </div>
+              <p style="color: lightslategray; text-align: center;">
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Please enter your login
+                  details&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+                  <form [formGroup]="signupForm" (ngSubmit)="signup()">
+                    <div class="mb-3">
+                      <label for="exampleInputName" class="form-label">Name</label>
+                      <input type="name" formControlName="name" class="form-control" id="exampleInputName" placeholder="enter your name" aria-describedby="emailHelp">
+                      <small *ngIf="signupForm.get('name')?.invalid && signupForm.get('name')?.touched" class="text-danger">Name is Required</small>
+                    </div>
+                    <div class="mb-3">
+                      <label for="exampleInputEmail1" class="form-label">Email address</label>
+                      <input type="email" formControlName="email" class="form-control" id="exampleInputEmail1" placeholder="enter your email" aria-describedby="emailHelp">
+                      <small *ngIf="signupForm.get('email')?.invalid && signupForm.get('email')?.touched" class="text-danger">Email is Required</small>
+                    </div>
+                    <div class="mb-3">
+                      <label for="exampleInputPassword1" class="form-label">Password</label>
+                      <input type="password" formControlName="password" class="form-control" placeholder="enter your password" id="exampleInputPassword1">
+                      <small *ngIf="signupForm.get('password')?.invalid && signupForm.get('password')?.touched" class="text-danger">Password is Required</small>
+                    </div>
+                    <button type="submit" [disabled]="signupForm.invalid" class="btn btn-primary">Sign up</button>
+                  </form>
+          </div>
+          <div class="card-footer text-right">
+              <small><a style="float:right" routerLink="/signin">Already registered? Click here to signin</a></small>
+          </div>
+      </div>
+  </div>
+</div>
