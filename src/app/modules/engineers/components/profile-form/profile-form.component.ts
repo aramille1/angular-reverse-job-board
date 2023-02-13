@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { Router } from '@angular/router';
+import { Engineer } from 'src/app/engineer';
 
 @Component({
   selector: 'app-profile-form',
@@ -8,7 +9,7 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
   styleUrls: ['./profile-form.component.scss']
 })
 export class ProfileFormComponent {
-  constructor(private sanitizer: DomSanitizer){}
+  constructor(private router: Router){}
   imageSrc: string = "";
   coverImg: string = "";
 
@@ -46,12 +47,13 @@ export class ProfileFormComponent {
     github: new FormControl(''),
     twitter: new FormControl(''),
     linkedin: new FormControl(''),
-    stackoverlow: new FormControl(''),
+    stackoverflow: new FormControl(''),
 
   })
 
   submit(){
     console.log(this.profileForm.value);
+    this.router.navigate(['/engineers/details'])
   }
 
 

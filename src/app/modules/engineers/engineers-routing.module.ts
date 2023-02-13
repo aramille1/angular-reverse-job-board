@@ -6,7 +6,7 @@ import { EngineersComponent } from './components/engineers/engineers.component';
 
 const routes: Routes = [
   { path: '', component: EngineersComponent },
-  { path: 'details', component: ProfileDetailsComponent },
+  { path: 'details/:id', component: ProfileDetailsComponent },
   { path: 'form', component: ProfileFormComponent },
 ];
 

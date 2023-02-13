@@ -1,0 +1,108 @@
+.container {
+  padding:0;
+}
+.engineer{
+  display: flex;
+  text-decoration: none;
+  // border: 1px solid;
+  padding: 1.5rem;
+
+  &:hover{
+    background-color: #f1f9ff;
+  }
+  .engineer-info-header{
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+  }
+  .recently-active{
+    background-color: rgb(220, 252, 231);
+    color: rgb(22, 101, 52);
+    padding: 5px;
+    width: 110px;
+  }
+  .engineer-info-text{
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow-wrap: break-word;
+    color:#1C2227;
+    padding: 15px 0;
+  }
+}
+$primary: #8cc63e;
+$checkmarkColor: white;
+$size: 15px;
+$checkmarkFat: 1px;
+
+.circle {
+  position: relative;
+  background: $primary;
+  border-radius: 50%;
+  width: $size;
+  height: $size;
+}
+
+.checkmark {
+  position: absolute;
+  transform: rotate(45deg) translate(-50%, -50%);
+  left: 35%;
+  top: 45%;
+  height: $size/3;
+  width: $size/6;
+  border-bottom: $checkmarkFat solid $checkmarkColor;
+  border-right: $checkmarkFat solid $checkmarkColor;
+}
+
+header{
+  padding: 40px 20px 20px 20px;
+}
+
+article{
+  font-size: 16px;
+  color: rgb(55 65 81)
+}
+
+.accordion-button:focus{
+  border-color: none;
+  box-shadow: none;
+}
+
+.accordion-button {
+  background: none !important;
+  color: rgb(55 65 81);
+  font-weight: 500;
+}
+
+.accordion-button.collapsed {
+  background: none !important;
+}
+
+.accordion-button.collapsed::after {
+  background-color: none !important;
+}
+.accordion-item:first-of-type{
+  border-top: none !important;
+}
+
+#noBorders{
+  border-top-left-radius: none !important;
+  border-top-right-radius: none !important;
+
+}
+.accordion-item:first-of-type .accordion-button {
+  border-top-left-radius: none !important;
+  border-top-right-radius: none !important;
+}
+
+.accordion-item{
+  border-left: none;
+}
+
+.col-3 {
+  padding-right: 0;
+}
+.col-9 {
+  padding-left: 0;
+}
