@@ -8,11 +8,13 @@ import { HomeComponent } from './components/home/home.component';
 import { SigninComponent } from './components/signin/signin.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RoleComponent } from './components/role/role.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { HeaderComponent } from './components/header/header.component';
+import { AuthService } from './services/auth.service';
+import { AuthInterceptor } from './interceptors/auth-interceptor.interceptor';
 
 @NgModule({
   declarations: [
@@ -33,7 +35,14 @@ import { HeaderComponent } from './components/header/header.component';
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [
+    AuthService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

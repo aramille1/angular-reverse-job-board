@@ -25,7 +25,31 @@ export class SignupComponent implements OnInit{
 
   signup(){
     if(this.signupForm.valid){
-      this.auth.signup(this.signupForm)
+      console.log(this.signupForm.value);
+      // this.auth.signup(this.signupForm)
+      const reqObject = {
+        email: this.signupForm.value.email,
+        password: this.signupForm.value.password
+      };
+      this.http.post('http://localhost:3000/sign-up', reqObject).subscribe(
+
+      // The response data
+      (response) => {
+        console.log(response);
+      },
+
+      // If there is an error
+      (error) => {
+        console.log(error);
+      },
+
+      // When observable completes
+      () => {
+        console.log('done!');
+        this.router.navigate(['signin']);
+      }
+
+    );
     }
   }
 }

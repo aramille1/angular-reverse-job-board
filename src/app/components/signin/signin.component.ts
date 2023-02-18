@@ -1,3 +1,4 @@
+import { HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
@@ -22,6 +23,7 @@ export class SigninComponent implements OnInit {
       return;
     }
     this.auth.signin(this.signinForm)
+
   }
 
 }

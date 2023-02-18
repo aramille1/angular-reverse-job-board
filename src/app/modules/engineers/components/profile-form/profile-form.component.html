@@ -1,112 +1,108 @@
-<div class="container vh-100">
+<div class="container container-mod vh-100">
   <div class="row justify-content-center h-100">
     <form [formGroup]="profileForm" (ngSubmit)="submit()">
-      <div class="card my-5 half shadow personal-info">
-        <div class="card-body px-5">
-          <div class="text-center">
-            <h2>Your developer profile</h2>
-          </div>
-          <div class="mb-3">
-            <label for="exampleInputName" class="form-label">Name</label>
-            <input
-              type="name"
-              formControlName="name"
-              class="form-control"
-              id="exampleInputName"
-              placeholder="enter your name"
-              aria-describedby="emailHelp"
-            />
-            <small
-              *ngIf="
-                profileForm.get('name')?.invalid &&
-                profileForm.get('name')?.touched
-              "
-              class="text-danger"
-              >Name is Required</small
-            >
-          </div>
-          <div class="mb-3">
-            <label for="exampleInputhero1" class="form-label">Hero</label>
-            <input
-              type="hero"
-              formControlName="hero"
-              class="form-control"
-              id="exampleInputhero1"
-              placeholder="enter your hero"
-              aria-describedby="heroHelp"
-            />
-            <small
-              *ngIf="
-                profileForm.get('hero')?.invalid &&
-                profileForm.get('hero')?.touched
-              "
-              class="text-danger"
-              >Hero is Required</small
-            >
-          </div>
-          <div class="d-flex">
-            <div class="mb-3">
-              <label for="exampleInputcity1" class="form-label">City</label>
-              <input
-                type="city"
-                formControlName="city"
-                class="form-control"
-                placeholder="enter your city"
-                id="exampleInputcity1"
-              />
+      <div class="text-left my-4">
+        <h2>Your developer profile</h2>
+      </div>
+      <div class="card mb-5 half shadow personal-info">
+        <div class="card-body p-4">
+          <div class="row">
+            <div class="col-4">
+              <h2>Profile</h2>
+              <p>This information will be displayed publicly so be careful what you share.              </p>
             </div>
-            <div class="mb-3 mx-3">
-              <label for="exampleInputstate1" class="form-label">State</label>
-              <input
-                type="state"
-                formControlName="state"
-                class="form-control"
-                placeholder="enter your state"
-                id="exampleInputstate1"
-              />
-            </div>
-            <div class="mb-3">
-              <label for="exampleInputcountry1" class="form-label"
-                >Country</label
-              >
-              <input
-                type="country"
-                formControlName="country"
-                class="form-control"
-                placeholder="enter your country"
-                id="exampleInputcountry1"
-              />
-            </div>
-          </div>
-          <div class="mb-3 d-flex flex-column">
-            <label for="exampleInputavatar1" class="form-label">Avatar</label>
-            <div>
-              <label for="file-upload" class="custom-file-upload">upload</label>
-              <img [src]="imageSrc" *ngIf="imageSrc" width="80rem" height="80rem" class="rounded-circle mx-2">
-              <input type="file" (change)="onFileChange($event)" id="file-upload" name="img" accept="image/*">
-            </div>
-          </div>
-          <div class="mb-3 d-flex flex-column">
-            <label for="exampleInputcoverImg1" class="form-label"
-              >Cover image</label
-            >
-            <div class="w-full aspect-w-4 aspect-h-1">
-              <label for="cover-file-upload" class="custom-file-upload">upload</label>
-              <img [src]="coverImg" *ngIf="coverImg" height="80rem" class="coverImg mx-2">
-              <input type="file" (change)="onCoverFileChange($event)" id="cover-file-upload" name="img" accept="image/*">
-            </div>
-          </div>
+            <div class="col-8">
+              <div class="mb-3">
+                <label for="exampleInputfirstName" class="form-label">First name</label>
+                <input type="name" formControlName="firstName" class="form-control" id="exampleInputfirstName"
+                  placeholder="enter your first name" />
+                <small *ngIf="
+                    profileForm.get('firstName')?.invalid &&
+                    profileForm.get('firstName')?.touched
+                  " class="text-danger">First Name is Required</small>
+              </div>
+              <div class="mb-3">
+                <label for="exampleInputLastName" class="form-label">Last name</label>
+                <input type="name" formControlName="lastName" class="form-control" id="exampleInputLastName"
+                  placeholder="enter your last name" />
+                <small *ngIf="
+                    profileForm.get('lastName')?.invalid &&
+                    profileForm.get('lastName')?.touched
+                  " class="text-danger">Last Name is Required</small>
+              </div>
+              <div class="mb-3">
+                <label for="exampleInputhero1" class="form-label">Tagline</label>
+                <input type="text" formControlName="tagLine" class="form-control" id="exampleInputhero1"
+                  placeholder="enter your tagline" />
+                <small *ngIf="
+                    profileForm.get('tagLine')?.invalid &&
+                    profileForm.get('tagLine')?.touched
+                  " class="text-danger">Tagline is Required</small>
+              </div>
+              <div class="mb-3">
 
-          <div class="mb-3">
-            <label for="exampleInputbio1" class="form-label">Bio</label>
-            <textarea
-              formControlName="bio"
-              class="form-control"
-              placeholder="enter your bio"
-              id="exampleInputbio1"
-              rows="4"
-              cols="50"
-            ></textarea>
+                <label for="location" class="form-label">Location</label>
+                <input
+                  type="text"
+                  id="location"
+                  required
+                  class="form-control"
+                  (keydown.enter)="$event.preventDefault()"
+                  placeholder="enter your location"
+                  type="text"
+                  #search
+                />
+                <!-- <div class="mb-3">
+                  <input type="city" formControlName="city" class="form-control" placeholder="enter your city"
+                    id="exampleInputcity1" />
+                    <small *ngIf="
+                    profileForm.get('city')?.invalid &&
+                    profileForm.get('city')?.touched
+                  " class="text-danger">City is Required</small>
+                </div>
+                <div class="mb-3 mx-3">
+                  <label for="exampleInputstate1" class="form-label">State</label>
+                  <input type="state" formControlName="state" class="form-control" placeholder="enter your state"
+                    id="exampleInputstate1" />
+                </div>
+                <div class="mb-3">
+                  <label for="exampleInputcountry1" class="form-label">Country</label>
+                  <input type="country" formControlName="country" class="form-control" placeholder="enter your country"
+                    id="exampleInputcountry1" />
+                    <small *ngIf="
+                    profileForm.get('country')?.invalid &&
+                    profileForm.get('country')?.touched
+                  " class="text-danger">Country is Required</small>
+                </div> -->
+              </div>
+              <div class="mb-3 d-flex flex-column">
+                <label for="exampleInputavatar1" class="form-label">Avatar</label>
+                <div>
+                  <label for="file-upload" class="custom-file-upload">upload</label>
+                  <img [src]="imageSrc" *ngIf="imageSrc" width="80rem" height="80rem" class="rounded-circle mx-2">
+                  <input type="file" (change)="onFileChange($event)" id="file-upload" name="img" accept="image/*">
+                </div>
+              </div>
+              <div class="mb-3 d-flex flex-column">
+                <label for="exampleInputcoverImg1" class="form-label">Cover image</label>
+                <div class="w-full aspect-w-4 aspect-h-1">
+                  <label for="cover-file-upload" class="custom-file-upload">upload</label>
+                  <img [src]="coverImg" *ngIf="coverImg" height="80rem" class="coverImg mx-2">
+                  <input type="file" (change)="onCoverFileChange($event)" id="cover-file-upload" name="img"
+                    accept="image/*">
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="exampleInputbio1" class="form-label">Bio</label>
+                <textarea formControlName="bio" class="form-control" placeholder="enter your bio" id="exampleInputbio1"
+                  rows="4" cols="50"></textarea>
+                  <small *ngIf="
+                  profileForm.get('bio')?.invalid &&
+                  profileForm.get('bio')?.touched
+                " class="text-danger">Bio is Required</small>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -122,17 +118,7 @@
                 <div class="col">
                   <h3>Search status</h3>
                   <div>
-                    <input
-                      type="checkbox"
-                      id="activelylooking"
-                      [formControl]="
-                        profileForm.controls.searchStatus.controls[
-                          'activelylooking'
-                        ]
-                      "
-                      name="activelylooking"
-                      value="activelylooking"
-                    />
+                    <input type="radio" required id="activelylooking" formControlName="searchStatus" value="activelylooking" />
 
                     <label for="activelylooking">Actively looking</label><br />
                     <p class="desc-text">
@@ -141,15 +127,7 @@
                   </div>
 
                   <div>
-                    <input
-                      type="checkbox"
-                      id="open"
-                      [formControl]="
-                        profileForm.controls.searchStatus.controls['open']
-                      "
-                      name="open"
-                      value="open"
-                    />
+                    <input type="radio" required id="open" formControlName="searchStatus" value="open" />
                     <label for="open">Open</label><br />
                     <p class="desc-text">
                       Companies can still find you, but you won't appear on the
@@ -158,17 +136,7 @@
                   </div>
 
                   <div>
-                    <input
-                      type="checkbox"
-                      id="notinterested"
-                      [formControl]="
-                        profileForm.controls.searchStatus.controls[
-                          'notinterested'
-                        ]
-                      "
-                      name="notinterested"
-                      value="notinterested"
-                    />
+                    <input type="radio" required id="notinterested" formControlName="searchStatus" value="notinterested" />
 
                     <label for="notinterested">Not interested</label><br />
                     <p class="desc-text">
@@ -177,24 +145,20 @@
                   </div>
 
                   <div>
-                    <input
-                      type="checkbox"
-                      id="invisible"
-                      [formControl]="
-                        profileForm.controls.searchStatus.controls['invisible']
-                      "
-                      name="invisible"
-                      value="invisible"
-                    />
+                    <input type="radio" required id="invisible" formControlName="searchStatus" value="invisible" />
                     <label for="invisible">Invisible</label><br />
                     <p class="desc-text">
                       Your profile is hidden and can only be seen by yourself.
                     </p>
                   </div>
+                  <small *ngIf="
+                  profileForm.get('searchStatus')?.invalid &&
+                  profileForm.get('searchStatus')?.touched
+                " class="text-danger">Search Status is Required</small>
                 </div>
               </div>
             </div>
-
+            <!-- Role type -->
             <div class="role-type mb-5">
               <div class="row">
                 <div class="col"></div>
@@ -203,41 +167,22 @@
                   <p class="desc-text-heading">
                     Select all roles that you would consider taking.
                   </p>
-                  <input
-                    type="checkbox"
-                    id="partTime"
-                    [formControl]="
+                  <input type="checkbox" id="partTime" [formControl]="
                       profileForm.controls.roleType.controls['partTime']
-                    "
-                    name="partTime"
-                    value="partTime"
-                  />
+                    " name="partTime" value="partTime" />
                   <label for="partTime">Part-time contract</label><br />
 
-                  <input
-                    type="checkbox"
-                    id="fullTimeContract"
-                    [formControl]="
+                  <input type="checkbox" id="fullTimeContract" [formControl]="
                       profileForm.controls.roleType.controls['fullTimeContract']
-                    "
-                    name="fullTimeContract"
-                    value="fullTimeContract"
-                  />
+                    " name="fullTimeContract" value="fullTimeContract" />
                   <label for="fullTimeContract">Full-time contract</label><br />
 
-                  <input
-                    type="checkbox"
-                    id="fullTimeEmployment"
-                    [formControl]="
+                  <input type="checkbox" id="fullTimeEmployment" [formControl]="
                       profileForm.controls.roleType.controls[
                         'fullTimeEmployment'
                       ]
-                    "
-                    name="fullTimeEmployment"
-                    value="fullTimeEmployment"
-                  />
-                  <label for="fullTimeEmployment">Full-time employment</label
-                  ><br />
+                    " name="fullTimeEmployment" value="fullTimeEmployment" />
+                  <label for="fullTimeEmployment">Full-time employment</label><br />
                 </div>
               </div>
             </div>
@@ -250,59 +195,29 @@
                   <p class="desc-text-heading">
                     Select all the experience levels you would consider taking.
                   </p>
-                  <input
-                    type="checkbox"
-                    id="junior"
-                    [formControl]="
+                  <input type="checkbox" id="junior" [formControl]="
                       profileForm.controls.roleLevel.controls['junior']
-                    "
-                    name="junior"
-                    value="junior"
-                  />
+                    " name="junior" value="junior" />
                   <label for="junior">Junior</label><br />
 
-                  <input
-                    type="checkbox"
-                    id="middle"
-                    [formControl]="
+                  <input type="checkbox" id="middle" [formControl]="
                       profileForm.controls.roleLevel.controls['middle']
-                    "
-                    name="middle"
-                    value="middle"
-                  />
+                    " name="middle" value="middle" />
                   <label for="middle">Mid-level</label><br />
 
-                  <input
-                    type="checkbox"
-                    id="senior"
-                    [formControl]="
+                  <input type="checkbox" id="senior" [formControl]="
                       profileForm.controls.roleLevel.controls['senior']
-                    "
-                    name="senior"
-                    value="senior"
-                  />
+                    " name="senior" value="senior" />
                   <label for="senior">Senior</label><br />
 
-                  <input
-                    type="checkbox"
-                    id="principal"
-                    [formControl]="
+                  <input type="checkbox" id="principal" [formControl]="
                       profileForm.controls.roleLevel.controls['principal']
-                    "
-                    name="principal"
-                    value="principal"
-                  />
+                    " name="principal" value="principal" />
                   <label for="principal">Principal / staff</label><br />
 
-                  <input
-                    type="checkbox"
-                    id="cLevel"
-                    [formControl]="
+                  <input type="checkbox" id="cLevel" [formControl]="
                       profileForm.controls.roleLevel.controls['cLevel']
-                    "
-                    name="cLevel"
-                    value="cLevel"
-                  />
+                    " name="cLevel" value="cLevel" />
                   <label for="cLevel">C-level</label><br />
                 </div>
               </div>
@@ -321,49 +236,25 @@
               </div>
               <div class="col">
                 <h5>Website</h5>
-                <input
-                  type="text"
-                  formControlName="website"
-                  class="form-control"
-                />
+                <input type="text" formControlName="website" class="form-control" />
 
                 <h5>Github</h5>
-                <input
-                  type="text"
-                  formControlName="github"
-                  class="form-control"
-                />
+                <input type="text" formControlName="github" class="form-control" />
 
                 <h5>Twitter</h5>
-                <input
-                  type="text"
-                  formControlName="twitter"
-                  class="form-control"
-                />
+                <input type="text" formControlName="twitter" class="form-control" />
 
                 <h5>Linkedin</h5>
-                <input
-                  type="text"
-                  formControlName="linkedin"
-                  class="form-control"
-                />
+                <input type="text" formControlName="linkedin" class="form-control" />
 
                 <h5>Stack Overflow</h5>
-                <input
-                  type="text"
-                  formControlName="stackoverflow"
-                  class="form-control"
-                />
+                <input type="text" formControlName="stackoverflow" class="form-control" />
               </div>
             </div>
           </div>
         </div>
       </div>
-      <button
-        type="submit"
-        [disabled]="profileForm.invalid"
-        class="btn btn-primary mb-5"
-      >
+      <button type="submit" [disabled]="profileForm.invalid" class="btn btn-primary mb-5">
         Save
       </button>
     </form>
