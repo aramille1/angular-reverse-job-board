@@ -31,10 +31,18 @@ export class AuthService {
   }
 
   createEngineer(profileForm: any) {
+    const headersObject = new HttpHeaders();
+
+      headersObject.append('Authorization', 'Bearer ' + localStorage.getItem('token'));
+      headersObject.append('Content-Type', 'application/json');
+
+      const httpOptions = {
+        headers: headersObject
+      };
     if (profileForm.valid) {
       console.log(profileForm.value);
       this.http
-        .post('http://localhost:3000/engineer', profileForm.value, httpOptions)
+        .post('http://localhost:3000/engineer', JSON.stringify(profileForm.value), httpOptions)
         .subscribe(
           (response) => {
             console.log(response);

@@ -46,11 +46,11 @@ export class ProfileFormComponent {
     firstName: new FormControl('', Validators.required),
     lastName: new FormControl('', Validators.required),
     tagLine: new FormControl('', Validators.required),
-    city: new FormControl('Berlin', Validators.required),
+    city: new FormControl('', Validators.required),
     state: new FormControl(''),
-    country: new FormControl('Germany', Validators.required),
-    avatar: new FormControl(''),
-    coverImg: new FormControl(''),
+    country: new FormControl('', Validators.required),
+    // avatar: new FormControl(''),
+    // coverImg: new FormControl(''),
     bio: new FormControl('', Validators.required),
 
     searchStatus: new FormControl('', Validators.required),
@@ -80,31 +80,31 @@ export class ProfileFormComponent {
   }
 
   onFileChange(event: any) {
-    const file = event.target.files[0];
-    this.profileForm.patchValue({
-      avatar: file,
-    });
-    var reader = new FileReader();
-    reader.readAsDataURL(file);
-    // File Preview
-    reader.onload = (event: any) => {
-      this.imageSrc = event.target.result;
-    };
+    // const file = event.target.files[0];
+    // this.profileForm.patchValue({
+    //   avatar: file,
+    // });
+    // var reader = new FileReader();
+    // reader.readAsDataURL(file);
+    // // File Preview
+    // reader.onload = (event: any) => {
+    //   this.imageSrc = event.target.result;
+    // };
   }
 
   onCoverFileChange(event: any) {
-    const file = event.target.files[0];
-    this.profileForm.patchValue({
-      coverImg: file,
-    });
-    var reader = new FileReader();
+    // const file = event.target.files[0];
+    // this.profileForm.patchValue({
+    //   coverImg: file,
+    // });
+    // var reader = new FileReader();
 
-    reader.readAsDataURL(file);
+    // reader.readAsDataURL(file);
 
-    // File Preview
-    reader.onload = (event: any) => {
-      this.coverImg = event.target.result;
-    };
+    // // File Preview
+    // reader.onload = (event: any) => {
+    //   this.coverImg = event.target.result;
+    // };
   }
 
   initAutocomplete(maps: Maps) {
