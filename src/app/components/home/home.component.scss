@@ -1,0 +1,79 @@
+.header{
+  text-align: center;
+  max-width: 768px;
+  font-family: 'Montserrat';
+    margin: 100px auto;
+  h1{
+    font-size: 3.75rem;
+    line-height: 1;
+    font-family: 'Montserrat';
+    font-weight: 600;
+  }
+  p{
+    font-size: 1.25rem;
+    margin-top:1.25rem;
+    line-height: 28px;
+  }
+
+  button {
+    font-size: 20px;
+    font-weight: 600;
+  }
+}
+
+.container {
+  padding:0;
+}
+.engineer{
+  display: flex;
+  text-decoration: none;
+  // border: 1px solid;
+  padding: 1.5rem;
+
+  &:hover{
+    background-color: #f1f9ff;
+  }
+  .engineer-info-header{
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+  }
+  .recently-active{
+    background-color: rgb(220, 252, 231);
+    color: rgb(22, 101, 52);
+    padding: 5px;
+    width: 110px;
+  }
+  .engineer-info-text{
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow-wrap: break-word;
+    color:#1C2227;
+    padding: 15px 0;
+  }
+}
+$primary: #8cc63e;
+$checkmarkColor: white;
+$size: 15px;
+$checkmarkFat: 1px;
+
+.circle {
+  position: relative;
+  background: $primary;
+  border-radius: 50%;
+  width: $size;
+  height: $size;
+}
+
+.checkmark {
+  position: absolute;
+  transform: rotate(45deg) translate(-50%, -50%);
+  left: 35%;
+  top: 45%;
+  height: $size/3;
+  width: $size/6;
+  border-bottom: $checkmarkFat solid $checkmarkColor;
+  border-right: $checkmarkFat solid $checkmarkColor;
+}

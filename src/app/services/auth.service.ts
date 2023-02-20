@@ -42,7 +42,7 @@ export class AuthService {
     if (profileForm.valid) {
       console.log(profileForm.value);
       this.http
-        .post('http://localhost:3000/engineer', JSON.stringify(profileForm.value), httpOptions)
+        .post('http://localhost:3000/engineers', JSON.stringify(profileForm.value), httpOptions)
         .subscribe(
           (response) => {
             console.log(response);

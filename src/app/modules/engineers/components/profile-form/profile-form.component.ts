@@ -1,5 +1,5 @@
 import { Component, ElementRef, NgZone, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Engineer } from 'src/app/engineer';
 import { AuthService, Maps } from 'src/app/services/auth.service';
@@ -11,10 +11,15 @@ type Components = typeof place.address_components;
   styleUrls: ['./profile-form.component.scss'],
 })
 export class ProfileFormComponent {
+
+  profileForm!: FormGroup;
+  submitted = false;
+
   constructor(
     private router: Router,
     private auth: AuthService,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    private fb: FormBuilder
   ) {
     auth.api.then((maps) => {
       this.initAutocomplete(maps);
@@ -26,7 +31,20 @@ export class ProfileFormComponent {
   @ViewChild('map')
   public mapElementRef!: ElementRef;
 
-  public entries = [];
+roleTypes = [
+  {name: "Part-time", value: "contract_part_time"},
+  {name: "Full-time contract", value: "contract_full_time"},
+  {name: "Part-time emplpoyment", value: "employee_part_time"},
+  {name: "Full-time employment", value: "employee_full_time"}
+]
+
+roleLevels = [
+  {name: "Junior", value: "junior"},
+  {name: "Middle", value: "mid_level"},
+  {name: "Senior", value: "senior"},
+  {name: "Principal", value: "principal_staff"},
+  {name: "C-Level", value: "c_level"}
+]
 
   public place: any;
 
@@ -42,40 +60,72 @@ export class ProfileFormComponent {
   imageSrc: string = '';
   coverImg: string = '';
 
-  profileForm = new FormGroup({
-    firstName: new FormControl('', Validators.required),
-    lastName: new FormControl('', Validators.required),
-    tagLine: new FormControl('', Validators.required),
-    city: new FormControl('', Validators.required),
+ngOnInit(): void {
+
+  //TODO error validation
+  // TODO location check if it loads only rerender
+  this.profileForm = this.fb.group({
+    firstName: ['', Validators.required],
+    lastName: ['', Validators.required],
+    tagLine: ['', Validators.required],
+    city: ['', Validators.required],
     state: new FormControl(''),
-    country: new FormControl('', Validators.required),
+    country: ['', Validators.required],
     // avatar: new FormControl(''),
     // coverImg: new FormControl(''),
-    bio: new FormControl('', Validators.required),
+    bio: ['', Validators.required],
 
-    searchStatus: new FormControl('', Validators.required),
+    searchStatus: ['', Validators.required],
 
-    roleType: new FormGroup({
-      partTime: new FormControl(false),
-      fullTimeContract: new FormControl(false),
-      fullTimeEmployment: new FormControl(false),
-    }),
+    roleType: this.fb.array([]),
+    roleLevel: this.fb.array([]),
 
-    roleLevel: new FormGroup({
-      junior: new FormControl(false),
-      middle: new FormControl(false),
-      senior: new FormControl(false),
-      principal: new FormControl(false),
-      cLevel: new FormControl(false),
-    }),
-    website: new FormControl(''),
-    github: new FormControl(''),
-    twitter: new FormControl(''),
-    linkedin: new FormControl(''),
-    stackoverflow: new FormControl(''),
+    website: ['', Validators.required],
+    github: ['', Validators.required],
+    twitter: ['', Validators.required],
+    linkedin: ['', Validators.required],
+    stackoverflow: ['', Validators.required],
   });
+}
+
+  get profileFormControl() {
+    return this.profileForm.controls;
+  }
+
+  handleChangeRoleType(e:any){
+    let roleTypeArr = this.profileForm.get('roleType') as FormArray;
+    if(e.target.checked){
+      roleTypeArr.push(new FormControl(e.target.value))
+    }else{
+      let i = 0;
+      roleTypeArr.controls.forEach((type) => {
+        if(type.value === e.target.value){
+          roleTypeArr.removeAt(i)
+          return
+        }
+        i++
+      })
+    }
+  }
+
+  handleChangeRoleLevel(e:any){
+    let roleLevelArr = this.profileForm.get('roleLevel') as FormArray;
+    if(e.target.checked){
+      roleLevelArr.push(new FormControl(e.target.value))
+    }else{
+      let i = 0;
+      roleLevelArr.controls.forEach((level) => {
+        if(level.value === e.target.value){
+          roleLevelArr.removeAt(i)
+          return
+        }
+        i++
+      })
+    }
+  }
 
   submit() {
+    console.log(this.profileForm.value)
     this.auth.createEngineer(this.profileForm)
   }
 
@@ -109,7 +159,7 @@ export class ProfileFormComponent {
 
   initAutocomplete(maps: Maps) {
     let autocomplete = new maps.places.Autocomplete(
-      this.searchElementRef.nativeElement
+      this.searchElementRef?.nativeElement
     );
     autocomplete.addListener('place_changed', () => {
       this.ngZone.run(() => {
