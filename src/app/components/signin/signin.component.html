@@ -1,31 +1,41 @@
-<div class="container vh-100">
+<div class="container mt-5">
   <div class="row justify-content-center h-100">
-      <div class="card my-auto half shadow">
-          <div class="card-body px-5">
-              <div class="text-center">
-                  <h2>Welcome</h2>
-              </div>
-              <p style="color: lightslategray; text-align: center;">
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Please enter your login
-                  details&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
-              <form [formGroup]="signinForm" (ngSubmit)="signin()">
-                  <div class="form-group">
-                      <input type="email" id="email" placeholder="Email" class="form-control my-4" formControlName="email"
-                          name="email" />
-                          <small *ngIf="signinForm.get('email')?.invalid && signinForm.get('email')?.touched" class="text-danger">Email is required</small>
-                  </div>
-                  <div class="form-group">
-                      <input type="password" id="password" placeholder="Password" class="form-control my-4"
-                          formControlName="password" name="password" />
-                          <small *ngIf="signinForm.get('password')?.invalid && signinForm.get('password')?.touched" class="text-danger">Password is required</small>
-                  </div>
-                  <input type="submit" class="btn btn-primary w-100" value="Login" name="">
-              </form>
+    <div class="card my-auto half shadow">
+      <div class="card-body px-5">
+        <div class="text-center">
+          <h2>Welcome</h2>
+        </div>
+        <p style="color: lightslategray; text-align: center;">
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Please enter your login
+          details&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+        <form [formGroup]="signinForm" (ngSubmit)="signin()">
+          <div class="form-group">
+            <input type="email" id="email" placeholder="Email *" required class="form-control mt-4" formControlName="email"
+              name="email" />
+              <p class="text-danger mt-1" *ngIf="signinForm.controls['email'].hasError('pattern')">Email must be valid</p>
+              <p class="text-danger mt-1" *ngIf="signinForm.controls['email'].hasError('required') && signinForm.controls['email'].touched">
+                Email is required
+            </p>
           </div>
-          <div class="card-footer text-right">
-              <small><a routerLink="../forgot-password">Forgot Password</a></small>
-              <small><a style="float:right" routerLink="/signup">New user? Click to signup </a></small>
+          <div class="form-group">
+            <input type="password" id="password" placeholder="Password *" class="form-control mt-4"
+              formControlName="password" name="password" minlength="8"/>
+
+              <p class="text-danger mt-1" *ngIf="signinForm.controls['password'].hasError('minlength')">
+                  Your password must be at least 8 characters long.
+              </p>
+
+              <p class="text-danger mt-1" *ngIf="signinForm.controls['password'].hasError('required') && signinForm.controls['password'].touched">
+                  Password is required
+              </p>
           </div>
+          <input type="submit" class="btn btn-success w-100 my-4" value="Login" name="">
+        </form>
       </div>
+      <div class="card-footer text-right">
+        <small><a routerLink="../forgot-password">Forgot Password</a></small>
+        <small><a style="float:right" routerLink="/signup">New user? Click to signup </a></small>
+      </div>
+    </div>
   </div>
 </div>

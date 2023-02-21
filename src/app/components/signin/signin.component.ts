@@ -1,6 +1,6 @@
 import { HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -9,12 +9,14 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./signin.component.scss']
 })
 export class SigninComponent implements OnInit {
-  signinForm = new FormGroup({
-    email: new FormControl('', Validators.required),
-    password: new FormControl('', Validators.required),
+
+  constructor(private auth: AuthService,private fb: FormBuilder){}
+  signinForm = this.fb.group({
+    email: ["",Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$")],
+    password: ['', Validators.compose([Validators.required, Validators.minLength(8)])],
   })
 
-  constructor(private auth: AuthService){}
+  get f() { return this.signinForm.controls; }
 
   ngOnInit(): void {}
 
@@ -22,7 +24,8 @@ export class SigninComponent implements OnInit {
     if(this.signinForm.invalid){
       return;
     }
-    this.auth.signin(this.signinForm)
+    console.log(this.signinForm.get('password'))
+    // this.auth.signin(this.signinForm)
 
   }
 
