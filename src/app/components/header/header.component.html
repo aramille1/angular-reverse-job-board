@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-light nav-mod">
-    <a class="navbar-brand" href="#"> Jobboards</a>
+    <a class="navbar-brand" href="#"> Angular talents</a>
     <button
       class="navbar-toggler"
       type="button"
@@ -26,20 +26,20 @@
           <a class="nav-link" href="#">About</a>
         </li>
       </ul>
-      <div class="d-flex">
+      <ul class="navbar-nav ml-auto">
         <li class="nav-item" *ngIf="!(auth.isLoggedIn$ | async)">
-          <button class="btn btn-success" routerLink="/signin">Sign in</button>
+          <a class="nav-link" routerLink="/signin">Sign in</a>
         </li>
         <li class="nav-item" *ngIf="!(auth.isLoggedIn$ | async)">
-          <button class="btn btn-success mx-2" routerLink="/signup">
+          <a class="nav-link" routerLink="/signup">
             Register
-          </button>
+          </a>
         </li>
         <li class="nav-item" *ngIf="auth.isLoggedIn$ | async">
-          <button class="btn btn-outline-dark" (click)="signout()">
+          <a class="nav-link" (click)="signout()">
             Sign out
-          </button>
+          </a>
         </li>
-      </div>
+      </ul>
     </div>
 </nav>
