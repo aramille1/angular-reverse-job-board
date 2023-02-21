@@ -9,49 +9,49 @@
           <div class="row">
             <div class="col-4">
               <h2>Profile</h2>
-              <p>This information will be displayed publicly so be careful what you share.              </p>
+              <p>This information will be displayed publicly so be careful what you share. </p>
             </div>
             <div class="col-8">
               <div class="mb-3">
-                <label for="exampleInputfirstName" class="form-label">First name</label>
+                <label for="exampleInputfirstName" class="form-label">First name *</label>
                 <input type="name" formControlName="firstName" class="form-control" id="exampleInputfirstName"
-                  placeholder="enter your first name" />
-                <!-- <small *ngIf="
-                    (profileFormControl.firstName.touched || submitted) &&
-                    (profileFormControl.firstName.errors?.required)
-                  " class="text-danger">First Name is Required</small> -->
+                  placeholder="enter your first name" required
+                  [ngClass]="{ 'is-invalid': profileForm.controls['firstName'].touched && profileForm.controls['firstName'].errors, 'is-valid': profileForm.controls['firstName'].valid }" />
+                <div *ngIf="profileForm.controls['firstName'].touched && profileForm.controls['firstName'].errors"
+                  class="text-danger">
+                  <div *ngIf="profileForm.controls['firstName'].errors">First name is required!</div>
+                </div>
               </div>
               <div class="mb-3">
-                <label for="exampleInputLastName" class="form-label">Last name</label>
-                <input type="name" formControlName="lastName" class="form-control" id="exampleInputLastName"
+                <label for="exampleInputLastName" class="form-label">Last name *</label>
+                <input type="name" formControlName="lastName" class="form-control" id="exampleInputLastName" required
+                  [ngClass]="{ 'is-invalid': profileForm.controls['lastName'].touched && profileForm.controls['lastName'].errors, 'is-valid': profileForm.controls['lastName'].valid }"
                   placeholder="enter your last name" />
-                <!-- <small *ngIf="
-                (profileFormControl.lastName.touched || submitted) &&
-                (profileFormControl.lastName.errors?.required)
-                  " class="text-danger">Last Name is Required</small> -->
+                <div *ngIf="profileForm.controls['lastName'].touched && profileForm.controls['lastName'].errors"
+                  class="text-danger">
+                  <div *ngIf="profileForm.controls['lastName'].errors">Last name is required!</div>
+                </div>
               </div>
               <div class="mb-3">
-                <label for="exampleInputhero1" class="form-label">Tagline</label>
-                <input type="text" formControlName="tagLine" class="form-control" id="exampleInputhero1"
+                <label for="exampleInputhero1" class="form-label">Tagline *</label>
+                <input type="text" formControlName="tagLine" class="form-control" id="exampleInputhero1" required
+                  [ngClass]="{ 'is-invalid': profileForm.controls['tagLine'].touched && profileForm.controls['tagLine'].errors, 'is-valid': profileForm.controls['tagLine'].valid }"
                   placeholder="enter your tagline" />
-                <!-- <small *ngIf="
-                (profileFormControl.tagLine.touched || submitted) &&
-                (profileFormControl.tagLine.errors?.required)
-                  " class="text-danger">Tagline is Required</small> -->
+                <div *ngIf="profileForm.controls['tagLine'].touched && profileForm.controls['tagLine'].errors"
+                  class="text-danger">
+                  <div *ngIf="profileForm.controls['tagLine'].errors">Tag line is required!</div>
+                </div>
               </div>
               <div class="mb-3">
 
-                <label for="location" class="form-label">Location</label>
-                <input
-                  type="text"
-                  id="location"
-                  required
-                  class="form-control"
-                  (keydown.enter)="$event.preventDefault()"
-                  placeholder="enter your location"
-                  type="text"
-                  #search
-                />
+                <label for="location" class="form-label">Location *</label>
+                <input #location type="text" id="location" required formControlName="location" class="form-control"
+                  (keydown.enter)="$event.preventDefault()" placeholder="enter your location" type="text" #search
+                  [ngClass]="{ 'is-invalid': profileForm.controls['location'].touched && profileForm.controls['location'].errors, 'is-valid': profileForm.controls['location'].valid }" />
+                <div *ngIf="profileForm.controls['location'].touched && profileForm.controls['location'].errors"
+                  class="text-danger">
+                  <div *ngIf="profileForm.controls['location'].errors">Location is required!</div>
+                </div>
                 <!-- <div class="mb-3">
                   <input type="city" formControlName="city" class="form-control" placeholder="enter your city"
                     id="exampleInputcity1" />
@@ -94,13 +94,15 @@
               </div>
 
               <div class="mb-3">
-                <label for="exampleInputbio1" class="form-label">Bio</label>
+                <label for="exampleInputbio1" class="form-label">Bio *</label>
                 <textarea formControlName="bio" class="form-control" placeholder="enter your bio" id="exampleInputbio1"
+                  required
+                  [ngClass]="{ 'is-invalid': profileForm.controls['bio'].touched && profileForm.controls['bio'].errors, 'is-valid': profileForm.controls['bio'].valid }"
                   rows="4" cols="50"></textarea>
-                  <!-- <small *ngIf="
-                  (profileFormControl.bio.touched || submitted) &&
-                  (profileFormControl.bio.errors?.required)
-                " class="text-danger">Bio is Required</small> -->
+                <div *ngIf="profileForm.controls['bio'].touched && profileForm.controls['bio'].errors"
+                  class="text-danger">
+                  <div *ngIf="profileForm.controls['bio'].errors">Bio is required!</div>
+                </div>
               </div>
             </div>
           </div>
@@ -116,9 +118,10 @@
                   <p>What kind of work are you looking for next?</p>
                 </div>
                 <div class="col">
-                  <h3>Search status</h3>
+                  <h3>Search status *</h3>
                   <div>
-                    <input type="radio" required id="activelylooking" formControlName="searchStatus" value="actively_looking" />
+                    <input type="radio" required id="activelylooking" formControlName="searchStatus"
+                      value="actively_looking" />
 
                     <label for="activelylooking">Actively looking</label><br />
                     <p class="desc-text">
@@ -136,7 +139,8 @@
                   </div>
 
                   <div>
-                    <input type="radio" required id="notinterested" formControlName="searchStatus" value="not_interested" />
+                    <input type="radio" required id="notinterested" formControlName="searchStatus"
+                      value="not_interested" />
 
                     <label for="notinterested">Not interested</label><br />
                     <p class="desc-text">
@@ -162,13 +166,14 @@
             <div class="role-type mb-5">
               <div class="row">
                 <div class="col"></div>
-                <div class="col" >
-                  <h3>Role type</h3>
+                <div class="col">
+                  <h3>Role type *</h3>
                   <p class="desc-text-heading">
                     Select all roles that you would consider taking.
                   </p>
                   <div *ngFor="let roleType of roleTypes">
-                    <input type="checkbox" id="partTime" (change)="handleChangeRoleType($event)" value={{roleType.value}} />
+                    <input type="checkbox" id="partTime" (change)="handleChangeRoleType($event)"
+                      value={{roleType.value}} />
                     <label for="partTime">{{roleType.name}}</label><br />
                   </div>
                 </div>
@@ -179,12 +184,13 @@
               <div class="row">
                 <div class="col"></div>
                 <div class="col">
-                  <h3>Role level</h3>
+                  <h3>Role level *</h3>
                   <p class="desc-text-heading">
                     Select all the experience levels you would consider taking.
                   </p>
                   <div *ngFor="let roleLevel of roleLevels">
-                    <input type="checkbox" id="roleLevel" (change)="handleChangeRoleLevel($event)" value={{roleLevel.value}} />
+                    <input type="checkbox" id="roleLevel" (change)="handleChangeRoleLevel($event)"
+                      value={{roleLevel.value}} />
                     <label for="roleLevel">{{roleLevel.name}}</label><br />
                   </div>
                 </div>
@@ -199,10 +205,10 @@
           <div class="online-presence mb-5">
             <div class="row">
               <div class="col">
-                <h2>Online presence</h2>
                 <p>Where can people learn more about you and your work?</p>
               </div>
               <div class="col">
+                <h3>Online presence *</h3>
                 <h5>Website</h5>
                 <input type="text" formControlName="website" class="form-control" />
 
@@ -212,9 +218,13 @@
                 <h5>Twitter</h5>
                 <input type="text" formControlName="twitter" class="form-control" />
 
-                <h5>Linkedin</h5>
-                <input type="text" formControlName="linkedin" class="form-control" />
-
+                <h5>Linkedin *</h5>
+                <input type="text" formControlName="linkedin" class="form-control" required
+                  [ngClass]="{ 'is-invalid': profileForm.controls['linkedin'].touched && profileForm.controls['linkedin'].errors, 'is-valid': profileForm.controls['linkedin'].valid }" />
+                <div *ngIf="profileForm.controls['linkedin'].touched && profileForm.controls['linkedin'].errors"
+                  class="text-danger">
+                  <div *ngIf="profileForm.controls['linkedin'].errors">Linkedin is required!</div>
+                </div>
                 <h5>Stack Overflow</h5>
                 <input type="text" formControlName="stackoverflow" class="form-control" />
               </div>

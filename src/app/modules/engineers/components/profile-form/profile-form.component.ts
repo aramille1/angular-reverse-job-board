@@ -31,6 +31,8 @@ export class ProfileFormComponent {
   @ViewChild('map')
   public mapElementRef!: ElementRef;
 
+  @ViewChild('location') public locationElement!: ElementRef;
+
 roleTypes = [
   {name: "Part-time", value: "contract_part_time"},
   {name: "Full-time contract", value: "contract_full_time"},
@@ -61,9 +63,6 @@ roleLevels = [
   coverImg: string = '';
 
 ngOnInit(): void {
-
-  //TODO error validation
-  // TODO location check if it loads only rerender
   this.profileForm = this.fb.group({
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
@@ -71,26 +70,20 @@ ngOnInit(): void {
     city: ['', Validators.required],
     state: new FormControl(''),
     country: ['', Validators.required],
+    location:['', Validators.required],
     // avatar: new FormControl(''),
     // coverImg: new FormControl(''),
     bio: ['', Validators.required],
-
     searchStatus: ['', Validators.required],
-
     roleType: this.fb.array([]),
     roleLevel: this.fb.array([]),
-
-    website: ['', Validators.required],
-    github: ['', Validators.required],
-    twitter: ['', Validators.required],
+    website: [''],
+    github: [''],
+    twitter: [''],
     linkedin: ['', Validators.required],
-    stackoverflow: ['', Validators.required],
+    stackoverflow: [''],
   });
 }
-
-  get profileFormControl() {
-    return this.profileForm.controls;
-  }
 
   handleChangeRoleType(e:any){
     let roleTypeArr = this.profileForm.get('roleType') as FormArray;
@@ -125,8 +118,26 @@ ngOnInit(): void {
   }
 
   submit() {
-    console.log(this.profileForm.value)
-    this.auth.createEngineer(this.profileForm)
+
+    const data = {
+      firstName: this.profileForm.value.firstName,
+      lastName: this.profileForm.value.lastName,
+      tagLine: this.profileForm.value.tagLine,
+      city: this.profileForm.value.city,
+      country: this.profileForm.value.country,
+      bio: this.profileForm.value.bio,
+      searchStatus: this.profileForm.value.searchStatus,
+      roleType: this.profileForm.value.roleType,
+      roleLevel: this.profileForm.value.roleLevel,
+      linkedin: this.profileForm.value.linkedin,
+      website: this.profileForm.value.website,
+      github: this.profileForm.value.github,
+      twitter: this.profileForm.value.twitter,
+      stackoverflow: this.profileForm.value.stackoverflow,
+    }
+    console.log(data)
+
+    this.auth.createEngineer(data)
   }
 
   onFileChange(event: any) {
@@ -158,14 +169,16 @@ ngOnInit(): void {
   }
 
   initAutocomplete(maps: Maps) {
-    let autocomplete = new maps.places.Autocomplete(
-      this.searchElementRef?.nativeElement
-    );
-    autocomplete.addListener('place_changed', () => {
-      this.ngZone.run(() => {
-        this.onPlaceChange(autocomplete.getPlace());
+    setTimeout(() => {
+      let autocomplete = new maps.places.Autocomplete(
+        this.searchElementRef?.nativeElement as HTMLInputElement
+      );
+      autocomplete.addListener('place_changed', () => {
+        this.ngZone.run(() => {
+          this.onPlaceChange(autocomplete.getPlace());
+        });
       });
-    });
+    }, 1000);
   }
 
   onPlaceChange(place: any) {
