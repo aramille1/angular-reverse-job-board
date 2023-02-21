@@ -18,14 +18,16 @@ export class SigninComponent implements OnInit {
 
   get f() { return this.signinForm.controls; }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    //TODO add some ui when user put wrong email and password
+  }
 
   signin(){
     if(this.signinForm.invalid){
       return;
     }
     console.log(this.signinForm.get('password'))
-    // this.auth.signin(this.signinForm)
+    this.auth.signin(this.signinForm)
 
   }
 
