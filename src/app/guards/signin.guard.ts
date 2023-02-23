@@ -14,11 +14,16 @@ export class SigninGuard implements CanActivate {
     state: RouterStateSnapshot): Observable<boolean> {
       return this.auth.isLoggedIn$.pipe(
         tap((loggedIn: boolean) => {
+
           if (loggedIn) {
+            console.log(loggedIn);
             this.router.navigate(['']);
             return false;
           }
-          return loggedIn;
+          else{
+            this.router.navigate(['/signin']);
+            return false;
+          }
         })
       );
     }

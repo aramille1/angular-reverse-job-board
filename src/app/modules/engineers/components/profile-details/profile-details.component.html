@@ -7,9 +7,9 @@
       <div class="row my-5">
         <div class="col-8">
           <section class="info">
-            <h1 class="card-title">Senior developer (hero)</h1>
-            <h3 class="card-title">John Doe (name)</h3>
-            <p class="card-text">Best developer in the world (bio)</p>
+            <h1 class="card-title">{{engineer?.Tagline}}</h1>
+            <h3 class="card-title">{{engineer?.Firstname}} {{engineer?.Lastname}}</h3>
+            <p class="card-text">{{engineer?.Bio}}</p>
           </section>
         </div>
         <div class="col-4">
@@ -18,55 +18,32 @@
               <div class="circle">
                 <div class="checkmark"></div>
               </div>
-              <span class="mx-1">Actively looking</span>
+              <span *ngIf="engineer?.SearchStatus === 'actively_looking'" class="mx-1">Actively looking</span>
             </div>
 
             <div class="role-types-wrap">
               <span class="roles-header">Interested in roles</span>
-              <div class="d-flex align-items-center role-types">
+              <div class="d-flex align-items-center role-types" *ngFor="let roleType of engineer?.RoleType">
                 <div class="circle">
                   <div class="checkmark"></div>
                 </div>
-                <span class="mx-1">Part-time contract</span>
-              </div>
-
-              <div class="d-flex align-items-center role-types">
-                <div class="circle">
-                  <div class="checkmark"></div>
-                </div>
-                <span class="mx-1">Full-time contract</span>
-              </div>
-
-              <div class="d-flex align-items-center role-types">
-                <div class="circle">
-                  <div class="checkmark"></div>
-                </div>
-                <span class="mx-1">Full-time employment</span>
+                <span class="mx-1">{{roleType}}</span>
               </div>
             </div>
 
             <div class="role-levels-wrap">
               <span class="roles-header">Interested in roles</span>
-              <div class="d-flex align-items-center role-types">
+              <div class="d-flex align-items-center role-types" *ngFor="let roleLevel of engineer?.RoleLevel">
                 <div class="circle">
                   <div class="checkmark"></div>
                 </div>
-                <span class="mx-1">Mid-level
+                <span class="mx-1">{{roleLevel}}
                 </span>
               </div>
-
-              <div class="d-flex align-items-center role-types">
-                <div class="circle">
-                  <div class="checkmark"></div>
-                </div>
-                <span class="mx-1">Senior
-                </span>
-              </div>
-
             </div>
 
             <div class="country">
-              <span class="mx-1">Tokyo, Japan</span>
+              <span class="mx-1">{{engineer?.City}}, {{engineer?.Country}}</span>
             </div>
           </section>
         </div>

@@ -78,7 +78,7 @@ ngOnInit(): void {
     roleType: this.fb.array([]),
     roleLevel: this.fb.array([]),
     website: [''],
-    github: [''],
+    github: ['', Validators.required],
     twitter: [''],
     linkedin: ['', Validators.required],
     stackoverflow: [''],
@@ -135,7 +135,6 @@ ngOnInit(): void {
       twitter: this.profileForm.value.twitter,
       stackoverflow: this.profileForm.value.stackoverflow,
     }
-    console.log(data)
 
     this.auth.createEngineer(data)
   }

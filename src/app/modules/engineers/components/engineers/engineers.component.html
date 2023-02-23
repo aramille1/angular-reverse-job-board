@@ -161,24 +161,24 @@
     <div class="col-9">
       <main>
         <div class="engineer-wrapper">
-          <div class="item">
+          <div class="item" >
             <a href="#" class="engineer" *ngFor="let engineer of engineers"
-              [routerLink]="['/engineers/details', engineer.id]">
+              [routerLink]="['/engineers/details', engineer.ID]">
               <div class="flex-shrink-1">
                 <picture>
-                  <img [src]="engineer.avatar" width="100rem" height="100rem"
+                  <img src="https://spng.pngfind.com/pngs/s/381-3819326_default-avatar-svg-png-icon-free-download-avatar.png" width="100rem" height="100rem"
                     class="rounded-circle mx-3 profile-image" />
                 </picture>
               </div>
 
               <div class="engineer-info">
                 <div class="engineer-info-header">
-                  <h2>{{ engineer.hero }}</h2>
+                  <h2>{{ engineer.Tagline }}</h2>
                   <div class="engineer-info-status d-flex align-items-center">
                     <div class="circle">
                       <div class="checkmark"></div>
                     </div>
-                    <span *ngIf="engineer.searchStatus.activelylooking" class="mx-1">Actively looking</span>
+                    <span class="mx-1">Actively looking</span>
                   </div>
                 </div>
 
@@ -187,7 +187,7 @@
                 </div>
 
                 <div class="engineer-info-text">
-                  {{ engineer.bio }}
+                  {{ engineer.Bio }}
                 </div>
               </div>
             </a>

@@ -10,9 +10,9 @@ import { AuthGuard } from './guards/auth.guard';
 import { SigninGuard } from './guards/signin.guard';
 
 const routes: Routes = [
-  {path: 'signin', component: SigninComponent, canActivate:[SigninGuard]  }, // TODO implement Authguard only signin
+  {path: 'signin', component: SigninComponent}, // TODO implement Authguard only signin
   {path: 'forgot-password', component: ForgotPasswordComponent},
-  {path: 'signup', component: SignupComponent, canActivate:[SigninGuard]}, // TODO implement Authguard only signup
+  {path: 'signup', component: SignupComponent}, // TODO implement Authguard only signup
   {path: 'role', component: RoleComponent},
   {path: '', component: HomeComponent},
   {

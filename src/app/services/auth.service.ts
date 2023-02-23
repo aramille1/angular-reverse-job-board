@@ -2,6 +2,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Engineer } from '../engineer';
 const GOOGLE_MAPS_API_KEY = 'AIzaSyCaKbVhcX_22R_pRKDYuNA7vox-PtGaDkI';
 const httpOptions = {
   withCredentials: true
@@ -21,38 +22,25 @@ export class AuthService {
     this._isLoggedIn$.next(!!token);
   }
 
-  getEngineers(){
-    this.http.get('http://localhost:3000/engineers').subscribe({
-      next:(res)=>{
-        console.log(res)
-      },
-      error: (e) => alert(e),
-    })
+  getEngineers():Observable<any>{
+   return this.http.get<any>('http://localhost:3000/engineers')
   }
 
-  createEngineer(profileForm: any) {
-    const headersObject = new HttpHeaders();
-
-      headersObject.append('Authorization', 'Bearer ' + localStorage.getItem('token'));
-      headersObject.append('Content-Type', 'application/json');
-
-      const httpOptions = {
-        headers: headersObject
-      };
-    if (profileForm.valid) {
-      console.log(profileForm.value);
+  createEngineer(profileFormData: any) {
+    if (profileFormData) {
       this.http
-        .post('http://localhost:3000/engineers', JSON.stringify(profileForm.value), httpOptions)
+        .post('http://localhost:3000/engineers', JSON.stringify(profileFormData), httpOptions)
         .subscribe(
-          (response) => {
+          (response:any) => {
             console.log(response);
+            this.router.navigate(['engineers/details', response['engineerId']]);
           },
           (error) => {
             console.log(error);
           },
           () => {
             console.log('done!');
-            this.router.navigate(['engineers/details/:id']);
+
           }
         );
     }
@@ -146,29 +134,30 @@ export class AuthService {
     return `//maps.googleapis.com/maps/api/js?${params}&language=en`;
   }
 
-  getProfile() {
-    this.http
-      .get<any>('http://localhost:3000/engineer/${engineerId}')
-      .subscribe(
-        (response) => {
-          if (response) {
-            console.log(response);
-          }
-        },
+  getProfile(engineerId:string) {
+    console.log(engineerId);
 
-        (error) => {
-          if (error.status === 401) {
-            console.log(
-              'You are not authorized to visit this route.  No data is displayed.'
-            );
-          }
+   return this.http.get(`http://localhost:3000/engineers/${engineerId}`)
+      // .subscribe(
+      //   (response) => {
+      //     if (response) {
+      //       console.log(response);
+      //     }
+      //   },
 
-          console.log(error);
-        },
+      //   (error) => {
+      //     if (error.status === 401) {
+      //       console.log(
+      //         'You are not authorized to visit this route.  No data is displayed.'
+      //       );
+      //     }
 
-        () => {
-          console.log('HTTP request done');
-        }
-      );
+      //     console.log(error);
+      //   },
+
+      //   () => {
+      //     console.log('HTTP request done');
+      //   }
+      // );
   }
 }

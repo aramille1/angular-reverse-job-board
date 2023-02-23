@@ -1,33 +1,19 @@
 export interface Engineer {
-  name: string;
-  hero: string;
+  first_name: string;
+  last_name: string;
+  tagLine: string;
   city: string;
-  state: string;
+  state?: string;
   country: string;
-  avatar: string;
-  coverImg: string;
+  avatar?: string;
+  coverImg?: string;
   bio: string;
-  searchStatus: {
-    activelylooking: boolean;
-    open: boolean;
-    notinterested: boolean;
-    invisible: boolean;
-  };
-  roleType: {
-    partTime: boolean;
-    fullTimeContract: boolean;
-    fullTimeEmployment: boolean;
-  };
-  roleLevel: {
-    junior: boolean;
-    middle: boolean;
-    senior: boolean;
-    principal: boolean;
-    cLevel: boolean;
-  };
-  website: string;
+  search_status: string;
+  role_type: string[];
+  role_level: string[];
+  website?: string;
   github: string;
-  twitter: string;
+  twitter?: string;
   linkedin: string;
-  stackoverflow: string;
+  stackoverflow?: string;
 }
