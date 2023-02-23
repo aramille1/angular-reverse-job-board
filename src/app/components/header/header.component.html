@@ -35,7 +35,7 @@
             Register
           </a>
         </li>
-        <li class="nav-item" *ngIf="auth.isLoggedIn$ | async">
+        <li class="nav-item singout" *ngIf="auth.isLoggedIn$ | async">
           <a class="nav-link" (click)="signout()">
             Sign out
           </a>
