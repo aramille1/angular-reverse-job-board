@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-profile-form',
@@ -7,20 +7,21 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./profile-form.component.scss']
 })
 export class ProfileFormComponent {
-  profileForm = new FormGroup({
-    name: new FormControl('', Validators.required),
-    hero: new FormControl('', Validators.required),
-    city: new FormControl(''),
-    state: new FormControl(''),
-    country: new FormControl(''),
-    avatar: new FormControl(''),
-    coverImg: new FormControl(''),
-    bio: new FormControl(''),
+  profileForm!: FormGroup;
+  constructor(private fb: FormBuilder){}
 
-  })
+  ngOnInit(): void {
+    this.profileForm = this.fb.group({
+      companyName: ['', Validators.required],
+      website: ['', Validators.required],
+      bio: ['', Validators.required],
+      logo: ['', Validators.required],
+      name: ['', Validators.required],
+      role: ['', Validators.required],
+    })
+  }
 
   submit(){
     console.log(this.profileForm);
-
   }
 }

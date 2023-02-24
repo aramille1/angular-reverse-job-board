@@ -91,6 +91,7 @@ export class AuthService {
   signout() {
     this._isLoggedIn$.next(false);
     localStorage.removeItem('token');
+    localStorage.removeItem('expires');
     this.router.navigate(['signin']);
   }
 

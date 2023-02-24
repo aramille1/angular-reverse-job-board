@@ -1,7 +1,13 @@
 <div class="container">
   <div class="card mb-3 profile-details">
-    <svg class="bd-placeholder-img card-img-top" width="100%" height="180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image cap" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"></rect><text x="50%" y="50%" fill="#dee2e6" dy=".3em">Image cap</text></svg>
-    <img src="https://www.w3schools.com/howto/img_avatar.png"  width="100rem" height="100rem" class="rounded-circle mx-3 profile-image">
+    <svg class="bd-placeholder-img card-img-top" width="100%" height="180" xmlns="http://www.w3.org/2000/svg" role="img"
+      aria-label="Placeholder: Image cap" preserveAspectRatio="xMidYMid slice" focusable="false">
+      <title>Placeholder</title>
+      <rect width="100%" height="100%" fill="#868e96"></rect><text x="50%" y="50%" fill="#dee2e6" dy=".3em">Image
+        cap</text>
+    </svg>
+    <img src="https://www.w3schools.com/howto/img_avatar.png" width="100rem" height="100rem"
+      class="rounded-circle mx-3 profile-image">
     <span class="hireme">hire me</span>
     <div class="card-body">
       <div class="row my-5">
@@ -18,7 +24,23 @@
               <div class="circle">
                 <div class="checkmark"></div>
               </div>
-              <span *ngIf="engineer?.SearchStatus === 'actively_looking'" class="mx-1">Actively looking</span>
+              <span [ngSwitch]="engineer?.SearchStatus">
+                <span *ngSwitchCase="'actively_looking'" class="mx-1">
+                  Actively looking
+                </span>
+                <span *ngSwitchCase="'open'" class="mx-1">
+                  Open
+                </span>
+                <span *ngSwitchCase="'not_interested'" class="mx-1">
+                  Not interested
+                </span>
+                <span *ngSwitchCase="'invisible'" class="mx-1">
+                  Invisible
+                </span>
+                <span *ngSwitchDefault>
+
+                </span>
+              </span>
             </div>
 
             <div class="role-types-wrap">
@@ -27,7 +49,23 @@
                 <div class="circle">
                   <div class="checkmark"></div>
                 </div>
-                <span class="mx-1">{{roleType}}</span>
+                <span [ngSwitch]="roleType">
+                  <span class="mx-1" *ngSwitchCase="'contract_part_time'">
+                    Part-time
+                  </span>
+                  <span class="mx-1" *ngSwitchCase="'contract_full_time'">
+                    Full-time contract
+                  </span>
+                  <span class="mx-1" *ngSwitchCase="'employee_part_time'">
+                    Part-time emplpoyment
+                  </span>
+                  <span class="mx-1" *ngSwitchCase="'employee_full_time'">
+                    Full-time emplpoyment
+                  </span>
+                  <span class="mx-1" *ngSwitchDefault>
+
+                  </span>
+                </span>
               </div>
             </div>
 
@@ -37,12 +75,31 @@
                 <div class="circle">
                   <div class="checkmark"></div>
                 </div>
-                <span class="mx-1">{{roleLevel}}
+                <span [ngSwitch]="roleLevel">
+                  <span class="mx-1" *ngSwitchCase="'junior'">
+                    Junior
+                  </span>
+                  <span class="mx-1" *ngSwitchCase="'mid_level'">
+                    Middle
+                  </span>
+                  <span class="mx-1" *ngSwitchCase="'senior'">
+                    Senior
+                  </span>
+                  <span class="mx-1" *ngSwitchCase="'principal_staff'">
+                    Principal/Staff
+                  </span>
+                  <span class="mx-1" *ngSwitchCase="'c_level'">
+                    C-Level
+                  </span>
+                  <span class="mx-1" *ngSwitchDefault>
+
+                  </span>
                 </span>
               </div>
             </div>
 
             <div class="country">
+              <!-- TODO   maybe add some icon of the world -->
               <span class="mx-1">{{engineer?.City}}, {{engineer?.Country}}</span>
             </div>
           </section>
