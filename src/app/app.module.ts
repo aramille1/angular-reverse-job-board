@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
+import { JwtHelperService, JWT_OPTIONS } from "@auth0/angular-jwt";
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
@@ -37,6 +37,8 @@ import { AuthInterceptor } from './interceptors/auth-interceptor.interceptor';
   ],
   providers: [
     AuthService,
+    JwtHelperService,
+    { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,

@@ -6,13 +6,15 @@ import { ProfileDetailsComponent } from './components/profile-details/profile-de
 import { ProfileFormComponent } from './components/profile-form/profile-form.component';
 import { EngineersComponent } from './components/engineers/engineers.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ProfileUpdateComponent } from './components/profile-update/profile-update.component';
 
 
 @NgModule({
   declarations: [
     ProfileDetailsComponent,
     ProfileFormComponent,
-    EngineersComponent
+    EngineersComponent,
+    ProfileUpdateComponent
   ],
   imports: [
     CommonModule,

@@ -1,8 +1,11 @@
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { map, tap, switchMap } from "rxjs/operators";
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { JwtHelperService } from "@auth0/angular-jwt";
 import { Engineer } from '../engineer';
+
 const GOOGLE_MAPS_API_KEY = 'AIzaSyCaKbVhcX_22R_pRKDYuNA7vox-PtGaDkI';
 const httpOptions = {
   withCredentials: true
@@ -14,8 +17,8 @@ export type Maps = typeof google.maps;
 export class AuthService {
   private _isLoggedIn$ = new BehaviorSubject<boolean>(false);
   isLoggedIn$ = this._isLoggedIn$.asObservable();
-
-  constructor(private router: Router, private http: HttpClient) {
+  userId:any;
+  constructor(private router: Router, private http: HttpClient, private jwtHelper: JwtHelperService) {
     const token = localStorage.getItem('token');
     console.log(token);
 
@@ -26,6 +29,15 @@ export class AuthService {
    return this.http.get<any>('http://localhost:3000/engineers')
   }
 
+  getUserId(): Observable<any>{
+    return of(localStorage.getItem('token')).pipe(
+      switchMap((jwt: any) => of(this.jwtHelper.decodeToken(jwt)).pipe(
+        tap((jwt) => console.log(jwt)),
+        map((jwt: any) => jwt.userId)
+      )
+    ));
+  }
+
   createEngineer(profileFormData: any) {
     if (profileFormData) {
       this.http
@@ -33,7 +45,8 @@ export class AuthService {
         .subscribe(
           (response:any) => {
             console.log(response);
-            this.router.navigate(['engineers/details', response['engineerId']]);
+            localStorage.setItem('engineerId', response.engineerId)
+            this.router.navigate(['engineers/details', response.engineerId]);
           },
           (error) => {
             console.log(error);
@@ -56,21 +69,21 @@ export class AuthService {
     this.http
       .post('http://localhost:3000/login', reqObject, { headers: headers })
       .subscribe(
-        (response: any) => {
-          const parsedToken = JSON.parse(
-            atob(response['auth_token'].split('.')[1])
-          );
-          console.log(response);
+        {
+          next: (response: any) => {
+            const parsedToken = JSON.parse(
+              atob(response['auth_token'].split('.')[1])
+            );
+            this.userId = parsedToken.userId;
 
-          localStorage.setItem('token', response['auth_token']);
-          localStorage.setItem('expires', JSON.stringify(parsedToken.exp));
-        },
-        (error) => {
-          console.log(error);
-        },
-        () => {
-          console.log('done!');
-          this.router.navigate(['role']);
+            localStorage.setItem('token', response['auth_token']);
+            localStorage.setItem('expires', JSON.stringify(parsedToken.exp));
+            console.log('done!');
+            this.router.navigate(['role']);
+          },
+          error: (error) => {
+            console.log(error);
+          }
         }
       );
   }
@@ -135,30 +148,23 @@ export class AuthService {
     return `//maps.googleapis.com/maps/api/js?${params}&language=en`;
   }
 
-  getProfile(engineerId:string) {
-    console.log(engineerId);
+  findOne(id: string): Observable<any> {
+    return this.http.get(`http://localhost:3000/engineers/${id}`).pipe(
+      tap((engineer) => console.log(engineer)),
+      map((engineer) => engineer)
+    )
+  }
 
-   return this.http.get(`http://localhost:3000/engineers/${engineerId}`)
-      // .subscribe(
-      //   (response) => {
-      //     if (response) {
-      //       console.log(response);
-      //     }
-      //   },
+  getProfileToUpdate() {
+    // console.log("userId in auth", this.userId);
+    const id = localStorage.getItem('engineerId')
+    console.log(id);
 
-      //   (error) => {
-      //     if (error.status === 401) {
-      //       console.log(
-      //         'You are not authorized to visit this route.  No data is displayed.'
-      //       );
-      //     }
 
-      //     console.log(error);
-      //   },
+   return this.http.get(`http://localhost:3000/engineers/${id}`)
+  }
 
-      //   () => {
-      //     console.log('HTTP request done');
-      //   }
-      // );
+  getProfileDetails(engineerId:any){
+    return this.http.get(`http://localhost:3000/engineers/${engineerId}`)
   }
 }

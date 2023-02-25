@@ -16,6 +16,7 @@
             <h1 class="card-title">{{engineer?.Tagline}}</h1>
             <h3 class="card-title">{{engineer?.Firstname}} {{engineer?.Lastname}}</h3>
             <p class="card-text">{{engineer?.Bio}}</p>
+            <button *ngIf="userIsMe" [routerLink]="['/engineers/update']" class="btn btn-success">Edit profile</button>
           </section>
         </div>
         <div class="col-4">

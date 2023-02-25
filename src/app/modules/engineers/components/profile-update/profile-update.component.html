@@ -1,0 +1,240 @@
+<div class="container container-mod vh-100">
+  <div class="row justify-content-center h-100">
+    <form [formGroup]="profileForm" (ngSubmit)="update()">
+      <div class="text-left my-4">
+        <h2>Update your developer profile</h2>
+      </div>
+      <div class="card mb-5 half shadow personal-info">
+        <div class="card-body p-4">
+          <div class="row">
+            <div class="col-4">
+              <h2>Profile</h2>
+              <p>This information will be displayed publicly so be careful what you share. </p>
+            </div>
+            <div class="col-8">
+              <div class="mb-3">
+                <label for="exampleInputfirstName" class="form-label">First name *</label>
+                <input type="name" formControlName="firstName" class="form-control" id="exampleInputfirstName"
+                  placeholder="enter your first name" required
+                  [ngClass]="{ 'is-invalid': profileForm.controls['firstName'].touched && profileForm.controls['firstName'].errors, 'is-valid': profileForm.controls['firstName'].valid }" />
+                <div *ngIf="profileForm.controls['firstName'].touched && profileForm.controls['firstName'].errors"
+                  class="text-danger">
+                  <div *ngIf="profileForm.controls['firstName'].errors">First name is required!</div>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="exampleInputLastName" class="form-label">Last name *</label>
+                <input type="name" formControlName="lastName" class="form-control" id="exampleInputLastName" required
+                  [ngClass]="{ 'is-invalid': profileForm.controls['lastName'].touched && profileForm.controls['lastName'].errors, 'is-valid': profileForm.controls['lastName'].valid }"
+                  placeholder="enter your last name" />
+                <div *ngIf="profileForm.controls['lastName'].touched && profileForm.controls['lastName'].errors"
+                  class="text-danger">
+                  <div *ngIf="profileForm.controls['lastName'].errors">Last name is required!</div>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="exampleInputhero1" class="form-label">Tagline *</label>
+                <input type="text" formControlName="tagLine" class="form-control" id="exampleInputhero1" required
+                  [ngClass]="{ 'is-invalid': profileForm.controls['tagLine'].touched && profileForm.controls['tagLine'].errors, 'is-valid': profileForm.controls['tagLine'].valid }"
+                  placeholder="enter your tagline" />
+                <div *ngIf="profileForm.controls['tagLine'].touched && profileForm.controls['tagLine'].errors"
+                  class="text-danger">
+                  <div *ngIf="profileForm.controls['tagLine'].errors">Tag line is required!</div>
+                </div>
+              </div>
+              <div class="mb-3">
+
+                <label for="location" class="form-label">Location *</label>
+                <input #location type="text" id="location" required formControlName="location" class="form-control"
+                  (keydown.enter)="$event.preventDefault()" placeholder="enter your location" type="text" #search
+                  [ngClass]="{ 'is-invalid': profileForm.controls['location'].touched && profileForm.controls['location'].errors, 'is-valid': profileForm.controls['location'].valid }" />
+                <div *ngIf="profileForm.controls['location'].touched && profileForm.controls['location'].errors"
+                  class="text-danger">
+                  <div *ngIf="profileForm.controls['location'].errors">Location is required!</div>
+                </div>
+                <!-- <div class="mb-3">
+                  <input type="city" formControlName="city" class="form-control" placeholder="enter your city"
+                    id="exampleInputcity1" />
+                    <small *ngIf="
+                    profileFormControl.get('city')?.invalid &&
+                    profileFormControl.get('city')?.touched
+                  " class="text-danger">City is Required</small>
+                </div>
+                <div class="mb-3 mx-3">
+                  <label for="exampleInputstate1" class="form-label">State</label>
+                  <input type="state" formControlName="state" class="form-control" placeholder="enter your state"
+                    id="exampleInputstate1" />
+                </div>
+                <div class="mb-3">
+                  <label for="exampleInputcountry1" class="form-label">Country</label>
+                  <input type="country" formControlName="country" class="form-control" placeholder="enter your country"
+                    id="exampleInputcountry1" />
+                    <small *ngIf="
+                    profileFormControl.get('country')?.invalid &&
+                    profileFormControl.get('country')?.touched
+                  " class="text-danger">Country is Required</small>
+                </div> -->
+              </div>
+              <div class="mb-3 d-flex flex-column">
+                <label for="exampleInputavatar1" class="form-label">Avatar</label>
+                <div>
+                  <label for="file-upload" class="custom-file-upload">upload</label>
+                  <img [src]="imageSrc" *ngIf="imageSrc" width="80rem" height="80rem" class="rounded-circle mx-2">
+                  <input type="file" (change)="onFileChange($event)" id="file-upload" name="img" accept="image/*">
+                </div>
+              </div>
+              <div class="mb-3 d-flex flex-column">
+                <label for="exampleInputcoverImg1" class="form-label">Cover image</label>
+                <div class="w-full aspect-w-4 aspect-h-1">
+                  <label for="cover-file-upload" class="custom-file-upload">upload</label>
+                  <img [src]="coverImg" *ngIf="coverImg" height="80rem" class="coverImg mx-2">
+                  <input type="file" (change)="onCoverFileChange($event)" id="cover-file-upload" name="img"
+                    accept="image/*">
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="exampleInputbio1" class="form-label">Bio *</label>
+                <textarea formControlName="bio" class="form-control" placeholder="enter your bio" id="exampleInputbio1"
+                  required
+                  [ngClass]="{ 'is-invalid': profileForm.controls['bio'].touched && profileForm.controls['bio'].errors, 'is-valid': profileForm.controls['bio'].valid }"
+                  rows="4" cols="50"></textarea>
+                <div *ngIf="profileForm.controls['bio'].touched && profileForm.controls['bio'].errors"
+                  class="text-danger">
+                  <div *ngIf="profileForm.controls['bio'].errors">Bio is required!</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card my-5 half shadow">
+        <div class="card-body px-5">
+          <div class="work-preferences mb-5">
+            <div class="search-status">
+              <div class="row">
+                <div class="col">
+                  <h2>Work preferences</h2>
+                  <p>What kind of work are you looking for next?</p>
+                </div>
+                <div class="col">
+                  <h3>Search status *</h3>
+                  <div>
+                    <input type="radio" required id="activelylooking" formControlName="searchStatus"
+                      value="actively_looking" />
+
+                    <label for="activelylooking">Actively looking</label><br />
+                    <p class="desc-text">
+                      Your profile can get featured on the homepage.
+                    </p>
+                  </div>
+
+                  <div>
+                    <input type="radio" required id="open" formControlName="searchStatus" value="open" />
+                    <label for="open">Open</label><br />
+                    <p class="desc-text">
+                      Companies can still find you, but you won't appear on the
+                      homepage.
+                    </p>
+                  </div>
+
+                  <div>
+                    <input type="radio" required id="notinterested" formControlName="searchStatus"
+                      value="not_interested" />
+
+                    <label for="notinterested">Not interested</label><br />
+                    <p class="desc-text">
+                      Your profile will not appear in search results.
+                    </p>
+                  </div>
+
+                  <div>
+                    <input type="radio" required id="invisible" formControlName="searchStatus" value="invisible" />
+                    <label for="invisible">Invisible</label><br />
+                    <p class="desc-text">
+                      Your profile is hidden and can only be seen by yourself.
+                    </p>
+                  </div>
+                  <!-- <small *ngIf="
+                  profileForm.get('searchStatus')?.invalid &&
+                  profileForm.get('searchStatus')?.touched
+                " class="text-danger">Search Status is Required</small> -->
+                </div>
+              </div>
+            </div>
+            <!-- Role type -->
+            <div class="role-type mb-5">
+              <div class="row">
+                <div class="col"></div>
+                <div class="col">
+                  <h3>Role type *</h3>
+                  <p class="desc-text-heading">
+                    Select all roles that you would consider taking.
+                  </p>
+                  <div *ngFor="let roleType of roleTypes">
+                    <input type="checkbox" id="partTime" (change)="handleChangeRoleType($event)"
+                      value={{roleType.value}} [checked]="profileForm.controls['roleType'].value == roleType.value"/>
+                    <label for="partTime">{{roleType.name}}</label><br />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="role-level mb-5">
+              <div class="row">
+                <div class="col"></div>
+                <div class="col">
+                  <h3>Role level *</h3>
+                  <p class="desc-text-heading">
+                    Select all the experience levels you would consider taking.
+                  </p>
+                  <div *ngFor="let roleLevel of roleLevels">
+                    <input type="checkbox" id="roleLevel" (change)="handleChangeRoleLevel($event)"
+                      value={{roleLevel.value}} [checked]="profileForm.controls['roleLevel'].value == roleLevel.value"/>
+                    <label for="roleLevel">{{roleLevel.name}}</label><br />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card my-5 half shadow">
+        <div class="card-body px-5">
+          <div class="online-presence mb-5">
+            <div class="row">
+              <div class="col">
+                <p>Where can people learn more about you and your work?</p>
+              </div>
+              <div class="col">
+                <h3>Online presence</h3>
+                <h5>Website</h5>
+                <input type="text" formControlName="website" class="form-control" />
+
+                <h5>Github</h5>
+                <input type="text" formControlName="github" class="form-control" />
+
+                <h5>Twitter</h5>
+                <input type="text" formControlName="twitter" class="form-control" />
+
+                <h5>Linkedin</h5>
+                <input type="text" formControlName="linkedin" class="form-control" required
+                  [ngClass]="{ 'is-invalid': profileForm.controls['linkedin'].touched && profileForm.controls['linkedin'].errors, 'is-valid': profileForm.controls['linkedin'].valid }" />
+                <div *ngIf="profileForm.controls['linkedin'].touched && profileForm.controls['linkedin'].errors"
+                  class="text-danger">
+                  <div *ngIf="profileForm.controls['linkedin'].errors">Linkedin is required!</div>
+                </div>
+                <h5>Stack Overflow</h5>
+                <input type="text" formControlName="stackoverflow" class="form-control" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary mb-5">
+        Save
+      </button>
+    </form>
+  </div>
+</div>
