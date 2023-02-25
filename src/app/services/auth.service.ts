@@ -74,8 +74,8 @@ export class AuthService {
             const parsedToken = JSON.parse(
               atob(response['auth_token'].split('.')[1])
             );
-            this.userId = parsedToken.userId;
-
+            // this.userId = parsedToken.userId;
+            this._isLoggedIn$.next(true)
             localStorage.setItem('token', response['auth_token']);
             localStorage.setItem('expires', JSON.stringify(parsedToken.exp));
             console.log('done!');
@@ -105,6 +105,7 @@ export class AuthService {
     this._isLoggedIn$.next(false);
     localStorage.removeItem('token');
     localStorage.removeItem('expires');
+    localStorage.removeItem('userId');
     this.router.navigate(['signin']);
   }
 
@@ -165,6 +166,7 @@ export class AuthService {
   }
 
   getProfileDetails(engineerId:any){
+    console.log(engineerId)
     return this.http.get(`http://localhost:3000/engineers/${engineerId}`)
   }
 }

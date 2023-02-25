@@ -34,7 +34,7 @@
       </div>
       <div class="card-footer text-right">
         <small><a routerLink="../forgot-password">Forgot Password</a></small>
-        <small><a style="float:right" routerLink="/signup">New user? Click to signup </a></small>
+        <small><a style="float:right" *ngIf="loggedIn$ | async" routerLink="/signup">New user? Click to signup </a></small>
       </div>
     </div>
   </div>

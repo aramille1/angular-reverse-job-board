@@ -1,6 +1,7 @@
 import { HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Observable } from 'rxjs/internal/Observable';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -9,6 +10,7 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./signin.component.scss']
 })
 export class SigninComponent implements OnInit {
+  loggedIn$:Observable<boolean>
 
   constructor(private auth: AuthService,private fb: FormBuilder){}
   signinForm = this.fb.group({
@@ -20,6 +22,7 @@ export class SigninComponent implements OnInit {
 
   ngOnInit(): void {
     //TODO add some ui when user put wrong email and password
+    this.loggedIn$ = this.auth.isLoggedIn$
   }
 
   signin(){

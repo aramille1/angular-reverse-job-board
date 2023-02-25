@@ -15,6 +15,7 @@ export class ProfileDetailsComponent {
     this.route.params.subscribe((params: Params) => {
       this.userIsMe = localStorage.getItem('engineerId') === params['id']
       this.auth.getProfileDetails(params['id']).subscribe((res: any) => {
+        console.log(res.engineer)
         this.engineer = res.engineer;
       });
     });
