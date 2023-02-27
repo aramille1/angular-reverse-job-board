@@ -1,11 +1,5 @@
-import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { Observable } from 'rxjs';
-import { Engineer } from 'src/app/engineer';
-import { map } from 'rxjs/operators';
-
-import { AuthService } from 'src/app/services/auth.service';
-import * as _ from 'lodash';
+import { EngineerService } from 'src/app/services/engineer-service/engineer.service';
 @Component({
   selector: 'app-engineers',
   templateUrl: './engineers.component.html',
@@ -14,12 +8,9 @@ import * as _ from 'lodash';
 export class EngineersComponent {
   engineers = new Array<any>();
 
-  constructor(private http: HttpClient, private auth: AuthService){}
+  constructor(private engineerService: EngineerService){}
   ngOnInit(): void {
-    this.auth.isLoggedIn$.subscribe((res) => {
-      console.log(res)
-    })
-    this.auth.getEngineers().subscribe(res => {
+    this.engineerService.getEngineers().subscribe(res => {
       console.log(res)
       this.engineers = res.engineers;
   });

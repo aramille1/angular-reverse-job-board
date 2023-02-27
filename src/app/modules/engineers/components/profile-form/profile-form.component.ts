@@ -2,7 +2,8 @@ import { Component, ElementRef, NgZone, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Engineer } from 'src/app/engineer';
-import { AuthService, Maps } from 'src/app/services/auth.service';
+import { EngineerService } from 'src/app/services/engineer-service/engineer.service';
+import { LocationService, Maps } from 'src/app/services/location-service/location.service';
 const place = null as unknown as google.maps.places.PlaceResult;
 type Components = typeof place.address_components;
 @Component({
@@ -17,11 +18,12 @@ export class ProfileFormComponent {
 
   constructor(
     private router: Router,
-    private auth: AuthService,
+    private locationService: LocationService,
+    private engineerService: EngineerService,
     private ngZone: NgZone,
     private fb: FormBuilder
   ) {
-    auth.api.then((maps) => {
+    locationService.api.then((maps) => {
       this.initAutocomplete(maps);
     });
   }
@@ -80,7 +82,7 @@ ngOnInit(): void {
     website: [''],
     github: ['', Validators.required],
     twitter: [''],
-    linkedin: ['', Validators.required],
+    linkedIn: ['', Validators.required],
     stackoverflow: [''],
   });
 }
@@ -129,14 +131,14 @@ ngOnInit(): void {
       searchStatus: this.profileForm.value.searchStatus,
       roleType: this.profileForm.value.roleType,
       roleLevel: this.profileForm.value.roleLevel,
-      linkedin: this.profileForm.value.linkedin,
+      linkedIn: this.profileForm.value.linkedIn,
       website: this.profileForm.value.website,
       github: this.profileForm.value.github,
       twitter: this.profileForm.value.twitter,
       stackoverflow: this.profileForm.value.stackoverflow,
     }
 
-    this.auth.createEngineer(data)
+    this.engineerService.createEngineer(data)
   }
 
   onFileChange(event: any) {

@@ -36,6 +36,11 @@
           </a>
         </li>
         <li class="nav-item singout" *ngIf="auth.isLoggedIn$ | async">
+          <a class="nav-link" routerLink="/engineers">
+            My Profile
+          </a>
+        </li>
+        <li class="nav-item singout" *ngIf="auth.isLoggedIn$ | async">
           <a class="nav-link" (click)="signout()">
             Sign out
           </a>

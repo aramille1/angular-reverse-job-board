@@ -30,11 +30,14 @@
               </p>
           </div>
           <input type="submit" class="btn btn-success w-100 my-4" value="Login" name="">
+          <h3 *ngIf="showError" class="text-danger text-center">
+            Username or Password incorrect! try again.
+          </h3>
         </form>
       </div>
       <div class="card-footer text-right">
         <small><a routerLink="../forgot-password">Forgot Password</a></small>
-        <small><a style="float:right" *ngIf="loggedIn$ | async" routerLink="/signup">New user? Click to signup </a></small>
+        <small><a style="float:right" routerLink="/signup">New user? Click to signup </a></small>
       </div>
     </div>
   </div>

@@ -1,6 +1,7 @@
 import { HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs/internal/Observable';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -10,9 +11,8 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./signin.component.scss']
 })
 export class SigninComponent implements OnInit {
-  loggedIn$:Observable<boolean>
-
-  constructor(private auth: AuthService,private fb: FormBuilder){}
+  showError:Boolean = false;
+  constructor(private auth: AuthService,private fb: FormBuilder,  private router: Router){}
   signinForm = this.fb.group({
     email: ["",Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$")],
     password: ['', Validators.compose([Validators.required, Validators.minLength(8)])],
@@ -20,17 +20,33 @@ export class SigninComponent implements OnInit {
 
   get f() { return this.signinForm.controls; }
 
-  ngOnInit(): void {
-    //TODO add some ui when user put wrong email and password
-    this.loggedIn$ = this.auth.isLoggedIn$
-  }
+  ngOnInit(): void {}
 
   signin(){
     if(this.signinForm.invalid){
       return;
     }
-    console.log(this.signinForm.get('password'))
-    this.auth.signin(this.signinForm)
+    this.auth.signin(this.signinForm).subscribe({
+      next: (response) => {
+        const parsedToken = JSON.parse(
+          atob(response['auth_token'].split('.')[1])
+        );
+        this.auth.setIsLoggedIn(true);
+        localStorage.setItem('token', response['auth_token']);
+        localStorage.setItem('expires', JSON.stringify(parsedToken.exp));
+        console.log('done!');
+        // TODO
+        // if I'm logged in AND created profile then:
+        // this.router.navigate(['home'])
+        // else:
+        this.router.navigate(['role']);
+      },
+      error: (err) => {
+        new Error(err)
+        this.showError = true
+      }
+
+    })
 
   }
 

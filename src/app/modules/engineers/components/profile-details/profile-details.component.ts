@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { AuthService } from 'src/app/services/auth.service';
+import { EngineerService } from 'src/app/services/engineer-service/engineer.service';
 
 @Component({
   selector: 'app-profile-details',
@@ -10,12 +10,17 @@ import { AuthService } from 'src/app/services/auth.service';
 export class ProfileDetailsComponent {
   engineer: any;
   userIsMe: Boolean;
-  constructor(private auth: AuthService, private route: ActivatedRoute) {}
+  constructor(private engineerService: EngineerService, private route: ActivatedRoute) {}
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
-      this.userIsMe = localStorage.getItem('engineerId') === params['id']
-      this.auth.getProfileDetails(params['id']).subscribe((res: any) => {
-        console.log(res.engineer)
+      console.log("params id",params['id'])
+      console.log(localStorage.getItem('engineerId'))
+      console.log(this.userIsMe)
+      this.engineerService.getEngineer(params['id']).subscribe((res: any) => {
+        console.log("res", res.engineer)
+        this.userIsMe = res.engineer.ID === params['id']
+        console.log(this.userIsMe);
+
         this.engineer = res.engineer;
       });
     });

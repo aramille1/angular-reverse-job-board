@@ -219,11 +219,11 @@
                 <input type="text" formControlName="twitter" class="form-control" />
 
                 <h5>Linkedin</h5>
-                <input type="text" formControlName="linkedin" class="form-control" required
-                  [ngClass]="{ 'is-invalid': profileForm.controls['linkedin'].touched && profileForm.controls['linkedin'].errors, 'is-valid': profileForm.controls['linkedin'].valid }" />
-                <div *ngIf="profileForm.controls['linkedin'].touched && profileForm.controls['linkedin'].errors"
+                <input type="text" formControlName="linkedIn" class="form-control" required
+                  [ngClass]="{ 'is-invalid': profileForm.controls['linkedIn'].touched && profileForm.controls['linkedIn'].errors, 'is-valid': profileForm.controls['linkedIn'].valid }" />
+                <div *ngIf="profileForm.controls['linkedIn'].touched && profileForm.controls['linkedIn'].errors"
                   class="text-danger">
-                  <div *ngIf="profileForm.controls['linkedin'].errors">Linkedin is required!</div>
+                  <div *ngIf="profileForm.controls['linkedIn'].errors">Linkedin is required!</div>
                 </div>
                 <h5>Stack Overflow</h5>
                 <input type="text" formControlName="stackoverflow" class="form-control" />

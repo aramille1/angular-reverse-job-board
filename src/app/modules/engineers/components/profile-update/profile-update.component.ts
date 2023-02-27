@@ -2,9 +2,9 @@ import { Component, ElementRef, NgZone, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Engineer } from 'src/app/engineer';
-import { AuthService, Maps } from 'src/app/services/auth.service';
 import { switchMap, tap, map, catchError } from 'rxjs/operators';
 import { EngineerService } from 'src/app/services/engineer-service/engineer.service';
+import { LocationService, Maps } from 'src/app/services/location-service/location.service';
 
 const place = null as unknown as google.maps.places.PlaceResult;
 type Components = typeof place.address_components;
@@ -17,16 +17,16 @@ export class ProfileUpdateComponent {
 
   profileForm!: FormGroup;
   submitted = false;
-
   constructor(
     private router: Router,
-    private auth: AuthService,
+    private locationService: LocationService,
+
     private engineerService: EngineerService,
     private ngZone: NgZone,
     private fb: FormBuilder,
     private route: ActivatedRoute
   ) {
-    auth.api.then((maps) => {
+    locationService.api.then((maps) => {
       this.initAutocomplete(maps);
     });
   }
@@ -84,17 +84,18 @@ ngOnInit(): void {
     roleType: this.fb.array([]),
     roleLevel: this.fb.array([]),
     website: [''],
-    github: [{value: '', disabled: true}, Validators.required],
+    github: ['', Validators.required],
     twitter: [''],
-    linkedin: [{value: '', disabled: true}, Validators.required],
+    linkedIn: ['', Validators.required],
     stackoverflow: [''],
   });
-  console.log(this.profileForm.controls['roleLevel'].value)
   this.setProfileToUpdate();
+  console.log(this.profileForm)
 }
 
   setProfileToUpdate(){
-    this.auth.getProfileToUpdate().subscribe((engineer:any) =>{
+    this.route.params.subscribe((params: Params) => {
+    this.engineerService.getProfileToUpdate(params['id']).subscribe((engineer:any) =>{
       const {
         ID, Firstname, Lastname, Tagline,City,
         Country, Bio,SearchStatus, RoleType,
@@ -117,7 +118,7 @@ ngOnInit(): void {
             website: Website,
             github: Github,
             twitter: Twitter,
-           linkedin: LinkedIn,
+           linkedIn: LinkedIn,
            stackoverflow: StackOverflow,
           })
           let roleTypeArr = this.profileForm.controls['roleType'] as FormArray; // TODO - fix checkboxes
@@ -130,7 +131,7 @@ ngOnInit(): void {
           })
 
         })
-  console.log(this.profileForm.controls['roleLevel'].value)
+      })
 
   }
 
@@ -177,15 +178,15 @@ ngOnInit(): void {
       searchStatus: this.profileForm.value.searchStatus,
       roleType: this.profileForm.value.roleType,
       roleLevel: this.profileForm.value.roleLevel,
-      linkedin: this.profileForm.value.linkedin,
+      // linkedIn: this.profileForm.value.linkedIn,
       website: this.profileForm.value.website,
-      github: this.profileForm.value.github,
+      // github: this.profileForm.value.github,
       twitter: this.profileForm.value.twitter,
       stackoverflow: this.profileForm.value.stackoverflow,
     }
-    console.log(this.profileForm.value.id)
+    console.log(this.profileForm.value.linkedIn)
     console.log(data)
-    this.engineerService.updateOne(data, this.profileForm.value.id).subscribe(() =>{
+    this.engineerService.updateProfile(data, this.profileForm.value.id).subscribe(() =>{
       this.router.navigate(['engineers/details', this.profileForm.value.id])
     })
   }

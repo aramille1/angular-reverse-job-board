@@ -14,6 +14,6 @@ export interface Engineer {
   website?: string;
   github: string;
   twitter?: string;
-  linkedin: string;
+  linkedIn: string;
   stackoverflow?: string;
 }

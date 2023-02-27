@@ -1,29 +1,51 @@
-import { Engineer } from 'src/app/engineer';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map, catchError, tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class EngineerService {
+  constructor(private http: HttpClient, private router: Router) {}
 
-  constructor(private http: HttpClient, private router: Router) { }
-
-  // updateOne(engineer:Engineer): Observable<any> {
-  //   return this.http.put('/engineers/' + engineer.id, engineer);
-  // }
-
-  findOne(id: any): Observable<any> {
-    return this.http.get(`http://localhost:3000/engineers/${id}`).pipe(
-      tap((engineer) => console.log(engineer)),
-      map((engineer) => engineer)
-    )
+  createEngineer(profileFormData: any) {
+    if (profileFormData) {
+      this.http
+        .post(
+          'http://localhost:3000/engineers',
+          JSON.stringify(profileFormData)
+        )
+        .subscribe(
+          (response: any) => {
+            console.log(response);
+            localStorage.setItem('engineerId', response.engineerId);
+            this.router.navigate(['engineers/details', response.engineerId]);
+          },
+          (error) => {
+            console.log(error);
+          },
+          () => {
+            console.log('done!');
+          }
+        );
+    }
   }
 
-  updateOne(engineer:any, id:any): Observable<any> {
-    return this.http.put(`http://localhost:3000/engineers/${id}`, engineer)
+  getEngineers(): Observable<any> {
+    return this.http.get<any>('http://localhost:3000/engineers');
+  }
+
+  getEngineer(engineerId: any): Observable<any> {
+    return this.http.get(`http://localhost:3000/engineers/${engineerId}`);
+  }
+
+  updateProfile(engineer: any, id: any): Observable<any> {
+    return this.http.put(`http://localhost:3000/engineers/${id}`, engineer);
+  }
+
+  getProfileToUpdate(id:any) {
+    // const id = localStorage.getItem('engineerId');
+    return this.http.get(`http://localhost:3000/engineers/${id}`);
   }
 }
