@@ -94,45 +94,68 @@ ngOnInit(): void {
 }
 
   setProfileToUpdate(){
-    this.route.params.subscribe((params: Params) => {
-    this.engineerService.getProfileToUpdate(params['id']).subscribe((engineer:any) =>{
+    this.engineerService.getMyProfile().subscribe((myProfile) =>{
+
       const {
         ID, Firstname, Lastname, Tagline,City,
         Country, Bio,SearchStatus, RoleType,
         RoleLevel, Website, Github,
         Twitter, LinkedIn, StackOverflow
-      } = engineer.engineer
-        console.log(engineer.engineer)
-          this.profileForm.patchValue({
-            id: ID,
-            firstName: Firstname,
-            lastName: Lastname,
-            tagLine: Tagline,
-            city: City,
-            country: Country,
-            location: `${City} ${Country}`,
-            bio: Bio,
-            searchStatus: SearchStatus,
-            // roleType: RoleType,
-            // roleLevel: RoleLevel,
-            website: Website,
-            github: Github,
-            twitter: Twitter,
-           linkedIn: LinkedIn,
-           stackoverflow: StackOverflow,
-          })
-          let roleTypeArr = this.profileForm.controls['roleType'] as FormArray; // TODO - fix checkboxes
-          RoleType.forEach((el:any) => {
-            roleTypeArr.push(new FormControl(el))
-          })
-          let roleLevelArr = this.profileForm.controls['roleLevel'] as FormArray;
-          RoleLevel.forEach((element:any) => {
-            roleLevelArr.push(new FormControl(element))
-          })
+      } = myProfile.engineer
 
-        })
+      this.profileForm.patchValue({
+        id: ID,
+        firstName: Firstname,
+        lastName: Lastname,
+        tagLine: Tagline,
+        city: City,
+        country: Country,
+        location: `${City} ${Country}`,
+        bio: Bio,
+        searchStatus: SearchStatus,
+        // roleType: RoleType,
+        // roleLevel: RoleLevel,
+        website: Website,
+        github: Github,
+        twitter: Twitter,
+       linkedIn: LinkedIn,
+       stackoverflow: StackOverflow,
       })
+      let roleTypeArr = this.profileForm.controls['roleType'] as FormArray; // TODO - fix checkboxes
+      RoleType.forEach((el:any) => {
+        roleTypeArr.push(new FormControl(el))
+      })
+      let roleLevelArr = this.profileForm.controls['roleLevel'] as FormArray;
+      RoleLevel.forEach((element:any) => {
+        roleLevelArr.push(new FormControl(element))
+      })
+    })
 
+  }
+
+  update() {
+    console.log('profileFOrm', this.profileForm.value)
+
+    const data = {
+      firstName: this.profileForm.value.firstName,
+      lastName: this.profileForm.value.lastName,
+      tagLine: this.profileForm.value.tagLine,
+      city: this.profileForm.value.city,
+      country: this.profileForm.value.country,
+      bio: this.profileForm.value.bio,
+      searchStatus: this.profileForm.value.searchStatus,
+      roleType: this.profileForm.value.roleType,
+      roleLevel: this.profileForm.value.roleLevel,
+      // linkedIn: this.profileForm.value.linkedIn,
+      website: this.profileForm.value.website,
+      // github: this.profileForm.value.github,
+      twitter: this.profileForm.value.twitter,
+      stackoverflow: this.profileForm.value.stackoverflow,
+    }
+
+    this.engineerService.updateProfile(data).subscribe(() =>{
+      this.router.navigate(['engineers/details', this.profileForm.value.id])
+    })
   }
 
   handleChangeRoleType(e:any){
@@ -165,30 +188,6 @@ ngOnInit(): void {
         i++
       })
     }
-  }
-
-  update() {
-    const data = {
-      firstName: this.profileForm.value.firstName,
-      lastName: this.profileForm.value.lastName,
-      tagLine: this.profileForm.value.tagLine,
-      city: this.profileForm.value.city,
-      country: this.profileForm.value.country,
-      bio: this.profileForm.value.bio,
-      searchStatus: this.profileForm.value.searchStatus,
-      roleType: this.profileForm.value.roleType,
-      roleLevel: this.profileForm.value.roleLevel,
-      // linkedIn: this.profileForm.value.linkedIn,
-      website: this.profileForm.value.website,
-      // github: this.profileForm.value.github,
-      twitter: this.profileForm.value.twitter,
-      stackoverflow: this.profileForm.value.stackoverflow,
-    }
-    console.log(this.profileForm.value.linkedIn)
-    console.log(data)
-    this.engineerService.updateProfile(data, this.profileForm.value.id).subscribe(() =>{
-      this.router.navigate(['engineers/details', this.profileForm.value.id])
-    })
   }
 
   onFileChange(event: any) {

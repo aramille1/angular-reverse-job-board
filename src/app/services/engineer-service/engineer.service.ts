@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { CommonService } from '../common-service/common.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class EngineerService {
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private commonService: CommonService, private http: HttpClient, private router: Router) {}
 
   createEngineer(profileFormData: any) {
     if (profileFormData) {
@@ -19,6 +20,7 @@ export class EngineerService {
         .subscribe(
           (response: any) => {
             console.log(response);
+            this.commonService.sendUpdate(response.engineerId)
             localStorage.setItem('engineerId', response.engineerId);
             this.router.navigate(['engineers/details', response.engineerId]);
           },
@@ -40,12 +42,16 @@ export class EngineerService {
     return this.http.get(`http://localhost:3000/engineers/${engineerId}`);
   }
 
-  updateProfile(engineer: any, id: any): Observable<any> {
-    return this.http.put(`http://localhost:3000/engineers/${id}`, engineer);
+  updateProfile(engineer: any): Observable<any> {
+    return this.http.put("http://localhost:3000/engineers/me", engineer);
   }
 
   getProfileToUpdate(id:any) {
     // const id = localStorage.getItem('engineerId');
     return this.http.get(`http://localhost:3000/engineers/${id}`);
+  }
+
+  getMyProfile(): Observable<any>{
+    return this.http.get(`http://localhost:3000/engineers/me`);
   }
 }

@@ -1,0 +1,72 @@
+.profile-details{
+  margin: 20px 150px;
+  position: relative;
+}
+
+.search-status, .role-types-wrap, .role-levels-wrap {
+  border-bottom: 1px solid #0000002e;
+  padding-bottom: 15px;
+  width: 180px;
+}
+
+.role-types-wrap, .role-levels-wrap, .country {
+  padding-top: 10px;
+
+  .role-types{
+  padding-top: 10px;
+  }
+}
+
+.roles-header {
+  font-size: 14px;
+  font-weight: 500;
+  color: rgb(107 114 128);
+}
+
+$primary: #8cc63e;
+$checkmarkColor: white;
+$size: 15px;
+$checkmarkFat: 1px;
+
+
+.circle {
+  position: relative;
+  background: $primary;
+  border-radius: 50%;
+  width: $size;
+  height: $size;
+}
+
+.checkmark {
+  position: absolute;
+  transform: rotate(45deg) translate(-50%, -50%);
+  left: 35%;
+  top: 45%;
+  height: calc($size/3);
+  width: calc($size/6);
+  border-bottom: $checkmarkFat solid $checkmarkColor;
+  border-right: $checkmarkFat solid $checkmarkColor;
+}
+
+.profile-image{
+  position: absolute;
+    top: 130px;
+    left: 20px;
+    border: 4px solid white;
+}
+
+.hireme{
+  position: absolute;
+    top: 161px;
+    left: 150px;
+    background-color: #f15656;
+    color: white;
+    padding: 8px;
+    font-weight: 500;
+    box-shadow: 5px 6px 0px -1px rgb(0 0 0 / 62%);
+    cursor: pointer;
+}
+
+.info {
+  padding: 10px 20px;
+}

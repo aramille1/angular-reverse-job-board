@@ -36,6 +36,7 @@ export class SignupComponent implements OnInit{
       // The response data
       (response) => {
         console.log(response);
+        // this.router.navigate(['/business/details', response])
       },
 
       // If there is an error

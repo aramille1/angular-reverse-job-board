@@ -8,15 +8,14 @@ import { BusinessService } from 'src/app/services/business-service/business.serv
   styleUrls: ['./profile-details.component.scss']
 })
 export class ProfileDetailsComponent {
+  recruiter:any;
   constructor(private businessService: BusinessService, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    //Add 'implements OnInit' to the class.
     this.route.params.subscribe((params: Params) => {
-      console.log(params['id'])
       this.businessService.getRecruiter(params['id']).subscribe((res)=>{
-        console.log(res)
+        this.recruiter = res.recruiter
+        console.log(this.recruiter)
       })
     })
   }

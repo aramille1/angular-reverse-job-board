@@ -13,16 +13,14 @@ export class ProfileDetailsComponent {
   constructor(private engineerService: EngineerService, private route: ActivatedRoute) {}
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
-      console.log("params id",params['id'])
-      console.log(localStorage.getItem('engineerId'))
-      console.log(this.userIsMe)
       this.engineerService.getEngineer(params['id']).subscribe((res: any) => {
-        console.log("res", res.engineer)
-        this.userIsMe = res.engineer.ID === params['id']
-        console.log(this.userIsMe);
-
+        this.engineerService.getMyProfile().subscribe((res) =>{
+          this.userIsMe = res.engineer.ID  === params['id']
+        })
         this.engineer = res.engineer;
       });
     });
+
   }
+
 }

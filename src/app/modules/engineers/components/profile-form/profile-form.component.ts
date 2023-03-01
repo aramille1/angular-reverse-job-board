@@ -80,9 +80,9 @@ ngOnInit(): void {
     roleType: this.fb.array([]),
     roleLevel: this.fb.array([]),
     website: [''],
-    github: ['', Validators.required],
+    github: ['https://stackoverflow.com/questions/41922466/redirect-user-with-router-depending-on-logged-in-status', Validators.required],
     twitter: [''],
-    linkedIn: ['', Validators.required],
+    linkedIn: ['https://stackoverflow.com/questions/41922466/redirect-user-with-router-depending-on-logged-in-status', Validators.required],
     stackoverflow: [''],
   });
 }

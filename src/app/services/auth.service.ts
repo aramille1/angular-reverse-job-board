@@ -15,7 +15,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 export class AuthService {
   private _isLoggedIn$ = new BehaviorSubject<boolean>(false);
   isLoggedIn$ = this._isLoggedIn$.asObservable();
-  // userId:any;
+
   constructor(
     private router: Router,
     private http: HttpClient,

@@ -4,6 +4,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/internal/Observable';
 import { AuthService } from 'src/app/services/auth.service';
+import { EngineerService } from 'src/app/services/engineer-service/engineer.service';
 
 @Component({
   selector: 'app-signin',
@@ -12,7 +13,7 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class SigninComponent implements OnInit {
   showError:Boolean = false;
-  constructor(private auth: AuthService,private fb: FormBuilder,  private router: Router){}
+  constructor(private auth: AuthService,private fb: FormBuilder,  private router: Router, private engineerService: EngineerService){}
   signinForm = this.fb.group({
     email: ["",Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$")],
     password: ['', Validators.compose([Validators.required, Validators.minLength(8)])],
@@ -31,15 +32,22 @@ export class SigninComponent implements OnInit {
         const parsedToken = JSON.parse(
           atob(response['auth_token'].split('.')[1])
         );
-        this.auth.setIsLoggedIn(true);
         localStorage.setItem('token', response['auth_token']);
         localStorage.setItem('expires', JSON.stringify(parsedToken.exp));
+        this.auth.setIsLoggedIn(true);
+        console.log("parsedToken", parsedToken);
         console.log('done!');
         // TODO
         // if I'm logged in AND created profile then:
-        // this.router.navigate(['home'])
-        // else:
+        // this.engineerService.getMyProfile().subscribe((res) =>{
+        //   if(res.engineer){
+        //     this.router.navigate(['home'])
+        //   }else{
+
+        //   }
+        // })
         this.router.navigate(['role']);
+        // else:
       },
       error: (err) => {
         new Error(err)

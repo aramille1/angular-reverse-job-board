@@ -35,8 +35,8 @@
             Register
           </a>
         </li>
-        <li class="nav-item singout" *ngIf="auth.isLoggedIn$ | async">
-          <a class="nav-link" routerLink="/engineers">
+        <li class="nav-item singout" *ngIf="showMyProfile">
+          <a class="nav-link" [routerLink]="['/engineers/details', myProfileID]">
             My Profile
           </a>
         </li>
