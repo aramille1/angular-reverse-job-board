@@ -109,15 +109,15 @@
         </div>
       </div>
       <div class="card my-5 half shadow">
-        <div class="card-body px-5">
+        <div class="card-body px-4">
           <div class="work-preferences mb-5">
             <div class="search-status">
               <div class="row">
-                <div class="col">
+                <div class="col-4">
                   <h2>Work preferences</h2>
                   <p>What kind of work are you looking for next?</p>
                 </div>
-                <div class="col">
+                <div class="col-8">
                   <h3>Search status *</h3>
                   <div>
                     <input type="radio" required id="activelylooking" formControlName="searchStatus"
@@ -159,14 +159,9 @@
                   profileForm.get('searchStatus')?.invalid &&
                   profileForm.get('searchStatus')?.touched
                 " class="text-danger">Search Status is Required</small> -->
-                </div>
-              </div>
-            </div>
-            <!-- Role type -->
-            <div class="role-type mb-5">
-              <div class="row">
-                <div class="col"></div>
-                <div class="col">
+
+                <!-- Role type -->
+                <div class="role-type mb-3">
                   <h3>Role type *</h3>
                   <p class="desc-text-heading">
                     Select all roles that you would consider taking.
@@ -177,13 +172,9 @@
                     <label for="partTime">{{roleType.name}}</label><br />
                   </div>
                 </div>
-              </div>
-            </div>
 
-            <div class="role-level mb-5">
-              <div class="row">
-                <div class="col"></div>
-                <div class="col">
+                <!-- Role level -->
+                <div class="role-level">
                   <h3>Role level *</h3>
                   <p class="desc-text-heading">
                     Select all the experience levels you would consider taking.
@@ -197,36 +188,57 @@
               </div>
             </div>
           </div>
+          </div>
         </div>
       </div>
 
       <div class="card my-5 half shadow">
-        <div class="card-body px-5">
+        <div class="card-body px-4">
           <div class="online-presence mb-5">
             <div class="row">
-              <div class="col">
+              <div class="col-4 mt-3">
+                <h2>Online presence</h2>
                 <p>Where can people learn more about you and your work?</p>
               </div>
-              <div class="col">
-                <h3>Online presence *</h3>
-                <h5>Website</h5>
-                <input type="text" formControlName="website" class="form-control" />
+              <div class="col-8">
+                <h3 class="mb-0 mt-3">Website</h3>
+                <div class="d-flex">
+                  <span class="url-prefix">https://</span>
+                  <input type="text" formControlName="website" class="form-control url" />
+                </div>
 
-                <h5>Github</h5>
-                <input type="text" formControlName="github" class="form-control" />
+                <h3 class="mb-0 mt-3">Github *</h3>
+                <div class="d-flex">
+                  <span class="url-prefix">github.com/                  </span>
+                  <input type="text" formControlName="github" class="form-control" />
+                </div>
+                <div *ngIf="profileForm.controls['github'].touched && profileForm.controls['github'].errors"
+                class="text-danger">
+                Github is required!
+              </div>
 
-                <h5>Twitter</h5>
-                <input type="text" formControlName="twitter" class="form-control" />
+                <h3 class="mb-0 mt-3">Twitter</h3>
+                <div class="d-flex">
+                  <span class="url-prefix">Twitter</span>
+                  <input type="text" formControlName="twitter" class="form-control" />
+                </div>
 
-                <h5>Linkedin *</h5>
+                <h3 class="mb-0 mt-3">Linkedin *</h3>
+                <div class="d-flex">
+                  <span class="url-prefix">linkedin.com/in/</span>
                 <input type="text" formControlName="linkedIn" class="form-control" required
                   [ngClass]="{ 'is-invalid': profileForm.controls['linkedIn'].touched && profileForm.controls['linkedIn'].errors, 'is-valid': profileForm.controls['linkedIn'].valid }" />
+                </div>
                 <div *ngIf="profileForm.controls['linkedIn'].touched && profileForm.controls['linkedIn'].errors"
                   class="text-danger">
-                  <div *ngIf="profileForm.controls['linkedIn'].errors">Linkedin is required!</div>
+                  Linkedin is required!
                 </div>
-                <h5>Stack Overflow</h5>
-                <input type="text" formControlName="stackoverflow" class="form-control" />
+
+                <h3 class="mb-0 mt-3">Stack Overflow</h3>
+                <div class="d-flex">
+                  <span class="url-prefix">stackoverflow/users/</span>
+                  <input type="text" formControlName="stackoverflow" class="form-control" />
+                </div>
               </div>
             </div>
           </div>

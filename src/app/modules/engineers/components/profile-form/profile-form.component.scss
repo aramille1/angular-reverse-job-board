@@ -16,6 +16,12 @@
       vertical-align:middle;
   }
 
+  .role-type{
+    border-bottom: 1px solid #80808042;
+    border-top: 1px solid #80808042;
+    padding: 10px 0;
+  }
+
   .search-status, .role-type, .role-level,  label {
     margin-left: 7px;
   }
@@ -46,4 +52,20 @@
   object-fit: cover;
   height: 160px;
   margin-top: 10px;
+}
+
+.url {
+  border-bottom-left-radius: 0px;
+  border-top-left-radius: 0px;
+}
+
+.url-prefix{
+  padding: 8px;
+    border-bottom: 1px solid #dee2e6;
+    border-top: 1px solid #dee2e6;
+    border-left: 1px solid #dee2e6;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    background-color: #f9fafb;
+    color: rgb(107 114 128);
 }
