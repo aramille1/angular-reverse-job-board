@@ -1,8 +1,6 @@
 import { Component, ElementRef, NgZone, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Engineer } from 'src/app/engineer';
-import { switchMap, tap, map, catchError } from 'rxjs/operators';
+import {  Router } from '@angular/router';
 import { EngineerService } from 'src/app/services/engineer-service/engineer.service';
 import { LocationService, Maps } from 'src/app/services/location-service/location.service';
 
@@ -20,11 +18,9 @@ export class ProfileUpdateComponent {
   constructor(
     private router: Router,
     private locationService: LocationService,
-
     private engineerService: EngineerService,
     private ngZone: NgZone,
     private fb: FormBuilder,
-    private route: ActivatedRoute
   ) {
     locationService.api.then((maps) => {
       this.initAutocomplete(maps);
@@ -36,21 +32,21 @@ export class ProfileUpdateComponent {
   @ViewChild('map')
   public mapElementRef!: ElementRef;
 
-  @ViewChild('location') public locationElement!: ElementRef;
+  // @ViewChild('location') public locationElement!: ElementRef;
 
 roleTypes = [
-  {name: "Part-time", value: "contract_part_time"},
-  {name: "Full-time contract", value: "contract_full_time"},
-  {name: "Part-time emplpoyment", value: "employee_part_time"},
-  {name: "Full-time employment", value: "employee_full_time"}
+  {name: "Part-time", value: "contract_part_time", checked: false},
+  {name: "Full-time contract", value: "contract_full_time", checked: false},
+  {name: "Part-time emplpoyment", value: "employee_part_time", checked: false},
+  {name: "Full-time employment", value: "employee_full_time", checked: false}
 ]
 
 roleLevels = [
-  {name: "Junior", value: "junior"},
-  {name: "Middle", value: "mid_level"},
-  {name: "Senior", value: "senior"},
-  {name: "Principal", value: "principal_staff"},
-  {name: "C-Level", value: "c_level"}
+  {name: "Junior", value: "junior", checked: false},
+  {name: "Middle", value: "mid_level", checked: false},
+  {name: "Senior", value: "senior", checked: false},
+  {name: "Principal", value: "principal_staff", checked: false},
+  {name: "C-Level", value: "c_level", checked: false}
 ]
 
   public place: any;
@@ -90,12 +86,10 @@ ngOnInit(): void {
     stackoverflow: [''],
   });
   this.setProfileToUpdate();
-  console.log(this.profileForm)
 }
 
   setProfileToUpdate(){
     this.engineerService.getMyProfile().subscribe((myProfile) =>{
-
       const {
         ID, Firstname, Lastname, Tagline,City,
         Country, Bio,SearchStatus, RoleType,
@@ -113,29 +107,39 @@ ngOnInit(): void {
         location: `${City} ${Country}`,
         bio: Bio,
         searchStatus: SearchStatus,
-        // roleType: RoleType,
-        // roleLevel: RoleLevel,
         website: Website,
         github: Github,
         twitter: Twitter,
        linkedIn: LinkedIn,
        stackoverflow: StackOverflow,
       })
-      let roleTypeArr = this.profileForm.controls['roleType'] as FormArray; // TODO - fix checkboxes
-      RoleType.forEach((el:any) => {
-        roleTypeArr.push(new FormControl(el))
+      let roleTypeArr = this.profileForm.controls['roleType'] as FormArray;
+      // setting previously saved roletype values to current form
+      RoleType.forEach((roleType:any) => {
+        roleTypeArr.push(new FormControl(roleType))
+        this.roleTypes.forEach(item =>{
+          if(roleType === item.value){
+              item.checked = true
+          }
+        })
       })
+
       let roleLevelArr = this.profileForm.controls['roleLevel'] as FormArray;
-      RoleLevel.forEach((element:any) => {
-        roleLevelArr.push(new FormControl(element))
+      // setting previously saved rolelevel values to current form
+      RoleLevel.forEach((roleLevel:any) => {
+        roleLevelArr.push(new FormControl(roleLevel))
+        this.roleLevels.forEach(item => {
+          if(roleLevel === item.value){
+            item.checked = true
+          }
+        })
       })
+
     })
 
   }
 
   update() {
-    console.log('profileFOrm', this.profileForm.value)
-
     const data = {
       firstName: this.profileForm.value.firstName,
       lastName: this.profileForm.value.lastName,
@@ -146,9 +150,7 @@ ngOnInit(): void {
       searchStatus: this.profileForm.value.searchStatus,
       roleType: this.profileForm.value.roleType,
       roleLevel: this.profileForm.value.roleLevel,
-      // linkedIn: this.profileForm.value.linkedIn,
       website: this.profileForm.value.website,
-      // github: this.profileForm.value.github,
       twitter: this.profileForm.value.twitter,
       stackoverflow: this.profileForm.value.stackoverflow,
     }

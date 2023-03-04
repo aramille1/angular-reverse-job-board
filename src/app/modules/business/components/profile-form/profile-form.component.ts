@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BusinessService } from 'src/app/services/business-service/business.service';
+import { CommonService } from 'src/app/services/common-service/common.service';
 
 @Component({
   selector: 'app-profile-form',
@@ -13,6 +14,7 @@ export class ProfileFormComponent {
   constructor(
     private fb: FormBuilder,
     private businessService: BusinessService,
+    private commonService: CommonService,
     private router: Router
     ){}
 
@@ -34,7 +36,8 @@ export class ProfileFormComponent {
     this.businessService.createRecruiter(this.profileForm.value).subscribe({
       next: (response: any) => {
         console.log(response);
-        this.router.navigate(['business/details', response.recruiterId])
+        this.commonService.sendUpdateBusiness(response.recruiterId)
+        this.router.navigate(['/engineers'])
       },
       error: (error) => {
         console.log(error);

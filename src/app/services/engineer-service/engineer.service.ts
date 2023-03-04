@@ -20,7 +20,7 @@ export class EngineerService {
         .subscribe(
           (response: any) => {
             console.log(response);
-            this.commonService.sendUpdate(response.engineerId)
+            this.commonService.sendUpdateEngineer(response.engineerId)
             localStorage.setItem('engineerId', response.engineerId);
             this.router.navigate(['engineers/details', response.engineerId]);
           },

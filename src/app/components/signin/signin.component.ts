@@ -4,6 +4,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/internal/Observable';
 import { AuthService } from 'src/app/services/auth.service';
+import { CommonService } from 'src/app/services/common-service/common.service';
 import { EngineerService } from 'src/app/services/engineer-service/engineer.service';
 
 @Component({
@@ -13,7 +14,11 @@ import { EngineerService } from 'src/app/services/engineer-service/engineer.serv
 })
 export class SigninComponent implements OnInit {
   showError:Boolean = false;
-  constructor(private auth: AuthService,private fb: FormBuilder,  private router: Router, private engineerService: EngineerService){}
+  constructor(
+    private auth: AuthService,
+    private fb: FormBuilder,
+    private router: Router,
+    private commonService: CommonService){}
   signinForm = this.fb.group({
     email: ["",Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$")],
     password: ['', Validators.compose([Validators.required, Validators.minLength(8)])],
@@ -29,13 +34,15 @@ export class SigninComponent implements OnInit {
     }
     this.auth.signin(this.signinForm).subscribe({
       next: (response) => {
+        console.log(response)
         const parsedToken = JSON.parse(
           atob(response['auth_token'].split('.')[1])
         );
         localStorage.setItem('token', response['auth_token']);
         localStorage.setItem('expires', JSON.stringify(parsedToken.exp));
         this.auth.setIsLoggedIn(true);
-        console.log("parsedToken", parsedToken);
+        console.log("parsedToken", parsedToken); //parsedToken.userID
+        this.commonService.sendUpdateUserId(parsedToken.userId)
         console.log('done!');
         // TODO
         // if I'm logged in AND created profile then:
