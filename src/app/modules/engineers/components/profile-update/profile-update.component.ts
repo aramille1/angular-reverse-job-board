@@ -1,18 +1,26 @@
 import { Component, ElementRef, NgZone, ViewChild } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import {  Router } from '@angular/router';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
+import { Router } from '@angular/router';
 import { EngineerService } from 'src/app/services/engineer-service/engineer.service';
-import { LocationService, Maps } from 'src/app/services/location-service/location.service';
+import {
+  LocationService,
+  Maps,
+} from 'src/app/services/location-service/location.service';
 
 const place = null as unknown as google.maps.places.PlaceResult;
 type Components = typeof place.address_components;
 @Component({
   selector: 'app-profile-update',
   templateUrl: './profile-update.component.html',
-  styleUrls: ['./profile-update.component.scss']
+  styleUrls: ['./profile-update.component.scss'],
 })
 export class ProfileUpdateComponent {
-
   profileForm!: FormGroup;
   submitted = false;
   constructor(
@@ -20,7 +28,7 @@ export class ProfileUpdateComponent {
     private locationService: LocationService,
     private engineerService: EngineerService,
     private ngZone: NgZone,
-    private fb: FormBuilder,
+    private fb: FormBuilder
   ) {
     locationService.api.then((maps) => {
       this.initAutocomplete(maps);
@@ -34,20 +42,28 @@ export class ProfileUpdateComponent {
 
   // @ViewChild('location') public locationElement!: ElementRef;
 
-roleTypes = [
-  {name: "Part-time", value: "contract_part_time", checked: false},
-  {name: "Full-time contract", value: "contract_full_time", checked: false},
-  {name: "Part-time emplpoyment", value: "employee_part_time", checked: false},
-  {name: "Full-time employment", value: "employee_full_time", checked: false}
-]
+  roleTypes = [
+    { name: 'Part-time', value: 'contract_part_time', checked: false },
+    { name: 'Full-time contract', value: 'contract_full_time', checked: false },
+    {
+      name: 'Part-time emplpoyment',
+      value: 'employee_part_time',
+      checked: false,
+    },
+    {
+      name: 'Full-time employment',
+      value: 'employee_full_time',
+      checked: false,
+    },
+  ];
 
-roleLevels = [
-  {name: "Junior", value: "junior", checked: false},
-  {name: "Middle", value: "mid_level", checked: false},
-  {name: "Senior", value: "senior", checked: false},
-  {name: "Principal", value: "principal_staff", checked: false},
-  {name: "C-Level", value: "c_level", checked: false}
-]
+  roleLevels = [
+    { name: 'Junior', value: 'junior', checked: false },
+    { name: 'Middle', value: 'mid_level', checked: false },
+    { name: 'Senior', value: 'senior', checked: false },
+    { name: 'Principal', value: 'principal_staff', checked: false },
+    { name: 'C-Level', value: 'c_level', checked: false },
+  ];
 
   public place: any;
 
@@ -63,39 +79,50 @@ roleLevels = [
   imageSrc: string = '';
   coverImg: string = '';
 
-ngOnInit(): void {
-  this.profileForm = this.fb.group({
-    id: ['', [Validators.required]],
-    firstName: ['', Validators.required],
-    lastName: ['', Validators.required],
-    tagLine: ['', Validators.required],
-    city: ['', Validators.required],
-    state: new FormControl(''),
-    country: ['', Validators.required],
-    location:['', Validators.required],
-    // avatar: new FormControl(''),
-    // coverImg: new FormControl(''),
-    bio: ['', Validators.required],
-    searchStatus: ['', Validators.required],
-    roleType: this.fb.array([]),
-    roleLevel: this.fb.array([]),
-    website: [''],
-    github: ['', Validators.required],
-    twitter: [''],
-    linkedIn: ['', Validators.required],
-    stackoverflow: [''],
-  });
-  this.setProfileToUpdate();
-}
+  ngOnInit(): void {
+    this.profileForm = this.fb.group({
+      id: ['', [Validators.required]],
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      tagLine: ['', Validators.required],
+      city: ['', Validators.required],
+      state: new FormControl(''),
+      country: ['', Validators.required],
+      location: ['', Validators.required],
+      // avatar: new FormControl(''),
+      // coverImg: new FormControl(''),
+      bio: ['', Validators.required],
+      searchStatus: ['', Validators.required],
+      roleType: this.fb.array([]),
+      roleLevel: this.fb.array([]),
+      website: [''],
+      github: ['', Validators.required],
+      twitter: [''],
+      linkedIn: ['', Validators.required],
+      stackoverflow: [''],
+    });
+    this.setProfileToUpdate();
+  }
 
-  setProfileToUpdate(){
-    this.engineerService.getMyProfile().subscribe((myProfile) =>{
+  setProfileToUpdate() {
+    this.engineerService.getMyProfile().subscribe((myProfile) => {
       const {
-        ID, Firstname, Lastname, Tagline,City,
-        Country, Bio,SearchStatus, RoleType,
-        RoleLevel, Website, Github,
-        Twitter, LinkedIn, StackOverflow
-      } = myProfile.engineer
+        ID,
+        Firstname,
+        Lastname,
+        Tagline,
+        City,
+        Country,
+        Bio,
+        SearchStatus,
+        RoleType,
+        RoleLevel,
+        Website,
+        Github,
+        Twitter,
+        LinkedIn,
+        StackOverflow,
+      } = myProfile.engineer;
 
       this.profileForm.patchValue({
         id: ID,
@@ -110,33 +137,34 @@ ngOnInit(): void {
         website: Website,
         github: Github,
         twitter: Twitter,
-       linkedIn: LinkedIn,
-       stackoverflow: StackOverflow,
-      })
+        linkedIn: LinkedIn,
+        stackoverflow: StackOverflow,
+      });
       let roleTypeArr = this.profileForm.controls['roleType'] as FormArray;
       // setting previously saved roletype values to current form
-      RoleType.forEach((roleType:any) => {
-        roleTypeArr.push(new FormControl(roleType))
-        this.roleTypes.forEach(item =>{
-          if(roleType === item.value){
-              item.checked = true
+      RoleType.forEach((roleType: any) => {
+        roleTypeArr.push(new FormControl(roleType));
+        this.roleTypes.forEach((item) => {
+          if (roleType === item.value) {
+            item.checked = true;
           }
-        })
-      })
+        });
+      });
 
       let roleLevelArr = this.profileForm.controls['roleLevel'] as FormArray;
       // setting previously saved rolelevel values to current form
-      RoleLevel.forEach((roleLevel:any) => {
-        roleLevelArr.push(new FormControl(roleLevel))
-        this.roleLevels.forEach(item => {
-          if(roleLevel === item.value){
-            item.checked = true
+      RoleLevel.forEach((roleLevel: any) => {
+        roleLevelArr.push(new FormControl(roleLevel));
+        this.roleLevels.forEach((item) => {
+          if (roleLevel === item.value) {
+            item.checked = true;
           }
-        })
-      })
+        });
+      });
 
-    })
-
+      this.profileForm.controls['github'].disable()
+      this.profileForm.controls['linkedIn'].disable()
+    });
   }
 
   update() {
@@ -153,42 +181,42 @@ ngOnInit(): void {
       website: this.profileForm.value.website,
       twitter: this.profileForm.value.twitter,
       stackoverflow: this.profileForm.value.stackoverflow,
-    }
+    };
 
-    this.engineerService.updateProfile(data).subscribe(() =>{
-      this.router.navigate(['engineers/details', this.profileForm.value.id])
-    })
+    this.engineerService.updateProfile(data).subscribe(() => {
+      this.router.navigate(['engineers/details', this.profileForm.value.id]);
+    });
   }
 
-  handleChangeRoleType(e:any){
+  handleChangeRoleType(e: any) {
     let roleTypeArr = this.profileForm.get('roleType') as FormArray;
-    if(e.target.checked){
-      roleTypeArr.push(new FormControl(e.target.value))
-    }else{
+    if (e.target.checked) {
+      roleTypeArr.push(new FormControl(e.target.value));
+    } else {
       let i = 0;
       roleTypeArr.controls.forEach((type) => {
-        if(type.value === e.target.value){
-          roleTypeArr.removeAt(i)
-          return
+        if (type.value === e.target.value) {
+          roleTypeArr.removeAt(i);
+          return;
         }
-        i++
-      })
+        i++;
+      });
     }
   }
 
-  handleChangeRoleLevel(e:any){
+  handleChangeRoleLevel(e: any) {
     let roleLevelArr = this.profileForm.get('roleLevel') as FormArray;
-    if(e.target.checked){
-      roleLevelArr.push(new FormControl(e.target.value))
-    }else{
+    if (e.target.checked) {
+      roleLevelArr.push(new FormControl(e.target.value));
+    } else {
       let i = 0;
       roleLevelArr.controls.forEach((level) => {
-        if(level.value === e.target.value){
-          roleLevelArr.removeAt(i)
-          return
+        if (level.value === e.target.value) {
+          roleLevelArr.removeAt(i);
+          return;
         }
-        i++
-      })
+        i++;
+      });
     }
   }
 
@@ -211,9 +239,7 @@ ngOnInit(): void {
     //   coverImg: file,
     // });
     // var reader = new FileReader();
-
     // reader.readAsDataURL(file);
-
     // // File Preview
     // reader.onload = (event: any) => {
     //   this.coverImg = event.target.result;
@@ -238,7 +264,7 @@ ngOnInit(): void {
     console.log(location);
     this.profileForm.patchValue({
       city: location?.cityName,
-      country:location?.countryName
+      country: location?.countryName,
     });
   }
   public locationFromPlace(place: google.maps.places.PlaceResult) {
