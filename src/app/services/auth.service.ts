@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { environment } from 'environments/environments';
 // import { Engineer } from '../engineer';
 
 // const httpOptions = {
@@ -13,6 +14,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
   providedIn: 'root',
 })
 export class AuthService {
+  url = environment.apiUrl
   private _isLoggedIn$ = new BehaviorSubject<boolean>(false);
   isLoggedIn$ = this._isLoggedIn$.asObservable();
 
@@ -44,12 +46,12 @@ export class AuthService {
     };
 
     return this.http
-      .post('http://localhost:3000/login', reqObject, { headers: headers })
+      .post(`${this.url}/login`, reqObject, { headers: headers })
   }
 
   signup(signupForm: any) {
     this.http
-      .post<any>('http://localhost:3000/signup', signupForm.value)
+      .post<any>(`${this.url}/signup`, signupForm.value)
       .subscribe({
         next: () => {
           alert('user registered successfully');

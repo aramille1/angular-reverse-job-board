@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-const GOOGLE_MAPS_API_KEY = 'AIzaSyCaKbVhcX_22R_pRKDYuNA7vox-PtGaDkI'; // TODO get my own
+import { environment } from 'environments/environments';
 export type Maps = typeof google.maps;
 @Injectable({
   providedIn: 'root'
@@ -38,12 +38,12 @@ export class LocationService {
     const query: QueryParams = {
       v: '3',
       callback,
-      key: GOOGLE_MAPS_API_KEY,
+      key: environment.GOOGLE_MAPS_API_KEY,
       libraries: 'places',
     };
     const params = Object.keys(query)
       .map((key) => `${key}=${query[key]}`)
       .join('&');
-    return `//maps.googleapis.com/maps/api/js?${params}&language=en`;
+    return `https://maps.googleapis.com/maps/api/js?${params}&language=en`;
   }
 }

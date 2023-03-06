@@ -2,12 +2,13 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/internal/Observable';
+import { environment } from 'environments/environments';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BusinessService {
-  url = 'http://localhost:3000';
+  url = environment.apiUrl
   constructor(private http: HttpClient, private router: Router) {}
 
   createRecruiter(profileFormData: any): Observable<any> {
