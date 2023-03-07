@@ -1,0 +1,54 @@
+.container {
+  font-family: "Montserrat";
+}
+.header {
+  font-size: 48px;
+  font-family: "Montserrat"; // TODO make this font family global
+}
+
+.price-heading {
+  font-size: 48px;
+}
+h3 {
+  margin: 0;
+}
+
+.platform {
+  margin: 150px 20px;
+    text-align: center;
+  h1 {
+    font-size: 2.25rem;
+  }
+  p {
+    font-size: 1.25rem;
+  }
+
+  .stats{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 70px 10px;
+
+    .stats-item{
+      box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
+      width: 30%;
+    padding: 30px 60px;
+    h2{
+      font-size: 3rem;
+    }
+    }
+  }
+}
+
+.boxshadow{
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
+}
+
+
+@media only screen and (max-width: 768px) {
+  /* For mobile phones: */
+    .stats-item{
+      width: 100% !important;
+      margin-bottom: 10px;
+  }
+}

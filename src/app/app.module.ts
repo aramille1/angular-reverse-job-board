@@ -15,6 +15,7 @@ import { ForgotPasswordComponent } from './components/forgot-password/forgot-pas
 import { HeaderComponent } from './components/header/header.component';
 import { AuthService } from './services/auth.service';
 import { AuthInterceptor } from './interceptors/auth-interceptor.interceptor';
+import { PricingComponent } from './components/pricing/pricing.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { AuthInterceptor } from './interceptors/auth-interceptor.interceptor';
     RoleComponent,
     NotFoundComponent,
     ForgotPasswordComponent,
-    HeaderComponent
+    HeaderComponent,
+    PricingComponent
   ],
   imports: [
     BrowserModule,
