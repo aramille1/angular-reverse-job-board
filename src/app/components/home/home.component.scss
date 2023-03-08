@@ -1,12 +1,13 @@
+h1,h2,h3 {
+  font-family: inherit;
+}
 .header{
   text-align: center;
   max-width: 768px;
-  font-family: 'Montserrat';
     margin: 100px auto;
   h1{
     font-size: 3.75rem;
     line-height: 1;
-    font-family: 'Montserrat';
     font-weight: 600;
   }
   p{
