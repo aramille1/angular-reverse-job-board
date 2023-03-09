@@ -14,6 +14,9 @@
     display: flex;
     align-items: baseline;
     justify-content: space-between;
+    h2{
+      color:#1C2227;
+    }
   }
   .recently-active{
     background-color: rgb(220, 252, 231);
@@ -29,6 +32,10 @@
     overflow-wrap: break-word;
     color:#1C2227;
     padding: 15px 0;
+  }
+
+  .engineer-info-status span{
+    color: #355111;
   }
 }
 $primary: #8cc63e;
@@ -64,6 +71,12 @@ article{
   color: rgb(55 65 81)
 }
 
+.accordion{
+  border-radius: 18px;
+  box-shadow: 2px 4px 12px rgb(0 0 0 / 8%);
+  transition: all 0.3s cubic-bezier(0, 0, 0.5, 1);
+}
+
 .accordion-button:focus{
   border-color: none;
   box-shadow: none;
@@ -72,32 +85,45 @@ article{
 .accordion-button {
   background: none !important;
   color: rgb(55 65 81);
-  font-weight: 500;
+  font-weight: 700;
+  padding-bottom: 0;
 }
 
 .accordion-button.collapsed {
   background: none !important;
 }
 
-.accordion-button.collapsed::after {
-  background-color: none !important;
-}
-.accordion-item:first-of-type{
-  border-top: none !important;
+.accordion-button:not(.collapsed){
+  box-shadow: none;
 }
 
-#noBorders{
-  border-top-left-radius: none !important;
-  border-top-right-radius: none !important;
+// .accordion-button.collapsed::after {
+//   background-color: none !important;
+// }
+// .accordion-item:first-of-type{
+//   border-top: none !important;
+// }
 
-}
-.accordion-item:first-of-type .accordion-button {
-  border-top-left-radius: none !important;
-  border-top-right-radius: none !important;
-}
+// #noBorders{
+//   border-top-left-radius: none !important;
+//   border-top-right-radius: none !important;
+
+// }
+// .accordion-item:first-of-type .accordion-button {
+//   border-top-left-radius: none !important;
+//   border-top-right-radius: none !important;
+// }
+
+// .accordion-item{
+//   border-left: none;
+// }
 
 .accordion-item{
-  border-left: none;
+  border:none;
+}
+
+.accordion-header {
+  margin: 0;
 }
 
 .col-3 {
@@ -105,4 +131,27 @@ article{
 }
 .col-9 {
   padding-left: 0;
+}
+
+.item {
+  background-color: #fff;
+  border-radius: 18px;
+  box-shadow: 2px 4px 12px rgb(0 0 0 / 8%);
+  transition: all .3s cubic-bezier(0,0,.5,1);
+  margin-bottom: 20px;
+
+}
+
+main {
+  margin-left: 20px;
+}
+
+.borderbtm {
+  border-bottom-right-radius: 18px;
+  border-bottom-left-radius: 18px;
+}
+
+.accordion-item:first-of-type {
+  border-top-right-radius: 18px;
+  border-top-left-radius: 18px;
 }

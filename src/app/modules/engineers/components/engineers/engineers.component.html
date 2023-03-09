@@ -1,5 +1,5 @@
-<div class="container border my-5">
-  <header class="border-bottom">
+<div class="container my-5 pb-5">
+  <header>
     <h1 class="display-1 fw-bold">Hire Angular developers</h1>
     <div class="d-flex justify-content-between align-items-center">
       <article>
@@ -148,7 +148,7 @@
               </div>
             </div>
           </div>
-          <div class="filter-btns m-4">
+          <div class="bg-white p-4 borderbtm">
             <button class="btn btn-outline-secondary">Clear</button>
             <button class="btn btn-outline-success mx-3">Apply</button>
           </div>
@@ -160,9 +160,9 @@
     <!-- List of engineers -->
     <div class="col-9">
       <main>
-        <div class="engineer-wrapper">
+        <div class="engineer-wrapper" *ngFor="let engineer of engineers">
           <div class="item" >
-            <a href="#" class="engineer" *ngFor="let engineer of engineers"
+            <a href="#" class="engineer"
               [routerLink]="['/engineers/details', engineer.ID]">
               <div class="flex-shrink-1">
                 <picture>
@@ -171,7 +171,7 @@
                 </picture>
               </div>
 
-              <div class="engineer-info">
+              <div class="engineer-info w-100">
                 <div class="engineer-info-header">
                   <h2>{{ engineer.Tagline }}</h2>
                   <div class="engineer-info-status d-flex align-items-center">
@@ -182,7 +182,7 @@
                   </div>
                 </div>
 
-                <div class="recently-active">
+                <div class="recently-active rounded-3">
                   <span>Recently active</span>
                 </div>
 
