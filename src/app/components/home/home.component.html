@@ -2,7 +2,15 @@
   <header class="header">
     <h1>
       The reverse job board for
-    Angular developers
+    Angular <div class="words">
+      <span></span>
+      <span>developers</span>
+      <span>magicians</span>
+      <span>engineers</span>
+      <span>masters</span>
+      <span>talents</span>
+      <span>wizards</span>
+  </div>
     </h1>
     <p>Angular empowers independent developers available for their next gig.
       Stop scouring job boards and sit back as companies reach out to you first.</p>
@@ -13,9 +21,9 @@
         <!-- List of engineers -->
         <div class="col-12">
           <main>
-            <div class="engineer-wrapper">
+            <div class="engineer-wrapper" *ngFor="let engineer of engineers">
               <div class="item">
-                <a href="#" class="engineer" *ngFor="let engineer of engineers"
+                <a href="#" class="engineer"
                   [routerLink]="['/engineers/details', engineer.id]">
                   <div class="flex-shrink-1">
                     <picture>

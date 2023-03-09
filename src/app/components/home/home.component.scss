@@ -1,6 +1,4 @@
-h1,h2,h3 {
-  font-family: inherit;
-}
+
 .header{
   text-align: center;
   max-width: 768px;
@@ -55,6 +53,17 @@ h1,h2,h3 {
     padding: 15px 0;
   }
 }
+
+.item {
+  background-color: rgb(255, 255, 255);
+  border-radius: 10px;
+  border: 3px solid rgb(43, 63, 95);
+  transition: all 0.3s ease-in-out 0s;
+  box-shadow: rgb(43 63 95) 4px 4px 0px;
+  margin: 15px 16.0987px 15px 0px;
+}
+
+
 $primary: #8cc63e;
 $checkmarkColor: white;
 $size: 15px;
@@ -78,3 +87,92 @@ $checkmarkFat: 1px;
   border-bottom: $checkmarkFat solid $checkmarkColor;
   border-right: $checkmarkFat solid $checkmarkColor;
 }
+
+.words{
+  overflow: hidden;
+  height: 65px;
+  display: inline-block;
+  text-align: left;
+  position: relative;
+  top: 15px;
+  span{
+    display: block;
+    height: 100%;
+    color: #b21616;
+    animation: spin_words 8s infinite;
+  }
+}
+
+@keyframes spin_words{
+  8%{
+      transform: translateY(-112%);
+  }
+  16%{
+      transform: translateY(-100%);
+  }
+  24%{
+      transform: translateY(-212%);
+  }
+  32%{
+      transform: translateY(-200%);
+  }
+  40%{
+      transform: translateY(-312%);
+  }
+  48%{
+      transform: translateY(-300%);
+  }
+  56%{
+      transform: translateY(-412%);
+  }
+  64%{
+      transform: translateY(-400%);
+  }
+  72%{
+    transform: translateY(-512%);
+}
+80%{
+  transform: translateY(-500%);
+}
+88%{
+  transform: translateY(-612%);
+}
+100%{
+  transform: translateY(-600%);
+}
+
+}
+
+//animation for less words
+// @keyframes spin_words{
+//   10%{
+//       transform: translateY(-112%);
+//   }
+//   20%{
+//       transform: translateY(-100%);
+//   }
+//   30%{
+//       transform: translateY(-212%);
+//   }
+//   40%{
+//       transform: translateY(-200%);
+//   }
+//   50%{
+//       transform: translateY(-312%);
+//   }
+//   60%{
+//       transform: translateY(-300%);
+//   }
+//   70%{
+//       transform: translateY(-412%);
+//   }
+//   80%{
+//       transform: translateY(-400%);
+//   }
+//   90%{
+//     transform: translateY(-512%);
+// }
+// 100%{
+//   transform: translateY(-500%);
+// }
+// }
