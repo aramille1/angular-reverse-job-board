@@ -1,3 +1,23 @@
 .half {
   width: 50%;
+  background-color: rgb(255, 255, 255);
+  border-radius: 10px;
+  border: 3px solid rgb(43, 63, 95);
+  padding: 25px;
+  transition: all 0.3s ease-in-out 0s;
+  box-shadow: rgb(43 63 95) 4px 4px 0px !important;
+  margin-top: 50px;
+}
+
+.text-color {
+  color: #00000094;
+  text-decoration: none;
+  font-family: "Open Sans", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 24px;
+}
+
+.text-color:hover {
+  color: #000;
 }

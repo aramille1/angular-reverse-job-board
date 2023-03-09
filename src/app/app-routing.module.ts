@@ -11,12 +11,12 @@ import { AuthGuard } from './guards/auth.guard';
 import { SigninGuard } from './guards/signin.guard';
 
 const routes: Routes = [
-  {path: 'signin', component: SigninComponent}, // TODO implement Authguard only signin
+  {path: '', component: HomeComponent, pathMatch: 'full'},
   {path: 'forgot-password', component: ForgotPasswordComponent},
+  {path: 'signin', component: SigninComponent}, // TODO implement Authguard only signin
   {path: 'signup', component: SignupComponent}, // TODO implement Authguard only signup
   {path: 'role', component: RoleComponent},
   {path: 'pricing', component: PricingComponent},
-  {path: '', component: HomeComponent},
   {
     path: 'engineers',
     // canActivate:[AuthGuard],

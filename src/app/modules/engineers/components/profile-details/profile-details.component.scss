@@ -1,6 +1,11 @@
 .profile-details{
-  margin: 20px 150px;
+  margin: 80px 100px;
   position: relative;
+  background-color: rgb(255, 255, 255);
+border-radius: 10px;
+border: 3px solid #b21616;
+transition: all 0.3s ease-in-out 0s;
+box-shadow: #b21616 14px 14px 0px;
 }
 
 .search-status, .role-types-wrap, .role-levels-wrap {

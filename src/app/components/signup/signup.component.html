@@ -1,13 +1,13 @@
 <div class="container vh-100">
-  <div class="row justify-content-center h-100">
-      <div class="card mt-5 half shadow">
+  <div class="row justify-content-center">
+      <div class="card half">
           <div class="card-body px-5">
               <div class="text-center">
-                  <h2>Welcome</h2>
+                  <h2 class="fw-semibold mb-0">Create new account</h2>
               </div>
               <p style="color: lightslategray; text-align: center;">
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Please enter your
-                  details&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+                  Please enter your
+                  details</p>
                   <form [formGroup]="signupForm" (ngSubmit)="signup()">
                     <div class="mb-3">
                       <label for="exampleInputName" class="form-label">Name</label>
@@ -24,11 +24,11 @@
                       <input type="password" formControlName="password" class="form-control" placeholder="enter your password" id="exampleInputPassword1">
                       <small *ngIf="signupForm.get('password')?.invalid && signupForm.get('password')?.touched" class="text-danger">Password is Required</small>
                     </div>
-                    <button type="submit" [disabled]="signupForm.invalid" class="btn btn-primary">Sign up</button>
+                    <button type="submit" [disabled]="signupForm.invalid" class="btn btn-dark w-100 my-4" >Sign up</button>
                   </form>
           </div>
-          <div class="card-footer text-right">
-              <small><a style="float:right" routerLink="/signin">Already registered? Click here to signin</a></small>
+          <div class="card-footer bg-white text-right">
+              <small><a class="footerlink" routerLink="/signin">Already registered? Click here to signin</a></small>
           </div>
       </div>
   </div>

@@ -12,8 +12,8 @@ export class AppComponent {
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
-      if((Math.floor((new Date).getTime() / 1000)) >= Number(localStorage.getItem('expires'))){
-        this.auth.signout()
-      }
+      // if((Math.floor((new Date).getTime() / 1000)) >= Number(localStorage.getItem('expires'))){
+      //   this.auth.signout()
+      // }
   }
 }
