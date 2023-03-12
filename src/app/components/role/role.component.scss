@@ -6,10 +6,11 @@ button{
   border: 3px solid rgb(43, 63, 95);
   transition: all 0.3s ease-in-out 0s;
   margin-right: 30px;
+  box-shadow: rgb(43 63 95) 4px 4px 0px;
 }
 
 button:hover{
-  box-shadow: rgb(43 63 95) 4px 4px 0px !important;
+  box-shadow: none;
 }
 
 .wrap{
@@ -18,4 +19,14 @@ button:hover{
 
 h3{
   color:#666b74
+}
+
+@media only screen and (max-width: 768px) {
+  .role{
+    display: block !important;
+  }
+
+  button {
+    margin-bottom: 20px;
+  }
 }

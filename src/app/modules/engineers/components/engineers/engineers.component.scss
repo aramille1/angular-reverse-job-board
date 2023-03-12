@@ -8,7 +8,8 @@
   padding: 1.5rem;
 
   &:hover{
-    background-color: #f1f9ff;
+    // background-color: #f1f9ff;
+    border-radius: 10px;
   }
   .engineer-info-header{
     display: flex;
@@ -30,7 +31,10 @@
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 3;
     overflow-wrap: break-word;
-    color:#1C2227;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    color: rgb(43, 63, 95);
     padding: 15px 0;
   }
 
@@ -63,18 +67,28 @@ $checkmarkFat: 1px;
 }
 
 header{
-  padding: 40px 20px 20px 20px;
+  padding: 40px 20px 20px 0px;
 }
 
 article{
-  font-size: 16px;
-  color: rgb(55 65 81)
+  font-size: 21px;
+  font-weight: 500;
+  color: rgb(43, 63, 95);
+  line-height: 28px;
 }
 
 .accordion{
-  border-radius: 18px;
-  box-shadow: 2px 4px 12px rgb(0 0 0 / 8%);
-  transition: all 0.3s cubic-bezier(0, 0, 0.5, 1);
+  background-color: rgb(255, 255, 255);
+  border-radius: 10px;
+  border: 3px solid rgb(43, 63, 95);
+  transition: all 0.3s ease-in-out 0s;
+  box-shadow: rgb(43 63 95) 4px 4px 0px;
+  margin: 15px 0 15px 0px;
+
+  .form-check-label{
+  color: rgb(43, 63, 95);
+
+  }
 }
 
 .accordion-button:focus{
@@ -134,12 +148,16 @@ article{
 }
 
 .item {
-  background-color: #fff;
-  border-radius: 18px;
-  box-shadow: 2px 4px 12px rgb(0 0 0 / 8%);
-  transition: all .3s cubic-bezier(0,0,.5,1);
-  margin-bottom: 20px;
+  background-color: rgb(255, 255, 255);
+  border-radius: 10px;
+  border: 3px solid rgb(43, 63, 95);
+  transition: all 0.3s ease-in-out 0s;
+  box-shadow: rgb(43 63 95) 4px 4px 0px;
+  margin: 15px 16.0987px 15px 0px;
+}
 
+.item:hover{
+  box-shadow:none;
 }
 
 main {
@@ -154,4 +172,47 @@ main {
 .accordion-item:first-of-type {
   border-top-right-radius: 18px;
   border-top-left-radius: 18px;
+}
+
+@media only screen and (max-width: 768px) {
+
+  /* For mobile phones: */
+
+  header {
+    margin: 30px;
+    padding: 0;
+  }
+
+  .head {
+    display: block !important;
+  }
+  .accordion{
+    width: 85%;
+    margin: auto;
+  }
+
+  .item {
+    width: 90%;
+    margin: 10px;
+
+    img {
+      width: 100px;
+      height: 100px;
+    }
+
+    h2{
+      line-height: 1.1;
+    font-size: 16px;
+    font-weight: 600;
+    }
+
+    .engineer-info-status {
+      display: none !important;
+    }
+
+    .engineer{
+      padding: 1.5rem 0 0 0;
+      margin-bottom: 15px;
+    }
+  }
 }

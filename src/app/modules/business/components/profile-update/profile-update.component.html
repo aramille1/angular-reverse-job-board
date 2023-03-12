@@ -2,7 +2,7 @@
   <div class="row justify-content-center h-100">
     <form [formGroup]="profileForm" (ngSubmit)="submit()">
       <div class="text-left my-4">
-        <h2 class="fw-bold">Your business profile</h2>
+        <h2 class="fw-bold">Update your business profile</h2>
       </div>
       <div class="card mb-3 half shadow personal-info">
         <div class="card-body p-4">
@@ -11,7 +11,7 @@
               <h2>Business details</h2>
               <p>Information about your business. Here's your chance to sell yourself to potential hires! </p>
             </div>
-            <div class="col-xs-12 col-lg-8">
+            <div class="col-8">
               <!-- company name -->
               <div class="mb-3">
                 <label for="company" class="form-label">Company name *</label>
@@ -55,7 +55,7 @@
                 <textarea formControlName="bio" class="form-control" placeholder="enter your bio" id="bio"
                   required
                   [ngClass]="{ 'is-invalid': profileForm.controls['bio'].touched && profileForm.controls['bio'].errors, 'is-valid': profileForm.controls['bio'].valid }"
-                  rows="4" col-xs-12 col-lgs="50"></textarea>
+                  rows="4" cols="50"></textarea>
                 <div *ngIf="profileForm.controls['bio'].touched && profileForm.controls['bio'].errors"
                   class="text-danger">
                   <div *ngIf="profileForm.controls['bio'].errors">Bio is required!</div>

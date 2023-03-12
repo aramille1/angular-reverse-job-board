@@ -6,13 +6,15 @@ import { BusinessComponent } from './components/business/business.component';
 import { ProfileDetailsComponent } from './components/profile-details/profile-details.component';
 import { ProfileFormComponent } from './components/profile-form/profile-form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ProfileUpdateComponent } from './components/profile-update/profile-update.component';
 
 
 @NgModule({
   declarations: [
     BusinessComponent,
     ProfileDetailsComponent,
-    ProfileFormComponent
+    ProfileFormComponent,
+    ProfileUpdateComponent
   ],
   imports: [
     CommonModule,

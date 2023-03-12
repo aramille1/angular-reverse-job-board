@@ -21,3 +21,9 @@
 .text-color:hover {
   color: #000;
 }
+
+@media only screen and (max-width: 768px) {
+  .half{
+    width: 90%;
+  }
+}

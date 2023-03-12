@@ -1,3 +1,7 @@
+*{
+  font-weight: 500;
+  color: rgb(43, 63, 95);
+}
 .header,
 .price-heading {
   font-size: 48px;
@@ -145,4 +149,8 @@ h3 {
       width: 80%;
     }
   }
+}
+
+button{
+  color: #fff;
 }

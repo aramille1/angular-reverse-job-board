@@ -9,3 +9,21 @@
 .singout a:hover{
   color: #910000;
 }
+
+.navbar-collapse{
+  background-color: #f6f9fc;
+  padding: 10px 0;
+  font-size: 18px;
+}
+
+
+@media only screen and (max-width: 768px) {
+  .nav-mod{
+    border-bottom: none !important;
+    margin: 0px 20px;
+  }
+
+  .nav-link{
+    padding: 15px 0;
+  }
+}
