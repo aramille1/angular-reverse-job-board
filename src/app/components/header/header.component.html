@@ -3,39 +3,39 @@
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
+    <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
       <ul class="navbar-nav ml-auto">
         <li class="nav-item" routerLinkActive="active">
-          <a class="nav-link" routerLink="/engineers">Developers</a>
+          <a class="nav-link" data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" routerLink="/engineers">Developers</a>
         </li>
         <li class="nav-item" routerLinkActive="active">
-          <a class="nav-link" routerLink="/pricing">Pricing</a>
+          <a class="nav-link" data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" routerLink="/pricing">Pricing</a>
         </li>
         <li class="nav-item" routerLinkActive="active">
-          <a class="nav-link" href="#">About</a>
+          <a class="nav-link" data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" href="#">About</a>
         </li>
       </ul>
       <ul class="navbar-nav ml-auto">
         <li class="nav-item" *ngIf="!(auth.isLoggedIn$ | async)">
-          <a class="nav-link" routerLink="/signin">Sign in</a>
+          <a class="nav-link" data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" routerLink="/signin">Sign in</a>
         </li>
         <li class="nav-item" *ngIf="!(auth.isLoggedIn$ | async)">
-          <a class="nav-link" routerLink="/signup">
+          <a class="nav-link" data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" routerLink="/signup">
             Register
           </a>
         </li>
         <li class="nav-item singout" *ngIf="showMyEngineerProfile">
-          <a class="nav-link" [routerLink]="['/engineers/details', myProfileID]">
+          <a class="nav-link" data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" [routerLink]="['/engineers/details', myProfileID]">
             My Profile
           </a>
         </li>
         <li class="nav-item singout" *ngIf="showMyBusinessProfile">
-          <a class="nav-link" [routerLink]="['/business/details', myProfileID]">
+          <a class="nav-link" data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" [routerLink]="['/business/details', myProfileID]">
             My Profile
           </a>
         </li>
         <li class="nav-item singout" *ngIf="auth.isLoggedIn$ | async">
-          <a class="nav-link" (click)="signout()">
+          <a class="nav-link" data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" (click)="signout()">
             Sign out
           </a>
         </li>

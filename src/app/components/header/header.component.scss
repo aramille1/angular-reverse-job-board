@@ -10,20 +10,29 @@
   color: #910000;
 }
 
-.navbar-collapse{
-  background-color: #f6f9fc;
-  padding: 10px 0;
-  font-size: 18px;
-}
+
 
 
 @media only screen and (max-width: 768px) {
   .nav-mod{
     border-bottom: none !important;
-    margin: 0px 20px;
+    margin: 0px;
+    .navbar-brand{
+      padding-left: 15px;
+    }
+    button{
+      margin-right: 15px;
+    }
   }
 
   .nav-link{
     padding: 15px 0;
+  }
+
+  .navbar-collapse{
+    background-color: #f6f9fc;
+    padding: 15px;
+    font-size: 18px;
+    z-index: 999;
   }
 }
