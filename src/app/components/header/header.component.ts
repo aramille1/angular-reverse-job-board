@@ -11,7 +11,6 @@ import { EngineerService } from 'src/app/services/engineer-service/engineer.serv
 })
 export class HeaderComponent implements OnInit {
   myProfileID: any;
-  userId:string;
   showMyEngineerProfile: Boolean = false;
   showMyBusinessProfile: Boolean = false;
   private userDataSub: Subscription;
@@ -45,9 +44,9 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     this.isLoggedInSub = this.auth.isLoggedIn$.subscribe((isLoggedIn) => {
       console.log('isLoggedIn', isLoggedIn);
-      console.log('showMyEngineerProfile', this.showMyEngineerProfile);
-
-      this.getUserData();
+      if(isLoggedIn){
+        this.getUserData();
+      }
 
     });
   }
@@ -64,6 +63,8 @@ export class HeaderComponent implements OnInit {
           if(res.type === 'recruiter'){
             this.showMyBusinessProfile = true;
           }
+          console.log('showMyEngineerProfile', this.showMyEngineerProfile);
+
       },
       error: error => {
         console.log(error)
