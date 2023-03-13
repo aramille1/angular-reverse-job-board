@@ -21,4 +21,8 @@ export class BusinessService {
   getRecruiter(id:any): Observable<any>{
     return this.http.get(`${this.url}/recruiters/${id}`)
   }
+
+  getMyProfile(): Observable<any>{
+    return this.http.get(`${this.url}/me`)
+  }
 }

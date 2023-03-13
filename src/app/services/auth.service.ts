@@ -38,6 +38,10 @@ export class AuthService {
     );
   }
 
+  getMyProfile(): Observable<any>{
+    return this.http.get(`${this.url}/me`)
+  }
+
   signin(signinForm: any): Observable<any> {
     const headers = new HttpHeaders({ 'Content-type': 'application/json' });
     const reqObject = {

@@ -6,6 +6,18 @@ export class CommonService {
     private engineerData = new Subject<any>();
     private businessData = new Subject<any>();
     private userId = new Subject<string>();
+    private userData = new Subject<Object>();
+
+    updateUserData(data: Object) { //the component that wants to update something, calls this fn
+      this.userData.next(data); //next() will feed the value in Subject
+  }
+
+  getUserData(): Observable<any> {
+    return this.userData.asObservable();
+}
+
+
+
 
     sendUpdateEngineer(data: any) { //the component that wants to update something, calls this fn
         this.engineerData.next(data); //next() will feed the value in Subject
