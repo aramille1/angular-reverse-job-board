@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 import { EngineerService } from 'src/app/services/engineer-service/engineer.service';
 
 @Component({
@@ -10,17 +11,16 @@ import { EngineerService } from 'src/app/services/engineer-service/engineer.serv
 export class ProfileDetailsComponent {
   engineer: any;
   userIsMe: Boolean;
-  constructor(private engineerService: EngineerService, private route: ActivatedRoute) {}
+  constructor(private engineerService: EngineerService, private route: ActivatedRoute, private auth: AuthService) {}
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
-      this.engineerService.getEngineer(params['id']).subscribe((res: any) => {
-        this.engineerService.getMyProfile().subscribe((res) =>{
-          this.userIsMe = res.engineer.ID  === params['id']
+      this.engineerService.getEngineer(params['id']).subscribe((engineerFoundById: any) => {
+        this.auth.getMyProfile().subscribe((myProfile) =>{
+          this.userIsMe = myProfile.user.ID  === params['id']
         })
-        this.engineer = res.engineer;
+        this.engineer = engineerFoundById.engineer;
       });
     });
-
   }
 
 }
