@@ -108,43 +108,25 @@ export class ProfileUpdateComponent {
 
   setProfileToUpdate() {
     this.auth.getMyProfile().subscribe((myProfile) => {
-      const {
-        ID,
-        Firstname,
-        Lastname,
-        Tagline,
-        City,
-        Country,
-        Bio,
-        SearchStatus,
-        RoleType,
-        RoleLevel,
-        Website,
-        Github,
-        Twitter,
-        LinkedIn,
-        StackOverflow,
-      } = myProfile.user;
-
       this.profileForm.patchValue({
-        id: ID,
-        firstName: Firstname,
-        lastName: Lastname,
-        tagLine: Tagline,
-        city: City,
-        country: Country,
-        location: `${City} ${Country}`,
-        bio: Bio,
-        searchStatus: SearchStatus,
-        website: Website,
-        github: Github,
-        twitter: Twitter,
-        linkedIn: LinkedIn,
-        stackoverflow: StackOverflow,
+        id: myProfile.user.ID,
+        firstName: myProfile.user.Firstname,
+        lastName: myProfile.user.Lastname,
+        tagLine: myProfile.user.Tagline,
+        city: myProfile.user.City,
+        country: myProfile.user.Country,
+        location: `${myProfile.user.City} ${myProfile.user.Country}`,
+        bio: myProfile.user.Bio,
+        searchStatus: myProfile.user.SearchStatus,
+        website: myProfile.user.Website,
+        github: myProfile.user.Github,
+        twitter: myProfile.user.Twitter,
+        linkedIn: myProfile.user.LinkedIn,
+        stackoverflow: myProfile.user.StackOverflow,
       });
       let roleTypeArr = this.profileForm.controls['roleType'] as FormArray;
       // setting previously saved roletype values to current form
-      RoleType.forEach((roleType: any) => {
+      myProfile.user.RoleType.forEach((roleType: any) => {
         roleTypeArr.push(new FormControl(roleType));
         this.roleTypes.forEach((item) => {
           if (roleType === item.value) {
@@ -155,7 +137,7 @@ export class ProfileUpdateComponent {
 
       let roleLevelArr = this.profileForm.controls['roleLevel'] as FormArray;
       // setting previously saved rolelevel values to current form
-      RoleLevel.forEach((roleLevel: any) => {
+      myProfile.user.RoleLevel.forEach((roleLevel: any) => {
         roleLevelArr.push(new FormControl(roleLevel));
         this.roleLevels.forEach((item) => {
           if (roleLevel === item.value) {
@@ -164,8 +146,8 @@ export class ProfileUpdateComponent {
         });
       });
 
-      this.profileForm.controls['github'].disable()
-      this.profileForm.controls['linkedIn'].disable()
+      this.profileForm.controls['github'].disable();
+      this.profileForm.controls['linkedIn'].disable();
     });
   }
 
@@ -184,8 +166,6 @@ export class ProfileUpdateComponent {
       twitter: this.profileForm.value.twitter,
       stackoverflow: this.profileForm.value.stackoverflow,
     };
-    console.log(data)
-    // TODO doesnt update
     this.engineerService.updateProfile(data).subscribe(() => {
       this.router.navigate(['engineers/details', this.profileForm.value.id]);
     });
