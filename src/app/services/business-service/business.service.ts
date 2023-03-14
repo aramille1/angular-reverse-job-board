@@ -18,6 +18,10 @@ export class BusinessService {
       );
   }
 
+  updateRecruiter(recruiterData:Object):Observable<object>{
+    return this.http.put(`${this.url}/recruiters/me`, recruiterData)
+  }
+
   getRecruiter(id:any): Observable<any>{
     return this.http.get(`${this.url}/recruiters/${id}`)
   }

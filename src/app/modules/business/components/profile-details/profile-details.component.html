@@ -15,8 +15,7 @@
             <h1 class="card-title">{{recruiter?.Company}}</h1>
             <h3 class="card-title">{{recruiter?.Firstname}} {{recruiter?.Lastname}}, {{recruiter?.Role}}</h3>
             <p class="card-text">{{recruiter?.Bio}}</p>
-            <button class="btn btn-success">Edit profile</button>
-            <!-- *ngIf="userIsMe" [routerLink]="['/engineers/update', engineer.ID]"  -->
+            <button class="btn btn-success" [routerLink]="['/business/update', recruiter?.ID]">Edit profile</button>
           </section>
         </div>
       </div>

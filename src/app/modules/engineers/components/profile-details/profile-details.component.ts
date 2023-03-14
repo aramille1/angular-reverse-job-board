@@ -11,16 +11,21 @@ import { EngineerService } from 'src/app/services/engineer-service/engineer.serv
 export class ProfileDetailsComponent {
   engineer: any;
   userIsMe: Boolean;
-  constructor(private engineerService: EngineerService, private route: ActivatedRoute, private auth: AuthService) {}
+  constructor(
+    private engineerService: EngineerService,
+    private route: ActivatedRoute,
+    private auth: AuthService
+  ) {}
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
-      this.engineerService.getEngineer(params['id']).subscribe((engineerFoundById: any) => {
-        this.auth.getMyProfile().subscribe((myProfile) =>{
-          this.userIsMe = myProfile.user.ID  === params['id']
-        })
-        this.engineer = engineerFoundById.engineer;
-      });
+      this.engineerService
+        .getEngineer(params['id'])
+        .subscribe((engineerFoundById: any) => {
+          this.auth.getMyProfile().subscribe((myProfile) => {
+            this.userIsMe = myProfile.user.ID === params['id'];
+          });
+          this.engineer = engineerFoundById.engineer;
+        });
     });
   }
-
 }

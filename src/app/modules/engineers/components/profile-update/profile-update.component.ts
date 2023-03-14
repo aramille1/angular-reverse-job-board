@@ -7,6 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 import { EngineerService } from 'src/app/services/engineer-service/engineer.service';
 import {
   LocationService,
@@ -26,6 +27,7 @@ export class ProfileUpdateComponent {
   constructor(
     private router: Router,
     private locationService: LocationService,
+    private auth: AuthService,
     private engineerService: EngineerService,
     private ngZone: NgZone,
     private fb: FormBuilder
@@ -105,7 +107,7 @@ export class ProfileUpdateComponent {
   }
 
   setProfileToUpdate() {
-    this.engineerService.getMyProfile().subscribe((myProfile) => {
+    this.auth.getMyProfile().subscribe((myProfile) => {
       const {
         ID,
         Firstname,
@@ -122,7 +124,7 @@ export class ProfileUpdateComponent {
         Twitter,
         LinkedIn,
         StackOverflow,
-      } = myProfile.engineer;
+      } = myProfile.user;
 
       this.profileForm.patchValue({
         id: ID,
@@ -182,7 +184,8 @@ export class ProfileUpdateComponent {
       twitter: this.profileForm.value.twitter,
       stackoverflow: this.profileForm.value.stackoverflow,
     };
-
+    console.log(data)
+    // TODO doesnt update
     this.engineerService.updateProfile(data).subscribe(() => {
       this.router.navigate(['engineers/details', this.profileForm.value.id]);
     });

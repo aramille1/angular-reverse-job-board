@@ -1,22 +1,22 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 import { BusinessService } from 'src/app/services/business-service/business.service';
-import { CommonService } from 'src/app/services/common-service/common.service';
 
 @Component({
   selector: 'app-profile-update',
   templateUrl: './profile-update.component.html',
-  styleUrls: ['./profile-update.component.scss']
+  styleUrls: ['./profile-update.component.scss'],
 })
 export class ProfileUpdateComponent {
   profileForm!: FormGroup;
   constructor(
     private fb: FormBuilder,
     private businessService: BusinessService,
-    private commonService: CommonService,
-    private router: Router
-    ){}
+    private router: Router,
+    private auth: AuthService
+  ) {}
 
   ngOnInit(): void {
     this.profileForm = this.fb.group({
@@ -28,22 +28,39 @@ export class ProfileUpdateComponent {
       bio: ['', Validators.required],
       // logo: [''],
       role: ['', Validators.required],
-    })
+    });
+
+    this.getMyProfile();
   }
 
-  submit(){
-    console.log(this.profileForm.value);
-    this.businessService.createRecruiter(this.profileForm.value).subscribe({
+  submit() {
+    this.businessService.updateRecruiter(this.profileForm.value).subscribe({
       next: (response: any) => {
-        console.log(response);
-        this.commonService.sendUpdateBusiness(response.recruiterId)
-        this.router.navigate(['/engineers'])
+        this.router.navigate(['/business/details', response.recruiter.ID]);
       },
       error: (error) => {
         console.log(error);
       },
+    });
+  }
 
-    })
+  getMyProfile() {
+    this.auth.getMyProfile().subscribe({
+      next: (profile) => {
+        this.profileForm.patchValue({
+          firstName: profile.user.Firstname,
+          lastName: profile.user.Lastname,
+          company: profile.user.Company,
+          linkedIn: profile.user.LinkedIn,
+          website: profile.user.Website,
+          bio: profile.user.Bio,
+          role: profile.user.Role,
+        });
+        this.profileForm.controls['linkedIn'].disable();
+      },
+      error: (error) => {
+        error.log(error);
+      },
+    });
   }
 }
-// TODO fetch to GET recruiter/me and show data here
