@@ -11,25 +11,38 @@ import { AuthGuard } from './guards/auth.guard';
 import { SigninGuard } from './guards/signin.guard';
 
 const routes: Routes = [
-  {path: '', component: HomeComponent, pathMatch: 'full'},
-  {path: 'forgot-password', component: ForgotPasswordComponent},
-  {path: 'signin', component: SigninComponent}, // TODO implement Authguard only signin
-  {path: 'signup', component: SignupComponent}, // TODO implement Authguard only signup
-  {path: 'role', component: RoleComponent},
-  {path: 'pricing', component: PricingComponent},
+  { path: '', component: HomeComponent, pathMatch: 'full' },
+  { path: 'forgot-password', component: ForgotPasswordComponent },
+  { path: 'signin', component: SigninComponent }, // TODO implement Authguard only signin
+  { path: 'signup', component: SignupComponent }, // TODO implement Authguard only signup
+  {
+    path: 'role',
+    component: RoleComponent,
+  },
+  { path: 'pricing', component: PricingComponent },
   {
     path: 'engineers',
     // canActivate:[AuthGuard],
     loadChildren: () =>
-    import('./modules/engineers/engineers.module').then((m) => m.EngineersModule)},
+      import('./modules/engineers/engineers.module').then(
+        (m) => m.EngineersModule
+      ),
+  },
 
   // {path: '', redirectTo: 'signin', pathMatch: 'full'}
-  {path: 'business',     canActivate:[AuthGuard], loadChildren: () => import('./modules/business/business.module').then((m) => m.BusinessModule)},
-  {path: '**', component: NotFoundComponent},
+  {
+    path: 'business',
+    canActivate: [AuthGuard],
+    loadChildren: () =>
+      import('./modules/business/business.module').then(
+        (m) => m.BusinessModule
+      ),
+  },
+  { path: '**', component: NotFoundComponent },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
