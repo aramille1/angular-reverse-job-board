@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { CommonService } from 'src/app/services/common-service/common.service';
@@ -20,12 +21,12 @@ export class HeaderComponent implements OnInit {
   constructor(
     public auth: AuthService,
     public engineerService: EngineerService,
-    private commonService: CommonService
+    private commonService: CommonService,
+    private router: Router
   ) {
       this.userDataSub = this.commonService.getUserData().subscribe({
         next: res => {
           if(res.user){
-            console.log(res)
           this.myProfileID = res.user.ID
             if(res.type === 'engineer'){
               this.showMyEngineerProfile = true;
@@ -36,7 +37,7 @@ export class HeaderComponent implements OnInit {
           }
         },
         error: error => {
-          console.log(error)
+          throw error
         }
       })
   }
@@ -83,6 +84,9 @@ export class HeaderComponent implements OnInit {
     this.showMyEngineerProfile = false;
     this.commonService.updateUserData({})
     this.myProfileID = null
-    this.auth.signout();
+    this.auth.setIsLoggedIn(false);
+    localStorage.removeItem('token');
+    localStorage.removeItem('expires');
+    this.router.navigate(['signin']);
   }
 }

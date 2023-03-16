@@ -1,9 +1,18 @@
 import { Component, ElementRef, NgZone, ViewChild } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { Engineer } from 'src/app/engineer';
 import { EngineerService } from 'src/app/services/engineer-service/engineer.service';
-import { LocationService, Maps } from 'src/app/services/location-service/location.service';
+import {
+  LocationService,
+  Maps,
+} from 'src/app/services/location-service/location.service';
 const place = null as unknown as google.maps.places.PlaceResult;
 type Components = typeof place.address_components;
 @Component({
@@ -12,7 +21,6 @@ type Components = typeof place.address_components;
   styleUrls: ['./profile-form.component.scss'],
 })
 export class ProfileFormComponent {
-
   profileForm!: FormGroup;
   submitted = false;
 
@@ -35,20 +43,20 @@ export class ProfileFormComponent {
 
   @ViewChild('location') public locationElement!: ElementRef;
 
-roleTypes = [
-  {name: "Part-time", value: "contract_part_time"},
-  {name: "Full-time contract", value: "contract_full_time"},
-  {name: "Part-time emplpoyment", value: "employee_part_time"},
-  {name: "Full-time employment", value: "employee_full_time"}
-]
+  roleTypes = [
+    { name: 'Part-time', value: 'contract_part_time' },
+    { name: 'Full-time contract', value: 'contract_full_time' },
+    { name: 'Part-time emplpoyment', value: 'employee_part_time' },
+    { name: 'Full-time employment', value: 'employee_full_time' },
+  ];
 
-roleLevels = [
-  {name: "Junior", value: "junior"},
-  {name: "Middle", value: "mid_level"},
-  {name: "Senior", value: "senior"},
-  {name: "Principal", value: "principal_staff"},
-  {name: "C-Level", value: "c_level"}
-]
+  roleLevels = [
+    { name: 'Junior', value: 'junior' },
+    { name: 'Middle', value: 'mid_level' },
+    { name: 'Senior', value: 'senior' },
+    { name: 'Principal', value: 'principal_staff' },
+    { name: 'C-Level', value: 'c_level' },
+  ];
 
   public place: any;
 
@@ -64,63 +72,62 @@ roleLevels = [
   imageSrc: string = '';
   coverImg: string = '';
 
-ngOnInit(): void {
-  this.profileForm = this.fb.group({
-    firstName: ['', Validators.required],
-    lastName: ['', Validators.required],
-    tagLine: ['', Validators.required],
-    city: ['', Validators.required],
-    state: new FormControl(''),
-    country: ['', Validators.required],
-    location:['', Validators.required],
-    // avatar: new FormControl(''),
-    // coverImg: new FormControl(''),
-    bio: ['', Validators.required],
-    searchStatus: ['', Validators.required],
-    roleType: this.fb.array([]),
-    roleLevel: this.fb.array([]),
-    website: [''],
-    github: ['', Validators.required],
-    twitter: [''],
-    linkedIn: ['', Validators.required],
-    stackoverflow: [''],
-  });
-}
+  ngOnInit(): void {
+    this.profileForm = this.fb.group({
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      tagLine: ['', Validators.required],
+      city: ['', Validators.required],
+      state: new FormControl(''),
+      country: ['', Validators.required],
+      location: ['', Validators.required],
+      // avatar: new FormControl(''),
+      // coverImg: new FormControl(''),
+      bio: ['', Validators.required],
+      searchStatus: ['', Validators.required],
+      roleType: this.fb.array([]),
+      roleLevel: this.fb.array([]),
+      website: [''],
+      github: ['', Validators.required],
+      twitter: [''],
+      linkedIn: ['', Validators.required],
+      stackoverflow: [''],
+    });
+  }
 
-  handleChangeRoleType(e:any){
+  handleChangeRoleType(e: any) {
     let roleTypeArr = this.profileForm.get('roleType') as FormArray;
-    if(e.target.checked){
-      roleTypeArr.push(new FormControl(e.target.value))
-    }else{
+    if (e.target.checked) {
+      roleTypeArr.push(new FormControl(e.target.value));
+    } else {
       let i = 0;
       roleTypeArr.controls.forEach((type) => {
-        if(type.value === e.target.value){
-          roleTypeArr.removeAt(i)
-          return
+        if (type.value === e.target.value) {
+          roleTypeArr.removeAt(i);
+          return;
         }
-        i++
-      })
+        i++;
+      });
     }
   }
 
-  handleChangeRoleLevel(e:any){
+  handleChangeRoleLevel(e: any) {
     let roleLevelArr = this.profileForm.get('roleLevel') as FormArray;
-    if(e.target.checked){
-      roleLevelArr.push(new FormControl(e.target.value))
-    }else{
+    if (e.target.checked) {
+      roleLevelArr.push(new FormControl(e.target.value));
+    } else {
       let i = 0;
       roleLevelArr.controls.forEach((level) => {
-        if(level.value === e.target.value){
-          roleLevelArr.removeAt(i)
-          return
+        if (level.value === e.target.value) {
+          roleLevelArr.removeAt(i);
+          return;
         }
-        i++
-      })
+        i++;
+      });
     }
   }
 
   submit() {
-
     const data = {
       firstName: this.profileForm.value.firstName,
       lastName: this.profileForm.value.lastName,
@@ -136,9 +143,16 @@ ngOnInit(): void {
       github: this.profileForm.value.github,
       twitter: this.profileForm.value.twitter,
       stackoverflow: this.profileForm.value.stackoverflow,
-    }
+    };
 
-    this.engineerService.createEngineer(data)
+    this.engineerService.createEngineer(data).subscribe({
+      next: (response: any) => {
+        this.router.navigate(['engineers/details', response.engineerId]);
+      },
+      error: (error) => {
+        throw error;
+      },
+    });
   }
 
   onFileChange(event: any) {
@@ -160,9 +174,7 @@ ngOnInit(): void {
     //   coverImg: file,
     // });
     // var reader = new FileReader();
-
     // reader.readAsDataURL(file);
-
     // // File Preview
     // reader.onload = (event: any) => {
     //   this.coverImg = event.target.result;
@@ -187,7 +199,7 @@ ngOnInit(): void {
     console.log(location);
     this.profileForm.patchValue({
       city: location?.cityName,
-      country:location?.countryName
+      country: location?.countryName,
     });
   }
   public locationFromPlace(place: google.maps.places.PlaceResult) {

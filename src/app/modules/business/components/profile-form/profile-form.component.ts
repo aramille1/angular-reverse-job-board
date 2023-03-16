@@ -36,7 +36,7 @@ export class ProfileFormComponent {
     this.businessService.createRecruiter(this.profileForm.value).subscribe({
       next: (response: any) => {
         console.log(response);
-        this.commonService.sendUpdateBusiness(response.recruiterId)
+        this.commonService.updateRecruiterData(response.recruiterId)
         this.router.navigate(['/engineers'])
       },
       error: (error) => {

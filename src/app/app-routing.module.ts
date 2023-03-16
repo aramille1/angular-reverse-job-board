@@ -8,13 +8,12 @@ import { RoleComponent } from './components/role/role.component';
 import { SigninComponent } from './components/signin/signin.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { AuthGuard } from './guards/auth.guard';
-import { SigninGuard } from './guards/signin.guard';
 
 const routes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
   { path: 'forgot-password', component: ForgotPasswordComponent },
-  { path: 'signin', component: SigninComponent }, // TODO implement Authguard only signin
-  { path: 'signup', component: SignupComponent }, // TODO implement Authguard only signup
+  { path: 'signin', component: SigninComponent },
+  { path: 'signup', component: SignupComponent },
   {
     path: 'role',
     component: RoleComponent,
@@ -22,14 +21,11 @@ const routes: Routes = [
   { path: 'pricing', component: PricingComponent },
   {
     path: 'engineers',
-    // canActivate:[AuthGuard],
     loadChildren: () =>
       import('./modules/engineers/engineers.module').then(
         (m) => m.EngineersModule
       ),
   },
-
-  // {path: '', redirectTo: 'signin', pathMatch: 'full'}
   {
     path: 'business',
     canActivate: [AuthGuard],
@@ -45,4 +41,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

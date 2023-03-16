@@ -8,25 +8,22 @@ import { environment } from 'environments/environments';
   providedIn: 'root',
 })
 export class BusinessService {
-  url = environment.apiUrl
+  url = environment.apiUrl;
   constructor(private http: HttpClient, private router: Router) {}
 
-  createRecruiter(profileFormData: any): Observable<any> {
-      return this.http.post<any>(
-        `${this.url}/recruiters`,
-        profileFormData
-      );
+  createRecruiter(profileFormData: object): Observable<any> {
+    return this.http.post(`${this.url}/recruiters`, profileFormData);
   }
 
-  updateRecruiter(recruiterData:Object):Observable<object>{
-    return this.http.put(`${this.url}/recruiters/me`, recruiterData)
+  updateRecruiter(recruiterData: object): Observable<any> {
+    return this.http.put(`${this.url}/recruiters/me`, recruiterData);
   }
 
-  getRecruiter(id:any): Observable<any>{
-    return this.http.get(`${this.url}/recruiters/${id}`)
+  getRecruiter(id: any): Observable<any> {
+    return this.http.get(`${this.url}/recruiters/${id}`);
   }
 
-  getMyProfile(): Observable<any>{
-    return this.http.get(`${this.url}/me`)
+  getMyProfile(): Observable<any> {
+    return this.http.get(`${this.url}/me`);
   }
 }

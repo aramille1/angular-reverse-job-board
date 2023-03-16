@@ -166,7 +166,7 @@ export class ProfileUpdateComponent {
       twitter: this.profileForm.value.twitter,
       stackoverflow: this.profileForm.value.stackoverflow,
     };
-    this.engineerService.updateProfile(data).subscribe(() => {
+    this.engineerService.updateEngineer(data).subscribe(() => {
       this.router.navigate(['engineers/details', this.profileForm.value.id]);
     });
   }
