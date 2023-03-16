@@ -5,16 +5,12 @@ import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { environment } from 'environments/environments';
-// import { Engineer } from '../engineer';
 
-// const httpOptions = {
-//   withCredentials: true
-//  };
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  url = environment.apiUrl
+  url = environment.apiUrl;
   private _isLoggedIn$ = new BehaviorSubject<boolean>(false);
   isLoggedIn$ = this._isLoggedIn$.asObservable();
 
@@ -38,32 +34,16 @@ export class AuthService {
     );
   }
 
-  getMyProfile(): Observable<any>{
-    return this.http.get(`${this.url}/me`)
+  getMyProfile(): Observable<any> {
+    return this.http.get(`${this.url}/me`);
   }
 
-  signin(signinForm: any): Observable<any> {
-    const headers = new HttpHeaders({ 'Content-type': 'application/json' });
-    const reqObject = {
-      email: signinForm.value.email,
-      password: signinForm.value.password,
-    };
-
-    return this.http
-      .post(`${this.url}/login`, reqObject, { headers: headers })
+  signin(loginData: object): Observable<any> {
+    return this.http.post(`${this.url}/login`, loginData);
   }
 
-  signup(signupForm: any) {
-    this.http
-      .post<any>(`${this.url}/signup`, signupForm.value)
-      .subscribe({
-        next: () => {
-          alert('user registered successfully');
-          signupForm.reset();
-          this.router.navigate(['signin']);
-        },
-        error: (e) => alert(e),
-      });
+  signup(signupData: object): Observable<any>{
+    return this.http.post(`${this.url}/sign-up`, signupData);
   }
 
   signout() {
@@ -73,7 +53,7 @@ export class AuthService {
     this.router.navigate(['signin']);
   }
 
-  setIsLoggedIn(val:boolean){
+  setIsLoggedIn(val: boolean) {
     this._isLoggedIn$.next(val);
   }
 }

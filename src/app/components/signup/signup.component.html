@@ -3,11 +3,8 @@
       <div class="card half">
           <div class="card-body px-5">
               <div class="text-center">
-                  <h2 class="fw-semibold mb-0">Create new account</h2>
+                  <h2 class="fw-semibold mb-4">Create new account</h2>
               </div>
-              <p style="color: lightslategray; text-align: center;">
-                  Please enter your
-                  details</p>
                   <form [formGroup]="signupForm" (ngSubmit)="signup()">
                     <div class="mb-3">
                       <label for="exampleInputName" class="form-label">Name</label>
@@ -15,14 +12,25 @@
                       <small *ngIf="signupForm.get('name')?.invalid && signupForm.get('name')?.touched" class="text-danger">Name is Required</small>
                     </div>
                     <div class="mb-3">
-                      <label for="exampleInputEmail1" class="form-label">Email address</label>
-                      <input type="email" formControlName="email" class="form-control" id="exampleInputEmail1" placeholder="enter your email" aria-describedby="emailHelp">
-                      <small *ngIf="signupForm.get('email')?.invalid && signupForm.get('email')?.touched" class="text-danger">Email is Required</small>
+                      <label for="exampleInputEmail1" class="form-label">E-mail</label>
+                      <input type="email" formControlName="email" required class="form-control" id="exampleInputEmail1" placeholder="enter your email" aria-describedby="emailHelp">
+                      <p class="text-danger mt-1" *ngIf="signupForm.controls['email'].hasError('pattern')">E-mail must be valid</p>
+                      <p class="text-danger mt-1"
+                        *ngIf="signupForm.controls['email'].hasError('required') && signupForm.controls['email'].touched">
+                        E-mail is required
+                      </p>
                     </div>
                     <div class="mb-3">
                       <label for="exampleInputPassword1" class="form-label">Password</label>
                       <input type="password" formControlName="password" class="form-control" placeholder="enter your password" id="exampleInputPassword1">
-                      <small *ngIf="signupForm.get('password')?.invalid && signupForm.get('password')?.touched" class="text-danger">Password is Required</small>
+                      <p class="text-danger mt-1" *ngIf="signupForm.controls['password'].hasError('minlength')">
+                        Your password must be at least 8 characters long.
+                      </p>
+
+                      <p class="text-danger mt-1"
+                        *ngIf="signupForm.controls['password'].hasError('required') && signupForm.controls['password'].touched">
+                        Password is required
+                      </p>
                     </div>
                     <button type="submit" [disabled]="signupForm.invalid" class="btn btn-dark w-100 my-4" >Sign up</button>
                   </form>

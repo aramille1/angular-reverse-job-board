@@ -3,23 +3,22 @@
     <div class="card half">
       <div class="card-body px-5">
         <div class="text-center">
-          <h2 class="fw-semibold mb-0">Welcome</h2>
+          <h2 class="fw-semibold mb-4">Login to your account</h2>
         </div>
-        <p style="color: lightslategray; text-align: center;">
-          Please enter your login
-          details</p>
         <form [formGroup]="signinForm" (ngSubmit)="signin()">
-          <div class="form-group">
-            <input type="email" id="email" placeholder="Email *" required class="form-control mt-4"
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">E-mail</label>
+            <input id="exampleInputEmail1" type="email" id="email" required class="form-control"
               formControlName="email" name="email" />
-            <p class="text-danger mt-1" *ngIf="signinForm.controls['email'].hasError('pattern')">Email must be valid</p>
+            <p class="text-danger mt-1" *ngIf="signinForm.controls['email'].hasError('pattern')">E-mail must be valid</p>
             <p class="text-danger mt-1"
               *ngIf="signinForm.controls['email'].hasError('required') && signinForm.controls['email'].touched">
-              Email is required
+              E-mail is required
             </p>
           </div>
-          <div class="form-group">
-            <input type="password" id="password" placeholder="Password *" class="form-control mt-4"
+          <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Password</label>
+            <input type="password" id="exampleInputPassword1" class="form-control"
               formControlName="password" name="password" minlength="8" />
 
             <p class="text-danger mt-1" *ngIf="signinForm.controls['password'].hasError('minlength')">
