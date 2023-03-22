@@ -1,22 +1,24 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
-import { BusinessService } from 'src/app/services/business-service/business.service';
-
+import { Subscription } from 'rxjs';
+import { AuthService } from 'src/app/services/auth.service';
 @Component({
   selector: 'app-profile-details',
   templateUrl: './profile-details.component.html',
-  styleUrls: ['./profile-details.component.scss']
+  styleUrls: ['./profile-details.component.scss'],
 })
 export class ProfileDetailsComponent {
-  recruiter:any;
-  constructor(private businessService: BusinessService, private route: ActivatedRoute) {}
+  recruiter: any;
+  private myProfileSub: Subscription;
+
+  constructor(private auth: AuthService) {}
 
   ngOnInit(): void {
-    this.route.params.subscribe((params: Params) => {
-      this.businessService.getRecruiter(params['id']).subscribe((res)=>{
-        this.recruiter = res.recruiter
-        console.log(this.recruiter)
-      })
-    })
+    this.myProfileSub = this.auth.getMyProfile().subscribe({
+      next: (res) => (this.recruiter = res.user),
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.myProfileSub.unsubscribe();
   }
 }

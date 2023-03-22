@@ -14,7 +14,6 @@ export class HeaderComponent implements OnInit {
   myProfileID: any;
   showMyEngineerProfile: Boolean = false;
   showMyBusinessProfile: Boolean = false;
-  private userDataSub: Subscription;
   private isLoggedInSub: Subscription;
   private myProfileSub: Subscription;
 
@@ -24,57 +23,49 @@ export class HeaderComponent implements OnInit {
     private commonService: CommonService,
     private router: Router
   ) {
-      this.userDataSub = this.commonService.getUserData().subscribe({
-        next: res => {
-          if(res.user){
-          this.myProfileID = res.user.ID
-            if(res.type === 'engineer'){
+    this.isLoggedInSub = this.auth.isLoggedIn$.subscribe((isLoggedIn) => {
+      if (isLoggedIn) {
+        this.myProfileSub = this.auth.getMyProfile().subscribe({
+          next: (res) => {
+            console.log(res);
+            this.myProfileID = res.user.ID;
+            if (res.type === 'engineer') {
               this.showMyEngineerProfile = true;
             }
-            if(res.type === 'recruiter'){
+            if (res.type === 'recruiter') {
               this.showMyBusinessProfile = true;
             }
-          }
-        },
-        error: error => {
-          throw error
-        }
-      })
-  }
-
-  ngOnInit(): void {
-    this.isLoggedInSub = this.auth.isLoggedIn$.subscribe((isLoggedIn) => {
-      console.log('isLoggedIn', isLoggedIn);
-      if(isLoggedIn){
-        this.getUserData();
+          },
+          error: (error) => {
+            console.log(error);
+          },
+        });
       }
-
     });
   }
 
+  ngOnInit(): void {}
 
-  getUserData(){
+  getUserData() {
     this.myProfileSub = this.auth.getMyProfile().subscribe({
-      next: res => {
-        console.log(res)
-        this.myProfileID = res.user.ID
-          if(res.type === 'engineer'){
-            this.showMyEngineerProfile = true;
-          }
-          if(res.type === 'recruiter'){
-            this.showMyBusinessProfile = true;
-          }
-          console.log('showMyEngineerProfile', this.showMyEngineerProfile);
-
+      next: (res) => {
+        console.log(res);
+        this.myProfileID = res.user.ID;
+        if (res.type === 'engineer') {
+          this.showMyEngineerProfile = true;
+        }
+        if (res.type === 'recruiter') {
+          this.showMyBusinessProfile = true;
+        }
+        console.log('showMyEngineerProfile', this.showMyEngineerProfile);
       },
-      error: error => {
-        console.log(error)
-      }
-    })
+      error: (error) => {
+        console.log(error);
+      },
+    });
   }
 
   ngOnDestroy(): void {
-    this.userDataSub.unsubscribe();
     this.isLoggedInSub.unsubscribe();
     this.myProfileSub.unsubscribe();
   }
@@ -82,8 +73,8 @@ export class HeaderComponent implements OnInit {
   signout() {
     this.showMyBusinessProfile = false;
     this.showMyEngineerProfile = false;
-    this.commonService.updateUserData({})
-    this.myProfileID = null
+    this.commonService.updateUserData({});
+    this.myProfileID = null;
     this.auth.setIsLoggedIn(false);
     localStorage.removeItem('token');
     localStorage.removeItem('expires');

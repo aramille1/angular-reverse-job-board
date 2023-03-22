@@ -13,7 +13,7 @@ const routes: Routes = [
   { path: '', component: BusinessComponent },
   {
     // only logged in recruiter can access
-    path: 'details/:id',
+    path: 'details',
     component: ProfileDetailsComponent,
     canActivate: [ProfileDetailsRoleGuard],
     data: {

@@ -24,6 +24,7 @@ export class ProfileDetailsComponent {
           this.auth.getMyProfile().subscribe((myProfile) => {
             this.userIsMe = myProfile.user.ID === params['id'];
           });
+          console.log(engineerFoundById)
           this.engineer = engineerFoundById.engineer;
         });
     });
