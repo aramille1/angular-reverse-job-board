@@ -11,6 +11,7 @@ import { EngineerService } from 'src/app/services/engineer-service/engineer.serv
 export class ProfileDetailsComponent {
   engineer: any;
   userIsMe: Boolean;
+  recruiterIsMember: Boolean = false;
   constructor(
     private engineerService: EngineerService,
     private route: ActivatedRoute,
@@ -22,6 +23,9 @@ export class ProfileDetailsComponent {
         .getEngineer(params['id'])
         .subscribe((engineerFoundById: any) => {
           this.auth.getMyProfile().subscribe((myProfile) => {
+            if(myProfile.type === "recruiter"){
+              this.recruiterIsMember = myProfile.user.IsMember
+            }
             this.userIsMe = myProfile.user.ID === params['id'];
           });
           console.log(engineerFoundById)

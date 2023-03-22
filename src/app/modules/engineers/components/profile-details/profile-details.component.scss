@@ -8,12 +8,6 @@ transition: all 0.3s ease-in-out 0s;
 box-shadow: rgb(43, 63, 95) 4px 4px 0px;
 }
 
-.search-status, .role-types-wrap, .role-levels-wrap {
-  border-bottom: 1px solid #0000002e;
-  padding-bottom: 15px;
-  width: 180px;
-}
-
 .role-types-wrap, .role-levels-wrap, .country {
   padding-top: 10px;
 
@@ -85,6 +79,10 @@ span, .info{
   }
 }
 
+.checkboxes {
+  margin-right: 30px;
+}
+
 @media only screen and (max-width: 768px) {
   .profile-details{
     margin: 0;
@@ -99,5 +97,85 @@ span, .info{
 
   .checkboxes{
     margin: 20px;
+  }
+}
+
+
+.priv{
+  margin-left: 3px;
+}
+
+.bi-unlock-fill{
+  display: none;
+}
+
+.private-info {
+  border-radius: 15px;
+  border: 1px dashed #dee2e6;
+  width: 30%;
+  text-align: center;
+  background-color: rgb(249, 250, 251);
+
+}
+
+.private-info:hover{
+  cursor: pointer;
+  border-color: #a7a8aa;
+  .bi-unlock-fill{
+    display: inline
+  }
+  .bi-lock-fill{
+    display: none;
+  }
+}
+
+.private-info-right{
+  border-radius: 15px;
+  border: 3px dashed #dee2e6;
+  color: rgb(107, 114, 128);
+  text-align: center;
+  padding: 30px;
+  width: 300px;
+  margin: 20px 0;
+  background-color: rgb(249, 250, 251);
+  h2{
+    color: rgb(43, 63, 95);
+  }
+}
+
+.bi-unlock{
+  display: none;
+}
+.private-info-right:hover{
+  cursor: pointer;
+  border-color: #c4c5c7;
+  .bi-unlock{
+    display: inline
+  }
+  .bi-lock{
+    display: none;
+  }
+}
+
+.private-info-unlocked {
+  h3,
+  a {
+    color: rgb(43, 63, 95);
+    text-decoration: none;
+    margin-bottom: 5px;
+  }
+
+  li {
+    margin-bottom: 5px;
+  }
+
+  .bi {
+    margin-right: 5px;
+    color: rgb(117, 115, 115)
+  }
+
+  a:hover{
+    color: rgb(75, 108, 160);
+    // text-decoration: underline;
   }
 }
