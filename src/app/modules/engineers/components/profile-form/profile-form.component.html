@@ -210,7 +210,8 @@
                 <h3 class="mb-0 mt-3">Github *</h3>
                 <div class="d-flex">
                   <span class="url-prefix">github.com/                  </span>
-                  <input type="text" formControlName="github" class="form-control" />
+                  <input type="text" formControlName="github" class="form-control" required
+                  [ngClass]="{ 'is-invalid': profileForm.controls['github'].touched && profileForm.controls['github'].errors, 'is-valid': profileForm.controls['github'].valid }" />
                 </div>
                 <div *ngIf="profileForm.controls['github'].touched && profileForm.controls['github'].errors"
                 class="text-danger">

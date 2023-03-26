@@ -38,7 +38,7 @@ import { ToastrModule } from 'ngx-toastr';
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    ToastrModule.forRoot({positionClass: 'toast-center'}),
+    ToastrModule.forRoot({positionClass: 'toast-top-center'}),
   ],
   providers: [
     AuthService,
