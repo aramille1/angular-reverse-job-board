@@ -14,7 +14,7 @@
         <div class="col-xs-12 col-lg-8">
           <section class="info">
             <h1 class="card-title">{{engineer?.Tagline}}</h1>
-            <ng-container *ngIf="recruiterIsMember; else name">
+            <ng-container *ngIf="recruiterIsMember || userIsMe; else name">
               <h3 class="card-title fw-bold mt-2">{{engineer?.Firstname}} {{engineer?.Lastname}}</h3>
             </ng-container>
             <ng-template #name>
@@ -26,7 +26,7 @@
             </ng-template>
 
 
-            <p class="card-text">{{engineer?.Bio}}</p>
+            <p class="card-text pt-2">{{engineer?.Bio}}</p>
             <button *ngIf="userIsMe" [routerLink]="['/engineers/update', engineer.ID]" class="btn btn-success">Edit profile</button>
           </section>
         </div>
@@ -110,7 +110,7 @@
               </div>
             </div>
 
-            <ng-container *ngIf="recruiterIsMember; else elseTemplate">
+            <ng-container *ngIf="recruiterIsMember || userIsMe; else elseTemplate">
               <div class="private-info-unlocked pt-2">
 
 

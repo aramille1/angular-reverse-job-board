@@ -75,9 +75,6 @@ export class HeaderComponent implements OnInit {
     this.showMyEngineerProfile = false;
     this.commonService.updateUserData({});
     this.myProfileID = null;
-    this.auth.setIsLoggedIn(false);
-    localStorage.removeItem('token');
-    localStorage.removeItem('expires');
-    this.router.navigate(['signin']);
+    this.auth.signout();
   }
 }

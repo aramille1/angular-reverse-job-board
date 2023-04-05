@@ -118,7 +118,7 @@ export class ProfileUpdateComponent {
         location: `${myProfile.user.City} ${myProfile.user.Country}`,
         bio: myProfile.user.Bio,
         searchStatus: myProfile.user.SearchStatus,
-        website: myProfile.user.Website,
+        website: "https://"+myProfile.user.Website,
         github: myProfile.user.Github,
         twitter: myProfile.user.Twitter,
         linkedIn: myProfile.user.LinkedIn,

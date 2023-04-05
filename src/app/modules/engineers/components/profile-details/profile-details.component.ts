@@ -26,6 +26,9 @@ export class ProfileDetailsComponent {
             if(myProfile.type === "recruiter"){
               this.recruiterIsMember = myProfile.user.IsMember
             }
+            if(myProfile.type === "engineer"){
+              this.engineer = myProfile.user
+            }
             this.userIsMe = myProfile.user.ID === params['id'];
           });
           console.log(engineerFoundById)

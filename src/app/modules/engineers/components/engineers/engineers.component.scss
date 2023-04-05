@@ -216,3 +216,39 @@ main {
     }
   }
 }
+
+.engineer-wrapper{
+  position: relative;
+}
+
+.blur-block{
+  position: absolute;
+  top: 1750px;
+  padding: 156px 190px;
+  backdrop-filter: blur(4px);
+
+  .blur-block-wrap{
+    border-radius: 10px;
+    border: 3px solid rgb(43, 63, 95);
+    transition: all 0.3s ease-in-out 0s;
+    box-shadow: rgb(43, 63, 95) 4px 4px 0px;
+    text-align: center;
+    padding: 30px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto;
+    background-color: #fff;
+
+    h1{
+      color: #1C2227;
+    font-size: 32px;
+    font-weight: 600;
+    }
+    p{
+      font-size: 16px;
+      color: rgb(43, 63, 95);
+    }
+  }
+}

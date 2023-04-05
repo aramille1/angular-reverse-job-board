@@ -107,22 +107,10 @@
             <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse"
               aria-labelledby="panelsStayOpen-headingThree">
               <div class="accordion-body">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="" id="us">
-                  <label class="form-check-label" for="us">
-                    United States
-                  </label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="" id="uk">
-                  <label class="form-check-label" for="uk">
-                    United Kingdom
-                  </label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="" id="de">
-                  <label class="form-check-label" for="de">
-                    Germany
+                <div class="form-check" *ngFor="let country of countries">
+                  <input class="form-check-input" type="checkbox" value="" id="country" (change)="onCheck(country)">
+                  <label class="form-check-label" for="country">
+                    {{country}}
                   </label>
                 </div>
               </div>
@@ -150,7 +138,7 @@
           </div>
           <div class="bg-white p-4 borderbtm">
             <button class="btn btn-outline-secondary">Clear</button>
-            <button class="btn btn-outline-success mx-3">Apply</button>
+            <button class="btn btn-outline-success mx-3" (click)="applyFilter()">Apply</button>
           </div>
         </div>
       </nav>
@@ -160,14 +148,15 @@
     <!-- List of engineers -->
     <div class="col-xs-12 col-lg-9">
       <main>
-        <div class="engineer-wrapper" *ngFor="let engineer of engineers">
-          <div class="item" >
-            <a href="#" class="engineer"
-              [routerLink]="['/engineers/details', engineer.ID]">
+        <div class="engineer-wrapper">
+          <div class="item" *ngFor="let engineer of engineers
+          | paginate: { itemsPerPage: limit, currentPage: page, totalItems: total }">
+            <a href="#" class="engineer" [routerLink]="['/engineers/details', engineer.ID]">
               <div class="flex-shrink-1">
                 <picture>
-                  <img src="https://spng.pngfind.com/pngs/s/381-3819326_default-avatar-svg-png-icon-free-download-avatar.png" width="100rem" height="100rem"
-                    class="rounded-circle mx-3 profile-image" />
+                  <img
+                    src="https://spng.pngfind.com/pngs/s/381-3819326_default-avatar-svg-png-icon-free-download-avatar.png"
+                    width="100rem" height="100rem" class="rounded-circle mx-3 profile-image" />
                 </picture>
               </div>
 
@@ -192,7 +181,25 @@
               </div>
             </a>
           </div>
+          <div class="blur-block" *ngIf="isMember">
+            <div class="blur-block-wrap">
+              <h1>Sign up now to see more profiles.
+              </h1>
+              <p>Gain access to so many more Angular talents.</p>
+              <button class="btn btn-success" [routerLink]="[ '/pricing' ]">Start hiring</button>
+            </div>
+          </div>
         </div>
+        <!-- <pagination-controls (pageChange)="page = $event"></pagination-controls> -->
+        <pagination-controls (pageChange)="pageChangeEvent($event)"></pagination-controls>
+        <!-- <ul class="pagination">
+          <li class="page-item"><a (click)="prevIndex()" class="page-link">Previous</a></li>
+          <li class="page-item" *ngFor="let i of pagesCount let n = index">
+            <a class="page-link" [ngClass]="status ? 'active' : ''"  (click)="getIndex(n)" >{{n+1}}</a>
+            </li>
+          <li class="page-item"><a class="page-link" (click)="nextIndex()">Next</a></li>
+        </ul> -->
+
       </main>
     </div>
     <!-- end of engineers -->

@@ -36,7 +36,8 @@ export class ProfileUpdateComponent {
   submit() {
     this.businessService.updateRecruiter(this.profileForm.value).subscribe({
       next: (response: any) => {
-        this.router.navigate(['/business/details', response.recruiter.ID]);
+        console.log(response)
+        this.router.navigate(['/business/details']);
       },
       error: (error) => {
         console.log(error);

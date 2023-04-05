@@ -8,6 +8,7 @@ import { RoleComponent } from './components/role/role.component';
 import { SigninComponent } from './components/signin/signin.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { AuthGuard } from './guards/auth.guard';
+import { RolePageGuard } from './guards/role-page-guard/role-page.guard';
 
 const routes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
@@ -17,6 +18,7 @@ const routes: Routes = [
   {
     path: 'role',
     component: RoleComponent,
+    canActivate: [RolePageGuard]
   },
   { path: 'pricing', component: PricingComponent },
   {

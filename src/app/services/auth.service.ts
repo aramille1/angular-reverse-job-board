@@ -2,6 +2,7 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'environments/environments';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +12,7 @@ export class AuthService {
   private _isLoggedIn$ = new BehaviorSubject<boolean>(false);
   isLoggedIn$ = this._isLoggedIn$.asObservable();
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private router: Router) {
     const token = localStorage.getItem('token');
     this._isLoggedIn$.next(!!token);
   }
@@ -30,5 +31,12 @@ export class AuthService {
 
   setIsLoggedIn(val: boolean) {
     this._isLoggedIn$.next(val);
+  }
+
+  signout(){
+    this._isLoggedIn$.next(false);
+    localStorage.removeItem('token');
+    localStorage.removeItem('expires');
+    this.router.navigate(['signin']);
   }
 }

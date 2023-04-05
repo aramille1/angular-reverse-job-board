@@ -8,6 +8,7 @@ import { EngineersComponent } from './components/engineers/engineers.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProfileUpdateComponent } from './components/profile-update/profile-update.component';
 
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { ProfileUpdateComponent } from './components/profile-update/profile-upda
     CommonModule,
     EngineersRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxPaginationModule,
   ]
 })
 export class EngineersModule { }

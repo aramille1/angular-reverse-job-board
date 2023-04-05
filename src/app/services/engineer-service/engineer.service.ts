@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, catchError, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'environments/environments';
 
@@ -14,8 +14,14 @@ export class EngineerService {
     return this.http.post(`${this.url}/engineers`, profileFormData);
   }
 
-  getEngineers(): Observable<any> {
+  getAllEngineers(): Observable<any> {
     return this.http.get<any>(`${this.url}/engineers`);
+  }
+
+  getEngineers(page:number, limit: number, country: string): Observable<any> {
+    console.log("page:", page)
+    console.log("limit:", limit)
+    return this.http.get<any>(`${this.url}/engineers?page=${page}&limit=${limit}&country=${country}`);
   }
 
   getEngineer(engineerId: any): Observable<any> {
