@@ -7,6 +7,7 @@ import { ProfileFormComponent } from './components/profile-form/profile-form.com
 import { EngineersComponent } from './components/engineers/engineers.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProfileUpdateComponent } from './components/profile-update/profile-update.component';
+import {AutocompleteLibModule} from 'angular-ng-autocomplete';
 
 import { NgxPaginationModule } from 'ngx-pagination';
 
@@ -18,6 +19,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
     ProfileUpdateComponent
   ],
   imports: [
+    AutocompleteLibModule,
     CommonModule,
     EngineersRoutingModule,
     FormsModule,

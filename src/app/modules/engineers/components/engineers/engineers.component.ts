@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, Input } from '@angular/core';
 import { PaginationInstance } from 'ngx-pagination';
 import { Observable, Subscription } from 'rxjs';
@@ -20,9 +21,12 @@ export class EngineersComponent {
   isMember: boolean = true;
   countries:any = [];
   selectedCountry: string;
+  keyword = 'name';
+  data$: Observable<any>;
+  data: any = []
   private getMyProfileSub: Subscription
   private getEngineersSub: Subscription
-  constructor(private engineerService: EngineerService, private auth: AuthService){}
+  constructor(private engineerService: EngineerService, private auth: AuthService, private http: HttpClient){}
 
   public config: PaginationInstance = {
       id: 'custom',
@@ -30,6 +34,15 @@ export class EngineersComponent {
       currentPage: 1
   };
   ngOnInit(): void {
+    this.http.get("https://restcountries.com/v3.1/all?fields=name,flags").subscribe({
+      next: data => {
+        for (const [key, value] of Object.entries(data)){
+          this.data.push({id: Number(key+1), name: value.name.common, flag: value.flags.svg})
+        }
+        console.log(this.data)
+      },
+      error: err => console.error(err)
+    })
     this.getMyProfileSub = this.auth.getMyProfile().subscribe({
       next:res => {
         if(res.type === "recruiter" && res.user.IsMember){
@@ -47,41 +60,31 @@ export class EngineersComponent {
     return new Array(length/20)
   }
 
-  getIndex(pageIndex: number){
-  //   this.startIndex = pageIndex * 5;
-  //  this.endIndex = this.startIndex + 5;
-   this.page = pageIndex+1
-   this.getEngineers()
-  }
-  prevIndex(){
-    this.page--
-    console.log(this.page)
-    this.getEngineers()
-  }
-  nextIndex(){
-    this.page++
-    this.status = !this.status
-    console.log(this.page)
-    this.getEngineers()
-  }
+  // getIndex(pageIndex: number){
+  // //   this.startIndex = pageIndex * 5;
+  // //  this.endIndex = this.startIndex + 5;
+  //  this.page = pageIndex+1
+  //  this.getEngineers()
+  // }
+  // prevIndex(){
+  //   this.page--
+  //   console.log(this.page)
+  //   this.getEngineers()
+  // }
+  // nextIndex(){
+  //   this.page++
+  //   this.status = !this.status
+  //   console.log(this.page)
+  //   this.getEngineers()
+  // }
 
 
 
   getEngineers(){
     this.getEngineersSub = this.engineerService.getEngineers(this.page, this.limit, this.selectedCountry = '').subscribe(res => {
-
-      const countries = [...new Set( res.engineers.map((engineer:any) => engineer.Country)) ]
-      console.log(countries);
-
-      this.countries = countries
-      console.log(countries)
+      console.log(res.engineers)
       this.engineers = res.engineers;
-      // this.total = res.engineers.length
-      const tempPagesCount = Math.ceil(res.engineers.length/ this.limit)
-      // for(let i = 1; i <= tempPagesCount; i++){
-      //   this.pagesCount.push(i)
-      // }
-      console.log(this.pagesCount);
+
 
   });
   }
@@ -99,12 +102,12 @@ export class EngineersComponent {
     this.getEngineersSub.unsubscribe()
   }
 
-  onCheck(country:string){
-    this.selectedCountry = country
-    console.log(this.selectedCountry)
+  // onCheck(country:string){
+  //   this.selectedCountry = country
+  //   console.log(this.selectedCountry)
 
 
-  }
+  // }
 
   applyFilter(){
     if(this.selectedCountry){
@@ -116,4 +119,31 @@ export class EngineersComponent {
     });
     }
   }
-}
+
+
+
+
+    selectEvent(item: any) {
+      // do something with selected item
+      console.log(item)
+      this.getEngineersSub = this.engineerService.getEngineers(this.page, this.limit, item.name).subscribe(res => {
+
+        console.log(res.engineers.length);
+        this.total = res.engineers.length
+
+        this.engineers = res.engineers
+
+
+    });
+    }
+
+    // onChangeSearch(val: string) {
+    //   console.log(val)
+    //   // fetch remote data from here
+    //   // And reassign the 'data' which is binded to 'data' property.
+    // }
+
+    // onFocused(e:any){
+    //   // do something when input is focused
+    // }
+  }

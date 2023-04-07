@@ -18,6 +18,7 @@ import { AuthInterceptor } from './interceptors/auth-interceptor.interceptor';
 import { PricingComponent } from './components/pricing/pricing.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+
 @NgModule({
   declarations: [
     AppComponent,
