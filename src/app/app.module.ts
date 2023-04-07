@@ -18,6 +18,7 @@ import { AuthInterceptor } from './interceptors/auth-interceptor.interceptor';
 import { PricingComponent } from './components/pricing/pricing.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+import { FooterComponent } from './components/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { ToastrModule } from 'ngx-toastr';
     NotFoundComponent,
     ForgotPasswordComponent,
     HeaderComponent,
-    PricingComponent
+    PricingComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
