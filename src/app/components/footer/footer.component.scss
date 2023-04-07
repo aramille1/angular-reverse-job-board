@@ -12,5 +12,11 @@ a{
 
 a:hover{
   color: rgb(23, 34, 52);
+}
 
+@media only screen and (max-width: 768px) {
+  .privacy-terms {
+    display: flex;
+    flex-direction: column;
+  }
 }
