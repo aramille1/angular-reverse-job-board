@@ -60,8 +60,8 @@ $checkmarkFat: 1px;
   transform: rotate(45deg) translate(-50%, -50%);
   left: 35%;
   top: 45%;
-  height: $size/3;
-  width: $size/6;
+  height: calc($size/3);
+  width: calc($size/6);
   border-bottom: $checkmarkFat solid $checkmarkColor;
   border-right: $checkmarkFat solid $checkmarkColor;
 }
