@@ -3,6 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { ToastrService } from 'ngx-toastr';
+import { CustomValidators } from 'src/app/matching-passwords.validator';
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
@@ -16,7 +17,14 @@ export class SignupComponent {
       '',
       Validators.compose([Validators.required, Validators.minLength(8)]),
     ],
-  });
+    confirmPassword: [
+      '',
+      [
+        Validators.required,
+      ],
+    ],
+  },
+  { validator: CustomValidators.MatchingPasswords });
 
   constructor(
     private fb: FormBuilder,
