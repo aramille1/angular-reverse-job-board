@@ -16,11 +16,18 @@
               E-mail is required
             </p>
           </div>
-          <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Password</label>
-            <input type="password" id="exampleInputPassword1" class="form-control"
+          <label for="exampleInputPassword1" class="form-label">Password</label>
+          <div class="mb-3 input-group">
+            <input [type]="fieldTextType ? 'text' : 'password'" id="exampleInputPassword1" class="form-control"
               formControlName="password" name="password" minlength="8" />
-
+              <div class="input-group-append">
+                <span class="input-group-text">
+                  <i [ngClass]="{
+                    'bi bi-eye-slash': !fieldTextType,
+                    'bi bi-eye': fieldTextType
+                  }" (click)="toggleFieldTextType()"></i>
+                </span>
+              </div>
             <p class="text-danger mt-1" *ngIf="signinForm.controls['password'].hasError('minlength')">
               Your password must be at least 8 characters long.
             </p>

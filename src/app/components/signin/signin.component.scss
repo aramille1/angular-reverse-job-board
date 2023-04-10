@@ -25,6 +25,10 @@
   color: #000;
 }
 
+.input-group-append{
+  cursor: pointer;
+}
+
 @media only screen and (max-width: 768px) {
   .half{
     width: 90%;

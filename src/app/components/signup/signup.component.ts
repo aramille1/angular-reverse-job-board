@@ -10,6 +10,9 @@ import { CustomValidators } from 'src/app/matching-passwords.validator';
   styleUrls: ['./signup.component.scss'],
 })
 export class SignupComponent {
+  fieldTextType: boolean;
+  repeatFieldTextType: boolean;
+
   // form initialization
   signupForm = this.fb.group({
     email: ['', Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$')],
@@ -32,6 +35,14 @@ export class SignupComponent {
     private router: Router,
     private toastr: ToastrService
   ) {}
+
+  toggleFieldTextType(){
+    this.fieldTextType = !this.fieldTextType
+  }
+
+  toggleRepeatFieldTextType(){
+    this.repeatFieldTextType = !this.repeatFieldTextType
+  }
 
   signup() {
     if (this.signupForm.valid) {

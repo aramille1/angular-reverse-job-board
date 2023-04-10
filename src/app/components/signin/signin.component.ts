@@ -15,6 +15,7 @@ import { CommonService } from 'src/app/services/common-service/common.service';
 })
 export class SigninComponent {
   showError: Boolean = false;
+  fieldTextType: boolean;
   profile: any;
   private signinSub: Subscription;
 
@@ -32,6 +33,10 @@ export class SigninComponent {
     private router: Router,
     private commonService: CommonService
   ) {}
+
+  toggleFieldTextType(){
+    this.fieldTextType = !this.fieldTextType
+  }
 
 
   signin() {

@@ -1,56 +1,75 @@
 <div class="container margin-vertical">
   <div class="row justify-content-center">
-      <div class="card half">
-          <div class="card-body px-5">
-              <div class="text-center">
-                  <h2 class="fw-semibold mb-4">Create new account</h2>
-              </div>
-                  <form [formGroup]="signupForm" (ngSubmit)="signup()">
-                    <!-- email -->
-                    <div class="mb-3">
-                      <label for="exampleInputEmail1" class="form-label">E-mail</label>
-                      <input type="email" formControlName="email" required class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                      <p class="text-danger mt-1" *ngIf="signupForm.controls['email'].hasError('pattern')">E-mail must be valid</p>
-                      <p class="text-danger mt-1"
-                        *ngIf="signupForm.controls['email'].hasError('required') && signupForm.controls['email'].touched">
-                        E-mail is required
-                      </p>
-                    </div>
-
-                    <!-- password -->
-                    <div class="mb-3">
-                      <label for="exampleInputPassword1" class="form-label">Password</label>
-                      <input type="password" formControlName="password" class="form-control" id="exampleInputPassword1">
-                      <p class="text-danger mt-1" *ngIf="signupForm.controls['password'].hasError('minlength')">
-                        Your password must be at least 8 characters long.
-                      </p>
-
-                      <p class="text-danger mt-1"
-                        *ngIf="signupForm.controls['password'].hasError('required') && signupForm.controls['password'].touched">
-                        Password is required
-                      </p>
-                    </div>
-
-                    <!-- password confirmation -->
-                    <div class="mb-3">
-                      <label for="exampleInputPassword2" class="form-label">Password confirmation</label>
-                      <input type="password" formControlName="confirmPassword" class="form-control" id="exampleInputPassword2">
-                      <p class="text-danger mt-1" *ngIf="signupForm.controls['confirmPassword'].hasError('not_matching')">
-                        The password doesn't match!
-                      </p>
-
-                      <p class="text-danger mt-1"
-                        *ngIf="signupForm.controls['confirmPassword'].hasError('required') && signupForm.controls['confirmPassword'].touched">
-                        Password is required
-                      </p>
-                    </div>
-
-                    <button type="submit" [disabled]="signupForm.invalid" class="btn btn-dark w-100 my-4" >Sign up</button>
-                  </form>
+    <div class="card half">
+      <div class="card-body px-5">
+        <div class="text-center">
+          <h2 class="fw-semibold mb-4">Create new account</h2>
+        </div>
+        <form [formGroup]="signupForm" (ngSubmit)="signup()">
+          <!-- email -->
+          <div>
+            <label for="exampleInputEmail1" class="form-label">E-mail</label>
+            <input type="email" formControlName="email" required class="form-control" id="exampleInputEmail1"
+              aria-describedby="emailHelp">
+            <p class="text-danger mt-1" *ngIf="signupForm.controls['email'].hasError('pattern')">E-mail must be valid
+            </p>
+            <p class="text-danger mt-1"
+              *ngIf="signupForm.controls['email'].hasError('required') && signupForm.controls['email'].touched">
+              E-mail is required
+            </p>
           </div>
-          <div class="card-footer bg-white text-right">
-              <small><a class="footerlink" routerLink="/signin">Already registered? Click here to signin</a></small>
+
+          <!-- password -->
+          <label for="exampleInputPassword1" class="form-label">Password</label>
+          <div class="input-group">
+            <input [type]="fieldTextType ? 'text' : 'password'" formControlName="password" class="form-control" id="exampleInputPassword1">
+            <div class="input-group-append">
+              <span class="input-group-text">
+                <i [ngClass]="{
+                  'bi bi-eye-slash': !fieldTextType,
+                  'bi bi-eye': fieldTextType
+                }" (click)="toggleFieldTextType()"></i>
+              </span>
+            </div>
           </div>
+          <p class="text-danger mt-1" *ngIf="signupForm.controls['password'].hasError('minlength')">
+            Your password must be at least 8 characters long.
+          </p>
+
+          <p class="text-danger mt-1"
+            *ngIf="signupForm.controls['password'].hasError('required') && signupForm.controls['password'].touched">
+            Password is required
+          </p>
+
+          <!-- password confirmation -->
+          <label for="exampleInputPassword2" class="form-label">Password confirmation</label>
+          <div class="input-group">
+            <input [type]="repeatFieldTextType ? 'text' : 'password'" formControlName="confirmPassword" class="form-control" id="exampleInputPassword2">
+            <div class="input-group-append">
+              <span class="input-group-text">
+                <i [ngClass]="{
+                  'bi bi-eye-slash': !repeatFieldTextType,
+                  'bi bi-eye': repeatFieldTextType
+                }"
+                (click)="toggleRepeatFieldTextType()"></i>
+              </span>
+            </div>
+          </div>
+          <p class="text-danger mt-1" *ngIf="signupForm.controls['confirmPassword'].hasError('not_matching')">
+            The password doesn't match!
+          </p>
+
+          <p class="text-danger mt-1"
+            *ngIf="signupForm.controls['confirmPassword'].hasError('required') && signupForm.controls['confirmPassword'].touched">
+            Password is required
+          </p>
+
+          <button type="submit" [disabled]="signupForm.invalid" class="btn btn-dark w-100 my-4">Sign up</button>
+        </form>
       </div>
+      <div class="card-footer bg-white text-right">
+        <small><a class="footerlink" routerLink="/signin">Already registered? Click here to signin</a></small>
+      </div>
+    </div>
   </div>
 </div>

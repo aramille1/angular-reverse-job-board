@@ -29,6 +29,14 @@
 .footerlink:hover {
   color: #000;
 }
+
+label{
+  margin-top: 1rem;
+}
+
+.input-group-append {
+  cursor: pointer;
+}
 @media only screen and (max-width: 768px) {
   .half{
     width: 90%;
