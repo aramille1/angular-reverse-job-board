@@ -13,7 +13,7 @@
             </div>
             <div class="col-8">
               <div class="mb-3">
-                <label for="exampleInputfirstName" class="form-label">First name *</label>
+                <label for="exampleInputfirstName" class="form-label fw-bold">First name *</label>
                 <input type="name" formControlName="firstName" class="form-control" id="exampleInputfirstName"
                   placeholder="enter your first name" required
                   [ngClass]="{ 'is-invalid': profileForm.controls['firstName'].touched && profileForm.controls['firstName'].errors, 'is-valid': profileForm.controls['firstName'].valid }" />
@@ -23,7 +23,7 @@
                 </div>
               </div>
               <div class="mb-3">
-                <label for="exampleInputLastName" class="form-label">Last name *</label>
+                <label for="exampleInputLastName" class="form-label fw-bold">Last name *</label>
                 <input type="name" formControlName="lastName" class="form-control" id="exampleInputLastName" required
                   [ngClass]="{ 'is-invalid': profileForm.controls['lastName'].touched && profileForm.controls['lastName'].errors, 'is-valid': profileForm.controls['lastName'].valid }"
                   placeholder="enter your last name" />
@@ -33,7 +33,7 @@
                 </div>
               </div>
               <div class="mb-3">
-                <label for="exampleInputhero1" class="form-label">Tagline *</label>
+                <label for="exampleInputhero1" class="form-label fw-bold">Tagline *</label>
                 <input type="text" formControlName="tagLine" class="form-control" id="exampleInputhero1" required
                   [ngClass]="{ 'is-invalid': profileForm.controls['tagLine'].touched && profileForm.controls['tagLine'].errors, 'is-valid': profileForm.controls['tagLine'].valid }"
                   placeholder="enter your tagline" />
@@ -44,7 +44,7 @@
               </div>
               <div class="mb-3">
 
-                <label for="location" class="form-label">Location *</label>
+                <label for="location" class="form-label fw-bold">Location *</label>
                 <input #location type="text" id="location" required formControlName="location" class="form-control"
                   (keydown.enter)="$event.preventDefault()" placeholder="enter your location" type="text" #search
                   [ngClass]="{ 'is-invalid': profileForm.controls['location'].touched && profileForm.controls['location'].errors, 'is-valid': profileForm.controls['location'].valid }" />
@@ -61,12 +61,12 @@
                   " class="text-danger">City is Required</small>
                 </div>
                 <div class="mb-3 mx-3">
-                  <label for="exampleInputstate1" class="form-label">State</label>
+                  <label for="exampleInputstate1" class="form-label fw-bold">State</label>
                   <input type="state" formControlName="state" class="form-control" placeholder="enter your state"
                     id="exampleInputstate1" />
                 </div>
                 <div class="mb-3">
-                  <label for="exampleInputcountry1" class="form-label">Country</label>
+                  <label for="exampleInputcountry1" class="form-label fw-bold">Country</label>
                   <input type="country" formControlName="country" class="form-control" placeholder="enter your country"
                     id="exampleInputcountry1" />
                     <small *ngIf="
@@ -76,7 +76,7 @@
                 </div> -->
               </div>
               <div class="mb-3 d-flex flex-column">
-                <label for="exampleInputavatar1" class="form-label">Avatar</label>
+                <label for="exampleInputavatar1" class="form-label fw-bold">Avatar</label>
                 <div>
                   <label for="file-upload" class="custom-file-upload">upload</label>
                   <img [src]="imageSrc" *ngIf="imageSrc" width="80rem" height="80rem" class="rounded-circle mx-2">
@@ -84,7 +84,7 @@
                 </div>
               </div>
               <div class="mb-3 d-flex flex-column">
-                <label for="exampleInputcoverImg1" class="form-label">Cover image</label>
+                <label for="exampleInputcoverImg1" class="form-label fw-bold">Cover image</label>
                 <div class="w-full aspect-w-4 aspect-h-1">
                   <label for="cover-file-upload" class="custom-file-upload">upload</label>
                   <img [src]="coverImg" *ngIf="coverImg" height="80rem" class="coverImg mx-2">
@@ -94,7 +94,7 @@
               </div>
 
               <div class="mb-3">
-                <label for="exampleInputbio1" class="form-label">Bio *</label>
+                <label for="exampleInputbio1" class="form-label fw-bold">Bio *</label>
                 <textarea formControlName="bio" class="form-control" placeholder="enter your bio" id="exampleInputbio1"
                   required
                   [ngClass]="{ 'is-invalid': profileForm.controls['bio'].touched && profileForm.controls['bio'].errors, 'is-valid': profileForm.controls['bio'].valid }"
@@ -109,7 +109,7 @@
         </div>
       </div>
       <div class="card my-5 half shadow">
-        <div class="card-body px-4">
+        <div class="card-body p-4">
           <div class="work-preferences mb-5">
             <div class="search-status">
               <div class="row">
@@ -118,7 +118,7 @@
                   <p>What kind of work are you looking for next?</p>
                 </div>
                 <div class="col-8">
-                  <h3>Search status *</h3>
+                  <p class="fw-bold mt-2 mb-2">Search status *</p>
                   <div>
                     <input type="radio" required id="activelylooking" formControlName="searchStatus"
                       value="actively_looking" />
@@ -162,7 +162,7 @@
 
                   <!-- Role type -->
                   <div class="role-type mb-3">
-                    <h3>Role type *</h3>
+                    <p class="fw-bold fw-bold mt-2 mb-0">Role type *</p>
                     <p class="desc-text-heading">
                       Select all roles that you would consider taking.
                     </p>
@@ -175,7 +175,7 @@
 
                   <!-- Role level -->
                   <div class="role-level">
-                    <h3>Role level *</h3>
+                    <p class="fw-bold fw-bold mt-2 mb-0">Role level *</p>
                     <p class="desc-text-heading">
                       Select all the experience levels you would consider taking.
                     </p>
@@ -201,13 +201,13 @@
                 <p>Where can people learn more about you and your work?</p>
               </div>
               <div class="col-xs-12 col-lg-8">
-                <h3 class="mb-0 mt-3">Website</h3>
+                <p class="mb-2 mt-4 fw-bold">Website</p>
                 <div class="d-flex">
                   <!-- <span class="url-prefix">https://</span> -->
                   <input type="text" formControlName="website" class="form-control url" />
                 </div>
 
-                <h3 class="mb-0 mt-3">Github *</h3>
+                <p class="mb-2 mt-3 fw-bold">Github*</p>
                 <div class="d-flex">
                   <!-- <span class="url-prefix">github.com/ </span> -->
                   <input type="text" formControlName="github" class="form-control url" required
@@ -218,13 +218,13 @@
                   Github is required!
                 </div>
 
-                <h3 class="mb-0 mt-3">Twitter</h3>
+                <p class="mb-2 mt-3 fw-bold">Twitter</p>
                 <div class="d-flex">
                   <!-- <span class="url-prefix">twitter.com/ </span> -->
                   <input type="text" formControlName="twitter" class="form-control url" />
                 </div>
 
-                <h3 class="mb-0 mt-3">Linkedin *</h3>
+                <p class="mb-2 mt-3 fw-bold">Linkedin*</p>
                 <div class="d-flex">
                   <!-- <span class="url-prefix">linkedin.com/in/</span> -->
                   <input type="text" formControlName="linkedIn" class="form-control url" required
@@ -235,7 +235,7 @@
                   Linkedin is required!
                 </div>
 
-                <h3 class="mb-0 mt-3">Stack Overflow</h3>
+                <p class="mb-2 mt-3 fw-bold">Stack Overflow</p>
                 <div class="d-flex">
                   <!-- <span class="url-prefix">stackoverflow/users/</span> -->
                   <input type="text" formControlName="stackoverflow" class="form-control url" />

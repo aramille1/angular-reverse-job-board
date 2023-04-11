@@ -1,3 +1,5 @@
+@import '../../../styles/global/partials';
+
 *{
   font-weight: 500;
   color: rgb(43, 63, 95);
@@ -67,8 +69,6 @@ h3 {
 
 .reviews-item {
   width: 390px;
-  border: 3px solid rgb(43, 63, 95);
-  box-shadow: rgb(43 63 95) 4px 4px 0px;
   border-radius: 15px;
   padding: 20px;
 }
@@ -80,14 +80,7 @@ h3 {
 }
 
 .accordion-item {
-  background-color: rgb(255, 255, 255);
-  border-radius: 10px;
-  border: 3px solid rgb(43, 63, 95);
   padding: 25px;
-  transition: all 0.3s ease-in-out 0s;
-  box-shadow: rgb(43 63 95) 4px 4px 0px;
-  margin: 15px 16.0987px 15px 0px;
-
   .accordion-header {
     margin: 0;
   }

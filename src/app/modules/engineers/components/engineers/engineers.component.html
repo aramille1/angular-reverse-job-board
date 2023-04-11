@@ -13,7 +13,7 @@
     <!-- Filters -->
     <div class="col-xs-12 col-lg-3">
       <nav>
-        <div class="accordion" id="accordionPanelsStayOpenExample">
+        <div class="accordion custom-box-shadow" id="accordionPanelsStayOpenExample">
           <div class="accordion-item">
             <h2 class="accordion-header" id="panelsStayOpen-headingOne">
               <button class="accordion-button" type="button" data-bs-toggle="collapse"
@@ -167,7 +167,7 @@
     <div class="col-xs-12 col-lg-9">
       <main>
         <div class="engineer-wrapper">
-          <div class="item" *ngFor="let engineer of engineers
+          <div class="custom-box-shadow" *ngFor="let engineer of engineers
           | paginate: { itemsPerPage: limit, currentPage: page, totalItems: total }">
             <a href="#" class="engineer" [routerLink]="['/engineers/details', engineer.ID]">
               <div class="flex-shrink-1">

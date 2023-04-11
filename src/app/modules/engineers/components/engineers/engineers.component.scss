@@ -1,3 +1,5 @@
+@import '../../../../../styles/global/partials';
+
 .container {
   padding:0;
 }
@@ -19,13 +21,7 @@
       color:#1C2227;
     }
   }
-  .recently-active{
-    background-color: rgb(220, 252, 231);
-    color: rgb(22, 101, 52);
-    padding: 5px;
-    width: 140px;
-    text-align: center;
-  }
+
   .engineer-info-text{
     overflow: hidden;
     display: -webkit-box;
@@ -43,29 +39,6 @@
     color: #355111;
   }
 }
-$primary: #8cc63e;
-$checkmarkColor: white;
-$size: 15px;
-$checkmarkFat: 1px;
-
-.circle {
-  position: relative;
-  background: $primary;
-  border-radius: 50%;
-  width: $size;
-  height: $size;
-}
-
-.checkmark {
-  position: absolute;
-  transform: rotate(45deg) translate(-50%, -50%);
-  left: 35%;
-  top: 45%;
-  height: calc($size/3);
-  width: calc($size/6);
-  border-bottom: $checkmarkFat solid $checkmarkColor;
-  border-right: $checkmarkFat solid $checkmarkColor;
-}
 
 header{
   padding: 40px 20px 20px 0px;
@@ -78,19 +51,10 @@ article{
   line-height: 28px;
 }
 
-.accordion{
-  background-color: rgb(255, 255, 255);
-  border-radius: 10px;
-  border: 3px solid rgb(43, 63, 95);
-  transition: all 0.3s ease-in-out 0s;
-  box-shadow: rgb(43 63 95) 4px 4px 0px;
-  margin: 15px 0 15px 0px;
 
   .form-check-label{
   color: rgb(43, 63, 95);
-
   }
-}
 
 .accordion-button:focus{
   border-color: none;
@@ -148,16 +112,9 @@ article{
   padding-left: 0;
 }
 
-.item {
-  background-color: rgb(255, 255, 255);
-  border-radius: 10px;
-  border: 3px solid rgb(43, 63, 95);
-  transition: all 0.3s ease-in-out 0s;
-  box-shadow: rgb(43 63 95) 4px 4px 0px;
-  margin: 15px 16.0987px 15px 0px;
-}
 
-.item:hover{
+
+.engineer-wrapper .custom-box-shadow:hover{
   box-shadow:none;
 }
 

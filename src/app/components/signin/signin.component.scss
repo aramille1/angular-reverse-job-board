@@ -1,15 +1,11 @@
+@import '../../../styles/global/partials';
+
 .margin-vertical {
   margin-top: 5rem;
   margin-bottom: 11rem;
 }
 .half {
   width: 50%;
-  background-color: rgb(255, 255, 255);
-  border-radius: 10px;
-  border: 3px solid rgb(43, 63, 95);
-  padding: 25px;
-  transition: all 0.3s ease-in-out 0s;
-  box-shadow: rgb(43 63 95) 4px 4px 0px !important;
 }
 
 .text-color {

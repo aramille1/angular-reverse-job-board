@@ -1,0 +1,40 @@
+$primary: #8cc63e;
+$checkmarkColor: white;
+$size: 15px;
+$checkmarkFat: 1px;
+
+.recently-active{
+  background-color: rgb(220, 252, 231);
+  color: rgb(22, 101, 52);
+  padding: 5px;
+  width: 140px;
+  text-align: center;
+}
+
+.custom-box-shadow {
+  background-color: rgb(255, 255, 255);
+  border-radius: 10px;
+  border: 3px solid rgb(43, 63, 95);
+  transition: all 0.3s ease-in-out 0s;
+  box-shadow: rgb(43 63 95) 4px 4px 0px;
+  margin: 15px 16.0987px 15px 0px;
+}
+
+.circle {
+  position: relative;
+  background: $primary;
+  border-radius: 50%;
+  width: $size;
+  height: $size;
+}
+
+.checkmark {
+  position: absolute;
+  transform: rotate(45deg) translate(-50%, -50%);
+  left: 35%;
+  top: 45%;
+  height: calc($size/3);
+  width: calc($size/6);
+  border-bottom: $checkmarkFat solid $checkmarkColor;
+  border-right: $checkmarkFat solid $checkmarkColor;
+}

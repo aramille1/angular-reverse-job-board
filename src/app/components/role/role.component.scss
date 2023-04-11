@@ -1,12 +1,8 @@
+@import '../../../styles/global/partials';
+
 button{
   background-color: #fff;
   padding: 1.5rem;
-  background-color: rgb(255, 255, 255);
-  border-radius: 10px;
-  border: 3px solid rgb(43, 63, 95);
-  transition: all 0.3s ease-in-out 0s;
-  margin-right: 30px;
-  box-shadow: rgb(43 63 95) 4px 4px 0px;
 }
 
 button:hover{
