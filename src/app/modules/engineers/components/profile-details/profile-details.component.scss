@@ -1,11 +1,6 @@
 .profile-details{
   margin: 80px 100px;
   position: relative;
-  background-color: rgb(255, 255, 255);
-  border-radius: 10px;
-  border: 3px solid rgb(43, 63, 95) ;
-  transition: all 0.3s ease-in-out 0s;
-  box-shadow: rgb(43, 63, 95) 4px 4px 0px;
 }
 
 .role-types-wrap, .role-levels-wrap, .country {
@@ -149,10 +144,4 @@ span, .info{
 
 .card-text {
   white-space: pre-wrap;
-}
-
-.cover {
-  height: 250px;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
 }

@@ -2,6 +2,10 @@
 
 .custom-box-shadow {
   height: 210px;
+
+  &:hover{
+    box-shadow: none;
+  }
 }
 .header{
   text-align: center;
