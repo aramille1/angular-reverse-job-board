@@ -1,6 +1,8 @@
 @import "../../../styles/global/partials";
 
-
+.custom-box-shadow {
+  height: 210px;
+}
 .header{
   text-align: center;
   max-width: 768px;
@@ -41,6 +43,10 @@
     display: flex;
     align-items: baseline;
     justify-content: space-between;
+
+    h2{
+      color:#1C2227;
+    }
   }
   .recently-active{
     background-color: rgb(220, 252, 231);
@@ -59,7 +65,11 @@
     font-weight: 500;
     line-height: 24px;
     color: rgb(43, 63, 95);
-    padding: 15px 0;
+    padding-top: 15px;
+  }
+
+  .engineer-info-status span{
+    color: rgb(43, 63, 95);
   }
 }
 

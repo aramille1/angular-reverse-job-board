@@ -3,6 +3,11 @@
 .container {
   padding:0;
 }
+
+.e-h{
+  height: 210px;
+}
+
 .engineer{
   display: flex;
   text-decoration: none;
@@ -32,11 +37,11 @@
     font-weight: 500;
     line-height: 24px;
     color: rgb(43, 63, 95);
-    padding: 15px 0;
+    padding-top: 15px;
   }
 
   .engineer-info-status span{
-    color: #355111;
+    color: rgb(43, 63, 95);
   }
 }
 

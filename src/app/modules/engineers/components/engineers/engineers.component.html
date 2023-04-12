@@ -167,7 +167,7 @@
     <div class="col-xs-12 col-lg-9">
       <main>
         <div class="engineer-wrapper">
-          <div class="custom-box-shadow" *ngFor="let engineer of engineers
+          <div class="custom-box-shadow e-h" *ngFor="let engineer of engineers
           | paginate: { itemsPerPage: limit, currentPage: page, totalItems: total }">
             <a href="#" class="engineer" [routerLink]="['/engineers/details', engineer.ID]">
               <div class="flex-shrink-1">
