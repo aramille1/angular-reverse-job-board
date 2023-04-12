@@ -24,7 +24,7 @@
 
 .profile-image{
   position: absolute;
-    top: 130px;
+    top: 200px;
     left: 20px;
     border: 4px solid white;
 }
@@ -149,4 +149,10 @@ span, .info{
 
 .card-text {
   white-space: pre-wrap;
+}
+
+.cover {
+  height: 250px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
 }
