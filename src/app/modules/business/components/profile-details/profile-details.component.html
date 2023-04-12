@@ -10,14 +10,16 @@
       class="rounded-circle mx-3 profile-image">
     <div class="card-body">
       <div class="row my-5">
-        <div class="col-8">
           <section class="info">
-            <h1 class="card-title">{{recruiter?.Company}}</h1>
-            <h3 class="card-title">{{recruiter?.Firstname}} {{recruiter?.Lastname}}, {{recruiter?.Role}}</h3>
-            <p class="card-text">{{recruiter?.Bio}}</p>
-            <button class="btn btn-success" [routerLink]="['/business/update', recruiter?.ID]">Edit profile</button>
+            <div class="d-flex justify-content-between">
+              <h3 class="card-title fw-bold">{{recruiter?.Company}}</h3>
+              <div class="btns">
+                <button class="btn btn-outline-dark" [routerLink]="['/business/update', recruiter?.ID]">Edit profile</button>
+              </div>
+            </div>
+            <p class="card-title fw-bold">{{recruiter?.Firstname}} {{recruiter?.Lastname}}, {{recruiter?.Role}}</p>
+            <p class="card-text border-top pt-2">{{recruiter?.Bio}}</p>
           </section>
-        </div>
       </div>
     </div>
   </div>
