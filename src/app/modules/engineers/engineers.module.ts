@@ -8,6 +8,7 @@ import { EngineersComponent } from './components/engineers/engineers.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProfileUpdateComponent } from './components/profile-update/profile-update.component';
 import {AutocompleteLibModule} from 'angular-ng-autocomplete';
+import { LoadingBarModule } from '@ngx-loading-bar/core';
 
 import { NgxPaginationModule } from 'ngx-pagination';
 
@@ -25,6 +26,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
     FormsModule,
     ReactiveFormsModule,
     NgxPaginationModule,
+    LoadingBarModule
   ]
 })
 export class EngineersModule { }

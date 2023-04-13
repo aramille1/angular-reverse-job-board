@@ -19,6 +19,7 @@ import { PricingComponent } from './components/pricing/pricing.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { FooterComponent } from './components/footer/footer.component';
+import { LoadingBarModule } from '@ngx-loading-bar/core';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { FooterComponent } from './components/footer/footer.component';
     ReactiveFormsModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot({positionClass: 'toast-top-center'}),
+    LoadingBarModule
   ],
   providers: [
     AuthService,

@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Input } from '@angular/core';
+import { LoadingBarService } from '@ngx-loading-bar/core';
 import { PaginationInstance } from 'ngx-pagination';
 import { Observable, Subscription } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
@@ -26,7 +27,12 @@ export class EngineersComponent {
   data: any = []
   private getMyProfileSub: Subscription
   private getEngineersSub: Subscription
-  constructor(private engineerService: EngineerService, private auth: AuthService, private http: HttpClient){}
+  constructor(
+    private engineerService: EngineerService,
+    private auth: AuthService,
+    private http: HttpClient,
+    private loadingBar: LoadingBarService
+    ){}
 
   public config: PaginationInstance = {
       id: 'custom',
@@ -34,6 +40,7 @@ export class EngineersComponent {
       currentPage: 1
   };
   ngOnInit(): void {
+    this.loadingBar.start();
     this.http.get("https://restcountries.com/v3.1/all?fields=name,flags").subscribe({
       next: data => {
         for (const [key, value] of Object.entries(data)){
@@ -60,6 +67,10 @@ export class EngineersComponent {
     return new Array(length/20)
   }
 
+  startLoading() {
+
+  }
+
   // getIndex(pageIndex: number){
   // //   this.startIndex = pageIndex * 5;
   // //  this.endIndex = this.startIndex + 5;
@@ -84,7 +95,7 @@ export class EngineersComponent {
     this.getEngineersSub = this.engineerService.getEngineers(this.page, this.limit, this.selectedCountry = '').subscribe(res => {
       console.log(res.engineers)
       this.engineers = res.engineers;
-
+      this.loadingBar.stop();
 
   });
   }

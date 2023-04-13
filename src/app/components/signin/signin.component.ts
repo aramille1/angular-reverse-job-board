@@ -7,6 +7,7 @@ import {
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { CommonService } from 'src/app/services/common-service/common.service';
+import { LoadingBarService } from '@ngx-loading-bar/core';
 
 @Component({
   selector: 'app-signin',
@@ -31,7 +32,8 @@ export class SigninComponent {
     private auth: AuthService,
     private fb: FormBuilder,
     private router: Router,
-    private commonService: CommonService
+    private commonService: CommonService,
+    private loadingBar: LoadingBarService
   ) {}
 
   toggleFieldTextType(){
@@ -40,6 +42,7 @@ export class SigninComponent {
 
 
   signin() {
+    this.loadingBar.start();
     if (this.signinForm.invalid) {
       return;
     }
@@ -68,6 +71,7 @@ export class SigninComponent {
               'you are logged in! but your profile as engineer/recruiter doesnt exist yet'
             );
             this.router.navigate(['role']);
+            this.loadingBar.stop()
           },
         });
       },

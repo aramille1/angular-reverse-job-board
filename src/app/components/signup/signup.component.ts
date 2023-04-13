@@ -53,7 +53,7 @@ export class SignupComponent {
       };
       this.auth.signup(signupData).subscribe({
         next: (response) => {
-          this.toastr.success('Awesome, you are registered successfully!');
+          this.toastr.success('Awesome, you are registered!');
           this.signupForm.reset();
           this.router.navigate(['signin']);
           console.log(response);
