@@ -85,10 +85,10 @@
               </div>
               <div class="mb-3 d-flex flex-column">
                 <label for="exampleInputcoverImg1" class="form-label fw-bold">Cover image</label>
-                <div class="w-full aspect-w-4 aspect-h-1">
-                  <label for="cover-file-upload" class="custom-file-upload">upload</label>
-                  <img [src]="coverImg" *ngIf="coverImg" height="80rem" class="coverImg mx-2">
-                  <input type="file" (change)="onCoverFileChange($event)" id="cover-file-upload" name="img"
+                <div class="w-full aspect-w-4 aspect-h-1 position-relative">
+                  <label for="cover-cover-upload" class="custom-cover-upload">upload</label>
+                  <img [src]="coverImg ? coverImg : 'assets/cover-unsplash.jpg'" class="coverImg">
+                  <input type="file" (change)="onCoverFileChange($event)" id="cover-cover-upload" name="img"
                     accept="image/*">
                 </div>
               </div>

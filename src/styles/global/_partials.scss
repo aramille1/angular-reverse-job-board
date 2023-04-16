@@ -84,11 +84,33 @@ $back: #f6f9fc;;
 // Avatar or Logo upload button
 .custom-file-upload {
   border: 1px solid #ccc;
+  border-radius: 10px;
   display: inline-block;
   padding: 6px 12px;
   cursor: pointer;
   width: 5rem;
   text-align: center;
+  &:hover{
+    background-color: #f1f1f1;
+  }
+}
+
+// Cover image for engineer upload button and img
+.custom-cover-upload {
+  border: 1px solid #fff;
+  border-radius: 10px;
+  display: inline-block;
+  padding: 6px 12px;
+  cursor: pointer;
+  width: 5rem;
+  text-align: center;
+  position:absolute;
+  right: 10px;
+  bottom: 10px;
+  color: #fff !important;
+  &:hover{
+    background-color: #f1f1f12a;
+  }
 }
 
 .business-logo{
