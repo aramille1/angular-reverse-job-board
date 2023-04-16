@@ -25,6 +25,7 @@ export class ProfileFormComponent {
   profileForm!: FormGroup;
   submitted = false;
   imgFile: any;
+  coverImgFile: string;
 
   constructor(
     private router: Router,
@@ -85,7 +86,7 @@ export class ProfileFormComponent {
       country: ['', Validators.required],
       location: ['', Validators.required],
       avatar: new FormControl('',Validators.required),
-      cover: new FormControl('',Validators.required),
+      // cover: new FormControl('',Validators.required),
       bio: ['', Validators.required],
       searchStatus: ['', Validators.required],
       roleType: this.fb.array([]),
@@ -137,7 +138,6 @@ export class ProfileFormComponent {
 
   submitImgToCloudinary(){
     const formData = new FormData();
-    console.log(this.imgFile)
     formData.append("file", this.imgFile);
     formData.append("upload_preset", "yakyhtcu");
 
@@ -175,9 +175,6 @@ export class ProfileFormComponent {
     // getting an image and setting global variable imgFile
     const file = event.target.files[0];
     this.imgFile = file
-    // this.profileForm.patchValue({
-    //   avatar: file,
-    // });
     var reader = new FileReader();
     reader.readAsDataURL(file);
     // File Preview
@@ -187,18 +184,16 @@ export class ProfileFormComponent {
     };
   }
 
-  onCoverFileChange(event: any) {
-    // const file = event.target.files[0];
-    // this.profileForm.patchValue({
-    //   coverImg: file,
-    // });
-    // var reader = new FileReader();
-    // reader.readAsDataURL(file);
-    // // File Preview
-    // reader.onload = (event: any) => {
-    //   this.coverImg = event.target.result;
-    // };
-  }
+  // onCoverFileChange(event: any) {
+  //   const file = event.target.files[0];
+  //   this.coverImgFile = file;
+  //   var reader = new FileReader();
+  //   reader.readAsDataURL(file);
+  //   // File Preview
+  //   reader.onload = (event: any) => {
+  //     this.coverImg = event.target.result;
+  //   };
+  // }
 
   initAutocomplete(maps: Maps) {
     setTimeout(() => {

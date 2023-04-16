@@ -1,7 +1,7 @@
 <div class="container">
   <div class="card profile-details custom-box-shadow">
     <img src="assets/cover-unsplash.jpg" alt="Developers profile cover image" class="cover">
-    <img [src]="engineer?.Avatar" width="100rem" height="100rem"
+    <img [src]="engineer?.Avatar ? engineer?.Avatar : 'assets/empty-avatar.png'" width="100rem" height="100rem"
       class="rounded-circle mx-3 profile-image">
       <div class="card-body">
         <div class="row my-5">
