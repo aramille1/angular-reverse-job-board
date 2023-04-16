@@ -1,20 +1,25 @@
 <div class="container">
   <div class="card mb-3 profile-details custom-box-shadow">
-    <img src="assets/cover-unsplash.jpg" alt="Developers profile cover image" class="cover">
-    <img src="https://www.w3schools.com/howto/img_avatar.png" width="100rem" height="100rem"
-      class="rounded-circle mx-3 profile-image">
     <div class="card-body">
-      <div class="row my-5">
-          <section class="info">
-            <div class="d-flex justify-content-between">
-              <h3 class="card-title fw-bold">{{recruiter?.Company}}</h3>
-              <div class="btns">
-                <button class="btn btn-outline-dark" [routerLink]="['/business/update', recruiter?.ID]">Edit profile</button>
+      <div class="row">
+        <section class="info">
+          <div class="row">
+            <div class="d-flex align-items-center col-8">
+              <img
+                [src]="recruiter?.Logo ? recruiter?.Logo : 'https://spng.pngfind.com/pngs/s/381-3819326_default-avatar-svg-png-icon-free-download-avatar.png'"
+                class="rounded-circle mx-3 profile-image" />
+              <div>
+                <h3 class="card-title fw-bold">{{recruiter?.Company}}</h3>
+                <p class="card-title fw-bold">{{recruiter?.Firstname}} {{recruiter?.Lastname}}, {{recruiter?.Role}}</p>
               </div>
             </div>
-            <p class="card-title fw-bold">{{recruiter?.Firstname}} {{recruiter?.Lastname}}, {{recruiter?.Role}}</p>
-            <p class="card-text border-top pt-2">{{recruiter?.Bio}}</p>
-          </section>
+            <div class="btns col-4">
+              <button class="btn btn-outline-dark" [routerLink]="['/business/update', recruiter?.ID]">Edit
+                profile</button>
+            </div>
+          </div>
+          <p class="card-text my-5 mx-3">{{recruiter?.Bio}}</p>
+        </section>
       </div>
     </div>
   </div>

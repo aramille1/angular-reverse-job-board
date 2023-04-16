@@ -139,9 +139,9 @@ export class EngineersComponent {
       console.log(item)
       this.getEngineersSub = this.engineerService.getEngineers(this.page, this.limit, item.name).subscribe(res => {
 
-        console.log(res.engineers.length);
-        this.total = res.engineers.length
-
+        // console.log(res.engineers.length);
+        // this.total = res.engineers.length
+        console.log(res.engineers)
         this.engineers = res.engineers
 
 

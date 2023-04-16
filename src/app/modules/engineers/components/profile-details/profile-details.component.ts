@@ -24,11 +24,13 @@ export class ProfileDetailsComponent {
         .subscribe((engineerFoundById: any) => {
           this.auth.getMyProfile().subscribe((myProfile) => {
             if(myProfile.type === "recruiter"){
+              // console.log("recruiterIsmember", myProfile.user.IsMember)
               this.recruiterIsMember = myProfile.user.IsMember
             }
             if(myProfile.type === "engineer"){
               this.engineer = myProfile.user
             }
+            // console.log("userIsMe", myProfile.user.ID === params['id'])
             this.userIsMe = myProfile.user.ID === params['id'];
           });
           console.log(engineerFoundById)

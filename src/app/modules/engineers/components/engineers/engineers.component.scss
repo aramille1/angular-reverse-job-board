@@ -4,10 +4,6 @@
   padding:0;
 }
 
-.e-h{
-  height: 210px;
-}
-
 .engineer{
   display: flex;
   text-decoration: none;
@@ -18,14 +14,7 @@
     // background-color: #f1f9ff;
     border-radius: 10px;
   }
-  .engineer-info-header{
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    h2{
-      color:#1C2227;
-    }
-  }
+
 
   .engineer-info-text{
     overflow: hidden;

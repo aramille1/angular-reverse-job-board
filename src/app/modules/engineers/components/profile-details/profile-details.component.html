@@ -1,7 +1,7 @@
 <div class="container">
   <div class="card profile-details custom-box-shadow">
     <img src="assets/cover-unsplash.jpg" alt="Developers profile cover image" class="cover">
-    <img src="https://www.w3schools.com/howto/img_avatar.png" width="100rem" height="100rem"
+    <img [src]="engineer?.Avatar" width="100rem" height="100rem"
       class="rounded-circle mx-3 profile-image">
       <div class="card-body">
         <div class="row my-5">
@@ -10,11 +10,11 @@
             <div class="d-flex justify-content-between">
               <h3 class="card-title fw-bold">{{engineer?.Tagline}}</h3>
               <div class="btns">
-                <button *ngIf="!userIsMe" [routerLink]="['/pricing']" class="btn btn-outline-dark marginRight"><i class="bi bi-pencil-fill"></i>&nbsp;Hire me</button>
-                <button *ngIf="userIsMe" [routerLink]="['/engineers/update', engineer.ID]" class="btn btn-outline-dark"><i class="bi bi-wallet-fill"></i>&nbsp;Edit profile</button>
+                <button *ngIf="!userIsMe" [routerLink]="['/pricing']" class="btn btn-outline-dark marginRight"><i class="bi bi-wallet-fill"></i>&nbsp;Hire me</button>
+                <button *ngIf="userIsMe" [routerLink]="['/engineers/update', engineer.ID]" class="btn btn-outline-dark"><i class="bi bi-pencil-fill"></i>&nbsp;Edit profile</button>
               </div>
             </div>
-            <ng-container *ngIf="recruiterIsMember || userIsMe; else name">
+            <ng-container *ngIf="recruiterIsMember === true || userIsMe === true; else name">
               <div class="d-flex align-items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
                   <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>

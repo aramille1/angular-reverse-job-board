@@ -1,8 +1,6 @@
 @import "../../../styles/global/partials";
 
 .custom-box-shadow {
-  height: 210px;
-
   &:hover{
     box-shadow: none;
   }

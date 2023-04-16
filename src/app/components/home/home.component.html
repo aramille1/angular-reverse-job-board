@@ -3,62 +3,62 @@
   <header class="header">
     <h1>
       The reverse job board for
-    Angular <div class="words">
-      <span></span>
-      <span>developers</span>
-      <span>magicians</span>
-      <span>engineers</span>
-      <span>masters</span>
-      <span>talents</span>
-      <span>wizards</span>
-  </div>
+      Angular <div class="words">
+        <span></span>
+        <span>developers</span>
+        <span>magicians</span>
+        <span>engineers</span>
+        <span>masters</span>
+        <span>talents</span>
+        <span>wizards</span>
+      </div>
     </h1>
     <p class="mb-4">Angular empowers independent developers available for their next gig.
       Stop scouring job boards and sit back as companies reach out to you first.</p>
-      <!-- <button class="btn btn-dark mt-4" [routerLink]="[ '/role']">Get started</button> -->
-      <div class="center"><a class="pushme" [routerLink]="[ '/role']"> <span class="inner">Get started</span></a></div>
+    <div class="center"><a class="pushme" [routerLink]="[ '/role']"> <span class="inner">Get started</span></a></div>
   </header>
 
   <div class="row">
-        <!-- List of engineers -->
-        <div class="col-12">
-          <main>
-            <div class="engineer-wrapper w-75 m-auto">
-              <div class="custom-box-shadow" *ngFor="let engineer of engineers">
-                <a href="#" class="engineer" [routerLink]="['/engineers/details', engineer.ID]">
-                  <div class="flex-shrink-1">
-                    <picture>
-                      <img
-                        src="https://spng.pngfind.com/pngs/s/381-3819326_default-avatar-svg-png-icon-free-download-avatar.png"
-                        width="100rem" height="100rem" class="rounded-circle mx-3 profile-image" />
-                    </picture>
-                  </div>
-
-                  <div class="engineer-info w-100">
-                    <div class="engineer-info-header">
-                      <h2 class="fs-5 fw-bold">{{ engineer.Tagline }}</h2>
-                      <div class="engineer-info-status d-flex align-items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="green" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
-                          <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
-                        </svg>
-                        <span class="mx-1">Actively looking</span>
-                      </div>
-                    </div>
-
-                    <div class="recently-active rounded-3">
-                      <span>Recently active</span>
-                    </div>
-
-                    <div class="engineer-info-text">
-                      {{ engineer.Bio }}
-                    </div>
-                  </div>
-                </a>
+    <!-- List of engineers -->
+    <div class="col-12">
+      <main>
+        <div class="engineer-wrapper w-75 m-auto">
+          <div class="custom-box-shadow e-h" *ngFor="let engineer of engineers">
+            <a href="#" class="engineer" [routerLink]="['/engineers/details', engineer.ID]">
+              <div class="flex-shrink-1">
+                <picture>
+                  <img
+                  [src]="engineer?.Avatar ? engineer?.Avatar : 'https://spng.pngfind.com/pngs/s/381-3819326_default-avatar-svg-png-icon-free-download-avatar.png'" class="rounded-circle profile-image" />
+                </picture>
               </div>
-                <button class="btn btn-dark float-end m-3" [routerLink]="[ '/engineers' ]">See more developers</button>
-            </div>
-          </main>
+
+              <div class="engineer-info w-100">
+                <div class="engineer-info-header">
+                  <h2 class="fs-5 fw-bold">{{ engineer.Tagline }}</h2>
+                  <div class="engineer-info-status d-flex align-items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="green"
+                      class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                      <path
+                        d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+                    </svg>
+                    <span class="mx-1">Actively looking</span>
+                  </div>
+                </div>
+
+                <div class="recently-active rounded-3">
+                  <span>Recently active</span>
+                </div>
+
+                <div class="engineer-info-text">
+                  {{ engineer.Bio }}
+                </div>
+              </div>
+            </a>
+          </div>
+          <button class="btn btn-dark float-end m-3" [routerLink]="[ '/engineers' ]">See more developers</button>
         </div>
-        <!-- end of engineers -->
+      </main>
+    </div>
+    <!-- end of engineers -->
   </div>
 </div>

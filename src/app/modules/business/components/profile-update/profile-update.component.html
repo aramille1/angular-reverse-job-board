@@ -1,4 +1,4 @@
-<div class="container container-mod vh-100">
+<div class="container container-mod">
   <div class="row justify-content-center h-100">
     <form [formGroup]="profileForm" (ngSubmit)="submit()">
       <div class="text-left my-4">
@@ -65,11 +65,11 @@
               <!-- Logo -->
               <div class="mb-3">
                 <label for="logo" class="form-label fw-bold">Your company logo</label>
-                <!-- <input type="image" formControlName="logo" class="form-control" id="logo" /> -->
-                <!-- <div *ngIf="profileForm.controls['logo'].touched && profileForm.controls['logo'].errors"
-                  class="text-danger">
-                  <div *ngIf="profileForm.controls['logo'].errors">Tag line is required!</div>
-                </div> -->
+                <div>
+                  <label for="file-upload" class="custom-file-upload">upload</label>
+                  <img [src]="imageSrc" *ngIf="imageSrc" class="rounded-circle mx-2 business-logo">
+                  <input type="file" (change)="onFileChange($event)" id="file-upload" name="img" accept="image/*">
+                </div>
               </div>
 
             </div>

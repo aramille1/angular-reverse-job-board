@@ -78,11 +78,27 @@
               <div class="mb-3 d-flex flex-column">
                 <label for="exampleInputavatar1" class="form-label fw-bold">Avatar</label>
                 <div>
-                  <label for="file-upload" class="custom-file-upload">upload</label>
-                  <img [src]="imageSrc" *ngIf="imageSrc" width="80rem" height="80rem" class="rounded-circle mx-2">
-                  <input type="file" (change)="onFileChange($event)" id="file-upload" name="img" accept="image/*">
+                  <div>
+                    <label for="file-upload" class="custom-file-upload">upload</label>
+                    <img [src]="imageSrc" *ngIf="imageSrc" width="80rem" height="80rem" class="rounded-circle mx-2">
+                    <input type="file" (change)="onFileChange($event)" id="file-upload" name="img" accept="image/*">
+                  </div>
                 </div>
               </div>
+              <!-- <app-upload-file></app-upload-file> -->
+              <!-- <div class="upload_button_holder">
+                <label class="upload_button" for="fileupload">Upload</label> -->
+                <!-- onChange hanlder resets the input value to get the change event when uploading the same file consecutively -->
+                <!-- <input
+                  type="file"
+                  id="fileupload"
+                  #fileInput
+                  ng2FileSelect
+                  [style.display]="'none'"
+                  [uploader]="cloudinary.uploader"
+                  (change)="fileInput.value=''"/>
+              </div> -->
+
               <div class="mb-3 d-flex flex-column">
                 <label for="exampleInputcoverImg1" class="form-label fw-bold">Cover image</label>
                 <div class="w-full aspect-w-4 aspect-h-1">

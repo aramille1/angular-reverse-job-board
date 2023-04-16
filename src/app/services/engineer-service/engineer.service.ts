@@ -21,6 +21,7 @@ export class EngineerService {
   getEngineers(page:number, limit: number, country: string): Observable<any> {
     console.log("page:", page)
     console.log("limit:", limit)
+    console.log("country:", country)
     return this.http.get<any>(`${this.url}/engineers?page=${page}&limit=${limit}&country=${country}`);
   }
 

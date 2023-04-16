@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BusinessService } from 'src/app/services/business-service/business.service';
+import { CloudinaryService } from 'src/app/services/cloudinary/cloudinary.service';
 import { CommonService } from 'src/app/services/common-service/common.service';
 
 @Component({
@@ -11,11 +12,14 @@ import { CommonService } from 'src/app/services/common-service/common.service';
 })
 export class ProfileFormComponent {
   profileForm!: FormGroup;
+  imageSrc: string = '';
+  imgFile: string;
   constructor(
     private fb: FormBuilder,
     private businessService: BusinessService,
     private commonService: CommonService,
-    private router: Router
+    private router: Router,
+    private cloudinary: CloudinaryService
     ){}
 
   ngOnInit(): void {
@@ -26,23 +30,53 @@ export class ProfileFormComponent {
       linkedIn: ['', Validators.required],
       website: ['', Validators.required],
       bio: ['', Validators.required],
-      // logo: [''],
+      logo: ['', Validators.required],
       role: ['', Validators.required],
     })
   }
 
-  submit(){
-    console.log(this.profileForm.value);
-    this.businessService.createRecruiter(this.profileForm.value).subscribe({
-      next: (response: any) => {
-        console.log(response);
-        this.commonService.updateRecruiterData(response.recruiterId)
-        this.router.navigate(['/engineers'])
-      },
-      error: (error) => {
-        console.log(error);
-      },
+  onFileChange(event: any) {
+    // getting an image and setting global variable imgFile
+    const file = event.target.files[0];
+    this.imgFile = file
+    var reader = new FileReader();
+    reader.readAsDataURL(file);
+    // File Preview
+    reader.onload = (event: any) => {
+      // setting a preview image without submitting
+      this.imageSrc = event.target.result;
+    };
+  }
 
+  submit(){
+    const formData = new FormData();
+    console.log(this.imgFile)
+    formData.append("file", this.imgFile);
+    formData.append("upload_preset", "yakyhtcu");
+
+    this.cloudinary.uploadImg(formData).subscribe((res)=>{
+      const data = {
+        firstName: this.profileForm.value.firstName,
+        lastName: this.profileForm.value.lastName,
+        company: this.profileForm.value.company,
+        linkedIn: this.profileForm.value.linkedIn,
+        website: this.profileForm.value.website,
+        bio: this.profileForm.value.bio,
+        logo: res.secure_url,
+        role: this.profileForm.value.role,
+      }
+
+      this.businessService.createRecruiter(this.profileForm.value).subscribe({
+        next: (response: any) => {
+          console.log(response);
+          this.commonService.updateRecruiterData(response.recruiterId)
+          this.router.navigate(['/engineers'])
+        },
+        error: (error) => {
+          console.log(error);
+        },
+
+      })
     })
   }
 }

@@ -20,6 +20,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { FooterComponent } from './components/footer/footer.component';
 import { LoadingBarModule } from '@ngx-loading-bar/core';
+import { CloudinaryConfiguration, CloudinaryModule } from '@cloudinary/angular-5.x';
+import { Cloudinary } from 'cloudinary-core';
+import { FileUploadModule } from 'ng2-file-upload';
 
 @NgModule({
   declarations: [
@@ -32,7 +35,7 @@ import { LoadingBarModule } from '@ngx-loading-bar/core';
     ForgotPasswordComponent,
     HeaderComponent,
     PricingComponent,
-    FooterComponent
+    FooterComponent,
   ],
   imports: [
     BrowserModule,
@@ -43,7 +46,15 @@ import { LoadingBarModule } from '@ngx-loading-bar/core';
     ReactiveFormsModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot({positionClass: 'toast-top-center'}),
-    LoadingBarModule
+    LoadingBarModule,
+    CloudinaryModule.forRoot({Cloudinary},
+      {
+        cloud_name: 'rmsmms',
+        api_key: '323471786184868',
+        api_secret: 'hG7ZYBoalsywIR5RmZ6sIZkWsdU',
+        upload_preset: 'yakyhtcu'
+      } as CloudinaryConfiguration),
+    FileUploadModule,
   ],
   providers: [
     AuthService,

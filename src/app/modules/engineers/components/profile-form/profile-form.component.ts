@@ -8,6 +8,7 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Engineer } from 'src/app/engineer';
+import { CloudinaryService } from 'src/app/services/cloudinary/cloudinary.service';
 import { EngineerService } from 'src/app/services/engineer-service/engineer.service';
 import {
   LocationService,
@@ -23,13 +24,15 @@ type Components = typeof place.address_components;
 export class ProfileFormComponent {
   profileForm!: FormGroup;
   submitted = false;
+  imgFile: any;
 
   constructor(
     private router: Router,
     private locationService: LocationService,
     private engineerService: EngineerService,
     private ngZone: NgZone,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private cloudinary: CloudinaryService
   ) {
     locationService.api.then((maps) => {
       this.initAutocomplete(maps);
@@ -81,7 +84,7 @@ export class ProfileFormComponent {
       state: new FormControl(''),
       country: ['', Validators.required],
       location: ['', Validators.required],
-      // avatar: new FormControl(''),
+      avatar: new FormControl(''),
       // coverImg: new FormControl(''),
       bio: ['', Validators.required],
       searchStatus: ['', Validators.required],
@@ -128,44 +131,60 @@ export class ProfileFormComponent {
   }
 
   submit() {
-    const data = {
-      firstName: this.profileForm.value.firstName,
-      lastName: this.profileForm.value.lastName,
-      tagLine: this.profileForm.value.tagLine,
-      city: this.profileForm.value.city,
-      country: this.profileForm.value.country,
-      bio: this.profileForm.value.bio,
-      searchStatus: this.profileForm.value.searchStatus,
-      roleType: this.profileForm.value.roleType,
-      roleLevel: this.profileForm.value.roleLevel,
-      linkedIn: this.profileForm.value.linkedIn,
-      website: this.profileForm.value.website,
-      github: this.profileForm.value.github,
-      twitter: this.profileForm.value.twitter,
-      stackoverflow: this.profileForm.value.stackoverflow,
-    };
+    this.submitImgToCloudinary()
 
-    this.engineerService.createEngineer(data).subscribe({
-      next: (response: any) => {
-        this.router.navigate(['engineers/details', response.engineerId]);
-      },
-      error: (error) => {
-        throw error;
-      },
-    });
+  }
+
+  submitImgToCloudinary(){
+    const formData = new FormData();
+    console.log(this.imgFile)
+    formData.append("file", this.imgFile);
+    formData.append("upload_preset", "yakyhtcu");
+
+    this.cloudinary.uploadImg(formData).subscribe((res)=>{
+      const data = {
+        firstName: this.profileForm.value.firstName,
+        lastName: this.profileForm.value.lastName,
+        tagLine: this.profileForm.value.tagLine,
+        city: this.profileForm.value.city,
+        country: this.profileForm.value.country,
+        avatar: res.secure_url,
+        bio: this.profileForm.value.bio,
+        searchStatus: this.profileForm.value.searchStatus,
+        roleType: this.profileForm.value.roleType,
+        roleLevel: this.profileForm.value.roleLevel,
+        linkedIn: this.profileForm.value.linkedIn,
+        website: this.profileForm.value.website,
+        github: this.profileForm.value.github,
+        twitter: this.profileForm.value.twitter,
+        stackoverflow: this.profileForm.value.stackoverflow,
+      };
+
+      this.engineerService.createEngineer(data).subscribe({
+        next: (response: any) => {
+          this.router.navigate(['engineers/details', response.engineerId]);
+        },
+        error: (error) => {
+          throw error;
+        },
+      });
+    })
   }
 
   onFileChange(event: any) {
-    // const file = event.target.files[0];
+    // getting an image and setting global variable imgFile
+    const file = event.target.files[0];
+    this.imgFile = file
     // this.profileForm.patchValue({
     //   avatar: file,
     // });
-    // var reader = new FileReader();
-    // reader.readAsDataURL(file);
-    // // File Preview
-    // reader.onload = (event: any) => {
-    //   this.imageSrc = event.target.result;
-    // };
+    var reader = new FileReader();
+    reader.readAsDataURL(file);
+    // File Preview
+    reader.onload = (event: any) => {
+      // setting a preview image without submitting
+      this.imageSrc = event.target.result;
+    };
   }
 
   onCoverFileChange(event: any) {

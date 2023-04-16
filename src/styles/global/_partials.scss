@@ -54,3 +54,45 @@ $back: #f6f9fc;;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
 }
+
+
+// ********** Engineers page and home page styles **********
+// avatar picture of engineer
+.profile-image{
+  margin-right: 20px;
+  width: 130px;
+  height: 130px;
+  object-fit: cover;
+}
+
+// engineers
+.engineer-info-header{
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  h2{
+    color:#1C2227;
+    width: 80%;
+  }
+}
+
+.e-h{
+  height: 240px;
+}
+// **********************************************************
+
+// Avatar or Logo upload button
+.custom-file-upload {
+  border: 1px solid #ccc;
+  display: inline-block;
+  padding: 6px 12px;
+  cursor: pointer;
+  width: 5rem;
+  text-align: center;
+}
+
+.business-logo{
+  width: 130px;
+  height:130px;
+  object-fit: cover;
+}

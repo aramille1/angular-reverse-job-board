@@ -1,14 +1,12 @@
-.profile-details{
+.profile-details {
   margin: 80px 100px;
   position: relative;
 }
 
-
-.profile-image{
-  position: absolute;
-    top: 200px;
-    left: 20px;
-    border: 4px solid white;
+.btns {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 }
 
 .info {

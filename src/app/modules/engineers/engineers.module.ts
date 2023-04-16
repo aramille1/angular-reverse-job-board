@@ -11,7 +11,9 @@ import {AutocompleteLibModule} from 'angular-ng-autocomplete';
 import { LoadingBarModule } from '@ngx-loading-bar/core';
 
 import { NgxPaginationModule } from 'ngx-pagination';
-
+import { CloudinaryConfiguration, CloudinaryModule } from '@cloudinary/angular-5.x';
+import { Cloudinary } from 'cloudinary-core';
+import { FileUploadModule } from 'ng2-file-upload';
 @NgModule({
   declarations: [
     ProfileDetailsComponent,
@@ -26,7 +28,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
     FormsModule,
     ReactiveFormsModule,
     NgxPaginationModule,
-    LoadingBarModule
+    LoadingBarModule,
+    FileUploadModule,
   ]
 })
 export class EngineersModule { }
