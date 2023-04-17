@@ -25,6 +25,8 @@ export class EngineersComponent {
   keyword = 'name';
   data$: Observable<any>;
   data: any = [];
+  loader = this.loadingBar.useRef();
+
   private getMyProfileSub: Subscription;
   private getEngineersSub: Subscription;
   constructor(
@@ -40,7 +42,7 @@ export class EngineersComponent {
     currentPage: 1,
   };
   ngOnInit(): void {
-    this.loadingBar.start();
+    this.loader.start();
     this.http
       .get('https://restcountries.com/v3.1/all?fields=name,flags')
       .subscribe({
@@ -97,7 +99,7 @@ export class EngineersComponent {
       .subscribe((res) => {
         console.log(res.engineers);
         this.engineers = res.engineers;
-        this.loadingBar.stop();
+        this.loader.stop();
       });
   }
 

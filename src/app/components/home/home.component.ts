@@ -11,16 +11,17 @@ import { LoadingBarService } from '@ngx-loading-bar/core';
 export class HomeComponent {
   engineers = new Array<any>();
   private engineersSub: Subscription
+  loader = this.loadingBar.useRef();
 
   constructor(private engineerService: EngineerService,private loadingBar: LoadingBarService ){}
 
   ngOnInit(): void {
-    this.loadingBar.start();
+    this.loader.start();
     this.engineersSub = this.engineerService.getAllEngineers().subscribe({
       next: (res) =>{
         console.log(res.engineers)
         this.engineers = res.engineers
-        this.loadingBar.stop();
+        this.loader.stop()
       },
       error: (err) => console.error(err)
     })

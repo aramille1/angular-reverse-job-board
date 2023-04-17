@@ -19,7 +19,7 @@ export class SigninComponent {
   fieldTextType: boolean;
   profile: any;
   private signinSub: Subscription;
-
+  loader = this.loadingBar.useRef();
   // form initialization
   signinForm = this.fb.group({
     email: ['', Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$')],
@@ -42,7 +42,7 @@ export class SigninComponent {
 
 
   signin() {
-    this.loadingBar.start();
+    this.loader.start
     if (this.signinForm.invalid) {
       return;
     }
@@ -71,7 +71,7 @@ export class SigninComponent {
               'you are logged in! but your profile as engineer/recruiter doesnt exist yet'
             );
             this.router.navigate(['role']);
-            this.loadingBar.stop()
+            this.loader.stop()
           },
         });
       },
