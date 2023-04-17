@@ -42,7 +42,7 @@ export class SigninComponent {
 
 
   signin() {
-    this.loader.start
+    this.loader.start()
     if (this.signinForm.invalid) {
       return;
     }
