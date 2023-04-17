@@ -169,36 +169,51 @@
     <div class="col-xs-12 col-lg-9">
       <main>
         <div class="engineer-wrapper">
-          <div class="custom-box-shadow e-h item" *ngFor="let engineer of engineers
+          <div *ngFor="let engineer of engineers
           | paginate: { itemsPerPage: limit, currentPage: page, totalItems: total }">
-            <a href="#" class="engineer" [routerLink]="['/engineers/details', engineer.ID]">
-              <div class="flex-shrink-1">
-                <picture>
-                  <img
-                    [src]="engineer?.Avatar ? engineer?.Avatar : 'assets/empty-avatar.png'" class="rounded-circle profile-image" />
-                </picture>
-              </div>
+          <ng-container *ngIf="engineer?.SearchStatus === 'not_interested' || engineer?.SearchStatus === 'invisible'; else elseTemplate">
+            </ng-container>
+            <ng-template #elseTemplate>
+              <a class="engineer custom-box-shadow e-h item" [routerLink]="['/engineers/details', engineer.ID]">
+                <div class="flex-shrink-1">
+                  <picture>
+                    <img
+                      [src]="engineer?.Avatar ? engineer?.Avatar : 'assets/empty-avatar.png'" class="rounded-circle profile-image" />
+                  </picture>
+                </div>
 
-              <div class="engineer-info w-100">
-                <div class="engineer-info-header">
-                  <h2 class="fs-5 fw-bold">{{ engineer.Tagline }}</h2>
-                  <div class="engineer-info-status d-flex align-items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="green" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
-                      <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
-                    </svg>
-                    <span class="mx-1">Actively looking</span>
+                <div class="engineer-info w-100">
+                  <div class="engineer-info-header">
+                    <h2 class="fs-5 fw-bold">{{ engineer.Tagline }}</h2>
+                    <div class="engineer-info-status d-flex align-items-center">
+                      <span [ngSwitch]="engineer?.SearchStatus">
+                        <span *ngSwitchCase="'actively_looking'">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="green" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                          </svg>
+                          Actively looking
+                        </span>
+                        <span *ngSwitchCase="'open'">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="gray" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                          </svg>
+                          Open to offers
+                        </span>
+                      </span>
+                    </div>
+                  </div>
+
+                  <div class="recently-active rounded-3">
+                    <span>Recently active</span>
+                  </div>
+
+                  <div class="engineer-info-text">
+                    {{ engineer.Bio }}
                   </div>
                 </div>
+              </a>
+            </ng-template>
 
-                <div class="recently-active rounded-3">
-                  <span>Recently active</span>
-                </div>
-
-                <div class="engineer-info-text">
-                  {{ engineer.Bio }}
-                </div>
-              </div>
-            </a>
           </div>
           <div class="blur-block" *ngIf="isMember">
             <div class="blur-block-wrap">

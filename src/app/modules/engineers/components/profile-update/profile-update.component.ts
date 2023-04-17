@@ -169,19 +169,15 @@ export class ProfileUpdateComponent {
 
   // submit the new changes of edit profile
   update() {
-    const formData = new FormData();
-    console.log(this.imgFile)
-    formData.append("file", this.imgFile);
-    formData.append("upload_preset", "yakyhtcu");
-
-    this.cloudinary.uploadImg(formData).subscribe((res)=>{
+    console.log(this.imgFile === undefined)
+    if(this.imgFile === undefined){
       const data = {
         firstName: this.profileForm.value.firstName,
         lastName: this.profileForm.value.lastName,
         tagLine: this.profileForm.value.tagLine,
         city: this.profileForm.value.city,
         country: this.profileForm.value.country,
-        avatar: res.secure_url,
+        avatar: this.profileForm.value.avatar,
         bio: this.profileForm.value.bio,
         searchStatus: this.profileForm.value.searchStatus,
         roleType: this.profileForm.value.roleType,
@@ -193,7 +189,33 @@ export class ProfileUpdateComponent {
       this.engineerService.updateEngineer(data).subscribe(() => {
         this.router.navigate(['engineers/details', this.profileForm.value.id]);
       });
-    })
+    }else{
+      const formData = new FormData();
+      console.log(this.imgFile)
+      formData.append("file", this.imgFile);
+      formData.append("upload_preset", "yakyhtcu");
+
+      this.cloudinary.uploadImg(formData).subscribe((res)=>{
+        const data = {
+          firstName: this.profileForm.value.firstName,
+          lastName: this.profileForm.value.lastName,
+          tagLine: this.profileForm.value.tagLine,
+          city: this.profileForm.value.city,
+          country: this.profileForm.value.country,
+          avatar: res.secure_url,
+          bio: this.profileForm.value.bio,
+          searchStatus: this.profileForm.value.searchStatus,
+          roleType: this.profileForm.value.roleType,
+          roleLevel: this.profileForm.value.roleLevel,
+          website: this.profileForm.value.website,
+          twitter: this.profileForm.value.twitter,
+          stackoverflow: this.profileForm.value.stackoverflow,
+        };
+        this.engineerService.updateEngineer(data).subscribe(() => {
+          this.router.navigate(['engineers/details', this.profileForm.value.id]);
+        });
+      })
+    }
   }
 
   handleChangeRoleType(e: any) {

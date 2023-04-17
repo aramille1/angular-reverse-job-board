@@ -43,6 +43,16 @@ span, .info{
 
 .checkboxes {
   margin-right: 30px;
+
+  svg{
+    margin-bottom: 2px;
+    margin-right: 5px;
+  }
+}
+
+ul.list-unstyled li a svg{
+  margin-bottom: 2px;
+  margin-right: 10px;
 }
 
 @media only screen and (max-width: 768px) {
