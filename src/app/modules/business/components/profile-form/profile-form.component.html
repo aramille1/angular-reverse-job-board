@@ -14,57 +14,57 @@
             <div class="col-xs-12 col-lg-8">
               <!-- company name -->
               <div class="mb-3">
-                <label for="company" class="form-label">Company name *</label>
+                <label for="company" class="form-label fw-bold">Company name *</label>
                 <input type="text" formControlName="company" class="form-control" id="company"
                   placeholder="your company name" required
                   [ngClass]="{ 'is-invalid': profileForm.controls['company'].touched && profileForm.controls['company'].errors, 'is-valid': profileForm.controls['company'].valid }" />
                 <div *ngIf="profileForm.controls['company'].touched && profileForm.controls['company'].errors"
-                  class="text-danger">
-                  <div *ngIf="profileForm.controls['company'].errors">Company name is required!</div>
+                  >
+                  <div class="text-danger" *ngIf="profileForm.controls['company'].errors">Company name is required!</div>
                 </div>
               </div>
 
               <!-- website -->
               <div class="mb-3">
-                <label for="website" class="form-label">Website *</label>
+                <label for="website" class="form-label fw-bold">Website *</label>
                 <input type="text" formControlName="website" class="form-control" id="website" required
                   [ngClass]="{ 'is-invalid': profileForm.controls['website'].touched && profileForm.controls['website'].errors, 'is-valid': profileForm.controls['website'].valid }"
                   placeholder="enter your website" />
                 <div *ngIf="profileForm.controls['website'].touched && profileForm.controls['website'].errors"
-                  class="text-danger">
-                  <div *ngIf="profileForm.controls['website'].errors">Website is required!</div>
+                  >
+                  <div class="text-danger" *ngIf="profileForm.controls['website'].errors">Website is required!</div>
                 </div>
               </div>
 
             <!-- linkedIn -->
             <div class="mb-3">
-              <label for="linkedIn" class="form-label">LinkedIn *</label>
+              <label for="linkedIn" class="form-label fw-bold">LinkedIn *</label>
               <input type="text" formControlName="linkedIn" class="form-control" id="linkedIn" required
                 [ngClass]="{ 'is-invalid': profileForm.controls['linkedIn'].touched && profileForm.controls['linkedIn'].errors, 'is-valid': profileForm.controls['linkedIn'].valid }"
                 placeholder="enter your linkedIn" />
               <div *ngIf="profileForm.controls['linkedIn'].touched && profileForm.controls['linkedIn'].errors"
-                class="text-danger">
-                <div *ngIf="profileForm.controls['linkedIn'].errors">LinkedIn is required!</div>
+                >
+                <div class="text-danger" *ngIf="profileForm.controls['linkedIn'].errors">LinkedIn is required!</div>
               </div>
             </div>
 
 
               <!-- bio -->
               <div class="mb-3">
-                <label for="bio" class="form-label">Bio *</label>
+                <label for="bio" class="form-label fw-bold">Bio *</label>
                 <textarea formControlName="bio" class="form-control" placeholder="enter your bio" id="bio"
                   required
                   [ngClass]="{ 'is-invalid': profileForm.controls['bio'].touched && profileForm.controls['bio'].errors, 'is-valid': profileForm.controls['bio'].valid }"
                   rows="4" col-xs-12 col-lgs="50"></textarea>
                 <div *ngIf="profileForm.controls['bio'].touched && profileForm.controls['bio'].errors"
-                  class="text-danger">
-                  <div *ngIf="profileForm.controls['bio'].errors">Bio is required!</div>
+                  >
+                  <div class="text-danger" *ngIf="profileForm.controls['bio'].errors">Bio is required!</div>
                 </div>
               </div>
 
               <!-- Logo -->
               <div class="mb-3">
-                <label for="logo" class="form-label fw-bold">Your company logo</label>
+                <label for="logo" class="form-label fw-bold fw-bold">Your company logo *</label>
                 <div>
                   <label for="file-upload" class="custom-file-upload">upload</label>
                   <img [src]="imageSrc" *ngIf="imageSrc" class="rounded-circle mx-2 business-logo">
@@ -87,37 +87,37 @@
             <div class="col-xs-12 col-lg-8">
               <!-- Your first name -->
               <div class="mb-3">
-                <label for="firstName" class="form-label">Your first name *</label>
+                <label for="firstName" class="form-label fw-bold">Your first name *</label>
                 <input type="text" formControlName="firstName" class="form-control" id="firstName"
                   placeholder="your first name" required
                   [ngClass]="{ 'is-invalid': profileForm.controls['firstName'].touched && profileForm.controls['firstName'].errors, 'is-valid': profileForm.controls['firstName'].valid }" />
                 <div *ngIf="profileForm.controls['firstName'].touched && profileForm.controls['firstName'].errors"
-                  class="text-danger">
-                  <div *ngIf="profileForm.controls['firstName'].errors">Your first name is required!</div>
+                  >
+                  <div class="text-danger" *ngIf="profileForm.controls['firstName'].errors">Your first name is required!</div>
                 </div>
               </div>
 
               <!-- Your last name -->
               <div class="mb-3">
-                <label for="lastName" class="form-label">Your last name *</label>
+                <label for="lastName" class="form-label fw-bold">Your last name *</label>
                 <input type="text" formControlName="lastName" class="form-control" id="lastName"
                   placeholder="your last name" required
                   [ngClass]="{ 'is-invalid': profileForm.controls['lastName'].touched && profileForm.controls['lastName'].errors, 'is-valid': profileForm.controls['lastName'].valid }" />
                 <div *ngIf="profileForm.controls['lastName'].touched && profileForm.controls['lastName'].errors"
-                  class="text-danger">
-                  <div *ngIf="profileForm.controls['lastName'].errors">Your last name is required!</div>
+                  >
+                  <div class="text-danger" *ngIf="profileForm.controls['lastName'].errors">Your last name is required!</div>
                 </div>
               </div>
 
               <!-- Your job title or role -->
               <div class="mb-3">
-                <label for="role" class="form-label">Your job title or role *</label>
+                <label for="role" class="form-label fw-bold">Your job title or role *</label>
                 <input type="text" formControlName="role" class="form-control" id="role" required
                   [ngClass]="{ 'is-invalid': profileForm.controls['role'].touched && profileForm.controls['role'].errors, 'is-valid': profileForm.controls['role'].valid }"
                   placeholder="enter your job title or role" />
                 <div *ngIf="profileForm.controls['role'].touched && profileForm.controls['role'].errors"
-                  class="text-danger">
-                  <div *ngIf="profileForm.controls['role'].errors">Your job title or role is required!</div>
+                  >
+                  <div class="text-danger" *ngIf="profileForm.controls['role'].errors">Your job title or role is required!</div>
                 </div>
               </div>
 
@@ -125,7 +125,7 @@
           </div>
         </div>
       </div>
-
+      <div *ngIf="showError" class="alert alert-danger py-2"><strong>Missing fields:</strong> one of the required field is empty or contains invalid data</div>
       <button type="submit" class="btn btn-dark mb-5 float-end">
         Save
       </button>

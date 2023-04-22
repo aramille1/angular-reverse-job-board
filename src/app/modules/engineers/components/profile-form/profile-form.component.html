@@ -18,8 +18,8 @@
                   placeholder="enter your first name" required
                   [ngClass]="{ 'is-invalid': profileForm.controls['firstName'].touched && profileForm.controls['firstName'].errors, 'is-valid': profileForm.controls['firstName'].valid }" />
                 <div *ngIf="profileForm.controls['firstName'].touched && profileForm.controls['firstName'].errors"
-                  class="text-danger">
-                  <div *ngIf="profileForm.controls['firstName'].errors">First name is required!</div>
+                  >
+                  <div class="text-danger" *ngIf="profileForm.controls['firstName'].errors">First name is required!</div>
                 </div>
               </div>
               <div class="mb-3">
@@ -28,8 +28,8 @@
                   [ngClass]="{ 'is-invalid': profileForm.controls['lastName'].touched && profileForm.controls['lastName'].errors, 'is-valid': profileForm.controls['lastName'].valid }"
                   placeholder="enter your last name" />
                 <div *ngIf="profileForm.controls['lastName'].touched && profileForm.controls['lastName'].errors"
-                  class="text-danger">
-                  <div *ngIf="profileForm.controls['lastName'].errors">Last name is required!</div>
+                  >
+                  <div class="text-danger" *ngIf="profileForm.controls['lastName'].errors">Last name is required!</div>
                 </div>
               </div>
               <div class="mb-3">
@@ -38,8 +38,8 @@
                   [ngClass]="{ 'is-invalid': profileForm.controls['tagLine'].touched && profileForm.controls['tagLine'].errors, 'is-valid': profileForm.controls['tagLine'].valid }"
                   placeholder="enter your tagline" />
                 <div *ngIf="profileForm.controls['tagLine'].touched && profileForm.controls['tagLine'].errors"
-                  class="text-danger">
-                  <div *ngIf="profileForm.controls['tagLine'].errors">Tag line is required!</div>
+                  >
+                  <div class="text-danger" *ngIf="profileForm.controls['tagLine'].errors">Tag line is required!</div>
                 </div>
               </div>
               <div class="mb-3">
@@ -49,8 +49,8 @@
                   (keydown.enter)="$event.preventDefault()" placeholder="enter your location" type="text" #search
                   [ngClass]="{ 'is-invalid': profileForm.controls['location'].touched && profileForm.controls['location'].errors, 'is-valid': profileForm.controls['location'].valid }" />
                 <div *ngIf="profileForm.controls['location'].touched && profileForm.controls['location'].errors"
-                  class="text-danger">
-                  <div *ngIf="profileForm.controls['location'].errors">Location is required!</div>
+                  >
+                  <div class="text-danger" *ngIf="profileForm.controls['location'].errors">Location is required!</div>
                 </div>
                 <!-- <div class="mb-3">
                   <input type="city" formControlName="city" class="form-control" placeholder="enter your city"
@@ -100,8 +100,8 @@
                   [ngClass]="{ 'is-invalid': profileForm.controls['bio'].touched && profileForm.controls['bio'].errors, 'is-valid': profileForm.controls['bio'].valid }"
                   rows="4" cols="50"></textarea>
                 <div *ngIf="profileForm.controls['bio'].touched && profileForm.controls['bio'].errors"
-                  class="text-danger">
-                  <div *ngIf="profileForm.controls['bio'].errors">Bio is required!</div>
+                  >
+                  <div class="text-danger" *ngIf="profileForm.controls['bio'].errors">Bio is required!</div>
                 </div>
               </div>
             </div>
@@ -203,13 +203,13 @@
               <div class="col-xs-12 col-lg-8">
                 <p class="mb-2 mt-4 fw-bold">Website</p>
                 <div class="d-flex">
-                  <span class="url-prefix">https://</span>
-                  <input type="text" formControlName="website" class="form-control url" />
+                  <!-- <span class="url-prefix">https://</span> -->
+                  <input type="text" formControlName="website" class="form-control" />
                 </div>
 
-                <p class="mb-2 mt-4 fw-bold">Github *</p>
+                <p class="mb-2 mt-3 fw-bold">Github *</p>
                 <div class="d-flex">
-                  <span class="url-prefix">github.com/                  </span>
+                  <!-- <span class="url-prefix">github.com/                  </span> -->
                   <input type="text" formControlName="github" class="form-control" required
                   [ngClass]="{ 'is-invalid': profileForm.controls['github'].touched && profileForm.controls['github'].errors, 'is-valid': profileForm.controls['github'].valid }" />
                 </div>
@@ -218,15 +218,15 @@
                 Github is required!
               </div>
 
-                <p class="mb-2 mt-4 fw-bold">Twitter</p>
+                <p class="mb-2 mt-3 fw-bold">Twitter</p>
                 <div class="d-flex">
-                  <span class="url-prefix">twitter.com/ </span>
+                  <!-- <span class="url-prefix">twitter.com/ </span> -->
                   <input type="text" formControlName="twitter" class="form-control" />
                 </div>
 
-                <p class="mb-2 mt-4 fw-bold">Linkedin *</p>
+                <p class="mb-2 mt-3 fw-bold">Linkedin *</p>
                 <div class="d-flex">
-                  <span class="url-prefix">linkedin.com/in/</span>
+                  <!-- <span class="url-prefix">linkedin.com/in/</span> -->
                 <input type="text" formControlName="linkedIn" class="form-control" required
                   [ngClass]="{ 'is-invalid': profileForm.controls['linkedIn'].touched && profileForm.controls['linkedIn'].errors, 'is-valid': profileForm.controls['linkedIn'].valid }" />
                 </div>
@@ -235,9 +235,9 @@
                   Linkedin is required!
                 </div>
 
-                <p class="mb-2 mt-4 fw-bold">Stack Overflow</p>
+                <p class="mb-2 mt-3 fw-bold">Stack Overflow</p>
                 <div class="d-flex">
-                  <span class="url-prefix">stackoverflow/users/</span>
+                  <!-- <span class="url-prefix">stackoverflow/users/</span> -->
                   <input type="text" formControlName="stackoverflow" class="form-control" />
                 </div>
               </div>
@@ -245,6 +245,7 @@
           </div>
         </div>
       </div>
+      <div *ngIf="showError" class="alert alert-danger"><strong>Missing fields:</strong> one of the required field is empty or contains invalid data</div>
       <button type="submit" class="btn btn-dark mb-5 float-end">
         Save
       </button>

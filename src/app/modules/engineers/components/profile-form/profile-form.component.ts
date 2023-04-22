@@ -7,6 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { Engineer } from 'src/app/engineer';
 import { CloudinaryService } from 'src/app/services/cloudinary/cloudinary.service';
 import { EngineerService } from 'src/app/services/engineer-service/engineer.service';
@@ -22,23 +23,6 @@ type Components = typeof place.address_components;
   styleUrls: ['./profile-form.component.scss'],
 })
 export class ProfileFormComponent {
-  profileForm!: FormGroup;
-  submitted = false;
-  imgFile: any;
-  coverImgFile: string;
-
-  constructor(
-    private router: Router,
-    private locationService: LocationService,
-    private engineerService: EngineerService,
-    private ngZone: NgZone,
-    private fb: FormBuilder,
-    private cloudinary: CloudinaryService
-  ) {
-    locationService.api.then((maps) => {
-      this.initAutocomplete(maps);
-    });
-  }
   @ViewChild('search')
   public searchElementRef!: ElementRef;
 
@@ -46,6 +30,15 @@ export class ProfileFormComponent {
   public mapElementRef!: ElementRef;
 
   @ViewChild('location') public locationElement!: ElementRef;
+  public place: any;
+
+  profileForm!: FormGroup;
+  submitted = false;
+  showError: boolean = false;
+  imgFile: any;
+  coverImgFile: string;
+  imageSrc: string = '';
+  coverImg: string = '';
 
   roleTypes = [
     { name: 'Part-time', value: 'contract_part_time' },
@@ -62,8 +55,6 @@ export class ProfileFormComponent {
     { name: 'C-Level', value: 'c_level' },
   ];
 
-  public place: any;
-
   public locationFields = [
     'name',
     'cityName',
@@ -72,9 +63,19 @@ export class ProfileFormComponent {
     'countryCode',
   ];
 
-  // private map!: google.maps.Map;
-  imageSrc: string = '';
-  coverImg: string = '';
+  constructor(
+    private router: Router,
+    private locationService: LocationService,
+    private engineerService: EngineerService,
+    private ngZone: NgZone,
+    private fb: FormBuilder,
+    private cloudinary: CloudinaryService,
+    private toastr: ToastrService
+  ) {
+    locationService.api.then((maps) => {
+      this.initAutocomplete(maps);
+    });
+  }
 
   ngOnInit(): void {
     this.profileForm = this.fb.group({
@@ -140,34 +141,39 @@ export class ProfileFormComponent {
     const formData = new FormData();
     formData.append("file", this.imgFile);
     formData.append("upload_preset", "yakyhtcu");
+    this.cloudinary.uploadImg(formData).subscribe({
+      next: (res) =>{
+        const data = {
+          firstName: this.profileForm.value.firstName,
+          lastName: this.profileForm.value.lastName,
+          tagLine: this.profileForm.value.tagLine,
+          city: this.profileForm.value.city,
+          country: this.profileForm.value.country,
+          avatar: res.secure_url,
+          bio: this.profileForm.value.bio,
+          searchStatus: this.profileForm.value.searchStatus,
+          roleType: this.profileForm.value.roleType,
+          roleLevel: this.profileForm.value.roleLevel,
+          linkedIn: this.profileForm.value.linkedIn,
+          website: this.profileForm.value.website,
+          github: this.profileForm.value.github,
+          twitter: this.profileForm.value.twitter,
+          stackoverflow: this.profileForm.value.stackoverflow,
+        };
 
-    this.cloudinary.uploadImg(formData).subscribe((res)=>{
-      const data = {
-        firstName: this.profileForm.value.firstName,
-        lastName: this.profileForm.value.lastName,
-        tagLine: this.profileForm.value.tagLine,
-        city: this.profileForm.value.city,
-        country: this.profileForm.value.country,
-        avatar: res.secure_url,
-        bio: this.profileForm.value.bio,
-        searchStatus: this.profileForm.value.searchStatus,
-        roleType: this.profileForm.value.roleType,
-        roleLevel: this.profileForm.value.roleLevel,
-        linkedIn: this.profileForm.value.linkedIn,
-        website: this.profileForm.value.website,
-        github: this.profileForm.value.github,
-        twitter: this.profileForm.value.twitter,
-        stackoverflow: this.profileForm.value.stackoverflow,
-      };
-
-      this.engineerService.createEngineer(data).subscribe({
-        next: (response: any) => {
-          this.router.navigate(['engineers/details', response.engineerId]);
-        },
-        error: (error) => {
-          throw error;
-        },
-      });
+        this.engineerService.createEngineer(data).subscribe({
+          next: (response: any) => {
+            this.router.navigate(['engineers/details', response.engineerId]);
+          },
+          error: (error) => {
+            throw error;
+          },
+        });
+      },
+      error: (err) => {
+        this.showError = !this.showError
+        console.log(err)
+      }
     })
   }
 
