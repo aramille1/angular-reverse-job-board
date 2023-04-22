@@ -23,6 +23,7 @@ import { LoadingBarModule } from '@ngx-loading-bar/core';
 import { CloudinaryConfiguration, CloudinaryModule } from '@cloudinary/angular-5.x';
 import { Cloudinary } from 'cloudinary-core';
 import { FileUploadModule } from 'ng2-file-upload';
+import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-policy/privacy-policy.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { FileUploadModule } from 'ng2-file-upload';
     HeaderComponent,
     PricingComponent,
     FooterComponent,
+    PrivacyPolicyComponent,
   ],
   imports: [
     BrowserModule,

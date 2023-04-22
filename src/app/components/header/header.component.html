@@ -1,44 +1,58 @@
 <nav class="navbar navbar-expand-lg navbar-light nav-mod">
-    <a class="navbar-brand" routerLink="/"> Angular talents</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item" routerLinkActive="active">
-          <a class="nav-link" data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" routerLink="/engineers">Developers</a>
-        </li>
-        <li class="nav-item" routerLinkActive="active">
-          <a class="nav-link" data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" routerLink="/pricing">Pricing</a>
-        </li>
-        <li class="nav-item" routerLinkActive="active">
-          <a class="nav-link" data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" href="#">About</a>
-        </li>
-      </ul>
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item" *ngIf="!(auth.isLoggedIn$ | async)">
-          <a class="nav-link" data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" routerLink="/signin">Sign in</a>
-        </li>
-        <li class="nav-item" *ngIf="!(auth.isLoggedIn$ | async)">
-          <a class="nav-link" data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" routerLink="/signup">
-            Register
-          </a>
-        </li>
-        <li class="nav-item singout" *ngIf="showMyEngineerProfile">
-          <a class="nav-link" data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" [routerLink]="['/engineers/details', myProfileID]">
+  <a class="navbar-brand" routerLink="/"> Angular talents</a>
+  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show"
+          routerLink="/engineers">Developers</a>
+      </li>
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show"
+          routerLink="/pricing">Pricing</a>
+      </li>
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" href="#">About</a>
+      </li>
+    </ul>
+    <ul class="navbar-nav ml-auto" *ngIf="!(auth.isLoggedIn$ | async)">
+      <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show"
+          routerLink="/signin">Login</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" routerLink="/signup">
+          Register
+        </a>
+      </li>
+    </ul>
+
+    <div class="flex-shrink-0 dropdown" *ngIf="auth.isLoggedIn$ | async">
+      <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown"
+        aria-expanded="false">
+        <img [src]="myProfileImg" alt="mdo" width="32" height="32" class="object-fit-cover rounded-circle">
+      </a>
+      <ul class="dropdown-menu text-small shadow dropdown-menu-end">
+        <li *ngIf="showMyEngineerProfile">
+          <a class="dropdown-item" [routerLink]="['/engineers/details', myProfileID]">
             My Profile
           </a>
         </li>
-        <li class="nav-item singout" *ngIf="showMyBusinessProfile">
-          <a class="nav-link" data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" [routerLink]="['/business/details']">
+        <li *ngIf="showMyBusinessProfile">
+          <a class="dropdown-item" [routerLink]="['/business/details']">
             My Profile
           </a>
         </li>
-        <li class="nav-item singout" *ngIf="auth.isLoggedIn$ | async">
-          <a class="nav-link" data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" (click)="signout()">
-            Sign out
+        <li>
+          <a class="dropdown-item" (click)="signout()">
+            Logout
           </a>
         </li>
       </ul>
     </div>
+  </div>
+
 </nav>

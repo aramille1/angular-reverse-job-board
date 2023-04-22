@@ -12,6 +12,8 @@ import { EngineerService } from 'src/app/services/engineer-service/engineer.serv
 })
 export class HeaderComponent implements OnInit {
   myProfileID: any;
+  myProfileImg: string =
+    'https://microbiology.ucr.edu/sites/default/files/styles/form_preview/public/blank-profile-pic.png';
   showMyEngineerProfile: Boolean = false;
   showMyBusinessProfile: Boolean = false;
   private isLoggedInSub: Subscription;
@@ -28,6 +30,9 @@ export class HeaderComponent implements OnInit {
         this.myProfileSub = this.auth.getMyProfile().subscribe({
           next: (res) => {
             console.log(res);
+            this.myProfileImg = res.user.Avatar || res.user.Logo;
+            console.log(this.myProfileImg);
+
             this.myProfileID = res.user.ID;
             if (res.type === 'engineer') {
               this.showMyEngineerProfile = true;
@@ -71,6 +76,8 @@ export class HeaderComponent implements OnInit {
   }
 
   signout() {
+    this.myProfileImg =
+      'https://microbiology.ucr.edu/sites/default/files/styles/form_preview/public/blank-profile-pic.png';
     this.showMyBusinessProfile = false;
     this.showMyEngineerProfile = false;
     this.commonService.updateUserData({});

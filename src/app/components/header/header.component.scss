@@ -3,15 +3,10 @@
     height: 60px;
     border-bottom: 3px solid black;
 }
-.singout{
+
+.dropdown-item{
   cursor: pointer;
 }
-.singout a:hover{
-  color: #910000;
-}
-
-
-
 
 @media only screen and (max-width: 768px) {
   .nav-mod{
