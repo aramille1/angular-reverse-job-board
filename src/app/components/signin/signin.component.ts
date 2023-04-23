@@ -24,7 +24,7 @@ export class SigninComponent {
   signinForm = this.fb.group({
     email: ['', Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$')],
     password: [
-      '12345678',
+      '',
       Validators.compose([Validators.required, Validators.minLength(8)]),
     ],
   });
@@ -78,6 +78,7 @@ export class SigninComponent {
       error: (err) => {
         new Error(err);
         this.showError = true;
+        this.loader.stop()
       },
     });
   }

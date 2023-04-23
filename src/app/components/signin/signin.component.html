@@ -40,13 +40,14 @@
             </p>
           </div>
           <input type="submit" class="btn btn-dark w-100 my-4" value="Login" name="login">
-          <h3 *ngIf="showError" class="text-danger text-center">
+          <p *ngIf="showError" class="text-danger text-center">
             Username or Password incorrect! try again.
-          </h3>
+          </p>
         </form>
       </div>
       <div class="card-footer bg-white text-right ">
-        <small><a routerLink="../forgot-password" class="text-color">Forgot Password</a></small>
+        <!-- TODO -->
+        <!-- <small><a routerLink="../forgot-password" class="text-color">Forgot Password</a></small> -->
         <small><a style="float:right" routerLink="/signup" class="text-color">New user? Click to signup </a></small>
       </div>
     </div>
