@@ -1,6 +1,6 @@
 export const environment = {
   production: false,
-  apiUrl: 'https://angulartalents.onrender.com',
+  apiUrl: 'https://reverse-board.fly.dev',
   GOOGLE_MAPS_API_KEY:'AIzaSyCFxn6praUOsB5ebWhSTebjvbF8Mj9Nyog'
 };
 //TODO
