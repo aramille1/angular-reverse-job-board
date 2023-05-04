@@ -30,15 +30,17 @@
                   }" (click)="toggleFieldTextType()"></i>
                 </span>
               </div>
-            <p class="text-danger mt-1" *ngIf="signinForm.controls['password'].hasError('minlength')">
-              Your password must be at least 8 characters long.
-            </p>
+            </div>
+            <div>
+              <p class="text-danger mt-1" *ngIf="signinForm.controls['password'].hasError('minlength')">
+                Your password must be at least 8 characters long.
+              </p>
 
-            <p class="text-danger mt-1"
-              *ngIf="signinForm.controls['password'].hasError('required') && signinForm.controls['password'].touched">
-              Password is required
-            </p>
-          </div>
+              <p class="text-danger mt-1"
+                *ngIf="signinForm.controls['password'].hasError('required') && signinForm.controls['password'].touched">
+                Password is required
+              </p>
+            </div>
           <input type="submit" class="btn btn-dark w-100 my-4" value="Login" name="login">
           <p *ngIf="showError" class="text-danger text-center">
             Username or Password incorrect! try again.

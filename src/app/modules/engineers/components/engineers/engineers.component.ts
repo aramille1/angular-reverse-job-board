@@ -20,6 +20,7 @@ export class EngineersComponent {
   endIndex = 5;
   status: boolean = false;
   isMember: boolean = false;
+  show: boolean = false;
   countries: any = [];
   selectedCountry: string;
   keyword = 'name';
@@ -97,9 +98,14 @@ export class EngineersComponent {
     this.getEngineersSub = this.engineerService
       .getEngineers(this.page, this.limit, (this.selectedCountry = ''))
       .subscribe((res) => {
-        console.log(res.engineers);
-        this.engineers = res.engineers;
-        this.loader.stop();
+        if(res.engineers.length < 10){
+          this.engineers = res.engineers
+          this.loader.stop();
+        }else {
+          this.engineers = res.engineers
+          this.show = true;
+          this.loader.stop();
+        }
       });
   }
 

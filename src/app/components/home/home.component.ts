@@ -19,11 +19,18 @@ export class HomeComponent {
     this.loader.start();
     this.engineersSub = this.engineerService.getAllEngineers().subscribe({
       next: (res) =>{
-        console.log(res.engineers)
-        this.engineers = res.engineers
-        this.loader.stop()
+        if(res){
+          console.log(res.engineers)
+          this.engineers = res.engineers
+          this.loader.stop()
+        }else{
+          this.loader.stop()
+        }
       },
-      error: (err) => console.error(err)
+      error: (err) => {
+        console.error(err)
+      }
+
     })
   }
 
