@@ -7,6 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
+import { LoadingBarService } from '@ngx-loading-bar/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { CloudinaryService } from 'src/app/services/cloudinary/cloudinary.service';
 import { EngineerService } from 'src/app/services/engineer-service/engineer.service';
@@ -27,6 +28,8 @@ export class ProfileUpdateComponent {
   profileForm!: FormGroup;
   submitted = false;
   imgFile:any;
+  loader = this.loadingBar.useRef();
+
   constructor(
     private router: Router,
     private locationService: LocationService,
@@ -35,6 +38,7 @@ export class ProfileUpdateComponent {
     private ngZone: NgZone,
     private fb: FormBuilder,
     public cloudinary: CloudinaryService,
+    private loadingBar: LoadingBarService
   ) {
     locationService.api.then((maps) => {
       this.initAutocomplete(maps);
@@ -86,9 +90,7 @@ export class ProfileUpdateComponent {
   coverImg: string = '';
 
   ngOnInit(): void {
-
     this.cloudinary.onUploadedPhotoGetLink.subscribe((responseUrl: string) => {
-      console.log(responseUrl);
       this.imageSrc = responseUrl;
     });
 
@@ -123,6 +125,12 @@ export class ProfileUpdateComponent {
         this.imageSrc = myProfile.user.Avatar
         this.myProfile = myProfile.user
       }
+      const noPrefixLinkedIn = myProfile.user.LinkedIn.split("https://www.linkedin.com/in/")[1]
+      const noPrefixWebsite = myProfile.user.Website.split("https://")[1]
+      const noPrefixGithub = myProfile.user.Github.split("https://github.com/")[1]
+      const noPrefixTwitter = myProfile.user.Twitter.split("https://twitter.com/")[1]
+      const noPrefixStackOverflow = myProfile.user.StackOverflow.split("https://stackoverflow.com/users/")[1]
+
       this.profileForm.patchValue({
         id: myProfile.user.ID,
         firstName: myProfile.user.Firstname,
@@ -134,11 +142,11 @@ export class ProfileUpdateComponent {
         avatar: myProfile.user.Avatar,
         bio: myProfile.user.Bio,
         searchStatus: myProfile.user.SearchStatus,
-        website: myProfile.user.Website.includes("https://") ? myProfile.user.Website : "https://"+myProfile.user.Website,
-        github: myProfile.user.Github,
-        twitter: myProfile.user.Twitter,
-        linkedIn: myProfile.user.LinkedIn,
-        stackoverflow: myProfile.user.StackOverflow,
+        website: noPrefixWebsite,
+        github: noPrefixGithub,
+        twitter: noPrefixTwitter,
+        linkedIn: noPrefixLinkedIn,
+        stackoverflow: noPrefixStackOverflow,
       });
       let roleTypeArr = this.profileForm.controls['roleType'] as FormArray;
       // setting previously saved roletype values to current form
@@ -169,7 +177,7 @@ export class ProfileUpdateComponent {
 
   // submit the new changes of edit profile
   update() {
-    console.log(this.imgFile === undefined)
+    this.loader.start()
     if(this.imgFile === undefined){
       const data = {
         firstName: this.profileForm.value.firstName,
@@ -182,38 +190,53 @@ export class ProfileUpdateComponent {
         searchStatus: this.profileForm.value.searchStatus,
         roleType: this.profileForm.value.roleType,
         roleLevel: this.profileForm.value.roleLevel,
-        website: this.profileForm.value.website,
-        twitter: this.profileForm.value.twitter,
-        stackoverflow: this.profileForm.value.stackoverflow,
+        website: "https://"+this.profileForm.value.website,
+        twitter: "https://twitter.com/"+this.profileForm.value.twitter,
+        stackoverflow: "https://stackoverflow.com/users/"+this.profileForm.value.stackoverflow,
       };
-      this.engineerService.updateEngineer(data).subscribe(() => {
-        this.router.navigate(['engineers/details', this.profileForm.value.id]);
-      });
+
+        this.engineerService.updateEngineer(data).subscribe({
+          next: (res) => {
+            this.router.navigate(['engineers/details', this.profileForm.value.id]);
+            this.loader.stop()
+          },
+          error: (err) =>{
+            this.loader.stop()
+            console.error(err)
+          }
+        });
     }else{
       const formData = new FormData();
       console.log(this.imgFile)
       formData.append("file", this.imgFile);
       formData.append("upload_preset", "yakyhtcu");
 
-      this.cloudinary.uploadImg(formData).subscribe((res)=>{
-        const data = {
-          firstName: this.profileForm.value.firstName,
-          lastName: this.profileForm.value.lastName,
-          tagLine: this.profileForm.value.tagLine,
-          city: this.profileForm.value.city,
-          country: this.profileForm.value.country,
-          avatar: res.secure_url,
-          bio: this.profileForm.value.bio,
-          searchStatus: this.profileForm.value.searchStatus,
-          roleType: this.profileForm.value.roleType,
-          roleLevel: this.profileForm.value.roleLevel,
-          website: this.profileForm.value.website,
-          twitter: this.profileForm.value.twitter,
-          stackoverflow: this.profileForm.value.stackoverflow,
-        };
-        this.engineerService.updateEngineer(data).subscribe(() => {
-          this.router.navigate(['engineers/details', this.profileForm.value.id]);
-        });
+      this.cloudinary.uploadImg(formData).subscribe({
+        next:(res) =>{
+          const data = {
+            firstName: this.profileForm.value.firstName,
+            lastName: this.profileForm.value.lastName,
+            tagLine: this.profileForm.value.tagLine,
+            city: this.profileForm.value.city,
+            country: this.profileForm.value.country,
+            avatar: res.secure_url,
+            bio: this.profileForm.value.bio,
+            searchStatus: this.profileForm.value.searchStatus,
+            roleType: this.profileForm.value.roleType,
+            roleLevel: this.profileForm.value.roleLevel,
+            website: this.profileForm.value.website,
+            twitter: this.profileForm.value.twitter,
+            stackoverflow: this.profileForm.value.stackoverflow,
+          };
+          this.engineerService.updateEngineer(data).subscribe(() => {
+            this.loader.stop()
+            this.router.navigate(['engineers/details', this.profileForm.value.id]);
+          });
+        },
+        error: (err) =>{
+          this.loader.stop()
+          console.error(err)
+        }
       })
     }
   }

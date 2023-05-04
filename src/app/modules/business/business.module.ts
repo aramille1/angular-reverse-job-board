@@ -7,6 +7,7 @@ import { ProfileDetailsComponent } from './components/profile-details/profile-de
 import { ProfileFormComponent } from './components/profile-form/profile-form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProfileUpdateComponent } from './components/profile-update/profile-update.component';
+import { LoadingBarModule } from '@ngx-loading-bar/core';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { ProfileUpdateComponent } from './components/profile-update/profile-upda
     CommonModule,
     BusinessRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    LoadingBarModule,
   ]
 })
 export class BusinessModule { }

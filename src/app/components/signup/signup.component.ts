@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { CustomValidators } from 'src/app/matching-passwords.validator';
+import { LoadingBarService } from '@ngx-loading-bar/core';
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
@@ -12,6 +13,7 @@ import { CustomValidators } from 'src/app/matching-passwords.validator';
 export class SignupComponent {
   fieldTextType: boolean;
   repeatFieldTextType: boolean;
+  loader = this.loadingBar.useRef();
 
   // form initialization
   signupForm = this.fb.group({
@@ -33,7 +35,8 @@ export class SignupComponent {
     private fb: FormBuilder,
     private auth: AuthService,
     private router: Router,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private loadingBar: LoadingBarService
   ) {}
 
   toggleFieldTextType(){
@@ -45,6 +48,7 @@ export class SignupComponent {
   }
 
   signup() {
+    this.loader.start()
     if (this.signupForm.valid) {
       console.log(this.signupForm.value);
       const signupData = {
@@ -56,9 +60,11 @@ export class SignupComponent {
           this.toastr.success('Awesome, registration is successfull!');
           this.signupForm.reset();
           this.router.navigate(['signin']);
+          this.loader.stop()
           console.log(response);
         },
         error: (error) => {
+          this.loader.stop()
           throw error;
         },
       });

@@ -7,6 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
+import { LoadingBarService } from '@ngx-loading-bar/core';
 import { ToastrService } from 'ngx-toastr';
 import { Engineer } from 'src/app/engineer';
 import { CloudinaryService } from 'src/app/services/cloudinary/cloudinary.service';
@@ -39,6 +40,7 @@ export class ProfileFormComponent {
   coverImgFile: string;
   imageSrc: string = '';
   coverImg: string = '';
+  loader = this.loadingBar.useRef();
 
   roleTypes = [
     { name: 'Part-time', value: 'contract_part_time' },
@@ -70,7 +72,7 @@ export class ProfileFormComponent {
     private ngZone: NgZone,
     private fb: FormBuilder,
     private cloudinary: CloudinaryService,
-    private toastr: ToastrService
+    private loadingBar: LoadingBarService
   ) {
     locationService.api.then((maps) => {
       this.initAutocomplete(maps);
@@ -133,8 +135,8 @@ export class ProfileFormComponent {
   }
 
   submit() {
+    this.loader.start()
     this.submitImgToCloudinary()
-
   }
 
   submitImgToCloudinary(){
@@ -154,23 +156,28 @@ export class ProfileFormComponent {
           searchStatus: this.profileForm.value.searchStatus,
           roleType: this.profileForm.value.roleType,
           roleLevel: this.profileForm.value.roleLevel,
-          linkedIn: this.profileForm.value.linkedIn,
-          website: this.profileForm.value.website,
-          github: this.profileForm.value.github,
-          twitter: this.profileForm.value.twitter,
-          stackoverflow: this.profileForm.value.stackoverflow,
+          linkedIn: "https://www.linkedin.com/in/"+this.profileForm.value.linkedIn,
+          website: "https://"+this.profileForm.value.website,
+          github: "https://github.com/"+this.profileForm.value.github,
+          twitter: "https://twitter.com/"+this.profileForm.value.twitter,
+          stackoverflow: "https://stackoverflow.com/users/"+this.profileForm.value.stackoverflow,
         };
+
+        console.log(data)
 
         this.engineerService.createEngineer(data).subscribe({
           next: (response: any) => {
             this.router.navigate(['engineers/details', response.engineerId]);
+            this.loader.stop()
           },
           error: (error) => {
+           this.loader.stop()
             throw error;
           },
         });
       },
       error: (err) => {
+    this.loader.stop()
         this.showError = !this.showError
         console.log(err)
       }

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { LoadingBarService } from '@ngx-loading-bar/core';
 import { BusinessService } from 'src/app/services/business-service/business.service';
 import { CloudinaryService } from 'src/app/services/cloudinary/cloudinary.service';
 import { CommonService } from 'src/app/services/common-service/common.service';
@@ -15,12 +16,15 @@ export class ProfileFormComponent {
   imageSrc: string = '';
   imgFile: string;
   showError: boolean = false;
+  loader = this.loadingBar.useRef();
+
   constructor(
     private fb: FormBuilder,
     private businessService: BusinessService,
     private commonService: CommonService,
     private router: Router,
-    private cloudinary: CloudinaryService
+    private cloudinary: CloudinaryService,
+    private loadingBar: LoadingBarService
     ){}
 
   ngOnInit(): void {
@@ -50,8 +54,11 @@ export class ProfileFormComponent {
   }
 
   submit(){
+    this.loader.start()
+
     const formData = new FormData();
     console.log(this.imgFile)
+
     formData.append("file", this.imgFile);
     formData.append("upload_preset", "yakyhtcu");
 
@@ -61,8 +68,8 @@ export class ProfileFormComponent {
           firstName: this.profileForm.value.firstName,
           lastName: this.profileForm.value.lastName,
           company: this.profileForm.value.company,
-          linkedIn: this.profileForm.value.linkedIn,
-          website: this.profileForm.value.website,
+          linkedIn: "https://www.linkedin.com/in/"+this.profileForm.value.linkedIn,
+          website: "https://"+this.profileForm.value.website,
           bio: this.profileForm.value.bio,
           logo: res.secure_url,
           role: this.profileForm.value.role,
@@ -73,10 +80,12 @@ export class ProfileFormComponent {
             console.log(response);
             this.commonService.updateRecruiterData(response.recruiterId)
             this.router.navigate(['/engineers'])
+            this.loader.stop()
           },
           error: (error) => {
             this.showError = true
             console.error(error);
+            this.loader.stop()
           },
 
         })
@@ -84,6 +93,7 @@ export class ProfileFormComponent {
       error: (err) =>{
         this.showError = true
         console.error(err);
+        this.loader.stop()
       }
     })
   }

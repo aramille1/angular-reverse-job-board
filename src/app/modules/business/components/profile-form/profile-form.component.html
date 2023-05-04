@@ -1,3 +1,4 @@
+<ngx-loading-bar color="#b21616" [includeSpinner]="false" height="3px"></ngx-loading-bar>
 <div class="container container-mod vh-100">
   <div class="row justify-content-center h-100">
     <form [formGroup]="profileForm" (ngSubmit)="submit()">
@@ -27,9 +28,12 @@
               <!-- website -->
               <div class="mb-3">
                 <label for="website" class="form-label fw-bold">Website *</label>
-                <input type="text" formControlName="website" class="form-control" id="website" required
-                  [ngClass]="{ 'is-invalid': profileForm.controls['website'].touched && profileForm.controls['website'].errors, 'is-valid': profileForm.controls['website'].valid }"
-                  placeholder="enter your website" />
+                <div class="d-flex">
+                  <span class="url-prefix">https://</span>
+                  <input type="text" formControlName="website" class="form-control url" id="website" required
+                    [ngClass]="{ 'is-invalid': profileForm.controls['website'].touched && profileForm.controls['website'].errors, 'is-valid': profileForm.controls['website'].valid }"
+                    placeholder="enter your website" />
+                </div>
                 <div *ngIf="profileForm.controls['website'].touched && profileForm.controls['website'].errors"
                   >
                   <div class="text-danger" *ngIf="profileForm.controls['website'].errors">Website is required!</div>
@@ -39,9 +43,12 @@
             <!-- linkedIn -->
             <div class="mb-3">
               <label for="linkedIn" class="form-label fw-bold">LinkedIn *</label>
-              <input type="text" formControlName="linkedIn" class="form-control" id="linkedIn" required
-                [ngClass]="{ 'is-invalid': profileForm.controls['linkedIn'].touched && profileForm.controls['linkedIn'].errors, 'is-valid': profileForm.controls['linkedIn'].valid }"
-                placeholder="enter your linkedIn" />
+              <div class="d-flex">
+                <span class="url-prefix">linkedin.com/in/</span>
+                <input type="text" formControlName="linkedIn" class="form-control url" id="linkedIn" required
+                  [ngClass]="{ 'is-invalid': profileForm.controls['linkedIn'].touched && profileForm.controls['linkedIn'].errors, 'is-valid': profileForm.controls['linkedIn'].valid }"
+                  placeholder="enter your linkedIn" />
+              </div>
               <div *ngIf="profileForm.controls['linkedIn'].touched && profileForm.controls['linkedIn'].errors"
                 >
                 <div class="text-danger" *ngIf="profileForm.controls['linkedIn'].errors">LinkedIn is required!</div>

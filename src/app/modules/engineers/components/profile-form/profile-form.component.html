@@ -1,3 +1,4 @@
+<ngx-loading-bar color="#b21616" [includeSpinner]="false" height="3px"></ngx-loading-bar>
 <div class="container container-mod">
   <div class="row justify-content-center h-100">
     <form [formGroup]="profileForm" (ngSubmit)="submit()">
@@ -203,14 +204,14 @@
               <div class="col-xs-12 col-lg-8">
                 <p class="mb-2 mt-4 fw-bold">Website</p>
                 <div class="d-flex">
-                  <!-- <span class="url-prefix">https://</span> -->
-                  <input type="text" formControlName="website" class="form-control" />
+                  <span class="url-prefix">https://</span>
+                  <input type="text" formControlName="website" class="form-control url" />
                 </div>
 
                 <p class="mb-2 mt-3 fw-bold">Github *</p>
                 <div class="d-flex">
-                  <!-- <span class="url-prefix">github.com/                  </span> -->
-                  <input type="text" formControlName="github" class="form-control" required
+                  <span class="url-prefix">github.com/                  </span>
+                  <input type="text" formControlName="github" class="form-control url" required
                   [ngClass]="{ 'is-invalid': profileForm.controls['github'].touched && profileForm.controls['github'].errors, 'is-valid': profileForm.controls['github'].valid }" />
                 </div>
                 <div *ngIf="profileForm.controls['github'].touched && profileForm.controls['github'].errors"
@@ -220,14 +221,14 @@
 
                 <p class="mb-2 mt-3 fw-bold">Twitter</p>
                 <div class="d-flex">
-                  <!-- <span class="url-prefix">twitter.com/ </span> -->
-                  <input type="text" formControlName="twitter" class="form-control" />
+                  <span class="url-prefix">twitter.com/ </span>
+                  <input type="text" formControlName="twitter" class="form-control url" />
                 </div>
 
                 <p class="mb-2 mt-3 fw-bold">Linkedin *</p>
                 <div class="d-flex">
-                  <!-- <span class="url-prefix">linkedin.com/in/</span> -->
-                <input type="text" formControlName="linkedIn" class="form-control" required
+                  <span class="url-prefix">linkedin.com/in/</span>
+                <input type="text" formControlName="linkedIn" class="form-control url" required
                   [ngClass]="{ 'is-invalid': profileForm.controls['linkedIn'].touched && profileForm.controls['linkedIn'].errors, 'is-valid': profileForm.controls['linkedIn'].valid }" />
                 </div>
                 <div *ngIf="profileForm.controls['linkedIn'].touched && profileForm.controls['linkedIn'].errors"
@@ -237,8 +238,8 @@
 
                 <p class="mb-2 mt-3 fw-bold">Stack Overflow</p>
                 <div class="d-flex">
-                  <!-- <span class="url-prefix">stackoverflow/users/</span> -->
-                  <input type="text" formControlName="stackoverflow" class="form-control" />
+                  <span class="url-prefix">stackoverflow/users/</span>
+                  <input type="text" formControlName="stackoverflow" class="form-control url" />
                 </div>
               </div>
             </div>

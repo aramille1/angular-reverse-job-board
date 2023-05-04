@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { LoadingBarService } from '@ngx-loading-bar/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { BusinessService } from 'src/app/services/business-service/business.service';
 import { CloudinaryService } from 'src/app/services/cloudinary/cloudinary.service';
@@ -14,12 +15,15 @@ export class ProfileUpdateComponent {
   profileForm!: FormGroup;
   imageSrc: string = '';
   imgFile: string;
+  loader = this.loadingBar.useRef();
+
   constructor(
     private fb: FormBuilder,
     private businessService: BusinessService,
     private router: Router,
     private auth: AuthService,
-    private cloudinary: CloudinaryService
+    private cloudinary: CloudinaryService,
+    private loadingBar: LoadingBarService
   ) {}
 
   ngOnInit(): void {
@@ -30,7 +34,7 @@ export class ProfileUpdateComponent {
       linkedIn: ['', Validators.required],
       website: ['', Validators.required],
       bio: ['', Validators.required],
-      logo: ['', Validators.required],
+      logo: [''],
       role: ['', Validators.required],
     });
 
@@ -51,43 +55,69 @@ export class ProfileUpdateComponent {
   }
 
   submit() {
-    const formData = new FormData();
-    console.log(this.imgFile)
-    formData.append("file", this.imgFile);
-    formData.append("upload_preset", "yakyhtcu");
+    this.loader.start()
 
-    this.cloudinary.uploadImg(formData).subscribe((res)=>{
+    if(this.imgFile){
+      const formData = new FormData();
+      formData.append("file", this.imgFile);
+      formData.append("upload_preset", "yakyhtcu");
+
+      this.cloudinary.uploadImg(formData).subscribe((res)=>{
+        const data = {
+          firstName: this.profileForm.value.firstName,
+          lastName: this.profileForm.value.lastName,
+          company: this.profileForm.value.company,
+          website: "https://"+this.profileForm.value.website,
+          bio: this.profileForm.value.bio,
+          logo: res.secure_url,
+          role: this.profileForm.value.role,
+        }
+        this.businessService.updateRecruiter(data).subscribe({
+          next: (response: any) => {
+            this.router.navigate(['/business/details']);
+            this.loader.stop()
+          },
+          error: (error) => {
+            this.loader.stop()
+            console.log(error);
+          },
+        });
+      })
+    }else{
       const data = {
         firstName: this.profileForm.value.firstName,
         lastName: this.profileForm.value.lastName,
         company: this.profileForm.value.company,
-        linkedIn: this.profileForm.value.linkedIn,
-        website: this.profileForm.value.website,
+        website: "https://"+this.profileForm.value.website,
         bio: this.profileForm.value.bio,
-        logo: res.secure_url,
+        logo: this.profileForm.value.logo,
         role: this.profileForm.value.role,
       }
       this.businessService.updateRecruiter(data).subscribe({
         next: (response: any) => {
-          console.log(response)
           this.router.navigate(['/business/details']);
+          this.loader.stop()
         },
         error: (error) => {
           console.log(error);
+          this.loader.stop()
         },
       });
-    })
+    }
   }
 
   getMyProfile() {
     this.auth.getMyProfile().subscribe({
       next: (profile) => {
+        const noPrefixLinkedIn = profile.user.LinkedIn.split("https://www.linkedin.com/in/")[1]
+        const noPrefixWebsite = profile.user.Website.split("https://")[1]
+        this.imageSrc = profile.user.Logo
         this.profileForm.patchValue({
           firstName: profile.user.Firstname,
           lastName: profile.user.Lastname,
           company: profile.user.Company,
-          linkedIn: profile.user.LinkedIn,
-          website: profile.user.Website,
+          linkedIn: noPrefixLinkedIn,
+          website: noPrefixWebsite,
           logo: profile.user.Logo,
           bio: profile.user.Bio,
           role: profile.user.Role,
