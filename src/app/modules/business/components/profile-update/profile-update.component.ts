@@ -5,6 +5,7 @@ import { LoadingBarService } from '@ngx-loading-bar/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { BusinessService } from 'src/app/services/business-service/business.service';
 import { CloudinaryService } from 'src/app/services/cloudinary/cloudinary.service';
+import { regexValidator } from 'src/app/url-regex.validator';
 
 @Component({
   selector: 'app-profile-update',
@@ -32,7 +33,19 @@ export class ProfileUpdateComponent {
       lastName: ['', Validators.required],
       company: ['', Validators.required],
       linkedIn: ['', Validators.required],
-      website: ['', Validators.required],
+      website: [
+        '',
+        [
+          regexValidator(new RegExp('^((?!https://).)*$'), {
+            http: 'true',
+          }),
+          regexValidator(
+            new RegExp('(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?'),
+            { url: 'true' }
+          ),
+          Validators.required
+        ],
+      ],
       bio: ['', Validators.required],
       logo: [''],
       role: ['', Validators.required],

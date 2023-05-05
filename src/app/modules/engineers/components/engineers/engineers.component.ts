@@ -97,14 +97,20 @@ export class EngineersComponent {
   getEngineers() {
     this.getEngineersSub = this.engineerService
       .getEngineers(this.page, this.limit, (this.selectedCountry = ''))
-      .subscribe((res) => {
-        if(res.engineers.length < 10){
-          this.engineers = res.engineers
+      .subscribe({
+        next: (res) => {
+          if(res.engineers.length < 10){
+            this.engineers = res.engineers
+            this.loader.stop();
+          }else {
+            this.engineers = res.engineers
+            this.show = true;
+            this.loader.stop();
+          }
+        },
+        error: (err) =>{
           this.loader.stop();
-        }else {
-          this.engineers = res.engineers
-          this.show = true;
-          this.loader.stop();
+          console.error(err)
         }
       });
   }

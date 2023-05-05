@@ -24,6 +24,7 @@ import { CloudinaryConfiguration, CloudinaryModule } from '@cloudinary/angular-5
 import { Cloudinary } from 'cloudinary-core';
 import { FileUploadModule } from 'ng2-file-upload';
 import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-policy/privacy-policy.component';
+import { AboutComponent } from './components/about/about/about.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-poli
     PricingComponent,
     FooterComponent,
     PrivacyPolicyComponent,
+    AboutComponent,
   ],
   imports: [
     BrowserModule,

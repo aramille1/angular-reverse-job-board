@@ -10,6 +10,7 @@ import { SignupComponent } from './components/signup/signup.component';
 import { AuthGuard } from './guards/auth.guard';
 import { RolePageGuard } from './guards/role-page-guard/role-page.guard';
 import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-policy/privacy-policy.component';
+import { AboutComponent } from './components/about/about/about.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
@@ -23,6 +24,7 @@ const routes: Routes = [
   },
   { path: 'pricing', component: PricingComponent },
   { path: 'privacy', component: PrivacyPolicyComponent },
+  { path: 'about', component: AboutComponent },
   {
     path: 'engineers',
     loadChildren: () =>

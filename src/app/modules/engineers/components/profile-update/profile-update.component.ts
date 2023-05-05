@@ -1,9 +1,12 @@
 import { Component, ElementRef, NgZone, ViewChild } from '@angular/core';
 import {
+  AbstractControl,
   FormArray,
   FormBuilder,
   FormControl,
   FormGroup,
+  ValidationErrors,
+  ValidatorFn,
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -15,6 +18,7 @@ import {
   LocationService,
   Maps,
 } from 'src/app/services/location-service/location.service';
+import { regexValidator } from 'src/app/url-regex.validator';
 
 const place = null as unknown as google.maps.places.PlaceResult;
 type Components = typeof place.address_components;
@@ -24,10 +28,10 @@ type Components = typeof place.address_components;
   styleUrls: ['./profile-update.component.scss'],
 })
 export class ProfileUpdateComponent {
-  myProfile:any;
+  myProfile: any;
   profileForm!: FormGroup;
   submitted = false;
-  imgFile:any;
+  imgFile: any;
   loader = this.loadingBar.useRef();
 
   constructor(
@@ -89,11 +93,12 @@ export class ProfileUpdateComponent {
   imageSrc: string = '';
   coverImg: string = '';
 
+
+
   ngOnInit(): void {
     this.cloudinary.onUploadedPhotoGetLink.subscribe((responseUrl: string) => {
       this.imageSrc = responseUrl;
     });
-
 
     this.profileForm = this.fb.group({
       id: ['', [Validators.required]],
@@ -110,26 +115,66 @@ export class ProfileUpdateComponent {
       searchStatus: ['', Validators.required],
       roleType: this.fb.array([]),
       roleLevel: this.fb.array([]),
-      website: [''],
+      website: [
+        '',
+        [
+          regexValidator(new RegExp('^((?!https://).)*$'), {
+            http: 'true',
+          }),
+          regexValidator(
+            new RegExp('(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?'),
+            { url: 'true' }
+          ),
+        ],
+      ],
       github: ['', Validators.required],
-      twitter: [''],
+      twitter: [
+        '',
+        [
+          regexValidator(new RegExp('^((?!https://).)*$'), {
+            http: 'true',
+          }),
+          regexValidator(new RegExp('^[a-zA-Z0-9_-]+/?$'), {
+            username: 'true',
+          }),
+        ],
+      ],
       linkedIn: ['', Validators.required],
-      stackoverflow: [''],
+      stackoverflow: [
+        '',
+        [
+          regexValidator(new RegExp('^((?!https://).)*$'), {
+            http: 'true',
+          }),
+          regexValidator(new RegExp('^[a-z0-9-/]+$'), {
+            username: 'true',
+          }),
+          Validators.required,
+        ],
+      ],
     });
     this.setProfileToUpdate();
   }
 
   setProfileToUpdate() {
     this.auth.getMyProfile().subscribe((myProfile) => {
-      if(myProfile.user.Avatar){
-        this.imageSrc = myProfile.user.Avatar
-        this.myProfile = myProfile.user
+      if (myProfile.user.Avatar) {
+        this.imageSrc = myProfile.user.Avatar;
+        this.myProfile = myProfile.user;
       }
-      const noPrefixLinkedIn = myProfile.user.LinkedIn.split("https://www.linkedin.com/in/")[1]
-      const noPrefixWebsite = myProfile.user.Website.split("https://")[1]
-      const noPrefixGithub = myProfile.user.Github.split("https://github.com/")[1]
-      const noPrefixTwitter = myProfile.user.Twitter.split("https://twitter.com/")[1]
-      const noPrefixStackOverflow = myProfile.user.StackOverflow.split("https://stackoverflow.com/users/")[1]
+      const noPrefixLinkedIn = myProfile.user.LinkedIn.split(
+        'https://www.linkedin.com/in/'
+      )[1];
+      const noPrefixWebsite = myProfile.user.Website.split('https://')[1];
+      const noPrefixGithub = myProfile.user.Github.split(
+        'https://github.com/'
+      )[1];
+      const noPrefixTwitter = myProfile.user.Twitter.split(
+        'https://twitter.com/'
+      )[1];
+      const noPrefixStackOverflow = myProfile.user.StackOverflow.split(
+        'https://stackoverflow.com/users/'
+      )[1];
 
       this.profileForm.patchValue({
         id: myProfile.user.ID,
@@ -177,8 +222,8 @@ export class ProfileUpdateComponent {
 
   // submit the new changes of edit profile
   update() {
-    this.loader.start()
-    if(this.imgFile === undefined){
+    this.loader.start();
+    if (this.imgFile === undefined) {
       const data = {
         firstName: this.profileForm.value.firstName,
         lastName: this.profileForm.value.lastName,
@@ -190,29 +235,34 @@ export class ProfileUpdateComponent {
         searchStatus: this.profileForm.value.searchStatus,
         roleType: this.profileForm.value.roleType,
         roleLevel: this.profileForm.value.roleLevel,
-        website: "https://"+this.profileForm.value.website,
-        twitter: "https://twitter.com/"+this.profileForm.value.twitter,
-        stackoverflow: "https://stackoverflow.com/users/"+this.profileForm.value.stackoverflow,
+        website: 'https://' + this.profileForm.value.website,
+        twitter: 'https://twitter.com/' + this.profileForm.value.twitter,
+        stackoverflow:
+          'https://stackoverflow.com/users/' +
+          this.profileForm.value.stackoverflow,
       };
 
-        this.engineerService.updateEngineer(data).subscribe({
-          next: (res) => {
-            this.router.navigate(['engineers/details', this.profileForm.value.id]);
-            this.loader.stop()
-          },
-          error: (err) =>{
-            this.loader.stop()
-            console.error(err)
-          }
-        });
-    }else{
+      this.engineerService.updateEngineer(data).subscribe({
+        next: (res) => {
+          this.router.navigate([
+            'engineers/details',
+            this.profileForm.value.id,
+          ]);
+          this.loader.stop();
+        },
+        error: (err) => {
+          this.loader.stop();
+          console.error(err);
+        },
+      });
+    } else {
       const formData = new FormData();
-      console.log(this.imgFile)
-      formData.append("file", this.imgFile);
-      formData.append("upload_preset", "yakyhtcu");
+      console.log(this.imgFile);
+      formData.append('file', this.imgFile);
+      formData.append('upload_preset', 'yakyhtcu');
 
       this.cloudinary.uploadImg(formData).subscribe({
-        next:(res) =>{
+        next: (res) => {
           const data = {
             firstName: this.profileForm.value.firstName,
             lastName: this.profileForm.value.lastName,
@@ -229,15 +279,18 @@ export class ProfileUpdateComponent {
             stackoverflow: this.profileForm.value.stackoverflow,
           };
           this.engineerService.updateEngineer(data).subscribe(() => {
-            this.loader.stop()
-            this.router.navigate(['engineers/details', this.profileForm.value.id]);
+            this.loader.stop();
+            this.router.navigate([
+              'engineers/details',
+              this.profileForm.value.id,
+            ]);
           });
         },
-        error: (err) =>{
-          this.loader.stop()
-          console.error(err)
-        }
-      })
+        error: (err) => {
+          this.loader.stop();
+          console.error(err);
+        },
+      });
     }
   }
 
@@ -282,7 +335,6 @@ export class ProfileUpdateComponent {
     reader.onload = (event: any) => {
       this.imageSrc = event.target.result;
       console.log(event.target.result);
-
     };
   }
 

@@ -16,6 +16,7 @@ import {
   LocationService,
   Maps,
 } from 'src/app/services/location-service/location.service';
+import { regexValidator } from 'src/app/url-regex.validator';
 const place = null as unknown as google.maps.places.PlaceResult;
 type Components = typeof place.address_components;
 @Component({
@@ -88,17 +89,71 @@ export class ProfileFormComponent {
       state: new FormControl(''),
       country: ['', Validators.required],
       location: ['', Validators.required],
-      avatar: new FormControl('',Validators.required),
+      avatar: new FormControl('', Validators.required),
       // cover: new FormControl('',Validators.required),
       bio: ['', Validators.required],
       searchStatus: ['', Validators.required],
       roleType: this.fb.array([]),
       roleLevel: this.fb.array([]),
-      website: [''],
-      github: ['', Validators.required],
-      twitter: [''],
-      linkedIn: ['', Validators.required],
-      stackoverflow: [''],
+      website: [
+        '',
+        [
+          regexValidator(new RegExp('^((?!https://).)*$'), {
+            http: 'true',
+          }),
+          regexValidator(
+            new RegExp('(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?'),
+            { url: 'true' }
+          ),
+        ],
+      ],
+      github: [
+        '',
+        [
+          Validators.required,
+          regexValidator(new RegExp('^((?!https://).)*$'), {
+            http: 'true',
+          }),
+          regexValidator(new RegExp('^[a-zA-Z0-9-]+/?$'), {
+            username: 'true',
+          }),
+        ],
+      ],
+      twitter: [
+        '',
+        [
+          regexValidator(new RegExp('^((?!https://).)*$'), {
+            http: 'true',
+          }),
+          regexValidator(new RegExp('^[a-zA-Z0-9_-]+/?$'), {
+            username: 'true',
+          }),
+        ],
+      ],
+      linkedIn: [
+        '',
+        [
+          regexValidator(new RegExp('^((?!https://).)*$'), {
+            http: 'true',
+          }),
+          regexValidator(new RegExp('^[a-zA-Z0-9-]+/?$'), {
+            username: 'true',
+          }),
+          Validators.required,
+        ],
+      ],
+      stackoverflow: [
+        '',
+        [
+          regexValidator(new RegExp('^((?!https://).)*$'), {
+            http: 'true',
+          }),
+          regexValidator(new RegExp('^[a-z0-9-/]+$'), {
+            username: 'true',
+          }),
+          Validators.required,
+        ],
+      ],
     });
   }
 
@@ -135,16 +190,16 @@ export class ProfileFormComponent {
   }
 
   submit() {
-    this.loader.start()
-    this.submitImgToCloudinary()
+    this.loader.start();
+    this.submitImgToCloudinary();
   }
 
-  submitImgToCloudinary(){
+  submitImgToCloudinary() {
     const formData = new FormData();
-    formData.append("file", this.imgFile);
-    formData.append("upload_preset", "yakyhtcu");
+    formData.append('file', this.imgFile);
+    formData.append('upload_preset', 'yakyhtcu');
     this.cloudinary.uploadImg(formData).subscribe({
-      next: (res) =>{
+      next: (res) => {
         const data = {
           firstName: this.profileForm.value.firstName,
           lastName: this.profileForm.value.lastName,
@@ -156,38 +211,41 @@ export class ProfileFormComponent {
           searchStatus: this.profileForm.value.searchStatus,
           roleType: this.profileForm.value.roleType,
           roleLevel: this.profileForm.value.roleLevel,
-          linkedIn: "https://www.linkedin.com/in/"+this.profileForm.value.linkedIn,
-          website: "https://"+this.profileForm.value.website,
-          github: "https://github.com/"+this.profileForm.value.github,
-          twitter: "https://twitter.com/"+this.profileForm.value.twitter,
-          stackoverflow: "https://stackoverflow.com/users/"+this.profileForm.value.stackoverflow,
+          linkedIn:
+            'https://www.linkedin.com/in/' + this.profileForm.value.linkedIn,
+          website: 'https://' + this.profileForm.value.website,
+          github: 'https://github.com/' + this.profileForm.value.github,
+          twitter: 'https://twitter.com/' + this.profileForm.value.twitter,
+          stackoverflow:
+            'https://stackoverflow.com/users/' +
+            this.profileForm.value.stackoverflow,
         };
 
-        console.log(data)
+        console.log(data);
 
         this.engineerService.createEngineer(data).subscribe({
           next: (response: any) => {
             this.router.navigate(['engineers/details', response.engineerId]);
-            this.loader.stop()
+            this.loader.stop();
           },
           error: (error) => {
-           this.loader.stop()
+            this.loader.stop();
             throw error;
           },
         });
       },
       error: (err) => {
-    this.loader.stop()
-        this.showError = !this.showError
-        console.log(err)
-      }
-    })
+        this.loader.stop();
+        this.showError = !this.showError;
+        console.log(err);
+      },
+    });
   }
 
   onFileChange(event: any) {
     // getting an image and setting global variable imgFile
     const file = event.target.files[0];
-    this.imgFile = file
+    this.imgFile = file;
     var reader = new FileReader();
     reader.readAsDataURL(file);
     // File Preview

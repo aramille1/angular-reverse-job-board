@@ -35,9 +35,17 @@
                   placeholder="enter your website" />
                 </div>
                 <div *ngIf="profileForm.controls['website'].touched && profileForm.controls['website'].errors"
-                  class="text-danger">
-                  <div *ngIf="profileForm.controls['website'].errors">Website is required!</div>
+                  >
+                  <div class="text-danger" *ngIf="profileForm.controls['website'].errors">Website is required!</div>
                 </div>
+                <div *ngIf="profileForm.controls['website'].hasError('http')"
+                class="text-danger">
+                Url has to be without 'https://'
+              </div>
+              <div *ngIf="profileForm.controls['website'].hasError('url')"
+              class="text-danger">
+              Url is invalid
+            </div>
               </div>
 
             <!-- linkedIn -->
