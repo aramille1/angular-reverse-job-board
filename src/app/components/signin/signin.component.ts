@@ -24,8 +24,7 @@ export class SigninComponent {
   signinForm = this.fb.group({
     email: ['', Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$')],
     password: [
-      '',
-      Validators.compose([Validators.required, Validators.minLength(8)]),
+      '',Validators.required
     ],
   });
   constructor(

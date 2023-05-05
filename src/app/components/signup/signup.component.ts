@@ -65,6 +65,9 @@ export class SignupComponent {
         },
         error: (error) => {
           this.loader.stop()
+          if(error.error.detail === 'user already created'){
+            this.toastr.error('Account already exists');
+          }
           throw error;
         },
       });

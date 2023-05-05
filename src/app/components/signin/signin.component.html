@@ -19,9 +19,9 @@
             </p>
           </div>
           <label for="exampleInputPassword1" class="form-label">Password</label>
-          <div class="mb-3 input-group">
+          <div class="input-group">
             <input [type]="fieldTextType ? 'text' : 'password'" id="exampleInputPassword1" class="form-control"
-              formControlName="password" name="password" minlength="8" />
+              formControlName="password" name="password" />
               <div class="input-group-append">
                 <span class="input-group-text">
                   <i [ngClass]="{
@@ -31,16 +31,10 @@
                 </span>
               </div>
             </div>
-            <div>
-              <p class="text-danger mt-1" *ngIf="signinForm.controls['password'].hasError('minlength')">
-                Your password must be at least 8 characters long.
-              </p>
-
               <p class="text-danger mt-1"
                 *ngIf="signinForm.controls['password'].hasError('required') && signinForm.controls['password'].touched">
                 Password is required
               </p>
-            </div>
           <input type="submit" class="btn btn-dark w-100 my-4" value="Login" name="login">
           <p *ngIf="showError" class="text-danger text-center">
             Username or Password incorrect! try again.

@@ -271,7 +271,7 @@
           </div>
         </div>
         <!-- <pagination-controls (pageChange)="page = $event"></pagination-controls> -->
-        <pagination-controls (pageChange)="pageChangeEvent($event)"></pagination-controls>
+        <pagination-controls *ngIf="isMember" (pageChange)="pageChangeEvent($event)"></pagination-controls>
         <!-- <ul class="pagination">
           <li class="page-item"><a (click)="prevIndex()" class="page-link">Previous</a></li>
           <li class="page-item" *ngFor="let i of pagesCount let n = index">
