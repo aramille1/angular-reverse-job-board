@@ -83,6 +83,7 @@
                     Full-time contract
                   </label>
                 </div>
+
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" value="" id="fulltime-employment">
                   <label class="form-check-label" for="fulltime-employment">
@@ -90,9 +91,9 @@
                   </label>
                 </div>
                 <div class="form-check border-top mt-2 py-2">
-                  <input class="form-check-input" type="checkbox" value="" id="fulltime-employment">
-                  <label class="form-check-label" for="fulltime-employment">
-                    Include developers not currently interested
+                  <input class="form-check-input" type="checkbox" value="" id="notInterestedDevs">
+                  <label class="form-check-label" for="notInterestedDevs">
+                    Include developers <br>not currently interested
                   </label>
                 </div>
               </div>
@@ -136,29 +137,9 @@
             </div>
           </div>
 
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="panelsStayOpen-headingFour">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false"
-                aria-controls="panelsStayOpen-collapseThree">
-                Timezone
-              </button>
-            </h2>
-            <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse"
-              aria-labelledby="panelsStayOpen-headingFour">
-              <div class="accordion-body">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="" id="gmt+1">
-                  <label class="form-check-label" for="gmt+1">
-                    GMT+1
-                  </label>
-                </div>
-              </div>
-            </div>
-          </div>
           <div class="bg-white p-4 borderbtm">
             <button class="btn btn-outline-secondary">Clear</button>
-            <button class="btn btn-outline-success mx-3" (click)="applyFilter()">Apply</button>
+            <button class="btn btn-dark mx-2" (click)="applyFilter()">Apply</button>
           </div>
         </div>
       </nav>

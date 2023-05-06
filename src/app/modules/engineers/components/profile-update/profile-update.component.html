@@ -331,15 +331,15 @@
                     <p class="desc-text-heading">
                       Select all roles that you would consider taking.
                     </p>
-                    <div *ngFor="let roleType of roleTypes">
+                    <div *ngFor="let roleType of roleTypes; index as i">
                       <input
                         type="checkbox"
-                        id="partTime"
+                        id="checkbox{{i}}"
                         [checked]="roleType.checked"
                         (change)="handleChangeRoleType($event)"
                         value="{{ roleType.value }}"
                       />
-                      <label for="partTime">{{ roleType.name }}</label
+                      <label [attr.for]="'checkbox'+i">{{ roleType.name }}</label
                       ><br />
                     </div>
                   </div>
@@ -351,15 +351,15 @@
                       Select all the experience levels you would consider
                       taking.
                     </p>
-                    <div *ngFor="let roleLevel of roleLevels">
+                    <div *ngFor="let roleLevel of roleLevels; index as i">
                       <input
                         type="checkbox"
-                        id="roleLevel"
+                        id="roleLevelIndex{{i}}"
                         [checked]="roleLevel.checked"
                         (change)="handleChangeRoleLevel($event)"
                         value="{{ roleLevel.value }}"
                       />
-                      <label for="roleLevel">{{ roleLevel.name }}</label
+                      <label [attr.for]="'roleLevelIndex'+i">{{ roleLevel.name }}</label
                       ><br />
                     </div>
                   </div>
