@@ -18,6 +18,9 @@ export class EngineersComponent {
   pagesCount: Number[] = [1, 2, 3];
   startIndex = 0;
   endIndex = 5;
+  recruiterId:number;
+  engineerId: number;
+  userIs: string;
   status: boolean = false;
   isMember: boolean = false;
   show: boolean = false;
@@ -43,6 +46,7 @@ export class EngineersComponent {
     currentPage: 1,
   };
   ngOnInit(): void {
+    console.log(this.userIs)
     this.loader.start();
     this.http
       .get('https://restcountries.com/v3.1/all?fields=name,flags')
@@ -61,10 +65,20 @@ export class EngineersComponent {
       });
     this.getMyProfileSub = this.auth.getMyProfile().subscribe({
       next: (res) => {
+        console.log(res)
         if (res.type === 'recruiter' && res.user.IsMember) {
+          this.recruiterId = res.user.ID
           this.isMember = true;
+          this.userIs = 'recruiter'
+        }
+        else{
+          this.engineerId = res.user.ID
+          this.userIs = 'engineer'
         }
       },
+      error: (err) =>{
+        console.error(err)
+      }
     });
     // TODO need to get number of all engineers and set it in total
     this.getEngineers();
@@ -99,6 +113,8 @@ export class EngineersComponent {
       .getEngineers(this.page, this.limit, (this.selectedCountry = ''))
       .subscribe({
         next: (res) => {
+          console.log(res);
+
           if(res.engineers?.length < 10){
             this.engineers = res.engineers
             this.loader.stop();

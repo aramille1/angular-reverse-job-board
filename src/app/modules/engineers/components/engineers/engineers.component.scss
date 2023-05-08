@@ -290,3 +290,12 @@ main {
   display: flex;
   align-items: center;
 }
+
+.inner{
+  font-size: 0.8rem;
+  transform: translate3d(-0.4em, -0.6em, 0);
+}
+
+.pushme{
+  margin: 0;
+}

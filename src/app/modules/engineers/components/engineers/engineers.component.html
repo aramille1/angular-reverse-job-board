@@ -8,7 +8,10 @@
         800+ Angular developers looking for their next gig. Juniors to seniors and <br>
         everyone in between, you'll find them all here.
       </article>
-      <div class="sort">Sort</div>
+      <div class="d-flex justify-content-center" *ngIf="userIs === 'recruiter'"><a class="pushme" [routerLink]="['/business/update', recruiterId]"> <span class="inner fw-bold">+ Add my profile</span></a></div>
+      <div class="d-flex justify-content-center" *ngIf="userIs === 'engineer'"><a class="pushme" [routerLink]="['/engineers/update', engineerId]"> <span class="inner fw-bold">+ Add my profile</span></a></div>
+      <div class="d-flex justify-content-center" *ngIf="!userIs"><a class="pushme" [routerLink]="['/role']"> <span class="inner fw-bold">+ Add my profile</span></a></div>
+      <!-- <div class="sort">Sort</div> -->
     </div>
   </header>
   <div class="row">
