@@ -99,7 +99,7 @@ export class EngineersComponent {
       .getEngineers(this.page, this.limit, (this.selectedCountry = ''))
       .subscribe({
         next: (res) => {
-          if(res.engineers.length < 10){
+          if(res.engineers?.length < 10){
             this.engineers = res.engineers
             this.loader.stop();
           }else {
@@ -131,6 +131,7 @@ export class EngineersComponent {
   // }
 
   applyFilter() {
+    console.log(this.selectedCountry)
     if (this.selectedCountry) {
       this.getEngineersSub = this.engineerService
         .getEngineers(this.page, this.limit, this.selectedCountry)
@@ -145,14 +146,16 @@ export class EngineersComponent {
   selectEvent(item: any) {
     // do something with selected item
     console.log(item);
-    this.getEngineersSub = this.engineerService
-      .getEngineers(this.page, this.limit, item.name)
-      .subscribe((res) => {
-        // console.log(res.engineers.length);
-        // this.total = res.engineers.length
-        console.log(res.engineers);
-        this.engineers = res.engineers;
-      });
+    this.selectedCountry = item.name
+
+    // this.getEngineersSub = this.engineerService
+    //   .getEngineers(this.page, this.limit, item.name)
+    //   .subscribe((res) => {
+    //     // console.log(res.engineers.length);
+    //     // this.total = res.engineers.length
+    //     console.log(res.engineers);
+    //     this.engineers = res.engineers;
+    //   });
   }
 
   // onChangeSearch(val: string) {
