@@ -188,3 +188,32 @@ input[type=checkbox]:before {
   box-shadow: none;
   border-color: rgba(0,0,0,.125);
 }
+
+
+// private information locked
+.priv{
+  margin-left: 3px;
+}
+
+.bi-unlock-fill{
+  display: none;
+}
+
+.private-info {
+  border-radius: 15px;
+  border: 1px dashed #dee2e6;
+  width: 30%;
+  text-align: center;
+  background-color: rgb(249, 250, 251);
+}
+
+.private-info:hover{
+  cursor: pointer;
+  border-color: #a7a8aa;
+  .bi-unlock-fill{
+    display: inline
+  }
+  .bi-lock-fill{
+    display: none;
+  }
+}

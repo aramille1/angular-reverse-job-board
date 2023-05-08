@@ -52,6 +52,19 @@ article{
   color: rgb(43, 63, 95);
   }
 
+  .accordion .search-profiles{
+    color: rgb(55, 65, 81);
+    font-weight: bold;
+    padding: 16px 20px 10px;
+  }
+
+  .search-profiles-input {
+    margin-left: 20px;
+    border: 1px solid #a5aab1;
+    padding: 4px 10px;
+    color: rgb(75, 85, 99);
+  }
+
 .accordion-button:focus{
   border-color: none;
   box-shadow: none;
@@ -298,4 +311,19 @@ main {
 
 .pushme{
   margin: 0;
+}
+
+.private-info{
+  width: 91%;
+  margin: auto;
+
+  .priv{
+    font-weight: bold;
+    font-size: 13px;
+    color: rgb(75, 85, 99);
+  }
+
+  i{
+    color: rgb(75, 85, 99);
+  }
 }
