@@ -142,7 +142,7 @@
             <ng-template #elseTemplate>
               <!-- last 3 engineers blury and blocked if user is not member -->
               <ng-container *ngIf="i > engineers.length - 4 && !isMember; else elseTemplate2">
-                <div [ngClass]="{'blur': show}">
+                <div [ngClass]="{'blur': showBlur}">
                   <a class="engineer custom-box-shadow e-h item" [routerLink]="['/engineers/details', engineer.ID]">
                   <div class="flex-shrink-1">
                     <picture>
@@ -227,7 +227,7 @@
             </ng-template>
 
           </div>
-          <div class="blur-block" *ngIf="!isMember && show">
+          <div class="blur-block" *ngIf="!isMember && showBlur">
             <div class="blur-block-wrap">
               <h1>Sign up now to see more profiles.
               </h1>

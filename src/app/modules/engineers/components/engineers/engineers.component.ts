@@ -18,12 +18,12 @@ export class EngineersComponent {
   pagesCount: Number[] = [1, 2, 3];
   startIndex = 0;
   endIndex = 5;
-  recruiterId:number;
+  recruiterId: number;
   engineerId: number;
   userIs: string;
   status: boolean = false;
   isMember: boolean = false;
-  show: boolean = false;
+  showBlur: boolean = false;
   countries: any = [];
   selectedCountry: string;
   selectedRoleLevel: string;
@@ -63,7 +63,6 @@ export class EngineersComponent {
     currentPage: 1,
   };
   ngOnInit(): void {
-    console.log(this.userIs)
     this.loader.start();
     this.http
       .get('https://restcountries.com/v3.1/all?fields=name,flags')
@@ -82,20 +81,19 @@ export class EngineersComponent {
       });
     this.getMyProfileSub = this.auth.getMyProfile().subscribe({
       next: (res) => {
-        console.log(res)
+        console.log(res);
         if (res.type === 'recruiter' && res.user.IsMember) {
-          this.recruiterId = res.user.ID
+          this.recruiterId = res.user.ID;
           this.isMember = true;
-          this.userIs = 'recruiter'
-        }
-        else{
-          this.engineerId = res.user.ID
-          this.userIs = 'engineer'
+          this.userIs = 'recruiter';
+        } else {
+          this.engineerId = res.user.ID;
+          this.userIs = 'engineer';
         }
       },
-      error: (err) =>{
-        console.error(err)
-      }
+      error: (err) => {
+        console.error(err);
+      },
     });
     // TODO need to get number of all engineers and set it in total
     this.getEngineers();
@@ -132,19 +130,19 @@ export class EngineersComponent {
         next: (res) => {
           console.log(res);
 
-          if(res.engineers?.length < 10){
-            this.engineers = res.engineers
+          if (res.engineers?.length < 10) {
+            this.engineers = res.engineers;
             this.loader.stop();
-          }else {
-            this.engineers = res.engineers
-            this.show = true;
+          } else {
+            this.engineers = res.engineers;
+            this.showBlur = true;
             this.loader.stop();
           }
         },
-        error: (err) =>{
+        error: (err) => {
           this.loader.stop();
-          console.error(err)
-        }
+          console.error(err);
+        },
       });
   }
 
@@ -164,14 +162,14 @@ export class EngineersComponent {
   // }
 
   applyFilter() {
-    console.log(this.selectedCountry)
+    console.log(this.selectedCountry);
     if (this.selectedCountry) {
       this.getEngineersSub = this.engineerService
         .getEngineers(this.page, this.limit, this.selectedCountry)
         .subscribe((res) => {
+          console.log(res.engineers);
           this.engineers = res.engineers;
 
-          console.log(res.engineers);
         });
     }
   }
@@ -179,7 +177,7 @@ export class EngineersComponent {
   selectEvent(item: any) {
     // do something with selected item
     console.log(item);
-    this.selectedCountry = item.name
+    this.selectedCountry = item.name;
 
     // this.getEngineersSub = this.engineerService
     //   .getEngineers(this.page, this.limit, item.name)
@@ -201,20 +199,19 @@ export class EngineersComponent {
   //   // do something when input is focused
   // }
 
-
   handleChangeRoleLevel(e: any) {
     if (e.target.checked) {
-      console.log(e.target.value)
-      this.selectedRoleLevel = e.target.value
+      console.log(e.target.value);
+      this.selectedRoleLevel = e.target.value;
     } else {
-      return
+      return;
     }
   }
 
-  handleChangeRoleType(e:any){
-    if(e.target.checked){
+  handleChangeRoleType(e: any) {
+    if (e.target.checked) {
       console.log(e.target.value);
-      this.selectedRoleType = e.target.value
+      this.selectedRoleType = e.target.value;
     }
   }
 }

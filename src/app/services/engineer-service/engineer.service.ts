@@ -22,7 +22,7 @@ export class EngineerService {
     console.log("page:", page)
     console.log("limit:", limit)
     console.log("country:", country)
-    return this.http.get(`${this.url}/engineers?role_level=c_level)`);
+    return this.http.get<any>(`${this.url}/engineers?page=${page}&limit=${limit}&roleType=employee_part_time`);
   }
 
   getEngineer(engineerId: any): Observable<any> {
