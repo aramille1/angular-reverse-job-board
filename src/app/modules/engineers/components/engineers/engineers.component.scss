@@ -156,13 +156,15 @@ main {
   header {
     margin: 30px;
     padding: 0;
+    h1{
+      font-size:27.85px;
+    }
   }
 
   .head {
     display: block !important;
   }
   .accordion{
-    width: 85%;
     margin: auto;
   }
 
@@ -190,6 +192,46 @@ main {
       margin-bottom: 15px;
     }
   }
+
+  .addProfile{
+    margin-top: 30px;
+  }
+
+  .blur-block{
+    top: 1700px !important;
+    padding: 0 !important;
+
+    .blur-block-wrap{
+      width: 80%;
+    }
+  }
+
+  .filters-desktop{
+    display: none;
+  }
+
+  .filters-icon{
+    display: flex !important;
+    justify-content: end;
+    padding: 10px 50px;
+  }
+
+  .offcanvas{
+    max-width: 85%;
+  }
+
+  .custom-box-shadow{
+    border: none;
+    box-shadow: none;
+  }
+
+  .offcanvas-body{
+    padding: 0;
+  }
+}
+
+.filters-icon{
+  display: none;
 }
 
 .engineer-wrapper{

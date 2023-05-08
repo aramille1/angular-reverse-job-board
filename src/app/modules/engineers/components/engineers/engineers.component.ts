@@ -26,10 +26,27 @@ export class EngineersComponent {
   show: boolean = false;
   countries: any = [];
   selectedCountry: string;
+  selectedRoleLevel: string;
+  selectedRoleType: string;
   keyword = 'name';
   data$: Observable<any>;
   data: any = [];
   loader = this.loadingBar.useRef();
+
+  roleLevels = [
+    { name: 'Junior', value: 'junior' },
+    { name: 'Middle', value: 'mid_level' },
+    { name: 'Senior', value: 'senior' },
+    { name: 'Principal', value: 'principal_staff' },
+    { name: 'C-Level', value: 'c_level' },
+  ];
+
+  roleTypes = [
+    { name: 'Part-time', value: 'contract_part_time' },
+    { name: 'Full-time contract', value: 'contract_full_time' },
+    { name: 'Part-time employment', value: 'employee_part_time' },
+    { name: 'Full-time employment', value: 'employee_full_time' },
+  ];
 
   private getMyProfileSub: Subscription;
   private getEngineersSub: Subscription;
@@ -183,4 +200,21 @@ export class EngineersComponent {
   // onFocused(e:any){
   //   // do something when input is focused
   // }
+
+
+  handleChangeRoleLevel(e: any) {
+    if (e.target.checked) {
+      console.log(e.target.value)
+      this.selectedRoleLevel = e.target.value
+    } else {
+      return
+    }
+  }
+
+  handleChangeRoleType(e:any){
+    if(e.target.checked){
+      console.log(e.target.value);
+      this.selectedRoleType = e.target.value
+    }
+  }
 }

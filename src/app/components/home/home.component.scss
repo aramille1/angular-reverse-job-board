@@ -207,7 +207,7 @@ $checkmarkFat: 1px;
     margin: 30px !important;
     padding: 0;
     h1{
-      font-size: 3.60rem !important;
+      font-size: 3.40rem !important;
       .words{
         text-align: center;
       }
@@ -216,7 +216,20 @@ $checkmarkFat: 1px;
 
   .engineer-wrapper{
     margin: 20px;
-    width: 90%;
+    width: 90% !important;
+  }
+
+  .profile-image{
+    width: 95px;
+    height: 95px;
+  }
+
+  .engineer-info-status{
+    display: none !important;
+  }
+
+  .engineer-info-header h2{
+    width: 100%;
   }
 
   .item {

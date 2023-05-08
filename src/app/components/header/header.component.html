@@ -17,6 +17,30 @@
       <li class="nav-item" routerLinkActive="active">
         <a class="nav-link" data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" routerLink="/about">About</a>
       </li>
+      <!-- mobile version of myprofile nav -->
+      <div class="myProfileNav" *ngIf="auth.isLoggedIn$ | async">
+        <li class="nav-item">
+          <a class="nav-link" >
+            <img [src]="myProfileImg" alt="mdo" width="42" height="42" class="object-fit-cover rounded-circle">
+            <span class="myprofileName"> {{ myProfileName}}</span>
+          </a>
+        </li>
+        <li class="nav-item" *ngIf="showMyEngineerProfile">
+          <a class="nav-link" data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" [routerLink]="['/engineers/details', myProfileID]">
+            My Profile
+          </a>
+        </li>
+        <li class="nav-item" *ngIf="showMyBusinessProfile">
+          <a class="nav-link" data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" [routerLink]="['/business/details']">
+            My Profile
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" (click)="signout()">
+            Logout
+          </a>
+        </li>
+      </div>
     </ul>
     <ul class="navbar-nav ml-auto" *ngIf="!(auth.isLoggedIn$ | async)">
       <li class="nav-item">
@@ -30,8 +54,9 @@
       </li>
     </ul>
 
-    <div class="flex-shrink-0 dropdown" *ngIf="auth.isLoggedIn$ | async">
-      <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown"
+    <!-- desktop version -->
+    <div class="flex-shrink-0 dropdown myProfileDesktop" *ngIf="auth.isLoggedIn$ | async">
+      <a class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown"
         aria-expanded="false">
         <img [src]="myProfileImg" alt="mdo" width="32" height="32" class="object-fit-cover rounded-circle">
       </a>

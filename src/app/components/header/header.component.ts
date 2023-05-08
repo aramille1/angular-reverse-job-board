@@ -12,6 +12,7 @@ import { EngineerService } from 'src/app/services/engineer-service/engineer.serv
 })
 export class HeaderComponent implements OnInit {
   myProfileID: any;
+  myProfileName: string;
   myProfileImg: string =
     'https://microbiology.ucr.edu/sites/default/files/styles/form_preview/public/blank-profile-pic.png';
   showMyEngineerProfile: Boolean = false;
@@ -36,9 +37,11 @@ export class HeaderComponent implements OnInit {
             this.myProfileID = res.user.ID;
             if (res.type === 'engineer') {
               this.showMyEngineerProfile = true;
+              this.myProfileName = `${res.user.Firstname} ${res.user.Lastname}`
             }
             if (res.type === 'recruiter') {
               this.showMyBusinessProfile = true;
+              this.myProfileName = `${res.user.Firstname} ${res.user.Lastname}`
             }
           },
           error: (error) => {
@@ -61,6 +64,7 @@ export class HeaderComponent implements OnInit {
         }
         if (res.type === 'recruiter') {
           this.showMyBusinessProfile = true;
+          this.myProfileName = `${res.user.Firstname} ${res.user.Lastname}`
         }
         console.log('showMyEngineerProfile', this.showMyEngineerProfile);
       },
