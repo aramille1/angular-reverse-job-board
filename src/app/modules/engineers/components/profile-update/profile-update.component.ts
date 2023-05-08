@@ -60,7 +60,7 @@ export class ProfileUpdateComponent {
     { name: 'Part-time', value: 'contract_part_time', checked: false },
     { name: 'Full-time contract', value: 'contract_full_time', checked: false },
     {
-      name: 'Part-time emplpoyment',
+      name: 'Part-time employment',
       value: 'employee_part_time',
       checked: false,
     },
