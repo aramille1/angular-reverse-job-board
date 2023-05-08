@@ -68,7 +68,7 @@
               aria-labelledby="panelsStayOpen-headingTwo">
               <div class="accordion-body">
                 <div class="form-check" *ngFor="let roleType of roleTypes; index as i">
-                  <input class="form-check-input" type="checkbox" (change)="handleChangeRoleType($event)" value="{{ roleType.value }}" id="roleLevelIdx{{i}}">
+                  <input class="form-check-input" type="checkbox" (change)="handleChangeRoleType($event)" value="{{ roleType.value }}" id="roleTypeIdx{{i}}">
                   <label class="form-check-label" [attr.for]="'roleTypeIdx'+i">
                     {{roleType.name}}
                   </label>
