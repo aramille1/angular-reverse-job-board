@@ -18,11 +18,13 @@ export class EngineerService {
     return this.http.get<any>(`${this.url}/engineers`);
   }
 
-  getEngineers(page:number, limit: number, country: string): Observable<any> {
+  getEngineers(page:number, limit: number, country: string, selectedRoleType: string, selectedRoleLevel: string): Observable<any> {
     console.log("page:", page)
     console.log("limit:", limit)
     console.log("country:", country)
-    return this.http.get<any>(`${this.url}/engineers?page=${page}&limit=${limit}&roleType=employee_part_time`);
+    console.log("selectedRoleType:", selectedRoleType)
+    console.log("selectedRoleLevel:", selectedRoleLevel)
+    return this.http.get<any>(`${this.url}/engineers?page=${page}&limit=${limit}&country=${country}&roleType=${selectedRoleType}&roleLevel=${selectedRoleLevel}`);
   }
 
   getEngineer(engineerId: any): Observable<any> {

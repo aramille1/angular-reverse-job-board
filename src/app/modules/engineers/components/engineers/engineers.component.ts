@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Input } from '@angular/core';
+import { FormBuilder, NgForm } from '@angular/forms';
 import { LoadingBarService } from '@ngx-loading-bar/core';
 import { PaginationInstance } from 'ngx-pagination';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, timeout } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { EngineerService } from 'src/app/services/engineer-service/engineer.service';
 @Component({
@@ -14,47 +15,52 @@ export class EngineersComponent {
   engineers = new Array<any>();
   limit: number = 10;
   page: number = 1;
-  total: number = 13;
+  total: number = 18;
   pagesCount: Number[] = [1, 2, 3];
   startIndex = 0;
   endIndex = 5;
   recruiterId: number;
   engineerId: number;
+  selectedLevelIndex: number;
+  selectedTypeIndex: number;
   userIs: string;
   status: boolean = false;
   isMember: boolean = false;
   showBlur: boolean = false;
+  showPagination: boolean = true;
   countries: any = [];
-  selectedCountry: string;
-  selectedRoleLevel: string;
-  selectedRoleType: string;
+  selectedCountry: string = '';
+  selectedRoleLevel: string = '';
+  selectedRoleType: string = '';
   keyword = 'name';
   data$: Observable<any>;
   data: any = [];
   loader = this.loadingBar.useRef();
+  private getMyProfileSub: Subscription;
+  private getEngineersSub: Subscription;
 
   roleLevels = [
-    { name: 'Junior', value: 'junior' },
-    { name: 'Middle', value: 'mid_level' },
-    { name: 'Senior', value: 'senior' },
-    { name: 'Principal', value: 'principal_staff' },
-    { name: 'C-Level', value: 'c_level' },
+    { name: 'Junior', value: 'junior', isSelected: false },
+    { name: 'Middle', value: 'mid_level', isSelected: false },
+    { name: 'Senior', value: 'senior', isSelected: false },
+    { name: 'Principal', value: 'principal_staff', isSelected: false },
+    { name: 'C-Level', value: 'c_level', isSelected: false },
   ];
 
   roleTypes = [
-    { name: 'Part-time', value: 'contract_part_time' },
-    { name: 'Full-time contract', value: 'contract_full_time' },
-    { name: 'Part-time employment', value: 'employee_part_time' },
-    { name: 'Full-time employment', value: 'employee_full_time' },
+    { name: 'Part-time', value: 'contract_part_time', isSelected: false },
+    { name: 'Full-time contract', value: 'contract_full_time', isSelected: false },
+    { name: 'Part-time employment', value: 'employee_part_time', isSelected: false },
+    { name: 'Full-time employment', value: 'employee_full_time', isSelected: false },
   ];
 
-  private getMyProfileSub: Subscription;
-  private getEngineersSub: Subscription;
+
   constructor(
     private engineerService: EngineerService,
     private auth: AuthService,
     private http: HttpClient,
-    private loadingBar: LoadingBarService
+    private loadingBar: LoadingBarService,
+    private fb: FormBuilder
   ) {}
 
   public config: PaginationInstance = {
@@ -124,19 +130,36 @@ export class EngineersComponent {
   // }
 
   getEngineers() {
+    console.log(this.page)
+    console.log(this.limit)
+    console.log(this.selectedCountry)
+    console.log(this.selectedRoleType)
+    console.log(this.selectedRoleLevel)
     this.getEngineersSub = this.engineerService
-      .getEngineers(this.page, this.limit, (this.selectedCountry = ''))
+      .getEngineers(
+        this.page,
+        this.limit,
+        this.selectedCountry,
+        this.selectedRoleType,
+        this.selectedRoleLevel
+        )
       .subscribe({
         next: (res) => {
           console.log(res);
-
-          if (res.engineers?.length < 10) {
-            this.engineers = res.engineers;
-            this.loader.stop();
-          } else {
-            this.engineers = res.engineers;
-            this.showBlur = true;
-            this.loader.stop();
+          // TODO when user filtering and then resets, pagination disapears even
+          if(res.engineers !== null){
+            if (res.engineers?.length < 10 && res.engineers) {
+              this.showPagination = false;
+              this.engineers = res?.engineers;
+              this.loader.stop();
+            } else {
+              this.engineers = res?.engineers;
+              this.showPagination = true;
+              this.showBlur = true;
+              this.loader.stop();
+            }
+          }else{
+            this.engineers = []
           }
         },
         error: (err) => {
@@ -162,17 +185,38 @@ export class EngineersComponent {
   // }
 
   applyFilter() {
-    console.log(this.selectedCountry);
-    if (this.selectedCountry) {
-      this.getEngineersSub = this.engineerService
-        .getEngineers(this.page, this.limit, this.selectedCountry)
-        .subscribe((res) => {
-          console.log(res.engineers);
-          this.engineers = res.engineers;
+    this.page = 1;
 
+      this.getEngineersSub = this.engineerService
+        .getEngineers(
+          this.page,
+          this.limit,
+          this.selectedCountry,
+          this.selectedRoleType,
+          this.selectedRoleLevel
+          )
+        .subscribe({
+          next: (res) =>{
+
+            if(res.engineers){
+              console.log(res.engineers);
+              if(res.engineers.length < 10){
+                this.page = 1;
+                this.showPagination = false
+              }
+              this.engineers = res.engineers;
+            }else{
+              this.engineers = []
+            }
+          },
+          error: (err) =>{
+            console.error(err)
+          }
         });
-    }
+
   }
+
+
 
   selectEvent(item: any) {
     // do something with selected item
@@ -199,19 +243,32 @@ export class EngineersComponent {
   //   // do something when input is focused
   // }
 
-  handleChangeRoleLevel(e: any) {
+  handleChangeRoleLevel(e: any, index: any) {
+    this.selectedLevelIndex = e.target.checked ? index : undefined;
     if (e.target.checked) {
-      console.log(e.target.value);
       this.selectedRoleLevel = e.target.value;
     } else {
       return;
     }
   }
 
-  handleChangeRoleType(e: any) {
+  handleChangeRoleType(e: any, index:any) {
+    this.selectedTypeIndex = e.target.checked ? index : undefined;
     if (e.target.checked) {
-      console.log(e.target.value);
       this.selectedRoleType = e.target.value;
+    }else{
+      return
     }
+  }
+
+  clearFilter(){
+    this.roleLevels.forEach((c) => c.isSelected = false)
+    this.roleTypes.forEach((c) => c.isSelected = false)
+
+    this.page = 1;
+    this.selectedCountry = '';
+    this.selectedRoleLevel = ''
+    this.selectedRoleType = ''
+    this.getEngineers()
   }
 }
