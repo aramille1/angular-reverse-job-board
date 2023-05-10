@@ -44,7 +44,7 @@ export class ProfileFormComponent {
   loader = this.loadingBar.useRef();
 
   roleTypes = [
-    { name: 'Part-time', value: 'contract_part_time' },
+    { name: 'Part-time contract', value: 'contract_part_time' },
     { name: 'Full-time contract', value: 'contract_full_time' },
     { name: 'Part-time employment', value: 'employee_part_time' },
     { name: 'Full-time employment', value: 'employee_full_time' },

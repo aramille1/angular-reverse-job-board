@@ -57,7 +57,7 @@ export class ProfileUpdateComponent {
   // @ViewChild('location') public locationElement!: ElementRef;
 
   roleTypes = [
-    { name: 'Part-time', value: 'contract_part_time', checked: false },
+    { name: 'Part-time contract', value: 'contract_part_time', checked: false },
     { name: 'Full-time contract', value: 'contract_full_time', checked: false },
     {
       name: 'Part-time employment',

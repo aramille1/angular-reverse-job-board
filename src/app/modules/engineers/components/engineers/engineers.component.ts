@@ -1,9 +1,8 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, Input } from '@angular/core';
-import { FormBuilder, NgForm } from '@angular/forms';
+import { Component } from '@angular/core';
 import { LoadingBarService } from '@ngx-loading-bar/core';
 import { PaginationInstance } from 'ngx-pagination';
-import { Observable, Subscription, timeout } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { EngineerService } from 'src/app/services/engineer-service/engineer.service';
 @Component({
@@ -12,32 +11,38 @@ import { EngineerService } from 'src/app/services/engineer-service/engineer.serv
   styleUrls: ['./engineers.component.scss'],
 })
 export class EngineersComponent {
+  // variables
   engineers = new Array<any>();
   limit: number = 10;
   page: number = 1;
   total: number = 18;
-  pagesCount: Number[] = [1, 2, 3];
-  startIndex = 0;
-  endIndex = 5;
+  // pagesCount: Number[] = [1, 2, 3];
+  // startIndex = 0;
+  // endIndex = 5;
   recruiterId: number;
   engineerId: number;
   selectedLevelIndex: number;
   selectedTypeIndex: number;
   userIs: string;
-  status: boolean = false;
+  // status: boolean = false;
   isMember: boolean = false;
   showBlur: boolean = false;
+  showNotFound: boolean = false;
   showPagination: boolean = true;
-  countries: any = [];
+  // countries: any = [];
   selectedCountry: string = '';
   selectedRoleLevel: string = '';
   selectedRoleType: string = '';
   keyword = 'name';
-  data$: Observable<any>;
-  data: any = [];
+  countriesData: any = [];
   loader = this.loadingBar.useRef();
   private getMyProfileSub: Subscription;
   private getEngineersSub: Subscription;
+  public config: PaginationInstance = {
+    id: 'custom',
+    itemsPerPage: 10,
+    currentPage: 1,
+  };
 
   roleLevels = [
     { name: 'Junior', value: 'junior', isSelected: false },
@@ -48,26 +53,35 @@ export class EngineersComponent {
   ];
 
   roleTypes = [
-    { name: 'Part-time', value: 'contract_part_time', isSelected: false },
-    { name: 'Full-time contract', value: 'contract_full_time', isSelected: false },
-    { name: 'Part-time employment', value: 'employee_part_time', isSelected: false },
-    { name: 'Full-time employment', value: 'employee_full_time', isSelected: false },
+    {
+      name: 'Part-time contract',
+      value: 'contract_part_time',
+      isSelected: false,
+    },
+    {
+      name: 'Full-time contract',
+      value: 'contract_full_time',
+      isSelected: false,
+    },
+    {
+      name: 'Part-time employment',
+      value: 'employee_part_time',
+      isSelected: false,
+    },
+    {
+      name: 'Full-time employment',
+      value: 'employee_full_time',
+      isSelected: false,
+    },
   ];
-
 
   constructor(
     private engineerService: EngineerService,
     private auth: AuthService,
     private http: HttpClient,
-    private loadingBar: LoadingBarService,
-    private fb: FormBuilder
+    private loadingBar: LoadingBarService
   ) {}
 
-  public config: PaginationInstance = {
-    id: 'custom',
-    itemsPerPage: 10,
-    currentPage: 1,
-  };
   ngOnInit(): void {
     this.loader.start();
     this.http
@@ -75,19 +89,17 @@ export class EngineersComponent {
       .subscribe({
         next: (data) => {
           for (const [key, value] of Object.entries(data)) {
-            this.data.push({
+            this.countriesData.push({
               id: Number(key + 1),
               name: value.name.common,
               flag: value.flags.svg,
             });
           }
-          console.log(this.data);
         },
         error: (err) => console.error(err),
       });
     this.getMyProfileSub = this.auth.getMyProfile().subscribe({
       next: (res) => {
-        console.log(res);
         if (res.type === 'recruiter' && res.user.IsMember) {
           this.recruiterId = res.user.ID;
           this.isMember = true;
@@ -130,11 +142,6 @@ export class EngineersComponent {
   // }
 
   getEngineers() {
-    console.log(this.page)
-    console.log(this.limit)
-    console.log(this.selectedCountry)
-    console.log(this.selectedRoleType)
-    console.log(this.selectedRoleLevel)
     this.getEngineersSub = this.engineerService
       .getEngineers(
         this.page,
@@ -142,12 +149,10 @@ export class EngineersComponent {
         this.selectedCountry,
         this.selectedRoleType,
         this.selectedRoleLevel
-        )
+      )
       .subscribe({
         next: (res) => {
-          console.log(res);
-          // TODO when user filtering and then resets, pagination disapears even
-          if(res.engineers !== null){
+          if (res.engineers !== null) {
             if (res.engineers?.length < 10 && res.engineers) {
               this.showPagination = false;
               this.engineers = res?.engineers;
@@ -158,8 +163,8 @@ export class EngineersComponent {
               this.showBlur = true;
               this.loader.stop();
             }
-          }else{
-            this.engineers = []
+          } else {
+            this.engineers = [];
           }
         },
         error: (err) => {
@@ -174,101 +179,78 @@ export class EngineersComponent {
     this.getEngineers();
   }
 
-  ngOnDestroy(): void {
-    this.getMyProfileSub.unsubscribe();
-    this.getEngineersSub.unsubscribe();
-  }
-
-  // onCheck(country:string){
-  //   this.selectedCountry = country
-  //   console.log(this.selectedCountry)
-  // }
-
   applyFilter() {
     this.page = 1;
-
-      this.getEngineersSub = this.engineerService
-        .getEngineers(
-          this.page,
-          this.limit,
-          this.selectedCountry,
-          this.selectedRoleType,
-          this.selectedRoleLevel
-          )
-        .subscribe({
-          next: (res) =>{
-
-            if(res.engineers){
-              console.log(res.engineers);
-              if(res.engineers.length < 10){
-                this.page = 1;
-                this.showPagination = false
-              }
+    this.showNotFound = false;
+    this.getEngineersSub = this.engineerService
+      .getEngineers(
+        this.page,
+        this.limit,
+        this.selectedCountry,
+        this.selectedRoleType,
+        this.selectedRoleLevel
+      )
+      .subscribe({
+        next: (res) => {
+          if (res.engineers) {
+            if (res.engineers.length < 10) {
+              this.page = 1;
+              this.showPagination = false;
               this.engineers = res.engineers;
-            }else{
-              this.engineers = []
+            } else {
+              this.showPagination = true;
+              this.engineers = res.engineers;
             }
-          },
-          error: (err) =>{
-            console.error(err)
+          } else {
+            this.showNotFound = true;
+            this.showPagination = false;
+            this.engineers = [];
           }
-        });
-
+        },
+        error: (err) => {
+          console.error(err);
+        },
+      });
   }
 
-
-
-  selectEvent(item: any) {
-    // do something with selected item
-    console.log(item);
-    this.selectedCountry = item.name;
-
-    // this.getEngineersSub = this.engineerService
-    //   .getEngineers(this.page, this.limit, item.name)
-    //   .subscribe((res) => {
-    //     // console.log(res.engineers.length);
-    //     // this.total = res.engineers.length
-    //     console.log(res.engineers);
-    //     this.engineers = res.engineers;
-    //   });
+  selectCountry(item: any) {
+    this.selectedCountry = item?.name;
   }
 
-  // onChangeSearch(val: string) {
-  //   console.log(val)
-  //   // fetch remote data from here
-  //   // And reassign the 'data' which is binded to 'data' property.
-  // }
-
-  // onFocused(e:any){
-  //   // do something when input is focused
-  // }
+  onCountryCleared(event: void) {
+    event === undefined ? (this.selectedCountry = '') : null;
+  }
 
   handleChangeRoleLevel(e: any, index: any) {
     this.selectedLevelIndex = e.target.checked ? index : undefined;
     if (e.target.checked) {
       this.selectedRoleLevel = e.target.value;
     } else {
-      return;
+      this.selectedRoleLevel = '';
     }
   }
 
-  handleChangeRoleType(e: any, index:any) {
+  handleChangeRoleType(e: any, index: any) {
     this.selectedTypeIndex = e.target.checked ? index : undefined;
     if (e.target.checked) {
       this.selectedRoleType = e.target.value;
-    }else{
-      return
+    } else {
+      this.selectedRoleType = '';
     }
   }
 
-  clearFilter(){
-    this.roleLevels.forEach((c) => c.isSelected = false)
-    this.roleTypes.forEach((c) => c.isSelected = false)
-
+  clearFilter() {
+    this.roleLevels.forEach((c) => (c.isSelected = false));
+    this.roleTypes.forEach((c) => (c.isSelected = false));
     this.page = 1;
     this.selectedCountry = '';
-    this.selectedRoleLevel = ''
-    this.selectedRoleType = ''
-    this.getEngineers()
+    this.selectedRoleLevel = '';
+    this.selectedRoleType = '';
+    this.getEngineers();
+  }
+
+  ngOnDestroy(): void {
+    this.getMyProfileSub.unsubscribe();
+    this.getEngineersSub.unsubscribe();
   }
 }

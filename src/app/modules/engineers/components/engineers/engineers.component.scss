@@ -279,3 +279,8 @@ main {
     color: rgb(75, 85, 99);
   }
 }
+
+
+.autocomplete-container .input-container .x i::before{
+  content: "x" !important;
+}
