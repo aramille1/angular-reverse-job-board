@@ -12,6 +12,10 @@
     border-radius: 10px;
   }
 
+  .engineer-info{
+    width: 83%;
+  }
+
   .engineer-info-text {
     overflow: hidden;
     display: -webkit-box;
@@ -28,6 +32,8 @@
   .engineer-info-status span {
     color: rgb(43, 63, 95);
   }
+
+
 }
 
 header {

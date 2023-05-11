@@ -8,7 +8,7 @@
           <div class="col-xs-12 col-lg-8">
           <section class="info">
             <div class="d-flex justify-content-between">
-              <h3 class="card-title fw-bold">{{engineer?.Tagline}}</h3>
+              <h3 class="card-title card-title-header fw-bold">{{engineer?.Tagline}}</h3>
               <div class="btns">
                 <button *ngIf="!userIsMe" [routerLink]="['/pricing']" class="btn btn-outline-dark marginRight"><i class="bi bi-wallet-fill"></i>&nbsp;Hire me</button>
                 <button *ngIf="userIsMe" [routerLink]="['/engineers/update', engineer.ID]" class="btn btn-outline-dark"><i class="bi bi-pencil-fill"></i>&nbsp;Edit profile</button>

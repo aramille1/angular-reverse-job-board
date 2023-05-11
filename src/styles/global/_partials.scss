@@ -73,6 +73,11 @@ $back: #f6f9fc;;
   h2{
     color:#1C2227;
     width: 80%;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow-wrap: break-word;
   }
 }
 
