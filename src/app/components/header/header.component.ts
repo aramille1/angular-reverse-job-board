@@ -45,7 +45,10 @@ export class HeaderComponent implements OnInit {
             }
           },
           error: (error) => {
-            console.log(error);
+            console.error(error)
+            if(error.error.code === "authentication.validate_token"){
+              this.auth.signout()
+            }
           },
         });
       }
