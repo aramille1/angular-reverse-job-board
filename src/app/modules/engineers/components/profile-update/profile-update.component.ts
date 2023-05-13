@@ -18,6 +18,8 @@ import {
   LocationService,
   Maps,
 } from 'src/app/services/location-service/location.service';
+import { errorMessages, regexErrorMessage } from 'src/app/shared/error-messages';
+import { errorMessageGenerator } from 'src/app/shared/helpers';
 import { regexValidator } from 'src/app/url-regex.validator';
 
 const place = null as unknown as google.maps.places.PlaceResult;
@@ -29,6 +31,7 @@ type Components = typeof place.address_components;
 })
 export class ProfileUpdateComponent {
   myProfile: any;
+  errors:Array<any> = []
   profileForm!: FormGroup;
   submitted = false;
   imgFile: any;
@@ -105,9 +108,9 @@ export class ProfileUpdateComponent {
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       tagLine: ['', Validators.required],
-      city: ['', Validators.required],
-      state: new FormControl(''),
-      country: ['', Validators.required],
+      city: [''],
+      state: [''],
+      country: [''],
       location: ['', Validators.required],
       avatar: new FormControl(''),
       // coverImg: new FormControl(''),
@@ -149,7 +152,6 @@ export class ProfileUpdateComponent {
           regexValidator(new RegExp('^[a-z0-9-/]+$'), {
             username: 'true',
           }),
-          Validators.required,
         ],
       ],
     });
@@ -222,8 +224,15 @@ export class ProfileUpdateComponent {
 
   // submit the new changes of edit profile
   update() {
+    this.submitted = true;
+    this.errors = [];
     this.loader.start();
+    console.log(this.imgFile);
+
+    // If user havent added new image
     if (this.imgFile === undefined) {
+      console.log(this.profileForm.value.avatar);
+
       const data = {
         firstName: this.profileForm.value.firstName,
         lastName: this.profileForm.value.lastName,
@@ -242,8 +251,12 @@ export class ProfileUpdateComponent {
           this.profileForm.value.stackoverflow,
       };
 
+      console.log("DATA", data);
+
+
       this.engineerService.updateEngineer(data).subscribe({
         next: (res) => {
+          this.submitted = false;
           this.router.navigate([
             'engineers/details',
             this.profileForm.value.id,
@@ -251,11 +264,14 @@ export class ProfileUpdateComponent {
           this.loader.stop();
         },
         error: (err) => {
+          this.errors = errorMessageGenerator(this.profileForm.controls)
+          console.log(this.profileForm)
+
           this.loader.stop();
           console.error(err);
         },
       });
-    } else {
+    } else { // when user changed avatar
       const formData = new FormData();
       console.log(this.imgFile);
       formData.append('file', this.imgFile);
@@ -263,6 +279,8 @@ export class ProfileUpdateComponent {
 
       this.cloudinary.uploadImg(formData).subscribe({
         next: (res) => {
+          this.profileForm.patchValue({avatar: res.secure_url})
+
           const data = {
             firstName: this.profileForm.value.firstName,
             lastName: this.profileForm.value.lastName,
@@ -274,16 +292,29 @@ export class ProfileUpdateComponent {
             searchStatus: this.profileForm.value.searchStatus,
             roleType: this.profileForm.value.roleType,
             roleLevel: this.profileForm.value.roleLevel,
-            website: this.profileForm.value.website,
-            twitter: this.profileForm.value.twitter,
-            stackoverflow: this.profileForm.value.stackoverflow,
+            website: 'https://' + this.profileForm.value.website,
+            twitter: 'https://twitter.com/' + this.profileForm.value.twitter,
+            stackoverflow:
+              'https://stackoverflow.com/users/' +
+              this.profileForm.value.stackoverflow,
           };
-          this.engineerService.updateEngineer(data).subscribe(() => {
-            this.loader.stop();
-            this.router.navigate([
-              'engineers/details',
-              this.profileForm.value.id,
-            ]);
+          console.log(data)
+          this.engineerService.updateEngineer(data).subscribe({
+            next: () => {
+              this.submitted = false;
+              this.loader.stop();
+              this.router.navigate([
+                'engineers/details',
+                this.profileForm.value.id,
+              ]);
+            },
+            error: err => {
+              this.errors = errorMessageGenerator(this.profileForm.controls)
+              console.log(this.profileForm)
+
+              this.loader.stop();
+              console.error(err);
+            }
           });
         },
         error: (err) => {

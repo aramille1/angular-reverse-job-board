@@ -16,9 +16,27 @@ import {
   LocationService,
   Maps,
 } from 'src/app/services/location-service/location.service';
+import { errorMessages, regexErrorMessage } from 'src/app/shared/error-messages';
+import { errorMessageGenerator } from 'src/app/shared/helpers';
 import { regexValidator } from 'src/app/url-regex.validator';
 const place = null as unknown as google.maps.places.PlaceResult;
 type Components = typeof place.address_components;
+const trimValidator: any = (control: FormControl) => {
+  if (control.value.startsWith(' ')) {
+    return {
+      'trimError': { value: 'control has leading whitespace' }
+    };
+  }
+  if (control.value.endsWith(' ')) {
+    return {
+      'trimError': { value: 'control has trailing whitespace' }
+    };
+  }
+
+  return null;
+};
+
+
 @Component({
   selector: 'app-profile-form',
   templateUrl: './profile-form.component.html',
@@ -35,13 +53,15 @@ export class ProfileFormComponent {
   public place: any;
 
   profileForm!: FormGroup;
-  submitted = false;
-  showError: boolean = false;
+  submitted:boolean = false;
+  errors:Array<any> = []
   imgFile: any;
   coverImgFile: string;
   imageSrc: string = '';
   coverImg: string = '';
   loader = this.loadingBar.useRef();
+
+
 
   roleTypes = [
     { name: 'Part-time contract', value: 'contract_part_time' },
@@ -80,21 +100,23 @@ export class ProfileFormComponent {
     });
   }
 
+
   ngOnInit(): void {
+
     this.profileForm = this.fb.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      tagLine: ['', Validators.required],
-      city: ['', Validators.required],
-      state: new FormControl(''),
-      country: ['', Validators.required],
+      firstName: ['', [Validators.required, trimValidator]],
+      lastName: ['', [Validators.required, trimValidator]],
+      tagLine: ['', [Validators.required, trimValidator]],
+      city: [''],
+      state: [''],
+      country: [''],
       location: ['', Validators.required],
-      avatar: new FormControl('', Validators.required),
+      avatar: ['', Validators.required],
       // cover: new FormControl('',Validators.required),
-      bio: ['', Validators.required],
+      bio: ['', [Validators.required, trimValidator]],
       searchStatus: ['', Validators.required],
-      roleType: this.fb.array([]),
-      roleLevel: this.fb.array([]),
+      roleType: this.fb.array([], Validators.required),
+      roleLevel: this.fb.array([], Validators.required),
       website: [
         '',
         [
@@ -150,8 +172,7 @@ export class ProfileFormComponent {
           }),
           regexValidator(new RegExp('^[a-z0-9-/]+$'), {
             username: 'true',
-          }),
-          Validators.required,
+          })
         ],
       ],
     });
@@ -194,52 +215,66 @@ export class ProfileFormComponent {
     this.submitImgToCloudinary();
   }
 
+  // submitting img to Cloudinary and then to backend
   submitImgToCloudinary() {
+    this.submitted = true;
+    this.errors = [];
     const formData = new FormData();
     formData.append('file', this.imgFile);
     formData.append('upload_preset', 'yakyhtcu');
-    this.cloudinary.uploadImg(formData).subscribe({
-      next: (res) => {
-        const data = {
-          firstName: this.profileForm.value.firstName,
-          lastName: this.profileForm.value.lastName,
-          tagLine: this.profileForm.value.tagLine,
-          city: this.profileForm.value.city,
-          country: this.profileForm.value.country,
-          avatar: res.secure_url,
-          bio: this.profileForm.value.bio,
-          searchStatus: this.profileForm.value.searchStatus,
-          roleType: this.profileForm.value.roleType,
-          roleLevel: this.profileForm.value.roleLevel,
-          linkedIn:
-            'https://www.linkedin.com/in/' + this.profileForm.value.linkedIn,
-          website: 'https://' + this.profileForm.value.website,
-          github: 'https://github.com/' + this.profileForm.value.github,
-          twitter: 'https://twitter.com/' + this.profileForm.value.twitter,
-          stackoverflow:
-            'https://stackoverflow.com/users/' +
-            this.profileForm.value.stackoverflow,
-        };
+    console.log(this.profileForm.valid);
 
-        console.log(data);
+    // TODO show error message on submit without sending a request to backend
+      this.cloudinary.uploadImg(formData).subscribe({
+        next: (res) => {
+          this.profileForm.patchValue({avatar: res.secure_url})
+          const data = {
+            firstName: this.profileForm.value.firstName,
+            lastName: this.profileForm.value.lastName,
+            tagLine: this.profileForm.value.tagLine,
+            city: this.profileForm.value.city,
+            country: this.profileForm.value.country,
+            avatar: res.secure_url,
+            bio: this.profileForm.value.bio,
+            searchStatus: this.profileForm.value.searchStatus,
+            roleType: this.profileForm.value.roleType,
+            roleLevel: this.profileForm.value.roleLevel,
+            linkedIn:
+              'https://www.linkedin.com/in/' + this.profileForm.value.linkedIn,
+            website: 'https://' + this.profileForm.value.website,
+            github: 'https://github.com/' + this.profileForm.value.github,
+            twitter: 'https://twitter.com/' + this.profileForm.value.twitter,
+            stackoverflow:
+              'https://stackoverflow.com/users/' +
+              this.profileForm.value.stackoverflow,
+          };
 
-        this.engineerService.createEngineer(data).subscribe({
-          next: (response: any) => {
-            this.router.navigate(['engineers/details', response.engineerId]);
-            this.loader.stop();
-          },
-          error: (error) => {
-            this.loader.stop();
-            throw error;
-          },
-        });
-      },
-      error: (err) => {
-        this.loader.stop();
-        this.showError = !this.showError;
-        console.log(err);
-      },
-    });
+          console.log(data)
+
+          if(this.profileForm.valid){
+            this.submitted = false;
+          this.engineerService.createEngineer(data).subscribe({
+            next: (response: any) => {
+              this.router.navigate(['engineers/details', response.engineerId]);
+              this.loader.stop();
+            },
+            error: (error) => {
+              this.loader.stop();
+              throw error;
+            },
+          })
+        }else{
+          this.errors = errorMessageGenerator(this.profileForm.controls)
+          this.loader.stop();
+        }
+        },
+        error: (err) => {
+          this.errors = errorMessageGenerator(this.profileForm.controls)
+          this.loader.stop();
+          console.log(err);
+        },
+      });
+
   }
 
   onFileChange(event: any) {
@@ -278,7 +313,7 @@ export class ProfileFormComponent {
       });
     }, 1000);
   }
-
+  // Location selection and setting up city and country
   onPlaceChange(place: any) {
     const location = this.locationFromPlace(place);
     console.log(location);
