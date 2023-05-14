@@ -41,15 +41,11 @@
     // background-color: #f1f9ff;
     border-radius: 10px;
   }
-  .engineer-info-header{
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
 
-    h2{
-      color:#1C2227;
-    }
+  .engineer-info{
+    width: 83%;
   }
+
   .recently-active{
     background-color: rgb(220, 252, 231);
     color: rgb(22, 101, 52);
@@ -228,9 +224,9 @@ $checkmarkFat: 1px;
     display: none !important;
   }
 
-  .engineer-info-header h2{
-    width: 100%;
-  }
+  // .engineer-info-header h2{
+  //   width: 100%;
+  // }
 
   .item {
     margin: 0px !important;
@@ -254,8 +250,12 @@ $checkmarkFat: 1px;
       padding: 1.5rem 0 0 0;
       margin-bottom: 15px;
     }
+
   }
   .col-12{
     padding: 0;
+  }
+  .engineer-info-header h2{
+    width: 100%
   }
 }

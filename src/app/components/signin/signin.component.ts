@@ -41,6 +41,10 @@ export class SigninComponent {
     this.fieldTextType = !this.fieldTextType
   }
 
+  ngOnInit(): void {
+    this.loader.stop();
+  }
+
 
   signin() {
     this.loader.start()
