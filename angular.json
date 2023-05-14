@@ -34,7 +34,8 @@
               "src/styles.scss",
               "node_modules/ngx-toastr/toastr.css"
             ],
-            "scripts": []
+            "scripts": [],
+            "allowedCommonJsDependencies": ["cloudinary-core"]
           },
           "configurations": {
             "production": {
