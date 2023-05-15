@@ -1,15 +1,11 @@
 import { Component } from '@angular/core';
-import {
-  FormControl,
-  FormBuilder,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoadingBarService } from '@ngx-loading-bar/core';
 import { BusinessService } from 'src/app/services/business-service/business.service';
 import { CloudinaryService } from 'src/app/services/cloudinary/cloudinary.service';
 import { CommonService } from 'src/app/services/common-service/common.service';
+import { recruiterErrorMessageGenerator } from 'src/app/shared/helpers';
 import { regexValidator } from 'src/app/url-regex.validator';
 
 @Component({
@@ -21,7 +17,8 @@ export class ProfileFormComponent {
   profileForm!: FormGroup;
   imageSrc: string = '';
   imgFile: string;
-  showError: boolean = false;
+  errors: Array<any> = [];
+  submitted: boolean = false;
   loader = this.loadingBar.useRef();
 
   constructor(
@@ -83,16 +80,15 @@ export class ProfileFormComponent {
   }
 
   submit() {
+    this.submitted = true;
     this.loader.start();
-
     const formData = new FormData();
-    console.log(this.imgFile);
-
     formData.append('file', this.imgFile);
     formData.append('upload_preset', 'yakyhtcu');
 
     this.cloudinary.uploadImg(formData).subscribe({
       next: (res) => {
+        this.profileForm.patchValue({ logo: res.secure_url });
         const data = {
           firstName: this.profileForm.value.firstName,
           lastName: this.profileForm.value.lastName,
@@ -105,22 +101,27 @@ export class ProfileFormComponent {
           role: this.profileForm.value.role,
         };
 
-        this.businessService.createRecruiter(data).subscribe({
-          next: (response: any) => {
-            console.log(response);
-            this.commonService.updateRecruiterData(response.recruiterId);
-            this.router.navigate(['/engineers']);
-            this.loader.stop();
-          },
-          error: (error) => {
-            this.showError = true;
-            console.error(error);
-            this.loader.stop();
-          },
-        });
+        if (this.profileForm.valid) {
+          this.businessService.createRecruiter(data).subscribe({
+            next: (response: any) => {
+              this.commonService.updateRecruiterData(response.recruiterId);
+              this.router.navigate(['/engineers']);
+              this.loader.stop();
+            },
+            error: (error) => {
+              console.error(error);
+              this.loader.stop();
+            },
+          });
+        } else {
+          this.errors = recruiterErrorMessageGenerator(
+            this.profileForm.controls
+          );
+          this.loader.stop();
+        }
       },
       error: (err) => {
-        this.showError = true;
+        this.errors = recruiterErrorMessageGenerator(this.profileForm.controls);
         console.error(err);
         this.loader.stop();
       },

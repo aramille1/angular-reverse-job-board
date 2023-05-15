@@ -5,6 +5,7 @@ import { LoadingBarService } from '@ngx-loading-bar/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { BusinessService } from 'src/app/services/business-service/business.service';
 import { CloudinaryService } from 'src/app/services/cloudinary/cloudinary.service';
+import { recruiterErrorMessageGenerator } from 'src/app/shared/helpers';
 import { regexValidator } from 'src/app/url-regex.validator';
 
 @Component({
@@ -16,6 +17,8 @@ export class ProfileUpdateComponent {
   profileForm!: FormGroup;
   imageSrc: string = '';
   imgFile: string;
+  errors: Array<any> = [];
+  submitted: boolean = false;
   loader = this.loadingBar.useRef();
 
   constructor(
@@ -43,11 +46,11 @@ export class ProfileUpdateComponent {
             new RegExp('(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?'),
             { url: 'true' }
           ),
-          Validators.required
+          Validators.required,
         ],
       ],
       bio: ['', Validators.required],
-      logo: [''],
+      logo: ['', Validators.required],
       role: ['', Validators.required],
     });
 
@@ -57,7 +60,7 @@ export class ProfileUpdateComponent {
   onFileChange(event: any) {
     // getting an image and setting global variable imgFile
     const file = event.target.files[0];
-    this.imgFile = file
+    this.imgFile = file;
     var reader = new FileReader();
     reader.readAsDataURL(file);
     // File Preview
@@ -68,63 +71,75 @@ export class ProfileUpdateComponent {
   }
 
   submit() {
-    this.loader.start()
+    this.submitted = true;
+    this.loader.start();
 
-    if(this.imgFile){
+    if (this.imgFile) {
       const formData = new FormData();
-      formData.append("file", this.imgFile);
-      formData.append("upload_preset", "yakyhtcu");
-
-      this.cloudinary.uploadImg(formData).subscribe((res)=>{
+      formData.append('file', this.imgFile);
+      formData.append('upload_preset', 'yakyhtcu');
+      if (this.profileForm.valid) {
+        this.cloudinary.uploadImg(formData).subscribe((res) => {
+          const data = {
+            firstName: this.profileForm.value.firstName,
+            lastName: this.profileForm.value.lastName,
+            company: this.profileForm.value.company,
+            website: 'https://' + this.profileForm.value.website,
+            bio: this.profileForm.value.bio,
+            logo: res.secure_url,
+            role: this.profileForm.value.role,
+          };
+          this.businessService.updateRecruiter(data).subscribe({
+            next: () => {
+              this.router.navigate(['/business/details']);
+              this.loader.stop();
+            },
+            error: (error) => {
+              this.loader.stop();
+              console.error(error);
+            },
+          });
+        });
+      } else {
+        this.errors = recruiterErrorMessageGenerator(this.profileForm.controls);
+        this.loader.stop();
+      }
+    } else {
+      if (this.profileForm.valid) {
         const data = {
           firstName: this.profileForm.value.firstName,
           lastName: this.profileForm.value.lastName,
           company: this.profileForm.value.company,
-          website: "https://"+this.profileForm.value.website,
+          website: 'https://' + this.profileForm.value.website,
           bio: this.profileForm.value.bio,
-          logo: res.secure_url,
+          logo: this.profileForm.value.logo,
           role: this.profileForm.value.role,
-        }
+        };
         this.businessService.updateRecruiter(data).subscribe({
-          next: (response: any) => {
+          next: () => {
             this.router.navigate(['/business/details']);
-            this.loader.stop()
+            this.loader.stop();
           },
           error: (error) => {
-            this.loader.stop()
-            console.log(error);
+            console.error(error);
+            this.loader.stop();
           },
         });
-      })
-    }else{
-      const data = {
-        firstName: this.profileForm.value.firstName,
-        lastName: this.profileForm.value.lastName,
-        company: this.profileForm.value.company,
-        website: "https://"+this.profileForm.value.website,
-        bio: this.profileForm.value.bio,
-        logo: this.profileForm.value.logo,
-        role: this.profileForm.value.role,
+      } else {
+        this.errors = recruiterErrorMessageGenerator(this.profileForm.controls);
+        this.loader.stop();
       }
-      this.businessService.updateRecruiter(data).subscribe({
-        next: (response: any) => {
-          this.router.navigate(['/business/details']);
-          this.loader.stop()
-        },
-        error: (error) => {
-          console.log(error);
-          this.loader.stop()
-        },
-      });
     }
   }
 
   getMyProfile() {
     this.auth.getMyProfile().subscribe({
       next: (profile) => {
-        const noPrefixLinkedIn = profile.user.LinkedIn.split("https://www.linkedin.com/in/")[1]
-        const noPrefixWebsite = profile.user.Website.split("https://")[1]
-        this.imageSrc = profile.user.Logo
+        const noPrefixLinkedIn = profile.user.LinkedIn.split(
+          'https://www.linkedin.com/in/'
+        )[1];
+        const noPrefixWebsite = profile.user.Website.split('https://')[1];
+        this.imageSrc = profile.user.Logo;
         this.profileForm.patchValue({
           firstName: profile.user.Firstname,
           lastName: profile.user.Lastname,

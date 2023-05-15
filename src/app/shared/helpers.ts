@@ -1,4 +1,16 @@
-import { errorMessages, regexErrorMessage } from "./error-messages"
+import { errorMessages, recruiterErrorMessages, regexErrorMessage } from "./error-messages"
+
+export const recruiterErrorMessageGenerator = (controls:any) =>{
+  let errors = []
+  for(var key in controls){
+    //key = firstName, lastName, etc
+    // ctrs[key].status = valid, invalid
+    if(controls[key].status === "INVALID"){
+      errors.push(recruiterErrorMessages[key])
+    }
+  }
+  return errors;
+}
 
 export const errorMessageGenerator = (controls:any) =>{
   let errors = []

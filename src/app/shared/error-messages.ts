@@ -27,5 +27,15 @@ export const regexErrorMessage: errorType = {
   usernameWithoutSymbolsLinkedIn: "* [LinkedIn] - Url is invalid: use your github profile name without symbols",
   httpStack: "[Stackoverflow] - Url has to be without 'https://', instead use: use: www.example.com or example.com",
   usernameWithoutSymbolsStack: "* [Stackoverflow] - Url is invalid: use your github profile name without symbols",
+}
 
+export const recruiterErrorMessages: errorType = {
+  firstName: "[First name] - is required",
+  lastName: "[Last name] - is required",
+  company: "[Company] - is required",
+  website: "[Website] - is requred",
+  bio: "[Bio] - is required",
+  logo: "[Logo] - is requred",
+  role: "[Role] - is requred",
+  linkedIn: "[LinkedIn] - is required",
 }

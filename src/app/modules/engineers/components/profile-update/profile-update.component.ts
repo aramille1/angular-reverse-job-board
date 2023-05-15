@@ -1,12 +1,9 @@
 import { Component, ElementRef, NgZone, ViewChild } from '@angular/core';
 import {
-  AbstractControl,
   FormArray,
   FormBuilder,
   FormControl,
   FormGroup,
-  ValidationErrors,
-  ValidatorFn,
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -18,7 +15,6 @@ import {
   LocationService,
   Maps,
 } from 'src/app/services/location-service/location.service';
-import { errorMessages, regexErrorMessage } from 'src/app/shared/error-messages';
 import { errorMessageGenerator } from 'src/app/shared/helpers';
 import { regexValidator } from 'src/app/url-regex.validator';
 
@@ -31,7 +27,7 @@ type Components = typeof place.address_components;
 })
 export class ProfileUpdateComponent {
   myProfile: any;
-  errors:Array<any> = []
+  errors: Array<any> = [];
   profileForm!: FormGroup;
   submitted = false;
   imgFile: any;
@@ -96,8 +92,6 @@ export class ProfileUpdateComponent {
   imageSrc: string = '';
   coverImg: string = '';
 
-
-
   ngOnInit(): void {
     this.cloudinary.onUploadedPhotoGetLink.subscribe((responseUrl: string) => {
       this.imageSrc = responseUrl;
@@ -113,11 +107,10 @@ export class ProfileUpdateComponent {
       country: [''],
       location: ['', Validators.required],
       avatar: new FormControl(''),
-      // coverImg: new FormControl(''),
       bio: ['', Validators.required],
       searchStatus: ['', Validators.required],
-      roleType: this.fb.array([]),
-      roleLevel: this.fb.array([]),
+      roleType: this.fb.array([], Validators.required),
+      roleLevel: this.fb.array([], Validators.required),
       website: [
         '',
         [
@@ -227,12 +220,9 @@ export class ProfileUpdateComponent {
     this.submitted = true;
     this.errors = [];
     this.loader.start();
-    console.log(this.imgFile);
 
     // If user havent added new image
     if (this.imgFile === undefined) {
-      console.log(this.profileForm.value.avatar);
-
       const data = {
         firstName: this.profileForm.value.firstName,
         lastName: this.profileForm.value.lastName,
@@ -251,77 +241,77 @@ export class ProfileUpdateComponent {
           this.profileForm.value.stackoverflow,
       };
 
-      console.log("DATA", data);
-
-
-      this.engineerService.updateEngineer(data).subscribe({
-        next: (res) => {
-          this.submitted = false;
-          this.router.navigate([
-            'engineers/details',
-            this.profileForm.value.id,
-          ]);
-          this.loader.stop();
-        },
-        error: (err) => {
-          this.errors = errorMessageGenerator(this.profileForm.controls)
-          console.log(this.profileForm)
-
-          this.loader.stop();
-          console.error(err);
-        },
-      });
-    } else { // when user changed avatar
+      if (this.profileForm.valid) {
+        this.engineerService.updateEngineer(data).subscribe({
+          next: () => {
+            this.submitted = false;
+            this.router.navigate([
+              'engineers/details',
+              this.profileForm.value.id,
+            ]);
+            this.loader.stop();
+          },
+          error: (err) => {
+            this.loader.stop();
+            console.error(err);
+          },
+        });
+      } else {
+        this.errors = errorMessageGenerator(this.profileForm.controls);
+        this.loader.stop();
+      }
+    } else {
+      // when user changed avatar
       const formData = new FormData();
-      console.log(this.imgFile);
       formData.append('file', this.imgFile);
       formData.append('upload_preset', 'yakyhtcu');
+      if (this.profileForm.valid) {
+        this.cloudinary.uploadImg(formData).subscribe({
+          next: (res) => {
+            this.profileForm.patchValue({ avatar: res.secure_url });
 
-      this.cloudinary.uploadImg(formData).subscribe({
-        next: (res) => {
-          this.profileForm.patchValue({avatar: res.secure_url})
-
-          const data = {
-            firstName: this.profileForm.value.firstName,
-            lastName: this.profileForm.value.lastName,
-            tagLine: this.profileForm.value.tagLine,
-            city: this.profileForm.value.city,
-            country: this.profileForm.value.country,
-            avatar: res.secure_url,
-            bio: this.profileForm.value.bio,
-            searchStatus: this.profileForm.value.searchStatus,
-            roleType: this.profileForm.value.roleType,
-            roleLevel: this.profileForm.value.roleLevel,
-            website: 'https://' + this.profileForm.value.website,
-            twitter: 'https://twitter.com/' + this.profileForm.value.twitter,
-            stackoverflow:
-              'https://stackoverflow.com/users/' +
-              this.profileForm.value.stackoverflow,
-          };
-          console.log(data)
-          this.engineerService.updateEngineer(data).subscribe({
-            next: () => {
-              this.submitted = false;
-              this.loader.stop();
-              this.router.navigate([
-                'engineers/details',
-                this.profileForm.value.id,
-              ]);
-            },
-            error: err => {
-              this.errors = errorMessageGenerator(this.profileForm.controls)
-              console.log(this.profileForm)
-
-              this.loader.stop();
-              console.error(err);
-            }
-          });
-        },
-        error: (err) => {
-          this.loader.stop();
-          console.error(err);
-        },
-      });
+            const data = {
+              firstName: this.profileForm.value.firstName,
+              lastName: this.profileForm.value.lastName,
+              tagLine: this.profileForm.value.tagLine,
+              city: this.profileForm.value.city,
+              country: this.profileForm.value.country,
+              avatar: res.secure_url,
+              bio: this.profileForm.value.bio,
+              searchStatus: this.profileForm.value.searchStatus,
+              roleType: this.profileForm.value.roleType,
+              roleLevel: this.profileForm.value.roleLevel,
+              website: 'https://' + this.profileForm.value.website,
+              twitter: 'https://twitter.com/' + this.profileForm.value.twitter,
+              stackoverflow:
+                'https://stackoverflow.com/users/' +
+                this.profileForm.value.stackoverflow,
+            };
+            this.engineerService.updateEngineer(data).subscribe({
+              next: () => {
+                this.submitted = false;
+                this.loader.stop();
+                this.router.navigate([
+                  'engineers/details',
+                  this.profileForm.value.id,
+                ]);
+              },
+              error: (err) => {
+                this.errors = errorMessageGenerator(this.profileForm.controls);
+                this.loader.stop();
+                console.error(err);
+              },
+            });
+          },
+          error: (err) => {
+            this.loader.stop();
+            console.error(err);
+          },
+        });
+      } else {
+        this.errors = errorMessageGenerator(this.profileForm.controls);
+        this.loader.stop();
+      }
     }
   }
 
@@ -365,21 +355,7 @@ export class ProfileUpdateComponent {
     // File Preview
     reader.onload = (event: any) => {
       this.imageSrc = event.target.result;
-      console.log(event.target.result);
     };
-  }
-
-  onCoverFileChange(event: any) {
-    // const file = event.target.files[0];
-    // this.profileForm.patchValue({
-    //   coverImg: file,
-    // });
-    // var reader = new FileReader();
-    // reader.readAsDataURL(file);
-    // // File Preview
-    // reader.onload = (event: any) => {
-    //   this.coverImg = event.target.result;
-    // };
   }
 
   initAutocomplete(maps: Maps) {
@@ -397,7 +373,6 @@ export class ProfileUpdateComponent {
 
   onPlaceChange(place: any) {
     const location = this.locationFromPlace(place);
-    console.log(location);
     this.profileForm.patchValue({
       city: location?.cityName,
       country: location?.countryName,
