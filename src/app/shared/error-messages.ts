@@ -1,6 +1,4 @@
-export type errorType = {
-  [key: string]: string
-}
+import { errorType } from "../models/form-error"
 
 export const errorMessages: errorType = {
   firstName: "[First name] - is required",

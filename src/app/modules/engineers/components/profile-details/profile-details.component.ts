@@ -18,6 +18,7 @@ export class ProfileDetailsComponent {
     private auth: AuthService
   ) {}
   ngOnInit(): void {
+    this.auth.getMyImage();
     this.route.params.subscribe((params: Params) => {
       this.engineerService
         .getEngineer(params['id'])

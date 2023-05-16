@@ -1,20 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
+import { updateObjectForHeader } from 'src/app/models/header-data';
 
 @Injectable({ providedIn: 'root' })
 export class CommonService {
-  private businessData = new Subject<Object>();
-  private userData = new Subject<Object>();
+  private updatedUsersDataForHeader = new Subject<updateObjectForHeader>();
 
-  updateUserData(data: Object) {
-    this.userData.next(data);
-  }
+  updatedUserDataForHeader$ = this.updatedUsersDataForHeader.asObservable();
 
-  getUserData(): Observable<any> {
-    return this.userData.asObservable();
-  }
-
-  updateRecruiterData(data: Object) {
-    this.businessData.next(data);
-  }
+  updateUsersDataForHeader = (data: updateObjectForHeader) => this.updatedUsersDataForHeader.next(data)
 }

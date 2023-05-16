@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 import { LoadingBarService } from '@ngx-loading-bar/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { CloudinaryService } from 'src/app/services/cloudinary/cloudinary.service';
+import { CommonService } from 'src/app/services/common-service/common.service';
 import { EngineerService } from 'src/app/services/engineer-service/engineer.service';
 import {
   LocationService,
@@ -41,7 +42,8 @@ export class ProfileUpdateComponent {
     private ngZone: NgZone,
     private fb: FormBuilder,
     public cloudinary: CloudinaryService,
-    private loadingBar: LoadingBarService
+    private loadingBar: LoadingBarService,
+    private commonService: CommonService
   ) {
     locationService.api.then((maps) => {
       this.initAutocomplete(maps);
@@ -153,6 +155,7 @@ export class ProfileUpdateComponent {
 
   setProfileToUpdate() {
     this.auth.getMyProfile().subscribe((myProfile) => {
+      console.log(myProfile)
       if (myProfile.user.Avatar) {
         this.imageSrc = myProfile.user.Avatar;
         this.myProfile = myProfile.user;
@@ -240,16 +243,23 @@ export class ProfileUpdateComponent {
           'https://stackoverflow.com/users/' +
           this.profileForm.value.stackoverflow,
       };
+      console.log(data)
 
       if (this.profileForm.valid) {
         this.engineerService.updateEngineer(data).subscribe({
           next: () => {
             this.submitted = false;
+            this.commonService.updateUsersDataForHeader({
+              image: data.avatar,
+              firstName: data.firstName,
+              lastName: data.lastName
+            })
             this.router.navigate([
               'engineers/details',
               this.profileForm.value.id,
             ]);
             this.loader.stop();
+
           },
           error: (err) => {
             this.loader.stop();
@@ -291,6 +301,13 @@ export class ProfileUpdateComponent {
               next: () => {
                 this.submitted = false;
                 this.loader.stop();
+                console.log(data);
+
+                this.commonService.updateUsersDataForHeader({
+                  image: data.avatar,
+                  firstName: data.firstName,
+                  lastName: data.lastName
+                })
                 this.router.navigate([
                   'engineers/details',
                   this.profileForm.value.id,
@@ -312,9 +329,12 @@ export class ProfileUpdateComponent {
         this.errors = errorMessageGenerator(this.profileForm.controls);
         this.loader.stop();
       }
+
     }
+    // this.commonService.updateEngineerName(this.profileForm.value.firstName)
   }
 
+  // ROLE TYPE
   handleChangeRoleType(e: any) {
     let roleTypeArr = this.profileForm.get('roleType') as FormArray;
     if (e.target.checked) {
@@ -331,6 +351,7 @@ export class ProfileUpdateComponent {
     }
   }
 
+  // ROLE LEVEL
   handleChangeRoleLevel(e: any) {
     let roleLevelArr = this.profileForm.get('roleLevel') as FormArray;
     if (e.target.checked) {
@@ -347,6 +368,7 @@ export class ProfileUpdateComponent {
     }
   }
 
+  // AVATAR
   onFileChange(event: any) {
     const file = event.target.files[0];
     this.imgFile = file;
@@ -358,6 +380,7 @@ export class ProfileUpdateComponent {
     };
   }
 
+  // LOCATION
   initAutocomplete(maps: Maps) {
     setTimeout(() => {
       let autocomplete = new maps.places.Autocomplete(
@@ -371,8 +394,10 @@ export class ProfileUpdateComponent {
     }, 1000);
   }
 
+  // LOCATION
   onPlaceChange(place: any) {
     const location = this.locationFromPlace(place);
+    console.log(location)
     this.profileForm.patchValue({
       city: location?.cityName,
       country: location?.countryName,

@@ -103,8 +103,8 @@ export class ProfileFormComponent {
 
         if (this.profileForm.valid) {
           this.businessService.createRecruiter(data).subscribe({
-            next: (response: any) => {
-              this.commonService.updateRecruiterData(response.recruiterId);
+            next: () => {
+              this.submitted = false;
               this.router.navigate(['/engineers']);
               this.loader.stop();
             },

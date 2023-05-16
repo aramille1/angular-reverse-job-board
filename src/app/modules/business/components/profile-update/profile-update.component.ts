@@ -5,6 +5,7 @@ import { LoadingBarService } from '@ngx-loading-bar/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { BusinessService } from 'src/app/services/business-service/business.service';
 import { CloudinaryService } from 'src/app/services/cloudinary/cloudinary.service';
+import { CommonService } from 'src/app/services/common-service/common.service';
 import { recruiterErrorMessageGenerator } from 'src/app/shared/helpers';
 import { regexValidator } from 'src/app/url-regex.validator';
 
@@ -23,11 +24,12 @@ export class ProfileUpdateComponent {
 
   constructor(
     private fb: FormBuilder,
-    private businessService: BusinessService,
     private router: Router,
     private auth: AuthService,
+    private businessService: BusinessService,
     private cloudinary: CloudinaryService,
-    private loadingBar: LoadingBarService
+    private loadingBar: LoadingBarService,
+    private commonService: CommonService
   ) {}
 
   ngOnInit(): void {
@@ -91,6 +93,11 @@ export class ProfileUpdateComponent {
           };
           this.businessService.updateRecruiter(data).subscribe({
             next: () => {
+              this.commonService.updateUsersDataForHeader({
+                image: data.logo,
+                firstName: data.firstName,
+                lastName: data.lastName
+              })
               this.router.navigate(['/business/details']);
               this.loader.stop();
             },
@@ -117,6 +124,11 @@ export class ProfileUpdateComponent {
         };
         this.businessService.updateRecruiter(data).subscribe({
           next: () => {
+            this.commonService.updateUsersDataForHeader({
+              image: data.logo,
+              firstName: data.firstName,
+              lastName: data.lastName
+            })
             this.router.navigate(['/business/details']);
             this.loader.stop();
           },
