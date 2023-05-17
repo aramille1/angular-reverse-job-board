@@ -10,8 +10,9 @@ import { LoadingBarService } from '@ngx-loading-bar/core';
 })
 export class HomeComponent {
   engineers = new Array<any>();
-  private engineersSub: Subscription;
+  loading: boolean = true;
   loader = this.loadingBar.useRef();
+  private engineersSub: Subscription;
 
   constructor(
     private engineerService: EngineerService,
@@ -22,6 +23,7 @@ export class HomeComponent {
     this.loader.start();
     this.engineersSub = this.engineerService.getAllEngineers().subscribe({
       next: (res) => {
+        this.loading = false;
         if (res) {
           this.engineers = res.engineers;
           this.loader.stop();

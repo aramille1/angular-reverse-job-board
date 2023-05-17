@@ -21,8 +21,13 @@
   <div class="row">
     <!-- List of engineers -->
     <div class="col-12">
+      <div class="spinner d-flex justify-content-center align-items-center" *ngIf="loading">
+        <div class="spinner-border"  role="status">
+          <span class="sr-only"></span>
+        </div>
+      </div>
       <main>
-        <div class="engineer-wrapper w-75 m-auto">
+        <div class="engineer-wrapper w-75 m-auto" *ngIf="!loading">
           <div *ngFor="let engineer of engineers">
             <ng-container *ngIf="engineer?.SearchStatus === 'not_interested' || engineer?.SearchStatus === 'invisible'; else elseTemplate">
             </ng-container>
