@@ -12,18 +12,19 @@ export class ProfileDetailsComponent {
   engineer: any;
   userIsMe: Boolean;
   recruiterIsMember: Boolean = false;
+  loading: Boolean = true;
   constructor(
     private engineerService: EngineerService,
     private route: ActivatedRoute,
     private auth: AuthService
   ) {}
   ngOnInit(): void {
-    this.auth.getMyImage();
     this.route.params.subscribe((params: Params) => {
       this.engineerService
         .getEngineer(params['id'])
         .subscribe((engineerFoundById: any) => {
           this.auth.getMyProfile().subscribe((myProfile) => {
+            this.loading = false;
             if(myProfile.type === "recruiter"){
               this.recruiterIsMember = myProfile.user.IsMember
             }

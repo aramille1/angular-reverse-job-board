@@ -29,6 +29,7 @@ export class EngineersComponent {
   showBlur: boolean = false;
   showNotFound: boolean = false;
   showPagination: boolean = true;
+  loading: boolean = true;
   // countries: any = [];
   selectedCountry: string = '';
   selectedRoleLevel: string = '';
@@ -153,6 +154,7 @@ export class EngineersComponent {
       .subscribe({
         next: (res) => {
           if (res.engineers !== null) {
+            this.loading = false
             if (res.engineers?.length < 10 && res.engineers) {
               this.showPagination = false;
               this.engineers = res?.engineers;

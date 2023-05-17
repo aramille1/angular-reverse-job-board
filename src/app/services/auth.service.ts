@@ -24,10 +24,6 @@ export class AuthService {
     return this.http.get(`${this.url}/me`);
   }
 
-  getMyImage(){
-    return this.http.get(`${this.url}/me`)
-  }
-
   signin(loginData: object): Observable<any> {
     return this.http.post(`${this.url}/login`, loginData);
   }

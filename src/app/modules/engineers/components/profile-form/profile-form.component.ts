@@ -9,6 +9,7 @@ import {
 import { Router } from '@angular/router';
 import { LoadingBarService } from '@ngx-loading-bar/core';
 import { CloudinaryService } from 'src/app/services/cloudinary/cloudinary.service';
+import { CommonService } from 'src/app/services/common-service/common.service';
 import { EngineerService } from 'src/app/services/engineer-service/engineer.service';
 import {
   LocationService,
@@ -87,7 +88,8 @@ export class ProfileFormComponent {
     private ngZone: NgZone,
     private fb: FormBuilder,
     private cloudinary: CloudinaryService,
-    private loadingBar: LoadingBarService
+    private loadingBar: LoadingBarService,
+    private commonService: CommonService
   ) {
     locationService.api.then((maps) => {
       this.initAutocomplete(maps);
@@ -242,6 +244,11 @@ export class ProfileFormComponent {
           this.engineerService.createEngineer(data).subscribe({
             next: (response: any) => {
               this.submitted = false;
+              this.commonService.updateUsersDataForHeader({
+                image: data.avatar,
+                firstName: data.firstName,
+                lastName: data.lastName
+              })
               this.router.navigate(['engineers/details', response.engineerId]);
               this.loader.stop();
             },
@@ -275,17 +282,6 @@ export class ProfileFormComponent {
       this.imageSrc = event.target.result;
     };
   }
-
-  // onCoverFileChange(event: any) {
-  //   const file = event.target.files[0];
-  //   this.coverImgFile = file;
-  //   var reader = new FileReader();
-  //   reader.readAsDataURL(file);
-  //   // File Preview
-  //   reader.onload = (event: any) => {
-  //     this.coverImg = event.target.result;
-  //   };
-  // }
 
   initAutocomplete(maps: Maps) {
     setTimeout(() => {

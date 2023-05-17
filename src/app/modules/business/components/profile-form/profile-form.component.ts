@@ -105,6 +105,11 @@ export class ProfileFormComponent {
           this.businessService.createRecruiter(data).subscribe({
             next: () => {
               this.submitted = false;
+              this.commonService.updateUsersDataForHeader({
+                image: data.logo,
+                firstName: data.firstName,
+                lastName: data.lastName
+              })
               this.router.navigate(['/engineers']);
               this.loader.stop();
             },

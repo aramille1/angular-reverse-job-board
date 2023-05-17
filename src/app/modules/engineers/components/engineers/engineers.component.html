@@ -1,6 +1,10 @@
 <ngx-loading-bar color="#b21616" [includeSpinner]="false" height="3px"></ngx-loading-bar>
-
-<div class="container my-5 pb-5">
+<div class="spinner d-flex justify-content-center vh-100 align-items-center" *ngIf="loading">
+  <div class="spinner-grow"  role="status">
+    <span class="sr-only"></span>
+  </div>
+</div>
+<div class="container my-5 pb-5" *ngIf="!loading">
   <header>
     <h1 class="display-5 fw-bold">Hire Angular developers</h1>
     <div class="d-flex justify-content-between align-items-center head">
