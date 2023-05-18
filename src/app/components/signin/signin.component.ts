@@ -14,7 +14,7 @@ export class SigninComponent {
   showError: Boolean = false;
   fieldTextType: boolean;
   profile: any;
-  private signinSub: Subscription;
+  // private signinSub: Subscription;
   loader = this.loadingBar.useRef();
   // form initialization
   signinForm = this.fb.group({
@@ -48,7 +48,7 @@ export class SigninComponent {
       email: this.signinForm.value.email,
       password: this.signinForm.value.password,
     };
-    this.signinSub = this.auth.signin(reqObject).subscribe({
+    this.auth.signin(reqObject).subscribe({
       next: (response) => {
         const parsedToken = JSON.parse(
           atob(response['auth_token'].split('.')[1])
@@ -76,7 +76,7 @@ export class SigninComponent {
     });
   }
 
-  ngOnDestroy(): void {
-    this.signinSub.unsubscribe();
-  }
+  // ngOnDestroy(): void {
+  //   this.signinSub.unsubscribe();
+  // }
 }

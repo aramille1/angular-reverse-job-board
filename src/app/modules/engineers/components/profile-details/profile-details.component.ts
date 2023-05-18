@@ -23,18 +23,26 @@ export class ProfileDetailsComponent {
       this.engineerService
         .getEngineer(params['id'])
         .subscribe((engineerFoundById: any) => {
-          this.auth.getMyProfile().subscribe((myProfile) => {
-            this.loading = false;
-            if(myProfile.type === "recruiter"){
-              this.recruiterIsMember = myProfile.user.IsMember
+          this.auth.getMyProfile().subscribe({
+            next: (myProfile) => {
+              this.loading = false;
+              if(myProfile.type === "recruiter"){
+                this.recruiterIsMember = myProfile.user.IsMember
+              }
+              if(myProfile.type === "engineer" && (myProfile.user.ID === params['id'])){
+                this.engineer = myProfile.user
+                this.userIsMe = myProfile.user.ID === params['id'];
+              }else{
+                this.engineer = engineerFoundById.engineer;
+              }
+            },
+            error: (err) => {
+              this.loading = false;
+              this.engineer = engineerFoundById.engineer;
+              console.error(err)
             }
-            if(myProfile.type === "engineer" && (myProfile.user.ID === params['id'])){
-              this.engineer = myProfile.user
-            }
-            this.userIsMe = myProfile.user.ID === params['id'];
           });
-          this.engineer = engineerFoundById.engineer;
         });
-    });
+      });
+    }
   }
-}
