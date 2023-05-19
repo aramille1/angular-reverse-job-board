@@ -159,7 +159,7 @@ main {
       line-height: 1.1;
       font-size: 16px;
       font-weight: 600;
-      width: 100%;
+      width: 75%;
     }
 
     .engineer-info-status {
@@ -170,6 +170,10 @@ main {
       padding: 1.5rem 0 0 0;
       margin-bottom: 15px;
     }
+  }
+
+  .item {
+    width: 95%;
   }
 
   .addProfile {
@@ -202,10 +206,15 @@ main {
   .custom-box-shadow {
     border: none;
     box-shadow: none;
+    margin: 0 0 10px 0;
   }
 
   .offcanvas-body {
     padding: 0;
+  }
+
+  .engineer-info-text{
+    width: 75%;
   }
 }
 
