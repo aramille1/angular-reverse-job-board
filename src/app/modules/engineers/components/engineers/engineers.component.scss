@@ -25,12 +25,12 @@
     font-size: 16px;
     font-weight: 500;
     line-height: 24px;
-    color: rgb(43, 63, 95);
+    color: #111827cf;
     padding-top: 15px;
   }
 
   .engineer-info-status span {
-    color: rgb(43, 63, 95);
+    color: rgb(21, 128, 61)
   }
 
 
@@ -51,7 +51,7 @@ article {
   margin-bottom: 0.6rem;
 }
 .form-check-label {
-  color: rgb(43, 63, 95);
+  color: rgb(107, 114, 128);
 }
 
 .accordion .search-profiles {
@@ -299,4 +299,8 @@ main {
 
 .autocomplete-container .input-container .x i::before{
   content: "x" !important;
+}
+
+::ng-deep ul > li.current {
+  background: #000 !important;
 }

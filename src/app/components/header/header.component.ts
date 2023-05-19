@@ -39,6 +39,8 @@ export class HeaderComponent {
       if (isLoggedIn) {
         this.myProfileSub = this.auth.getMyProfile().subscribe({
           next: (res) => {
+            console.log(res);
+
             this.myProfileImg = res.user.Avatar || res.user.Logo;
             this.myProfileID = res.user.ID;
             if (res.type === 'engineer') {

@@ -1,7 +1,4 @@
-*{
-  font-weight: 500;
-  color: rgb(43, 63, 95);
-}
+
 .container-mod {
   max-width: 64rem
 }
@@ -11,7 +8,15 @@
   font-size: 14px;
   margin-left: 20px;
 }
-
+.heading-2{
+  font-size: 18px;
+}
+.tfz, input{
+  font-size: 14px;
+}
+.text-color-3{
+  font-size: 14px;
+}
 .desc-text-heading {
   font-weight: 500;
   color: rgb(43, 63, 95);
@@ -48,7 +53,6 @@ margin-top: 10px;
 }
 
 h2{
-  color: rgb(33,37,41);
   font-weight: bold;
 }
 

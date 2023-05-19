@@ -3,21 +3,21 @@
   <div class="row justify-content-center h-100">
     <form [formGroup]="profileForm" (ngSubmit)="update()">
       <div class="text-left my-4">
-        <h2>Update your developer profile</h2>
+        <h2 class="fw-bold main-color">Update your developer profile</h2>
       </div>
       <div class="card mb-5 half shadow personal-info">
         <div class="card-body p-4">
           <div class="row">
             <div class="col-xs-12 col-lg-4">
-              <h2>Profile</h2>
-              <p>
+              <h2 class="heading-2">Profile</h2>
+              <p class="text-color-3">
                 This information will be displayed publicly so be careful what
                 you share.
               </p>
             </div>
             <div class="col-xs-12 col-lg-8">
               <div class="mb-3">
-                <label for="exampleInputfirstName" class="form-label fw-bold">First name *</label>
+                <label for="exampleInputfirstName" class="form-label text-color-sec">First name *</label>
                 <input type="name" formControlName="firstName" class="form-control" id="exampleInputfirstName"
                   placeholder="enter your first name" required [ngClass]="{
                     'is-invalid':
@@ -31,7 +31,7 @@
                   </div>
               </div>
               <div class="mb-3">
-                <label for="exampleInputLastName" class="form-label fw-bold">Last name *</label>
+                <label for="exampleInputLastName" class="form-label text-color-sec">Last name *</label>
                 <input type="name" formControlName="lastName" class="form-control" id="exampleInputLastName" required
                   [ngClass]="{
                     'is-invalid':
@@ -46,7 +46,7 @@
 
               </div>
               <div class="mb-3">
-                <label for="exampleInputhero1" class="form-label fw-bold">Tagline *</label>
+                <label for="exampleInputhero1" class="form-label text-color-sec">Tagline *</label>
                 <input type="text" formControlName="tagLine" class="form-control" id="exampleInputhero1" required
                   [ngClass]="{
                     'is-invalid':
@@ -59,7 +59,7 @@
                   </div>
               </div>
               <div class="mb-3">
-                <label for="location" class="form-label fw-bold">Location *</label>
+                <label for="location" class="form-label text-color-sec">Location *</label>
                 <input #location type="text" id="location" required formControlName="location" class="form-control"
                   (keydown.enter)="$event.preventDefault()" placeholder="enter your location" type="text" #search
                   [ngClass]="{
@@ -74,7 +74,7 @@
                   </div>
               </div>
               <div class="mb-3 d-flex flex-column">
-                <label for="exampleInputavatar1" class="form-label fw-bold">Avatar</label>
+                <label for="exampleInputavatar1" class="form-label text-color-sec">Avatar</label>
                   <div>
                     <label for="file-upload" class="custom-file-upload">upload</label>
                     <img [src]="imageSrc" *ngIf="imageSrc" width="80rem" height="80rem" class="rounded-circle mx-2" />
@@ -82,7 +82,7 @@
                   </div>
               </div>
               <div class="mb-3">
-                <label for="exampleInputbio1" class="form-label fw-bold">Bio *</label>
+                <label for="exampleInputbio1" class="form-label text-color-sec">Bio *</label>
                 <textarea formControlName="bio" class="form-control" placeholder="enter your bio" id="exampleInputbio1"
                   required [ngClass]="{
                     'is-invalid':
@@ -104,8 +104,8 @@
             <div class="search-status">
               <div class="row">
                 <div class="col-xs-12 col-lg-4">
-                  <h2>Work preferences</h2>
-                  <p>What kind of work are you looking for next?</p>
+                  <h2 class="main-color heading-2">Work preferences</h2>
+                  <p class="text-color-3">What kind of work are you looking for next?</p>
                 </div>
                 <div class="col-xs-12 col-lg-8">
                   <p class="fw-bold mt-2 mb-2">Search status *</p>
@@ -152,7 +152,7 @@
 
                   <!-- Role type -->
                   <div class="role-type mb-3">
-                    <p class="fw-bold fw-bold mt-2 mb-0">Role type *</p>
+                    <p class="fw-bold fw-bold mt-2 mb-0 main-color">Role type *</p>
                     <div class="text-danger" *ngIf="submitted && profileForm.controls['roleType'].errors">
                       Role type is required!
                     </div>
@@ -168,7 +168,7 @@
 
                  <!-- Role level -->
                  <div class="role-level">
-                  <p class="fw-bold fw-bold mt-2 mb-0">Role level *</p>
+                  <p class="fw-bold fw-bold mt-2 mb-0 main-color">Role level *</p>
                   <div class="text-danger" *ngIf="submitted && profileForm.controls['roleLevel'].errors">
                     Role level is required!
                   </div>
@@ -194,8 +194,9 @@
           <div class="online-presence mb-5">
             <div class="row">
               <div class="col-xs-12 col-lg-4 mt-3">
-                <h2>Online presence</h2>
-                <p>Where can people learn more about you and your work?</p>
+                <h2 class="main-color heading-2">Online presence</h2>
+                <p class="text-color-3">Where can people learn more about you and your work?</p>
+
               </div>
               <div class="col-xs-12 col-lg-8">
                 <p class="mb-2 mt-4 fw-bold">Website</p>

@@ -11,6 +11,10 @@
   }
 }
 
+.card-title{
+  color: rgb(107, 114, 128);
+}
+
 .card-title-header{
   width: 75%;
     display: -webkit-box;
@@ -47,8 +51,19 @@ span, .info{
   }
 }
 
+.btn-outline-dark:hover{
+  color: #fff !important;
+}
+
+.mtop{
+  margin-top: 7px;
+}
+
 .checkboxes {
   margin-right: 30px;
+  span{
+    color: rgb(17, 24, 39);
+  }
 
   svg{
     margin-bottom: 2px;
@@ -59,6 +74,10 @@ span, .info{
 ul.list-unstyled li a svg{
   margin-bottom: 2px;
   margin-right: 10px;
+}
+
+.actively_looking_text{
+  color: rgb(21, 128, 61);
 }
 
 @media only screen and (max-width: 768px) {

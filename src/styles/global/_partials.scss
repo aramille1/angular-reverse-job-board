@@ -2,16 +2,18 @@
   background-color: rgb(220, 252, 231);
   color: rgb(22, 101, 52);
   padding: 5px;
-  width: 140px;
+  width: 110px;
   text-align: center;
+  font-weight: 500;
+  font-size: 14px;
 }
 
 .custom-box-shadow {
   background-color: rgb(255, 255, 255);
   border-radius: 10px;
-  border: 3px solid rgb(43, 63, 95);
+  border: 3px solid #111827cf;
   transition: all 0.3s ease-in-out 0s;
-  box-shadow: rgb(43 63 95) 4px 4px 0px;
+  box-shadow: #111827cf 4px 4px 0px;
   margin: 15px 16.0987px 15px 0px;
 }
 
@@ -21,16 +23,16 @@ $back: #f6f9fc;;
 .pushme{
   position: relative;
   font-weight: 700;
-  background-color: $main;
+  background-color: #111827cf;
   border-radius: 0.6em;
   display: inline-block;
   margin: 1em;
   .inner{
     display: inline-block;
-    color: rgb(43, 63, 95);
+    color: #111827cf;
     background-color: $back;
     border-radius: 0.6em;
-    border: 0.3em solid $main;
+    border: 0.3em solid #111827cf;
     padding: 1em;
     cursor: pointer;
     text-transform: uppercase;
@@ -133,6 +135,11 @@ $back: #f6f9fc;;
 .btn-dark{
   --bs-btn-bg: #4b5563;
   --bs-btn-border-color: #4b5563;
+}
+
+.btn-outline-secondary{
+  --bs-btn-color: rgb(55, 65, 81) !important;
+
 }
 
 
@@ -250,6 +257,10 @@ input[type=checkbox]:before {
     border-radius: 50%;
     animation: ballbounce 0.6s ease-out infinite;
   }
+}
+
+.btn-dark {
+  background-color: #111827cf;
 }
 
 

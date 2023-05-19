@@ -17,7 +17,7 @@
   p{
     font-size: 21px;
     font-weight: 500;
-    color: rgb(43, 63, 95);
+    color: rgb(107, 114, 128);
     line-height: 28px;
     margin-top:1.25rem;
   }
@@ -46,13 +46,6 @@
     width: 83%;
   }
 
-  .recently-active{
-    background-color: rgb(220, 252, 231);
-    color: rgb(22, 101, 52);
-    padding: 5px;
-    width: 140px;
-    text-align: center;
-  }
   .engineer-info-text{
     overflow: hidden;
     display: -webkit-box;
@@ -62,12 +55,12 @@
     font-size: 16px;
     font-weight: 500;
     line-height: 24px;
-    color: rgb(43, 63, 95);
+    color: rgb(55, 65, 81);
     padding-top: 15px;
   }
 
   .engineer-info-status span{
-    color: rgb(43, 63, 95);
+    color: rgb(21, 128, 61)
   }
 }
 

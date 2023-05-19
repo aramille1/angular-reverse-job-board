@@ -6,7 +6,7 @@
 </div>
 <div class="container my-5 pb-5" *ngIf="!loading">
   <header>
-    <h1 class="display-5 fw-bold">Hire Angular developers</h1>
+    <h1 class="display-5 fw-bold main-color">Hire <span style="color:#b21616">Angular</span> developers</h1>
     <div class="d-flex justify-content-between align-items-center head">
       <article>
         800+ Angular developers looking for their next gig. Juniors to seniors
@@ -45,7 +45,7 @@
       <nav>
         <!-- Role level filter -->
         <div class="accordion custom-box-shadow" id="accordionPanelsStayOpenExample">
-          <label class="search-profiles">Search profiles</label>
+          <label class="search-profiles main-color">Search profiles</label>
           <div *ngIf="!isMember" class="private-info p-2 mb-2" [routerLink]="['/pricing']">
             <i class="bi bi-lock-fill"></i>
             <i class="bi bi-unlock-fill"></i>
@@ -55,7 +55,7 @@
             placeholder="Type a engineers name" />
           <div class="accordion-item">
             <h2 class="accordion-header" id="panelsStayOpen-headingOne">
-              <button class="accordion-button" type="button" data-bs-toggle="collapse"
+              <button class="accordion-button main-color" type="button" data-bs-toggle="collapse"
                 data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
                 aria-controls="panelsStayOpen-collapseOne">
                 Role level
@@ -78,7 +78,7 @@
           <!-- role type filter -->
           <div class="accordion-item">
             <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
-              <button class="accordion-button" type="button" data-bs-toggle="collapse"
+              <button class="accordion-button main-color" type="button" data-bs-toggle="collapse"
                 data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false"
                 aria-controls="panelsStayOpen-collapseTwo">
                 Work preference
@@ -108,7 +108,7 @@
           <!-- location filter -->
           <div class="accordion-item">
             <h2 class="accordion-header" id="panelsStayOpen-headingThree">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+              <button class="accordion-button main-color collapsed" type="button" data-bs-toggle="collapse"
                 data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false"
                 aria-controls="panelsStayOpen-collapseThree">
                 Location
@@ -146,10 +146,10 @@
           </div>
 
           <div class="bg-white p-4 borderbtm">
-            <button class="btn btn-outline-secondary" (click)="clearFilter()">
+            <button class="btn btn-outline-secondary fw-bold" (click)="clearFilter()">
               Clear
             </button>
-            <button class="btn btn-dark mx-2" (click)="applyFilter()">Apply</button>
+            <button class="btn btn-dark mx-2 fw-bold" (click)="applyFilter()">Apply</button>
           </div>
         </div>
       </nav>
@@ -196,7 +196,7 @@
 
                     <div class="engineer-info">
                       <div class="engineer-info-header">
-                        <h2 class="fs-5 fw-bold">{{ engineer.Tagline }}</h2>
+                        <h2 class="fs-5 fw-bold main-color">{{ engineer.Tagline }}</h2>
                         <div class="engineer-info-status d-flex align-items-center">
                           <span [ngSwitch]="engineer?.SearchStatus">
                             <span *ngSwitchCase="'actively_looking'">
@@ -244,7 +244,7 @@
 
                   <div class="engineer-info">
                     <div class="engineer-info-header">
-                      <h2 class="fs-5 fw-bold">{{ engineer.Tagline }}</h2>
+                      <h2 class="fs-5 fw-bold main-color">{{ engineer.Tagline }}</h2>
                       <div class="engineer-info-status d-flex align-items-center">
                         <span [ngSwitch]="engineer?.SearchStatus">
                           <span *ngSwitchCase="'actively_looking'">
@@ -281,7 +281,7 @@
           </div>
           <div class="blur-block" *ngIf="!isMember && showBlur">
             <div class="blur-block-wrap">
-              <h1>Sign up now to see more profiles.</h1>
+              <h1 class="main-color">Sign up now to see more profiles.</h1>
               <p>Gain access to so many more Angular talents.</p>
               <button class="btn btn-success" [routerLink]="['/pricing']">
                 Start hiring
@@ -331,7 +331,7 @@
                 placeholder="Type a engineers name" />
               <div class="accordion-item">
                 <h2 class="accordion-header" id="panelsStayOpen-headingOne">
-                  <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                  <button class="accordion-button main-color" type="button" data-bs-toggle="collapse"
                     data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
                     aria-controls="panelsStayOpen-collapseOne">
                     Role level
@@ -353,7 +353,7 @@
               </div>
               <div class="accordion-item">
                 <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
-                  <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                  <button class="accordion-button main-color" type="button" data-bs-toggle="collapse"
                     data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false"
                     aria-controls="panelsStayOpen-collapseTwo">
                     Work preference
@@ -383,7 +383,7 @@
               <!-- location filter -->
               <div class="accordion-item">
                 <h2 class="accordion-header" id="panelsStayOpen-headingThree">
-                  <button class="accordion-button collapsed pt-0" type="button" data-bs-toggle="collapse"
+                  <button class="accordion-button main-color collapsed pt-0" type="button" data-bs-toggle="collapse"
                     data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false"
                     aria-controls="panelsStayOpen-collapseThree">
                     Location
@@ -421,10 +421,10 @@
               </div>
 
               <div class="bg-white p-4 borderbtm">
-                <button class="btn btn-outline-secondary" (click)="clearFilter()">
+                <button class="btn btn-outline-secondary fw-bold" (click)="clearFilter()">
                   Clear
                 </button>
-                <button class="btn btn-dark mx-2" (click)="applyFilter()">
+                <button class="btn btn-dark mx-2 fw-bold" (click)="applyFilter()">
                   Apply
                 </button>
               </div>

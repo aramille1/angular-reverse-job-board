@@ -11,6 +11,14 @@
 
 .info {
   padding: 10px 20px;
+
+  p.card-title {
+    color: rgb(107, 114, 128);
+  }
+}
+
+.btn-outline-dark:hover{
+  color: #fff !important;
 }
 
 .card-text {

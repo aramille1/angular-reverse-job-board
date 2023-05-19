@@ -4,12 +4,12 @@
     <div class="card half custom-box-shadow">
       <div class="card-body px-5">
         <div class="text-center">
-          <h2 class="fw-semibold mb-4">Create new account</h2>
+          <h2 class="fw-semibold mb-4 main-color">Create new account</h2>
         </div>
         <form [formGroup]="signupForm" (ngSubmit)="signup()">
           <!-- email -->
           <div>
-            <label for="exampleInputEmail1" class="form-label">E-mail</label>
+            <label for="exampleInputEmail1" class="form-label text-color-sec">E-mail</label>
             <input type="email" formControlName="email" required class="form-control" id="exampleInputEmail1"
               aria-describedby="emailHelp">
             <p class="text-danger mt-1" *ngIf="signupForm.controls['email'].hasError('pattern')">E-mail must be valid
@@ -21,7 +21,7 @@
           </div>
 
           <!-- password -->
-          <label for="exampleInputPassword1" class="form-label">Password</label>
+          <label for="exampleInputPassword1" class="form-label text-color-sec">Password</label>
           <div class="input-group">
             <input [type]="fieldTextType ? 'text' : 'password'" formControlName="password" class="form-control" id="exampleInputPassword1">
             <div class="input-group-append">
@@ -43,7 +43,7 @@
           </p>
 
           <!-- password confirmation -->
-          <label for="exampleInputPassword2" class="form-label">Password confirmation</label>
+          <label for="exampleInputPassword2" class="form-label text-color-sec">Password confirmation</label>
           <div class="input-group">
             <input [type]="repeatFieldTextType ? 'text' : 'password'" formControlName="confirmPassword" class="form-control" id="exampleInputPassword2">
             <div class="input-group-append">

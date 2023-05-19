@@ -5,11 +5,11 @@
     <div class="card half custom-box-shadow">
       <div class="card-body px-5">
         <div class="text-center">
-          <h2 class="fw-semibold mb-4">Login to your account</h2>
+          <h2 class="fw-semibold mb-4 main-color">Login to your account</h2>
         </div>
         <form [formGroup]="signinForm" (ngSubmit)="signin()">
           <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">E-mail</label>
+            <label for="exampleInputEmail1" class="form-label text-color-sec">E-mail</label>
             <input id="exampleInputEmail1" type="email" id="email" required class="form-control"
               formControlName="email" name="email" />
             <p class="text-danger mt-1" *ngIf="signinForm.controls['email'].hasError('pattern')">E-mail must be valid</p>
@@ -18,7 +18,7 @@
               E-mail is required
             </p>
           </div>
-          <label for="exampleInputPassword1" class="form-label">Password</label>
+          <label for="exampleInputPassword1" class="form-label text-color-sec">Password</label>
           <div class="input-group">
             <input [type]="fieldTextType ? 'text' : 'password'" id="exampleInputPassword1" class="form-control"
               formControlName="password" name="password" />
