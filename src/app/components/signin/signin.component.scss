@@ -32,3 +32,12 @@
     padding-left: 1rem!important;
   }
 }
+
+@media (min-width: 767px) and (max-width: 1000px) {
+  .container{
+    max-width: 970px;
+  }
+  .half{
+    width: 70%;
+  }
+}

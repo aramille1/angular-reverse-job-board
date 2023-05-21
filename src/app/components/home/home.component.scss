@@ -253,3 +253,21 @@ $checkmarkFat: 1px;
     width: 75%
   }
 }
+
+@media (min-width: 768px) and (max-width: 990px) {
+  .engineer-info-status {
+    width: 65%;
+  }
+}
+
+@media (min-width: 991px) and (max-width: 1211px) {
+  .engineer-info-status {
+    width: 35%;
+  }
+}
+
+@media (min-width: 1211px) and (max-width: 1399px) {
+  .engineer-info-status {
+    width: 25%;
+  }
+}

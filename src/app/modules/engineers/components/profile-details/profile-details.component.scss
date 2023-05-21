@@ -9,6 +9,7 @@
   .role-types{
   padding-top: 10px;
   }
+  font-size: 14px;
 }
 
 .card-title{
@@ -77,7 +78,8 @@ ul.list-unstyled li a svg{
 }
 
 .actively_looking_text{
-  color: rgb(21, 128, 61);
+  color: rgb(21, 128, 61) !important;
+  font-size: 14px;
 }
 
 @media only screen and (max-width: 768px) {
@@ -96,8 +98,7 @@ ul.list-unstyled li a svg{
   }
 
   .btns{
-    text-align: center;
-    margin: 30px 0;
+    margin: 10px 0 30px 0;
   }
 
   .private-info{
@@ -121,7 +122,7 @@ ul.list-unstyled li a svg{
   color: rgb(107, 114, 128);
   text-align: center;
   padding: 10px;
-  width: 300px;
+  max-width: 300px;
   margin: 20px 0;
   background-color: rgb(249, 250, 251);
   h2{
@@ -172,4 +173,17 @@ ul.list-unstyled li a svg{
 
 .btns button{
   width: 130px;
+}
+
+
+@media only screen and (max-width: 1200px) {
+  .private-info {
+    width: 50%;
+  }
+}
+
+@media (min-width: 1200px) and (max-width: 1400px) {
+  .private-info {
+    width: 40%;
+  }
 }
