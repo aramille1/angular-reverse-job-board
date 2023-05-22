@@ -11,6 +11,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { RolePageGuard } from './guards/role-page-guard/role-page.guard';
 import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-policy/privacy-policy.component';
 import { AboutComponent } from './components/about/about/about.component';
+import { TermsAndConditionsComponent } from './components/terms-and-conditions/terms-and-conditions/terms-and-conditions.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
@@ -24,6 +25,7 @@ const routes: Routes = [
   },
   { path: 'pricing', component: PricingComponent },
   { path: 'privacy', component: PrivacyPolicyComponent },
+  { path: 'terms', component: TermsAndConditionsComponent },
   { path: 'about', component: AboutComponent },
   {
     path: 'engineers',
