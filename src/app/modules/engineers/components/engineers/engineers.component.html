@@ -42,9 +42,9 @@
 
     <!-- Filters -->
     <div class="col-xs-12 col-lg-3 filters-desktop">
-      <nav>
+      <nav class="position-relative">
         <!-- Role level filter -->
-        <div class="accordion custom-box-shadow" id="accordionPanelsStayOpenExample">
+        <div [ngClass]="{ blur: !isMember && showBlur }" class="accordion custom-box-shadow" id="accordionPanelsStayOpenExample">
           <!-- <label class="search-profiles main-color">Search profiles</label>
           <div *ngIf="!isMember" class="private-info p-2 mb-2" [routerLink]="['/pricing']">
             <i class="bi bi-lock-fill"></i>
@@ -152,6 +152,14 @@
             <button class="btn btn-dark mx-2 fw-bold" (click)="applyFilter()">Apply</button>
           </div>
         </div>
+        <div class="filter-blur-block" *ngIf="!isMember && showBlur">
+          <div class="blur-block-wrap mod">
+            <p>To access filter</p>
+            <button class="btn btn-success" [routerLink]="['/pricing']">
+              Get started
+            </button>
+          </div>
+        </div>
       </nav>
     </div>
     <!-- End of filters -->
@@ -255,7 +263,7 @@
                             </svg>
                             Actively looking
                           </span>
-                          <span *ngSwitchCase="'open'">
+                          <span *ngSwitchCase="'open'" class="open-to-offers">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="gray"
                               class="bi bi-check-circle-fill" viewBox="0 0 16 16">
                               <path
@@ -320,7 +328,7 @@
         <div class="col-xs-12 col-lg-3">
           <nav>
             <!-- Role level filter -->
-            <div class="accordion custom-box-shadow" id="accordionPanelsStayOpenExample">
+            <div [ngClass]="{ blur: !isMember && showBlur }" class="accordion custom-box-shadow" id="accordionPanelsStayOpenExample">
               <label class="search-profiles">Search profiles</label>
               <div *ngIf="!isMember" class="private-info p-2 mb-2" [routerLink]="['/pricing']">
                 <i class="bi bi-lock-fill"></i>
@@ -426,6 +434,14 @@
                 </button>
                 <button class="btn btn-dark mx-2 fw-bold" (click)="applyFilter()">
                   Apply
+                </button>
+              </div>
+            </div>
+            <div class="filter-blur-block" *ngIf="!isMember && showBlur">
+              <div class="blur-block-wrap mod">
+                <p>To access filter</p>
+                <button class="btn btn-success" [routerLink]="['/pricing']">
+                  Get started
                 </button>
               </div>
             </div>
