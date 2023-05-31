@@ -6,8 +6,7 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test",
-    "server": "json-server --watch db.json"
+    "test": "ng test"
   },
   "private": true,
   "dependencies": {
@@ -27,10 +26,7 @@
     "@ngx-loading-bar/core": "^6.0.2",
     "@types/google.maps": "^3.51.1",
     "angular-ng-autocomplete": "^2.0.12",
-    "bootstrap-icons": "^1.10.3",
     "cloudinary-core": "^2.13.0",
-    "json-server": "^0.17.1",
-    "lodash": "^4.17.21",
     "ng2-file-upload": "^3.0.0",
     "ngx-pagination": "^6.0.3",
     "ngx-toastr": "^16.1.0",
@@ -45,7 +41,6 @@
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "@types/googlemaps": "^3.43.3",
     "@types/jasmine": "~4.3.0",
-    "@types/lodash": "^4.14.191",
     "jasmine-core": "~4.5.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.1.0",
