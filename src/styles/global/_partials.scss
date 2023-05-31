@@ -83,6 +83,36 @@ $back: #f6f9fc;;
   }
 }
 
+.engineer {
+  display: flex;
+  text-decoration: none;
+  padding: 1.5rem;
+  &:hover {
+    border-radius: 10px;
+  }
+}
+
+.engineer-info{
+  width: 83%;
+}
+
+.engineer-info-status span{
+  color: rgb(21, 128, 61)
+}
+
+.engineer-info-text{
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow-wrap: break-word;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  color: rgb(55, 65, 81);
+  padding-top: 15px;
+}
+
 .e-h{
   height: 240px;
 }

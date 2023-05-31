@@ -104,6 +104,7 @@ export class EngineersComponent {
         if (res.type === 'recruiter' && res.user.IsMember) {
           this.recruiterId = res.user.ID;
           this.isMember = true;
+          this.showBlur = true;
           this.userIs = 'recruiter';
         } else {
           this.engineerId = res.user.ID;
@@ -162,7 +163,6 @@ export class EngineersComponent {
             } else {
               this.engineers = res?.engineers;
               this.showPagination = true;
-              this.showBlur = true;
               this.loader.stop();
             }
           } else {

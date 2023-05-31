@@ -1,5 +1,3 @@
-// @import "../../../styles/global/partials";
-
 .custom-box-shadow {
   &:hover{
     box-shadow: none;
@@ -30,76 +28,6 @@
 
 .container {
   padding:0;
-}
-.engineer{
-  display: flex;
-  text-decoration: none;
-  // border: 1px solid;
-  padding: 1.5rem;
-
-  &:hover{
-    // background-color: #f1f9ff;
-    border-radius: 10px;
-  }
-
-  .engineer-info{
-    width: 83%;
-  }
-
-  .engineer-info-text{
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3;
-    overflow-wrap: break-word;
-    font-size: 16px;
-    font-weight: 500;
-    line-height: 24px;
-    color: rgb(55, 65, 81);
-    padding-top: 15px;
-  }
-
-  .engineer-info-status span{
-    color: rgb(21, 128, 61)
-  }
-}
-
-.item {
-  background-color: rgb(255, 255, 255);
-  border-radius: 10px;
-  border: 3px solid rgb(43, 63, 95);
-  transition: all 0.3s ease-in-out 0s;
-  box-shadow: rgb(43 63 95) 4px 4px 0px;
-  margin: 15px 16.0987px 15px 0px;
-}
-
-.item:hover{
-  box-shadow:none;
-}
-
-
-$primary: #8cc63e;
-$checkmarkColor: white;
-$size: 15px;
-$checkmarkFat: 1px;
-
-.circle {
-  position: relative;
-  background: $primary;
-  border-radius: 50%;
-  width: $size;
-  height: $size;
-}
-
-.checkmark {
-  position: absolute;
-  transform: rotate(45deg) translate(-50%, -50%);
-  left: 35%;
-  top: 45%;
-  height: calc($size/3);
-  width: calc($size/6);
-  border-bottom: $checkmarkFat solid $checkmarkColor;
-  border-right: $checkmarkFat solid $checkmarkColor;
 }
 
 .words{
