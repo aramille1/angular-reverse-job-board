@@ -58,8 +58,40 @@
                     Tag line is required!
                   </div>
               </div>
-              <div class="mb-3">
-                <label for="location" class="form-label text-color-sec">Location *</label>
+              <div class="row">
+                <div class="col-xs-12 col-lg-6 mb-3">
+                  <!-- city -->
+                  <label for="forCity" class="form-label text-color-sec">City *</label>
+                  <input type="name" formControlName="city" class="form-control" id="forCity" required
+                    [ngClass]="{
+                      'is-invalid':
+                        submitted &&
+                        profileForm.controls['city'].errors,
+                      'is-valid': profileForm.controls['city'].valid
+                    }" placeholder="enter your city" />
+
+                    <div class="text-danger" *ngIf="submitted && profileForm.controls['city'].errors">
+                      City is required!
+                    </div>
+                </div>
+                <!-- country -->
+                <div class="col-xs-12 col-lg-6 mb-3">
+                  <label for="forCountry" class="form-label text-color-sec">Country *</label>
+                  <input type="name" formControlName="country" class="form-control" id="forCountry" required
+                    [ngClass]="{
+                      'is-invalid':
+                        submitted &&
+                        profileForm.controls['country'].errors,
+                      'is-valid': profileForm.controls['country'].valid
+                    }" placeholder="enter your country" />
+
+                    <div class="text-danger" *ngIf="submitted && profileForm.controls['country'].errors">
+                      Country is required!
+                    </div>
+                </div>
+              </div>
+              <!-- <div class="mb-3"> -->
+                <!-- <label for="location" class="form-label text-color-sec">Location *</label>
                 <input #location type="text" id="location" required formControlName="location" class="form-control"
                   (keydown.enter)="$event.preventDefault()" placeholder="enter your location" type="text" #search
                   [ngClass]="{
@@ -71,7 +103,7 @@
 
                   <div class="text-danger" *ngIf="submitted && profileForm.controls['location'].errors">
                     Location is required!
-                  </div>
+                  </div> -->
                 <!-- <div class="mb-3">
                   <input type="city" formControlName="city" class="form-control" placeholder="enter your city"
                     id="exampleInputcity1" />
@@ -94,7 +126,7 @@
                     profileFormControl.get('country')?.touched
                   " class="text-danger">Country is Required</small>
                 </div> -->
-              </div>
+              <!-- </div> -->
               <div class="mb-3 d-flex flex-column">
                 <label for="exampleInputavatar1" class="form-label text-color-sec">Avatar *</label>
                 <div>

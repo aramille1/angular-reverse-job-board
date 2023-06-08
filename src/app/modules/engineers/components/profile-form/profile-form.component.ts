@@ -91,9 +91,9 @@ export class ProfileFormComponent {
     private loadingBar: LoadingBarService,
     private commonService: CommonService
   ) {
-    locationService.api.then((maps) => {
-      this.initAutocomplete(maps);
-    });
+    // locationService.api.then((maps) => {
+    //   this.initAutocomplete(maps);
+    // });
   }
 
   ngOnInit(): void {
@@ -101,10 +101,10 @@ export class ProfileFormComponent {
       firstName: ['', [Validators.required, trimValidator]],
       lastName: ['', [Validators.required, trimValidator]],
       tagLine: ['', [Validators.required, trimValidator]],
-      city: [''],
+      city: ['', [Validators.required, trimValidator]],
       state: [''],
-      country: [''],
-      location: ['', Validators.required],
+      country: ['', [Validators.required, trimValidator]],
+      // location: ['', Validators.required],
       avatar: ['', Validators.required],
       bio: ['', [Validators.required, trimValidator]],
       searchStatus: ['', Validators.required],
@@ -283,63 +283,63 @@ export class ProfileFormComponent {
     };
   }
 
-  initAutocomplete(maps: Maps) {
-    setTimeout(() => {
-      let autocomplete = new maps.places.Autocomplete(
-        this.searchElementRef?.nativeElement as HTMLInputElement
-      );
-      autocomplete.addListener('place_changed', () => {
-        this.ngZone.run(() => {
-          this.onPlaceChange(autocomplete.getPlace());
-        });
-      });
-    }, 1000);
-  }
-  // Location selection and setting up city and country
-  onPlaceChange(place: any) {
-    const location = this.locationFromPlace(place);
-    this.profileForm.patchValue({
-      city: location?.cityName,
-      country: location?.countryName,
-    });
-  }
-  public locationFromPlace(place: google.maps.places.PlaceResult) {
-    const components = place.address_components;
-    if (components === undefined) {
-      return null;
-    }
+//   initAutocomplete(maps: Maps) {
+//     setTimeout(() => {
+//       let autocomplete = new maps.places.Autocomplete(
+//         this.searchElementRef?.nativeElement as HTMLInputElement
+//       );
+//       autocomplete.addListener('place_changed', () => {
+//         this.ngZone.run(() => {
+//           this.onPlaceChange(autocomplete.getPlace());
+//         });
+//       });
+//     }, 1000);
+//   }
+//   // Location selection and setting up city and country
+//   onPlaceChange(place: any) {
+//     const location = this.locationFromPlace(place);
+//     this.profileForm.patchValue({
+//       city: location?.cityName,
+//       country: location?.countryName,
+//     });
+//   }
+//   public locationFromPlace(place: google.maps.places.PlaceResult) {
+//     const components = place.address_components;
+//     if (components === undefined) {
+//       return null;
+//     }
 
-    const areaLevel3 = getShort(components, 'administrative_area_level_3');
-    const locality = getLong(components, 'locality');
+//     const areaLevel3 = getShort(components, 'administrative_area_level_3');
+//     const locality = getLong(components, 'locality');
 
-    const cityName = locality || areaLevel3;
-    const countryName = getLong(components, 'country');
-    const countryCode = getShort(components, 'country');
-    const stateCode = getShort(components, 'administrative_area_level_1');
-    const name = place.name !== cityName ? place.name : null;
+//     const cityName = locality || areaLevel3;
+//     const countryName = getLong(components, 'country');
+//     const countryCode = getShort(components, 'country');
+//     const stateCode = getShort(components, 'administrative_area_level_1');
+//     const name = place.name !== cityName ? place.name : null;
 
-    return {
-      name,
-      cityName,
-      countryName,
-      countryCode,
-      stateCode,
-    };
-  }
-}
+//     return {
+//       name,
+//       cityName,
+//       countryName,
+//       countryCode,
+//       stateCode,
+//     };
+//   }
+// }
 
-function getComponent(components: Components, name: string) {
-  return components?.filter(
-    (component: { types: string[] }) => component.types[0] === name
-  )[0];
-}
+// function getComponent(components: Components, name: string) {
+//   return components?.filter(
+//     (component: { types: string[] }) => component.types[0] === name
+//   )[0];
+// }
 
-function getLong(components: Components, name: string) {
-  const component = getComponent(components, name);
-  return component && component.long_name;
-}
+// function getLong(components: Components, name: string) {
+//   const component = getComponent(components, name);
+//   return component && component.long_name;
+// }
 
-function getShort(components: Components, name: string) {
-  const component = getComponent(components, name);
-  return component && component.short_name;
+// function getShort(components: Components, name: string) {
+//   const component = getComponent(components, name);
+//   return component && component.short_name;
 }

@@ -45,9 +45,9 @@ export class ProfileUpdateComponent {
     private loadingBar: LoadingBarService,
     private commonService: CommonService
   ) {
-    locationService.api.then((maps) => {
-      this.initAutocomplete(maps);
-    });
+    // locationService.api.then((maps) => {
+    //   this.initAutocomplete(maps);
+    // });
   }
   @ViewChild('search')
   public searchElementRef!: ElementRef;
@@ -104,10 +104,10 @@ export class ProfileUpdateComponent {
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       tagLine: ['', Validators.required],
-      city: [''],
+      city: ['', Validators.required],
       state: [''],
-      country: [''],
-      location: ['', Validators.required],
+      country: ['', Validators.required],
+      // location: ['', Validators.required],
       avatar: new FormControl(''),
       bio: ['', Validators.required],
       searchStatus: ['', Validators.required],
@@ -181,7 +181,7 @@ export class ProfileUpdateComponent {
         tagLine: myProfile.user.Tagline,
         city: myProfile.user.City,
         country: myProfile.user.Country,
-        location: `${myProfile.user.City} ${myProfile.user.Country}`,
+        // location: `${myProfile.user.City} ${myProfile.user.Country}`,
         avatar: myProfile.user.Avatar,
         bio: myProfile.user.Bio,
         searchStatus: myProfile.user.SearchStatus,
@@ -381,65 +381,65 @@ export class ProfileUpdateComponent {
   }
 
   // LOCATION
-  initAutocomplete(maps: Maps) {
-    setTimeout(() => {
-      let autocomplete = new maps.places.Autocomplete(
-        this.searchElementRef?.nativeElement as HTMLInputElement
-      );
-      autocomplete.addListener('place_changed', () => {
-        this.ngZone.run(() => {
-          this.onPlaceChange(autocomplete.getPlace());
-        });
-      });
-    }, 1000);
-  }
+  // initAutocomplete(maps: Maps) {
+  //   setTimeout(() => {
+  //     let autocomplete = new maps.places.Autocomplete(
+  //       this.searchElementRef?.nativeElement as HTMLInputElement
+  //     );
+  //     autocomplete.addListener('place_changed', () => {
+  //       this.ngZone.run(() => {
+  //         this.onPlaceChange(autocomplete.getPlace());
+  //       });
+  //     });
+  //   }, 1000);
+  // }
 
   // LOCATION
-  onPlaceChange(place: any) {
-    const location = this.locationFromPlace(place);
-    console.log(location)
-    this.profileForm.patchValue({
-      city: location?.cityName,
-      country: location?.countryName,
-    });
-  }
-  public locationFromPlace(place: google.maps.places.PlaceResult) {
-    const components = place.address_components;
-    if (components === undefined) {
-      return null;
-    }
+  // onPlaceChange(place: any) {
+  //   const location = this.locationFromPlace(place);
+  //   console.log(location)
+  //   this.profileForm.patchValue({
+  //     city: location?.cityName,
+  //     country: location?.countryName,
+  //   });
+  // }
+  // public locationFromPlace(place: google.maps.places.PlaceResult) {
+  //   const components = place.address_components;
+  //   if (components === undefined) {
+  //     return null;
+  //   }
 
-    const areaLevel3 = getShort(components, 'administrative_area_level_3');
-    const locality = getLong(components, 'locality');
+  //   const areaLevel3 = getShort(components, 'administrative_area_level_3');
+  //   const locality = getLong(components, 'locality');
 
-    const cityName = locality || areaLevel3;
-    const countryName = getLong(components, 'country');
-    const countryCode = getShort(components, 'country');
-    const stateCode = getShort(components, 'administrative_area_level_1');
-    const name = place.name !== cityName ? place.name : null;
+  //   const cityName = locality || areaLevel3;
+  //   const countryName = getLong(components, 'country');
+  //   const countryCode = getShort(components, 'country');
+  //   const stateCode = getShort(components, 'administrative_area_level_1');
+  //   const name = place.name !== cityName ? place.name : null;
 
-    return {
-      name,
-      cityName,
-      countryName,
-      countryCode,
-      stateCode,
-    };
-  }
+  //   return {
+  //     name,
+  //     cityName,
+  //     countryName,
+  //     countryCode,
+  //     stateCode,
+  //   };
+  // }
 }
 
-function getComponent(components: Components, name: string) {
-  return components?.filter(
-    (component: { types: string[] }) => component.types[0] === name
-  )[0];
-}
+// function getComponent(components: Components, name: string) {
+//   return components?.filter(
+//     (component: { types: string[] }) => component.types[0] === name
+//   )[0];
+// }
 
-function getLong(components: Components, name: string) {
-  const component = getComponent(components, name);
-  return component && component.long_name;
-}
+// function getLong(components: Components, name: string) {
+//   const component = getComponent(components, name);
+//   return component && component.long_name;
+// }
 
-function getShort(components: Components, name: string) {
-  const component = getComponent(components, name);
-  return component && component.short_name;
-}
+// function getShort(components: Components, name: string) {
+//   const component = getComponent(components, name);
+//   return component && component.short_name;
+// }

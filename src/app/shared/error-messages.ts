@@ -5,6 +5,8 @@ export const errorMessages: errorType = {
   lastName: "[Last name] - is required",
   tagLine: "[Tag line] - is required",
   bio: "[Bio] - is required",
+  city: "[City] - is required",
+  country: "[Country] - is required",
   location: "[Location] - is required",
   avatar: "[Avatar] - is requred",
   searchStatus: "[Seach status] option must be selected",
