@@ -19,25 +19,25 @@
   color: #000;
 }
 
-.input-group-append{
+.input-group-append {
   cursor: pointer;
 }
 
 @media only screen and (max-width: 768px) {
-  .half{
+  .half {
     width: 90%;
   }
-  .card-body{
-    padding-right: 1rem!important;
-    padding-left: 1rem!important;
+  .card-body {
+    padding-right: 1rem !important;
+    padding-left: 1rem !important;
   }
 }
 
 @media (min-width: 767px) and (max-width: 1000px) {
-  .container{
+  .container {
     max-width: 970px;
   }
-  .half{
+  .half {
     width: 70%;
   }
 }

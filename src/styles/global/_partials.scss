@@ -292,6 +292,14 @@ input[type=checkbox]:before {
   }
 }
 
+// signin and signup eye
+
+.input-group-text {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  padding: 0.6rem 0.75rem;
+}
+
 
 // animation for for pingpong loader in engineers page
 .pong-loader {

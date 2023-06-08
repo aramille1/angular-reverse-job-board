@@ -144,6 +144,17 @@ ul.list-unstyled li a svg{
   }
 }
 
+.private-info-right:hover{
+  cursor: pointer;
+  border-color: #c4c5c7;
+  .bi-unlock-fill{
+    display: inline
+  }
+  .bi-lock-fill{
+    display: none;
+  }
+}
+
 .private-info-unlocked {
   h3,
   a {
