@@ -12,10 +12,10 @@ import { AuthService } from 'src/app/services/auth.service';
 import { CloudinaryService } from 'src/app/services/cloudinary/cloudinary.service';
 import { CommonService } from 'src/app/services/common-service/common.service';
 import { EngineerService } from 'src/app/services/engineer-service/engineer.service';
-import {
-  LocationService,
-  Maps,
-} from 'src/app/services/location-service/location.service';
+// import {
+//   LocationService,
+//   Maps,
+// } from 'src/app/services/location-service/location.service';
 import { errorMessageGenerator } from 'src/app/shared/helpers';
 import { regexValidator } from 'src/app/url-regex.validator';
 
@@ -36,7 +36,7 @@ export class ProfileUpdateComponent {
 
   constructor(
     private router: Router,
-    private locationService: LocationService,
+    // private locationService: LocationService,
     private auth: AuthService,
     private engineerService: EngineerService,
     private ngZone: NgZone,

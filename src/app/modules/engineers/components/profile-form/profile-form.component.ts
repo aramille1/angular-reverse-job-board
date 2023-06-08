@@ -11,10 +11,10 @@ import { LoadingBarService } from '@ngx-loading-bar/core';
 import { CloudinaryService } from 'src/app/services/cloudinary/cloudinary.service';
 import { CommonService } from 'src/app/services/common-service/common.service';
 import { EngineerService } from 'src/app/services/engineer-service/engineer.service';
-import {
-  LocationService,
-  Maps,
-} from 'src/app/services/location-service/location.service';
+// import {
+//   LocationService,
+//   Maps,
+// } from 'src/app/services/location-service/location.service';
 import { errorMessageGenerator } from 'src/app/shared/helpers';
 import { regexValidator } from 'src/app/url-regex.validator';
 const place = null as unknown as google.maps.places.PlaceResult;
@@ -83,7 +83,7 @@ export class ProfileFormComponent {
 
   constructor(
     private router: Router,
-    private locationService: LocationService,
+    // private locationService: LocationService,
     private engineerService: EngineerService,
     private ngZone: NgZone,
     private fb: FormBuilder,
