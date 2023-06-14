@@ -15,7 +15,7 @@ export class EngineersComponent {
   engineers = new Array<any>();
   limit: number = 10;
   page: number = 1;
-  total: number = 18;
+  total: number = 22;
   // pagesCount: Number[] = [1, 2, 3];
   // startIndex = 0;
   // endIndex = 5;
@@ -166,6 +166,7 @@ export class EngineersComponent {
               this.loader.stop();
             }
           } else {
+          console.log(res)
             this.engineers = [];
           }
         },
