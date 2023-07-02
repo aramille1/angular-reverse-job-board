@@ -15,7 +15,7 @@ export class EngineersComponent {
   engineers = new Array<any>();
   limit: number = 10;
   page: number = 1;
-  total: number = 22;
+  total: number = 22;  // TODO: I need total number of all engineers here from Axel
   // pagesCount: Number[] = [1, 2, 3];
   // startIndex = 0;
   // endIndex = 5;
@@ -44,6 +44,7 @@ export class EngineersComponent {
     itemsPerPage: 10,
     currentPage: 1,
   };
+
 
   roleLevels = [
     { name: 'Junior', value: 'junior', isSelected: false },
@@ -81,7 +82,7 @@ export class EngineersComponent {
     private auth: AuthService,
     private http: HttpClient,
     private loadingBar: LoadingBarService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.loader.start();
@@ -154,9 +155,13 @@ export class EngineersComponent {
       )
       .subscribe({
         next: (res) => {
+          console.log(res);
+
           if (res.engineers !== null) {
+            console.log(this.page);
+
             this.loading = false
-            if (res.engineers?.length < 10 && res.engineers) {
+            if (res.engineers?.length < 10 && res.engineers && this.page === 1) {
               this.showPagination = false;
               this.engineers = res?.engineers;
               this.loader.stop();
@@ -166,7 +171,7 @@ export class EngineersComponent {
               this.loader.stop();
             }
           } else {
-          console.log(res)
+            console.log(res)
             this.engineers = [];
           }
         },
