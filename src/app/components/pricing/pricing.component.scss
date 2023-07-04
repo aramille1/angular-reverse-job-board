@@ -1,7 +1,7 @@
-
-*{
+* {
   font-weight: 500;
 }
+
 .header,
 .price-heading {
   font-size: 48px;
@@ -19,26 +19,34 @@ h3,
   line-height: 1;
 }
 
+.mb150 {
+  margin-bottom: 150px;
+}
+
+.ptemp {
+  padding: 150px 0;
+}
+
 h3 {
   margin: 0;
 }
 
-.lead{
-  color:rgb(75, 85, 99);
+.lead {
+  color: rgb(75, 85, 99);
 }
 
-.price-block-text{
+.price-block-text {
   color: rgb(107, 114, 128);
   font-size: 16px;
   max-width: 80%;
 }
 
-.text-muted{
+.text-muted {
   color: rgb(55, 65, 81);
 }
 
-.text-muted-darker{
-  color:rgb(107, 114, 128);
+.text-muted-darker {
+  color: rgb(107, 114, 128);
 }
 
 .platform {
@@ -90,11 +98,12 @@ h3 {
 }
 
 
-.reviews-item_info-right p{
-  color:rgb(75, 85, 99);
+.reviews-item_info-right p {
+  color: rgb(75, 85, 99);
 }
-.reviews-item_info-right span{
-  color:rgb(31, 41, 55);
+
+.reviews-item_info-right span {
+  color: rgb(31, 41, 55);
 }
 
 .rating-star {
@@ -105,6 +114,7 @@ h3 {
 
 .accordion-item {
   padding: 25px;
+
   .accordion-header {
     margin: 0;
   }
@@ -142,7 +152,7 @@ h3 {
     font-size: 16px;
     font-weight: 500;
     line-height: 24px;
-    color:rgb(107, 114, 128);
+    color: rgb(107, 114, 128);
   }
 }
 
@@ -167,12 +177,12 @@ h3 {
     }
   }
 
-  .price-block{
-    padding-right: 0.5rem!important;
-    padding-left: 0.5rem!important;
+  .price-block {
+    padding-right: 0.5rem !important;
+    padding-left: 0.5rem !important;
   }
 }
 
-button{
+button {
   color: #fff;
 }
