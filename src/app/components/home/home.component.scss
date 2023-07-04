@@ -1,23 +1,27 @@
 .custom-box-shadow {
-  &:hover{
+  &:hover {
     box-shadow: none;
   }
 }
-.header{
+
+.header {
   text-align: center;
   max-width: 768px;
-    margin: 100px auto;
-  h1{
+  margin: 100px auto;
+  margin-bottom: 50px;
+
+  h1 {
     font-size: 3.75rem;
     line-height: 1;
     font-weight: 600;
   }
-  p{
+
+  p {
     font-size: 21px;
     font-weight: 500;
     color: rgb(107, 114, 128);
     line-height: 28px;
-    margin-top:1.25rem;
+    margin-top: 1.25rem;
   }
 
   button {
@@ -27,17 +31,18 @@
 }
 
 .container {
-  padding:0;
+  padding: 0;
 }
 
-.words{
+.words {
   overflow: hidden;
   height: 65px;
   display: inline-block;
   text-align: left;
   position: relative;
   top: 15px;
-  span{
+
+  span {
     display: block;
     height: 100%;
     color: #b21616;
@@ -45,43 +50,54 @@
   }
 }
 
-@keyframes spin_words{
-  8%{
-      transform: translateY(-112%);
+@keyframes spin_words {
+  8% {
+    transform: translateY(-112%);
   }
-  16%{
-      transform: translateY(-100%);
+
+  16% {
+    transform: translateY(-100%);
   }
-  24%{
-      transform: translateY(-212%);
+
+  24% {
+    transform: translateY(-212%);
   }
-  32%{
-      transform: translateY(-200%);
+
+  32% {
+    transform: translateY(-200%);
   }
-  40%{
-      transform: translateY(-312%);
+
+  40% {
+    transform: translateY(-312%);
   }
-  48%{
-      transform: translateY(-300%);
+
+  48% {
+    transform: translateY(-300%);
   }
-  56%{
-      transform: translateY(-412%);
+
+  56% {
+    transform: translateY(-412%);
   }
-  64%{
-      transform: translateY(-400%);
+
+  64% {
+    transform: translateY(-400%);
   }
-  72%{
+
+  72% {
     transform: translateY(-512%);
-}
-80%{
-  transform: translateY(-500%);
-}
-88%{
-  transform: translateY(-612%);
-}
-100%{
-  transform: translateY(-600%);
-}
+  }
+
+  80% {
+    transform: translateY(-500%);
+  }
+
+  88% {
+    transform: translateY(-612%);
+  }
+
+  100% {
+    transform: translateY(-600%);
+  }
 
 }
 
@@ -123,25 +139,27 @@
   header {
     margin: 30px !important;
     padding: 0;
-    h1{
+
+    h1 {
       font-size: 3.40rem !important;
-      .words{
+
+      .words {
         text-align: center;
       }
     }
   }
 
-  .engineer-wrapper{
+  .engineer-wrapper {
     margin: 20px;
     width: 90% !important;
   }
 
-  .profile-image{
+  .profile-image {
     width: 95px;
     height: 95px;
   }
 
-  .engineer-info-status{
+  .engineer-info-status {
     display: none !important;
   }
 
@@ -157,27 +175,30 @@
       height: 100px;
     }
 
-    h2{
+    h2 {
       line-height: 1.1;
-    font-size: 16px;
-    font-weight: 600;
+      font-size: 16px;
+      font-weight: 600;
     }
 
     .engineer-info-status {
       display: none !important;
     }
 
-    .engineer{
+    .engineer {
       padding: 1.5rem 0 0 0;
       margin-bottom: 15px;
     }
 
 
   }
-  .col-12{
+
+  .col-12 {
     padding: 0;
   }
-  .engineer-info-header h2, .engineer-info-text{
+
+  .engineer-info-header h2,
+  .engineer-info-text {
     width: 75%
   }
 }

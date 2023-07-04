@@ -155,11 +155,7 @@ export class EngineersComponent {
       )
       .subscribe({
         next: (res) => {
-          console.log(res);
-
           if (res.engineers !== null) {
-            console.log(this.page);
-
             this.loading = false
             if (res.engineers?.length < 10 && res.engineers && this.page === 1) {
               this.showPagination = false;
@@ -171,7 +167,6 @@ export class EngineersComponent {
               this.loader.stop();
             }
           } else {
-            console.log(res)
             this.engineers = [];
           }
         },
