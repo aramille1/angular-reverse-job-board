@@ -51,9 +51,9 @@ import { TermsAndConditionsComponent } from './components/terms-and-conditions/t
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    ToastrModule.forRoot({positionClass: 'toast-top-center'}),
+    ToastrModule.forRoot({ positionClass: 'toast-top-center' }),
     LoadingBarModule,
-    CloudinaryModule.forRoot({Cloudinary},
+    CloudinaryModule.forRoot({ Cloudinary },
       {
         cloud_name: 'rmsmms',
         api_key: '323471786184868',

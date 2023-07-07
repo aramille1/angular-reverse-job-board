@@ -17,7 +17,7 @@ export class HomeComponent {
   constructor(
     private engineerService: EngineerService,
     private loadingBar: LoadingBarService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.loader.start();

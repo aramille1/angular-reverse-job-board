@@ -127,7 +127,7 @@
 
                     <ng-template #itemTemplate let-item>
                       <div class="d-flex align-items-center px-3">
-                        <img [src]="item.flag" width="30px" height="20px" />
+                        <img loading="lazy" fetchPriority="high" [src]="item.flag" width="30px" height="20px" />
                         <a [innerHTML]="item.name"></a>
                       </div>
                     </ng-template>
@@ -190,7 +190,7 @@
                   <a class="engineer custom-box-shadow e-h item" [routerLink]="['/engineers/details', engineer.ID]">
                     <div class="flex-shrink-1">
                       <picture>
-                        <img [src]="
+                        <img loading="lazy" fetchPriority="high" [src]="
                             engineer?.Avatar
                               ? engineer?.Avatar
                               : 'assets/empty-avatar.png'
@@ -238,7 +238,7 @@
                 <a class="engineer custom-box-shadow e-h item" [routerLink]="['/engineers/details', engineer.ID]">
                   <div class="flex-shrink-1">
                     <picture>
-                      <img [src]="
+                      <img loading="lazy" fetchPriority="high" [src]="
                           engineer?.Avatar
                             ? engineer?.Avatar
                             : 'assets/empty-avatar.png'
@@ -408,7 +408,7 @@
 
                         <ng-template #itemTemplate let-item>
                           <div class="d-flex align-items-center px-3">
-                            <img [src]="item.flag" width="30px" height="20px" />
+                            <img loading="lazy" fetchPriority="high" [src]="item.flag" width="30px" height="20px" />
                             <a [innerHTML]="item.name"></a>
                           </div>
                         </ng-template>

@@ -22,7 +22,7 @@
     "@auth0/angular-jwt": "^5.1.2",
     "@cloudinary/angular-5.x": "^1.5.3",
     "@cloudinary/ng": "^1.11.2",
-    "@cloudinary/url-gen": "^1.10.0",
+    "@cloudinary/url-gen": "^1.10.1",
     "@ngx-loading-bar/core": "^6.0.2",
     "@types/google.maps": "^3.51.1",
     "angular-ng-autocomplete": "^2.0.12",

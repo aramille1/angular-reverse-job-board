@@ -15,23 +15,27 @@
           routerLink="/pricing">Pricing</a>
       </li>
       <li class="nav-item" routerLinkActive="active">
-        <a class="nav-link" data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" routerLink="/about">About</a>
+        <a class="nav-link" data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show"
+          routerLink="/about">About</a>
       </li>
       <!-- mobile version of myprofile nav -->
       <div class="myProfileNav" *ngIf="auth.isLoggedIn$ | async">
         <li class="nav-item">
-          <a class="nav-link" >
-            <img [src]="myProfileImg" alt="mdo" width="42" height="42" class="object-fit-cover rounded-circle">
+          <a class="nav-link">
+            <img loading="lazy" fetchPriority="high" [src]="myProfileImg" alt="mdo" width="42" height="42"
+              class="object-fit-cover rounded-circle">
             <span class="myprofileName"> {{ myProfileName}}</span>
           </a>
         </li>
         <li class="nav-item" *ngIf="showMyEngineerProfile">
-          <a class="nav-link" data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" [routerLink]="['/engineers/details', myProfileID]">
+          <a class="nav-link" data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show"
+            [routerLink]="['/engineers/details', myProfileID]">
             My Profile
           </a>
         </li>
         <li class="nav-item" *ngIf="showMyBusinessProfile">
-          <a class="nav-link" data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" [routerLink]="['/business/details']">
+          <a class="nav-link" data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show"
+            [routerLink]="['/business/details']">
             My Profile
           </a>
         </li>
@@ -56,9 +60,9 @@
 
     <!-- desktop version -->
     <div class="flex-shrink-0 dropdown myProfileDesktop" *ngIf="auth.isLoggedIn$ | async">
-      <a class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown"
-        aria-expanded="false">
-        <img [src]="myProfileImg" alt="mdo" width="32" height="32" class="object-fit-cover rounded-circle">
+      <a class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+        <img loading="lazy" fetchPriority="high" [src]="myProfileImg" alt="mdo" width="32" height="32"
+          class="object-fit-cover rounded-circle">
       </a>
       <ul class="dropdown-menu text-small shadow dropdown-menu-end">
         <li *ngIf="showMyEngineerProfile">
