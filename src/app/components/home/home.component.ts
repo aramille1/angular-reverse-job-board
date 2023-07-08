@@ -29,17 +29,19 @@ export class HomeComponent {
         this.loading = false;
         if (res) {
           res.engineers.forEach((e: any) => {
-            e.Avatar = e.Avatar.replace('https://res.cloudinary.com/rmsmms/image/upload/v1684400782/', '').replace('.jpg', '')
-            // changing the image quality setting from cloudinary
-            this.imgObj = new CloudinaryImage(e.Avatar, {
-              cloudName: 'rmsmms',
-            }).format('auto')
-              .delivery(quality('auto:best'));;
-            // get the string for the img tag
-            e.Avatar = this.imgObj.toURL();
-            this.tempEngineers.push(e)
+            if (e.Avatar.includes('https://res.cloudinary.com')) {
+              let urlString = e.Avatar.replace('https://res.cloudinary.com/rmsmms/image/upload/', '').replace('.jpg', '').slice(12)
+              // changing the image quality setting from cloudinary
+              this.imgObj = new CloudinaryImage(urlString, {
+                cloudName: 'rmsmms',
+              }).format('auto').delivery(quality('auto:best'));;
+              // get the string for the img tag
+              e.Avatar = this.imgObj.toURL();
+              this.tempEngineers.push(e)
+            } else {
+              this.tempEngineers.push(e)
+            }
           })
-          console.log(this.tempEngineers);
           this.engineers = this.tempEngineers;
           this.loader.stop();
         } else {
