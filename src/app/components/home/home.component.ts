@@ -2,7 +2,8 @@ import { EngineerService } from 'src/app/services/engineer-service/engineer.serv
 import { Component } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { LoadingBarService } from '@ngx-loading-bar/core';
-
+import { CloudinaryImage } from '@cloudinary/url-gen';
+import { quality } from "@cloudinary/url-gen/actions/delivery";
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -10,10 +11,12 @@ import { LoadingBarService } from '@ngx-loading-bar/core';
 })
 export class HomeComponent {
   engineers = new Array<any>();
+  tempEngineers = new Array<any>();
   loading: boolean = true;
   loader = this.loadingBar.useRef();
   private engineersSub: Subscription;
-
+  imgObj: CloudinaryImage = new CloudinaryImage(); //needs to be initialized
+  imgString: string = ''; //CloudinaryImage;
   constructor(
     private engineerService: EngineerService,
     private loadingBar: LoadingBarService
@@ -25,7 +28,19 @@ export class HomeComponent {
       next: (res) => {
         this.loading = false;
         if (res) {
-          this.engineers = res.engineers;
+          res.engineers.forEach((e: any) => {
+            e.Avatar = e.Avatar.replace('https://res.cloudinary.com/rmsmms/image/upload/v1684400782/', '').replace('.jpg', '')
+            // changing the image quality setting from cloudinary
+            this.imgObj = new CloudinaryImage(e.Avatar, {
+              cloudName: 'rmsmms',
+            }).format('auto')
+              .delivery(quality('auto:best'));;
+            // get the string for the img tag
+            e.Avatar = this.imgObj.toURL();
+            this.tempEngineers.push(e)
+          })
+          console.log(this.tempEngineers);
+          this.engineers = this.tempEngineers;
           this.loader.stop();
         } else {
           this.loader.stop();
@@ -35,6 +50,8 @@ export class HomeComponent {
         console.error(err);
       },
     });
+
+
   }
 
   ngOnDestroy(): void {

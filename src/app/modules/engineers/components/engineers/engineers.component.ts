@@ -5,6 +5,8 @@ import { PaginationInstance } from 'ngx-pagination';
 import { Observable, Subscription } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { EngineerService } from 'src/app/services/engineer-service/engineer.service';
+import { CloudinaryImage } from '@cloudinary/url-gen';
+import { quality } from "@cloudinary/url-gen/actions/delivery";
 @Component({
   selector: 'app-engineers',
   templateUrl: './engineers.component.html',
@@ -13,6 +15,7 @@ import { EngineerService } from 'src/app/services/engineer-service/engineer.serv
 export class EngineersComponent {
   // variables
   engineers = new Array<any>();
+  tempEngineers = new Array<any>();
   limit: number = 10;
   page: number = 1;
   total: number = 22;  // TODO: I need total number of all engineers here from Axel
@@ -34,6 +37,8 @@ export class EngineersComponent {
   selectedCountry: string = '';
   selectedRoleLevel: string = '';
   selectedRoleType: string = '';
+  imgObj: CloudinaryImage = new CloudinaryImage(); //needs to be initialized
+  imgString: string = ''; //CloudinaryImage;
   keyword = 'name';
   countriesData: any = [];
   loader = this.loadingBar.useRef();
@@ -156,16 +161,26 @@ export class EngineersComponent {
       .subscribe({
         next: (res) => {
           if (res.engineers !== null) {
+            this.tempEngineers = [];
             this.loading = false
-            if (res.engineers?.length < 10 && res.engineers && this.page === 1) {
-              this.showPagination = false;
-              this.engineers = res?.engineers;
-              this.loader.stop();
-            } else {
-              this.engineers = res?.engineers;
-              this.showPagination = true;
-              this.loader.stop();
-            }
+            this.showPagination = (res.engineers?.length < 10 && res.engineers && this.page === 1) ? false : true
+            this.loader.stop();
+            res.engineers.forEach((e: any) => {
+              if (e.Avatar.includes('https://res.cloudinary.com')) {
+                let urlString = e.Avatar.replace('https://res.cloudinary.com/rmsmms/image/upload/', '').replace('.jpg', '').slice(12)
+                // changing the image quality setting from cloudinary
+                this.imgObj = new CloudinaryImage(urlString, {
+                  cloudName: 'rmsmms',
+                }).format('auto').delivery(quality('auto:best'));;
+                // get the string for the img tag
+                e.Avatar = this.imgObj.toURL();
+                this.tempEngineers.push(e)
+              } else {
+                this.tempEngineers.push(e)
+              }
+            })
+            this.engineers = this.tempEngineers;
+
           } else {
             this.engineers = [];
           }
