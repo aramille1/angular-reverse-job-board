@@ -27,6 +27,10 @@ export class EngineerService {
     return this.http.get<any>(`${this.url}/engineers?page=${page}&limit=${limit}&country=${country}&roleType=${selectedRoleType}&roleLevel=${selectedRoleLevel}`);
   }
 
+  getEngineersCount(): Observable<any>{
+    return this.http.get(`${this.url}/count`)
+  }
+
   getEngineer(engineerId: any): Observable<any> {
     return this.http.get(`${this.url}/engineers/${engineerId}`);
   }

@@ -28,7 +28,7 @@ export class EngineersComponent {
   selectedTypeIndex: number;
   userIs: string;
   // status: boolean = false;
-  isMember: boolean = false;
+  isMember: boolean = true;
   showBlur: boolean = false;
   showNotFound: boolean = false;
   showPagination: boolean = true;
@@ -121,6 +121,10 @@ export class EngineersComponent {
         console.error(err);
       },
     });
+    this.engineerService.getEngineersCount().subscribe({
+      next: (res => this.total = res.engineers_count),
+      error: (err) => console.error(err)
+    })
     // TODO need to get number of all engineers and set it in total
     this.getEngineers();
   }
@@ -150,6 +154,7 @@ export class EngineersComponent {
   // }
 
   getEngineers() {
+
     this.getEngineersSub = this.engineerService
       .getEngineers(
         this.page,

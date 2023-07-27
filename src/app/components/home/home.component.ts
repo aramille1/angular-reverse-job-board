@@ -18,7 +18,7 @@ export class HomeComponent {
   imgObj: CloudinaryImage = new CloudinaryImage(); //needs to be initialized
   imgString: string = ''; //CloudinaryImage;
   constructor(
-    private engineerService: EngineerService,
+  private engineerService: EngineerService,
     private loadingBar: LoadingBarService
   ) { }
 

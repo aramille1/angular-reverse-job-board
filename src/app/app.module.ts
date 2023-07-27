@@ -26,6 +26,7 @@ import { FileUploadModule } from 'ng2-file-upload';
 import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-policy/privacy-policy.component';
 import { AboutComponent } from './components/about/about/about.component';
 import { TermsAndConditionsComponent } from './components/terms-and-conditions/terms-and-conditions/terms-and-conditions.component';
+import { VerifyComponent } from './components/verify/verify/verify.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { TermsAndConditionsComponent } from './components/terms-and-conditions/t
     PrivacyPolicyComponent,
     AboutComponent,
     TermsAndConditionsComponent,
+    VerifyComponent,
   ],
   imports: [
     BrowserModule,

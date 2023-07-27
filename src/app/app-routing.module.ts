@@ -12,6 +12,7 @@ import { RolePageGuard } from './guards/role-page-guard/role-page.guard';
 import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-policy/privacy-policy.component';
 import { AboutComponent } from './components/about/about/about.component';
 import { TermsAndConditionsComponent } from './components/terms-and-conditions/terms-and-conditions/terms-and-conditions.component';
+import { VerifyComponent } from './components/verify/verify/verify.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
@@ -41,6 +42,9 @@ const routes: Routes = [
       import('./modules/business/business.module').then(
         (m) => m.BusinessModule
       ),
+  },
+  {
+    path: 'verify', component: VerifyComponent, outlet:'verify'
   },
   { path: '**', component: NotFoundComponent },
 ];
