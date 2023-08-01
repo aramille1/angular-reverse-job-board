@@ -6,5 +6,4 @@ import { Component } from '@angular/core';
   styleUrls: ['./verify.component.scss']
 })
 export class VerifyComponent {
-
 }
