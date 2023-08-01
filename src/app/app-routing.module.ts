@@ -13,38 +13,44 @@ import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-poli
 import { AboutComponent } from './components/about/about/about.component';
 import { TermsAndConditionsComponent } from './components/terms-and-conditions/terms-and-conditions/terms-and-conditions.component';
 import { VerifyComponent } from './components/verify/verify/verify.component';
+import { MainComponent } from './components/main/main/main.component';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent, pathMatch: 'full' },
-  { path: 'forgot-password', component: ForgotPasswordComponent },
-  { path: 'signin', component: SigninComponent },
-  { path: 'signup', component: SignupComponent },
   {
-    path: 'role',
-    component: RoleComponent,
-    canActivate: [RolePageGuard]
+    path: '', component: MainComponent, children: [
+      { path: 'forgot-password', component: ForgotPasswordComponent },
+      { path: 'signin', component: SigninComponent },
+      { path: 'signup', component: SignupComponent },
+      {
+        path: 'role',
+        component: RoleComponent,
+        canActivate: [RolePageGuard]
+      },
+      { path: 'pricing', component: PricingComponent },
+      { path: 'privacy', component: PrivacyPolicyComponent },
+      { path: 'terms', component: TermsAndConditionsComponent },
+      { path: 'about', component: AboutComponent },
+      {
+        path: 'engineers',
+        loadChildren: () =>
+          import('./modules/engineers/engineers.module').then(
+            (m) => m.EngineersModule
+          ),
+      },
+      {
+        path: 'business',
+        canActivate: [AuthGuard],
+        loadChildren: () =>
+          import('./modules/business/business.module').then(
+            (m) => m.BusinessModule
+          ),
+      },
+      { path: '', component: HomeComponent },
+    ]
   },
-  { path: 'pricing', component: PricingComponent },
-  { path: 'privacy', component: PrivacyPolicyComponent },
-  { path: 'terms', component: TermsAndConditionsComponent },
-  { path: 'about', component: AboutComponent },
+
   {
-    path: 'engineers',
-    loadChildren: () =>
-      import('./modules/engineers/engineers.module').then(
-        (m) => m.EngineersModule
-      ),
-  },
-  {
-    path: 'business',
-    canActivate: [AuthGuard],
-    loadChildren: () =>
-      import('./modules/business/business.module').then(
-        (m) => m.BusinessModule
-      ),
-  },
-  {
-    path: 'verify', component: VerifyComponent, outlet:'verify'
+    path: 'verify', component: VerifyComponent
   },
   { path: '**', component: NotFoundComponent },
 ];
@@ -52,9 +58,9 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forRoot(routes,
     {
-    scrollPositionRestoration: 'enabled',
-    scrollOffset:[0,0]
-  }
+      scrollPositionRestoration: 'enabled',
+      scrollOffset: [0, 0]
+    }
   )],
   exports: [RouterModule],
 })
