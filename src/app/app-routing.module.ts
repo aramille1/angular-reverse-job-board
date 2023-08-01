@@ -50,7 +50,7 @@ const routes: Routes = [
   },
 
   {
-    path: 'verify', component: VerifyComponent
+    path: 'verify/:userID/:verificationCode', component: VerifyComponent
   },
   { path: '**', component: NotFoundComponent },
 ];
