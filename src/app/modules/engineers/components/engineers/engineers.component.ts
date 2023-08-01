@@ -28,10 +28,10 @@ export class EngineersComponent {
   selectedTypeIndex: number;
   userIs: string;
   // status: boolean = false;
-  isMember: boolean = true;
+  isMember: boolean = false;
   showBlur: boolean = false;
   showNotFound: boolean = false;
-  showPagination: boolean = true;
+  showPagination: boolean = false;
   loading: boolean = true;
   // countries: any = [];
   selectedCountry: string = '';
@@ -184,6 +184,8 @@ export class EngineersComponent {
                 this.tempEngineers.push(e)
               }
             })
+            console.log(this.tempEngineers);
+
             this.engineers = this.tempEngineers;
 
           } else {

@@ -29,7 +29,7 @@ export class SignupComponent {
       ],
     ],
   },
-  { validator: CustomValidators.MatchingPasswords });
+    { validator: CustomValidators.MatchingPasswords });
 
   constructor(
     private fb: FormBuilder,
@@ -37,20 +37,19 @@ export class SignupComponent {
     private router: Router,
     private toastr: ToastrService,
     private loadingBar: LoadingBarService
-  ) {}
+  ) { }
 
-  toggleFieldTextType(){
+  toggleFieldTextType() {
     this.fieldTextType = !this.fieldTextType
   }
 
-  toggleRepeatFieldTextType(){
+  toggleRepeatFieldTextType() {
     this.repeatFieldTextType = !this.repeatFieldTextType
   }
 
   signup() {
     this.loader.start()
     if (this.signupForm.valid) {
-      console.log(this.signupForm.value);
       const signupData = {
         email: this.signupForm.value.email,
         password: this.signupForm.value.password,
@@ -61,11 +60,10 @@ export class SignupComponent {
           this.signupForm.reset();
           this.router.navigate(['signin']);
           this.loader.stop()
-          console.log(response);
         },
         error: (error) => {
           this.loader.stop()
-          if(error.error.detail === 'user already created'){
+          if (error.error.detail === 'user already created') {
             this.toastr.error('Account already exists');
           }
           throw error;

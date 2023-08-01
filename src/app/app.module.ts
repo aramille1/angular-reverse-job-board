@@ -27,6 +27,7 @@ import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-poli
 import { AboutComponent } from './components/about/about/about.component';
 import { TermsAndConditionsComponent } from './components/terms-and-conditions/terms-and-conditions/terms-and-conditions.component';
 import { VerifyComponent } from './components/verify/verify/verify.component';
+import { MainComponent } from './components/main/main/main.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { VerifyComponent } from './components/verify/verify/verify.component';
     AboutComponent,
     TermsAndConditionsComponent,
     VerifyComponent,
+    MainComponent,
   ],
   imports: [
     BrowserModule,

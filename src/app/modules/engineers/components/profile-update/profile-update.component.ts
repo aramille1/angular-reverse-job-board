@@ -155,7 +155,6 @@ export class ProfileUpdateComponent {
 
   setProfileToUpdate() {
     this.auth.getMyProfile().subscribe((myProfile) => {
-      console.log(myProfile)
       if (myProfile.user.Avatar) {
         this.imageSrc = myProfile.user.Avatar;
         this.myProfile = myProfile.user;
@@ -243,8 +242,6 @@ export class ProfileUpdateComponent {
           'https://stackoverflow.com/users/' +
           this.profileForm.value.stackoverflow,
       };
-      console.log(data)
-
       if (this.profileForm.valid) {
         this.engineerService.updateEngineer(data).subscribe({
           next: () => {
@@ -301,8 +298,6 @@ export class ProfileUpdateComponent {
               next: () => {
                 this.submitted = false;
                 this.loader.stop();
-                console.log(data);
-
                 this.commonService.updateUsersDataForHeader({
                   image: data.avatar,
                   firstName: data.firstName,
