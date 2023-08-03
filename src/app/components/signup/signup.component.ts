@@ -57,9 +57,9 @@ export class SignupComponent {
       this.auth.signup(signupData).subscribe({
         next: (response) => {
           this.toastr.success('Awesome, registration is successfull!');
-          this.router.navigate(['/email-verify']);
           this.signupForm.reset();
-          this.router.navigate(['signin']);
+          this.router.navigate(['/email-verify']);
+          // this.router.navigate(['signin']);
           this.loader.stop()
         },
         error: (error) => {
