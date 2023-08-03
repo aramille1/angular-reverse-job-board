@@ -5,6 +5,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { CustomValidators } from 'src/app/matching-passwords.validator';
 import { LoadingBarService } from '@ngx-loading-bar/core';
+import { CommonService } from 'src/app/services/common-service/common.service';
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
@@ -36,7 +37,8 @@ export class SignupComponent {
     private auth: AuthService,
     private router: Router,
     private toastr: ToastrService,
-    private loadingBar: LoadingBarService
+    private loadingBar: LoadingBarService,
+    private commonService: CommonService
   ) { }
 
   toggleFieldTextType() {
@@ -54,6 +56,7 @@ export class SignupComponent {
         email: this.signupForm.value.email,
         password: this.signupForm.value.password,
       };
+      this.commonService.updateEmailPasswordCredentials(signupData)
       this.auth.signup(signupData).subscribe({
         next: (response) => {
           this.toastr.success('Awesome, registration is successfull!');
