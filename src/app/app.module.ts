@@ -28,6 +28,7 @@ import { AboutComponent } from './components/about/about/about.component';
 import { TermsAndConditionsComponent } from './components/terms-and-conditions/terms-and-conditions/terms-and-conditions.component';
 import { VerifyComponent } from './components/verify/verify/verify.component';
 import { MainComponent } from './components/main/main/main.component';
+import { EmailVerifyComponent } from './components/email-verify/email-verify/email-verify.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { MainComponent } from './components/main/main/main.component';
     TermsAndConditionsComponent,
     VerifyComponent,
     MainComponent,
+    EmailVerifyComponent,
   ],
   imports: [
     BrowserModule,

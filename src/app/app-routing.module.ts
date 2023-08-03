@@ -14,6 +14,7 @@ import { AboutComponent } from './components/about/about/about.component';
 import { TermsAndConditionsComponent } from './components/terms-and-conditions/terms-and-conditions/terms-and-conditions.component';
 import { VerifyComponent } from './components/verify/verify/verify.component';
 import { MainComponent } from './components/main/main/main.component';
+import { EmailVerifyComponent } from './components/email-verify/email-verify/email-verify.component';
 
 const routes: Routes = [
   {
@@ -30,6 +31,7 @@ const routes: Routes = [
       { path: 'privacy', component: PrivacyPolicyComponent },
       { path: 'terms', component: TermsAndConditionsComponent },
       { path: 'about', component: AboutComponent },
+      { path: 'email-verify', component: EmailVerifyComponent },
       {
         path: 'engineers',
         loadChildren: () =>
@@ -39,6 +41,7 @@ const routes: Routes = [
       },
       {
         path: 'business',
+
         canActivate: [AuthGuard],
         loadChildren: () =>
           import('./modules/business/business.module').then(
@@ -48,7 +51,6 @@ const routes: Routes = [
       { path: '', component: HomeComponent },
     ]
   },
-
   {
     path: 'verify/:userID/:verificationCode', component: VerifyComponent
   },
