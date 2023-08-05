@@ -21,7 +21,7 @@ export class VerifyComponent implements OnInit {
     private router: Router,
     private commonService: CommonService) { }
   ngOnInit(): void {
-    this.userID = this.route.snapshot.paramMap.get('id')
+    this.userID = this.route.snapshot.paramMap.get('userID')
     this.verificationCode = this.route.snapshot.paramMap.get('verificationCode')
     console.log('----------------');
     console.log('userID')
