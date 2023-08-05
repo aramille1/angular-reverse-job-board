@@ -51,6 +51,7 @@ const routes: Routes = [
     ]
   },
   { path: 'email-verify', component: EmailVerifyComponent },
+
   {
     path: 'verify/:userID/:verificationCode', component: VerifyComponent
   },
