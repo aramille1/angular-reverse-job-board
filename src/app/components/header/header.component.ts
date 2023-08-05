@@ -38,14 +38,7 @@ export class HeaderComponent {
       });
 
 
-    this.auth.getMyProfile().subscribe({
-      next: (res) => {
-        console.log(res.user.Verified)
-        if (res.user.Verified) {
-          this.autoLogin()
-        }
-      }
-    })
+
 
 
 
@@ -73,6 +66,23 @@ export class HeaderComponent {
         });
       }
     });
+  }
+
+  ngOnInit(): void {
+    this.auth.getMyProfile().subscribe({
+      next: (res) => {
+        console.log(res.user.Verified)
+        if (res.user.Verified) {
+          this.autoLogin()
+        }
+      },
+      error: err => {
+        console.log('couldnt get users data');
+
+        console.log(err)
+        console.error(err)
+      }
+    })
   }
 
   ngOnDestroy(): void {
