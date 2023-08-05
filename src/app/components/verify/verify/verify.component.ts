@@ -33,7 +33,7 @@ export class VerifyComponent implements OnInit {
     console.log(this.verificationCode);
     console.log('----------------');
 
-    this.http.get(`${this.url}/verify/{userID}/{verificationCode}`).subscribe({
+    this.http.get(`${this.url}/verify/${this.userID}/${this.verificationCode}`).subscribe({
       next: (res) => {
         console.log(res)
         console.log('email succefully verified')
