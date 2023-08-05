@@ -68,46 +68,6 @@ export class HeaderComponent {
     });
   }
 
-  ngOnInit(): void {
-    this.commonService.emailPasswordCredentials$.subscribe({
-      next: (emailpasswordData) => {
-        console.log(emailpasswordData);
-        console.log('redirected and loggedin already');
-
-
-        this.auth.signin(emailpasswordData).subscribe({
-          next: (response) => {
-            const parsedToken = JSON.parse(
-              atob(response['auth_token'].split('.')[1])
-            );
-            localStorage.setItem('token', response['auth_token']);
-            localStorage.setItem('expires', JSON.stringify(parsedToken.exp));
-            this.auth.setIsLoggedIn(true);
-            console.log('loggedin!');
-            this.auth.getMyProfile().subscribe({
-              next: () => this.router.navigate(['']),
-              error: () => {
-                console.log(
-                  'you are logged in! but your profile as engineer/recruiter doesnt exist yet'
-                );
-                this.router.navigate(['role']);
-              },
-            });
-          },
-          error: (err) => {
-            new Error(err);
-          },
-        });
-
-      },
-      error: err => {
-        console.error(err)
-        console.log('wrong credentials')
-      }
-    })
-
-  }
-
   ngOnDestroy(): void {
     this.isLoggedInSub.unsubscribe();
     this.myProfileSub.unsubscribe();
