@@ -69,38 +69,6 @@ export class HeaderComponent {
   }
 
   ngOnInit(): void {
-    this.auth.getMyProfile().subscribe({
-      next: (res) => {
-        console.log(res.user.Verified)
-        if (res.user.Verified) {
-          this.autoLogin()
-        }
-      },
-      error: err => {
-        console.log('couldnt get users data');
-
-        console.log(err)
-        console.error(err)
-      }
-    })
-  }
-
-  ngOnDestroy(): void {
-    this.isLoggedInSub.unsubscribe();
-    this.myProfileSub.unsubscribe();
-    this.updatedUserDataForHeaderSub.unsubscribe();
-  }
-
-  signout() {
-    this.myProfileImg =
-      'https://microbiology.ucr.edu/sites/default/files/styles/form_preview/public/blank-profile-pic.png';
-    this.showMyBusinessProfile = false;
-    this.showMyEngineerProfile = false;
-    this.myProfileID = null;
-    this.auth.signout();
-  }
-
-  autoLogin() {
     this.commonService.emailPasswordCredentials$.subscribe({
       next: (emailpasswordData) => {
         console.log(emailpasswordData);
@@ -137,5 +105,22 @@ export class HeaderComponent {
         console.log('wrong credentials')
       }
     })
+
   }
+
+  ngOnDestroy(): void {
+    this.isLoggedInSub.unsubscribe();
+    this.myProfileSub.unsubscribe();
+    this.updatedUserDataForHeaderSub.unsubscribe();
+  }
+
+  signout() {
+    this.myProfileImg =
+      'https://microbiology.ucr.edu/sites/default/files/styles/form_preview/public/blank-profile-pic.png';
+    this.showMyBusinessProfile = false;
+    this.showMyEngineerProfile = false;
+    this.myProfileID = null;
+    this.auth.signout();
+  }
+
 }
