@@ -11,15 +11,14 @@ import { CommonService } from 'src/app/services/common-service/common.service';
   styleUrls: ['./verify.component.scss']
 })
 export class VerifyComponent implements OnInit {
+  loading: boolean = true;
+  showError: boolean = false;
   url = environment.apiUrl;
   userID: any
   verificationCode: any
   constructor(
     private route: ActivatedRoute,
-    private http: HttpClient,
-    private auth: AuthService,
-    private router: Router,
-    private commonService: CommonService) { }
+    private http: HttpClient,) { }
   ngOnInit(): void {
     this.userID = this.route.snapshot.paramMap.get('userID')
     this.verificationCode = this.route.snapshot.paramMap.get('verificationCode')
@@ -35,11 +34,14 @@ export class VerifyComponent implements OnInit {
 
     this.http.get(`${this.url}/verify/${this.userID}/${this.verificationCode}`).subscribe({
       next: (res) => {
+        this.loading = false;
         console.log(res)
         console.log('email succefully verified')
 
       },
       error: err => {
+        this.loading = false;
+        this.showError = true;
         console.error(err)
         console.log('something went wrong with email verification');
       }
