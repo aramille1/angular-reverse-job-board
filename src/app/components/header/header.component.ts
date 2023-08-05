@@ -40,8 +40,10 @@ export class HeaderComponent {
 
     this.auth.getMyProfile().subscribe({
       next: (res) => {
-        console.log(res)
-        this.autoLogin()
+        console.log(res.user.Verified)
+        if (res.user.Verified) {
+          this.autoLogin()
+        }
       }
     })
 
