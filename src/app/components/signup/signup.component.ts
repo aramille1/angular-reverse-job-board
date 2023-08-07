@@ -56,19 +56,12 @@ export class SignupComponent {
         email: this.signupForm.value.email,
         password: this.signupForm.value.password,
       };
-      this.commonService.updateEmailPasswordCredentials(signupData)
-      this.commonService.data = 'something else'
-      console.log(this.commonService.data);
 
       this.auth.signup(signupData).subscribe({
-        next: (response) => {
+        next: () => {
           this.toastr.success('Awesome, registration is successfull!');
-          this.commonService.updateEmailPasswordCredentials(signupData)
-          this.commonService.data = signupData
-
           this.signupForm.reset();
           this.router.navigate(['/email-verify']);
-          // this.router.navigate(['signin']);
           this.loader.stop()
         },
         error: (error) => {

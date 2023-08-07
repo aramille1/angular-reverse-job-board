@@ -13,8 +13,8 @@
     </svg>
     <h1>Email Verification</h1>
     <p>Your email was verified. You can continue using the application.</p>
-    <button class="btn btn-success"><a href="https://www.angulartalents.com/" target="_blank"
-        rel="noopener noreferrer">Go to home page</a></button>
+    <button class="btn btn-success" target="_blank" [routerLink]="[ '/signin']" rel="noopener noreferrer">Login to your
+      account</button>
   </div>
 </div>
 <div class="d-flex flex-column align-items-center m-5 text-center" *ngIf="showError">

@@ -4,9 +4,6 @@ import { Subscription } from 'rxjs';
 import { LoadingBarService } from '@ngx-loading-bar/core';
 import { CloudinaryImage } from '@cloudinary/url-gen';
 import { quality } from "@cloudinary/url-gen/actions/delivery";
-import { CommonService } from 'src/app/services/common-service/common.service';
-import { AuthService } from 'src/app/services/auth.service';
-import { Router } from '@angular/router';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',

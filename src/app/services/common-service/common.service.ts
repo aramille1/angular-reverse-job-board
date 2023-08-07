@@ -8,7 +8,6 @@ export class CommonService {
   public emailPasswordCredentials = new Subject<any>();
   public isVerified = new BehaviorSubject<boolean>(false);
   public isVerifiedStatus: boolean = false;
-  public data: any = 'somehting';
 
   updatedUserDataForHeader$ = this.updatedUsersDataForHeader.asObservable();
   emailPasswordCredentials$ = this.emailPasswordCredentials.asObservable();
