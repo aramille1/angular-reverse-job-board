@@ -38,14 +38,52 @@ export class VerifyComponent implements OnInit {
     console.log(this.verificationCode);
     console.log('----------------');
 
+    // this.commonService.updateIsVerified(true)
+    // this.commonService.isVerifiedStatus = true;
+
     this.http.get(`${this.url}/verify/${this.userID}/${this.verificationCode}`).subscribe({
       next: (res) => {
         this.loading = false;
         console.log(res)
         console.log('email succefully verified')
 
-        this.commonService.updateIsVerified(true)
-        this.commonService.isVerifiedStatus = true;
+        this.commonService.emailPasswordCredentials$.subscribe({
+          next: (emailpasswordData) => {
+            console.log(emailpasswordData);
+            console.log('redirected and loggedin already');
+
+
+            this.auth.signin(emailpasswordData).subscribe({
+              next: (response) => {
+                const parsedToken = JSON.parse(
+                  atob(response['auth_token'].split('.')[1])
+                );
+                localStorage.setItem('token', response['auth_token']);
+                localStorage.setItem('expires', JSON.stringify(parsedToken.exp));
+                this.auth.setIsLoggedIn(true);
+                console.log('loggedin!');
+                // this.auth.getMyProfile().subscribe({
+                //   next: () => this.router.navigate(['']),
+                //   error: () => {
+                //     console.log(
+                //       'you are logged in! but your profile as engineer/recruiter doesnt exist yet'
+                //     );
+                //     this.router.navigate(['role']);
+                //   },
+                // });
+              },
+              error: (err) => {
+                new Error(err);
+              },
+            });
+
+          },
+          error: err => {
+            console.error(err)
+            console.log('wrong credentials')
+          }
+        })
+
       },
       error: err => {
         this.loading = false;

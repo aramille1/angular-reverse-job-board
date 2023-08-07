@@ -32,7 +32,6 @@ const routes: Routes = [
       { path: 'terms', component: TermsAndConditionsComponent },
       { path: 'about', component: AboutComponent },
       { path: 'email-verify', component: EmailVerifyComponent },
-      { path: 'verify/:userID/:verificationCode', component: VerifyComponent },
       {
         path: 'engineers',
         loadChildren: () =>
@@ -51,6 +50,9 @@ const routes: Routes = [
       },
       { path: '', component: HomeComponent },
     ]
+  },
+  {
+    path: 'verify/:userID/:verificationCode', component: VerifyComponent
   },
   { path: '**', component: NotFoundComponent },
 ];
