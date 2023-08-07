@@ -16,12 +16,25 @@ export class VerifyComponent implements OnInit {
   url = environment.apiUrl;
   userID: any
   verificationCode: any
+  emailPasswordData: any;
   constructor(
     private route: ActivatedRoute,
     private http: HttpClient,
     private auth: AuthService,
     private commonService: CommonService,
-    private router: Router) { }
+    private router: Router) {
+    this.commonService.emailPasswordCredentials$.subscribe({
+      next: (emailpasswordData) => {
+        console.log(emailpasswordData);
+        this.emailPasswordData = emailpasswordData;
+      },
+      error: (err) => {
+        console.error(err)
+        console.log('wrong credentials');
+
+      }
+    })
+  }
   ngOnInit(): void {
     this.userID = this.route.snapshot.paramMap.get('userID')
     this.verificationCode = this.route.snapshot.paramMap.get('verificationCode')
@@ -40,44 +53,32 @@ export class VerifyComponent implements OnInit {
         this.loading = false;
         console.log(res)
         console.log('email succefully verified')
-        this.commonService.emailPasswordCredentials$.subscribe({
-          next: (emailpasswordData) => {
-            console.log(emailpasswordData);
-            console.log('redirected and loggedin already');
 
+        this.auth.signin(this.emailPasswordData).subscribe({
+          next: (response) => {
+            console.log(response);
 
-            this.auth.signin(emailpasswordData).subscribe({
-              next: (response) => {
-                console.log(response);
-
-                const parsedToken = JSON.parse(
-                  atob(response['auth_token'].split('.')[1])
+            const parsedToken = JSON.parse(
+              atob(response['auth_token'].split('.')[1])
+            );
+            localStorage.setItem('token', response['auth_token']);
+            localStorage.setItem('expires', JSON.stringify(parsedToken.exp));
+            this.auth.setIsLoggedIn(true);
+            console.log('loggedin!');
+            this.auth.getMyProfile().subscribe({
+              next: () => this.router.navigate(['']),
+              error: () => {
+                console.log(
+                  'you are logged in! but your profile as engineer/recruiter doesnt exist yet'
                 );
-                localStorage.setItem('token', response['auth_token']);
-                localStorage.setItem('expires', JSON.stringify(parsedToken.exp));
-                this.auth.setIsLoggedIn(true);
-                console.log('loggedin!');
-                this.auth.getMyProfile().subscribe({
-                  next: () => this.router.navigate(['']),
-                  error: () => {
-                    console.log(
-                      'you are logged in! but your profile as engineer/recruiter doesnt exist yet'
-                    );
-                    this.router.navigate(['role']);
-                  },
-                });
-              },
-              error: (err) => {
-                new Error(err);
+                this.router.navigate(['role']);
               },
             });
-
           },
-          error: err => {
-            console.error(err)
-            console.log('wrong credentials')
-          }
-        })
+          error: (err) => {
+            new Error(err);
+          },
+        });
       },
       error: err => {
         this.loading = false;
