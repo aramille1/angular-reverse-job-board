@@ -6,7 +6,8 @@ import { updateObjectForHeader } from 'src/app/models/header-data';
 export class CommonService {
   private updatedUsersDataForHeader = new Subject<updateObjectForHeader>();
   private emailPasswordCredentials = new Subject<any>();
-  private isVerified = new BehaviorSubject<boolean>(false);
+  public isVerified = new BehaviorSubject<boolean>(false);
+  public isVerifiedStatus: boolean = false;
 
   updatedUserDataForHeader$ = this.updatedUsersDataForHeader.asObservable();
   emailPasswordCredentials$ = this.emailPasswordCredentials.asObservable();

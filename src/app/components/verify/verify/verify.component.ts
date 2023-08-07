@@ -45,6 +45,7 @@ export class VerifyComponent implements OnInit {
         console.log('email succefully verified')
 
         this.commonService.updateIsVerified(true)
+        this.commonService.isVerifiedStatus = true;
       },
       error: err => {
         this.loading = false;

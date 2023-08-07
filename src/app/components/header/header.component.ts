@@ -40,8 +40,9 @@ export class HeaderComponent {
     this.commonService.isVerified$.subscribe({
 
       next: val => {
-        console.log(val);
-        if (val) {
+        console.log('subject isVerified equals: ', val);
+        console.log('this.commonService.isVerifiedStatus equals: ', this.commonService.isVerifiedStatus)
+        if (val || this.commonService.isVerifiedStatus) {
           this.commonService.emailPasswordCredentials$.subscribe({
             next: (emailpasswordData) => {
               console.log(emailpasswordData);
