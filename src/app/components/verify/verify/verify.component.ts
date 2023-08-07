@@ -23,17 +23,7 @@ export class VerifyComponent implements OnInit {
     private auth: AuthService,
     private commonService: CommonService,
     private router: Router) {
-    this.commonService.emailPasswordCredentials$.subscribe({
-      next: (emailpasswordData) => {
-        console.log(emailpasswordData);
-        this.emailPasswordData = emailpasswordData;
-      },
-      error: (err) => {
-        console.error(err)
-        console.log('wrong credentials');
 
-      }
-    })
   }
   ngOnInit(): void {
     this.userID = this.route.snapshot.paramMap.get('userID')
@@ -54,31 +44,7 @@ export class VerifyComponent implements OnInit {
         console.log(res)
         console.log('email succefully verified')
 
-        this.auth.signin(this.emailPasswordData).subscribe({
-          next: (response) => {
-            console.log(response);
-
-            const parsedToken = JSON.parse(
-              atob(response['auth_token'].split('.')[1])
-            );
-            localStorage.setItem('token', response['auth_token']);
-            localStorage.setItem('expires', JSON.stringify(parsedToken.exp));
-            this.auth.setIsLoggedIn(true);
-            console.log('loggedin!');
-            this.auth.getMyProfile().subscribe({
-              next: () => this.router.navigate(['']),
-              error: () => {
-                console.log(
-                  'you are logged in! but your profile as engineer/recruiter doesnt exist yet'
-                );
-                this.router.navigate(['role']);
-              },
-            });
-          },
-          error: (err) => {
-            new Error(err);
-          },
-        });
+        this.commonService.updateIsVerified(true)
       },
       error: err => {
         this.loading = false;

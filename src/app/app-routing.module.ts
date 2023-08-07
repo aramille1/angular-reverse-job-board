@@ -50,11 +50,11 @@ const routes: Routes = [
       { path: '', component: HomeComponent },
     ]
   },
-  { path: 'email-verify', component: EmailVerifyComponent },
 
   {
     path: 'verify/:userID/:verificationCode', component: VerifyComponent
   },
+  { path: 'email-verify', component: EmailVerifyComponent },
   { path: '**', component: NotFoundComponent },
 ];
 
