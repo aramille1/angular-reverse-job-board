@@ -64,6 +64,8 @@ export class SignupComponent {
         next: (response) => {
           this.toastr.success('Awesome, registration is successfull!');
           this.commonService.updateEmailPasswordCredentials(signupData)
+          this.commonService.data = signupData
+
           this.signupForm.reset();
           this.router.navigate(['/email-verify']);
           // this.router.navigate(['signin']);
@@ -71,10 +73,6 @@ export class SignupComponent {
         },
         error: (error) => {
           this.loader.stop()
-          console.log(signupData);
-
-          this.commonService.updateEmailPasswordCredentials(signupData)
-          this.commonService.data = signupData
           if (error.error.detail === 'user already created') {
             this.toastr.error('Account already exists');
           }

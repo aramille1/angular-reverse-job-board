@@ -23,41 +23,12 @@ export class HomeComponent {
   constructor(
     private engineerService: EngineerService,
     private loadingBar: LoadingBarService,
-    private commonService: CommonService,
-    private auth: AuthService,
-    private router: Router,
   ) {
 
   }
 
   ngOnInit(): void {
     this.loader.start();
-    console.log('isVerifed from commonService:', this.commonService.isVerifiedStatus);
-
-    this.auth.signin(this.commonService.data).subscribe({
-      next: (response) => {
-        const parsedToken = JSON.parse(
-          atob(response['auth_token'].split('.')[1])
-        );
-        localStorage.setItem('token', response['auth_token']);
-        localStorage.setItem('expires', JSON.stringify(parsedToken.exp));
-        this.auth.setIsLoggedIn(true);
-        console.log('loggedin!');
-        // this.auth.getMyProfile().subscribe({
-        //   next: () => this.router.navigate(['']),
-        //   error: () => {
-        //     console.log(
-        //       'you are logged in! but your profile as engineer/recruiter doesnt exist yet'
-        //     );
-        //     this.router.navigate(['role']);
-        //   },
-        // });
-      },
-      error: (err) => {
-        new Error(err);
-      },
-    });
-
     this.engineersSub = this.engineerService.getAllEngineers().subscribe({
       next: (res) => {
         this.loading = false;
