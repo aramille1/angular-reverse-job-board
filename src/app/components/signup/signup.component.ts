@@ -56,6 +56,10 @@ export class SignupComponent {
         email: this.signupForm.value.email,
         password: this.signupForm.value.password,
       };
+      this.commonService.updateEmailPasswordCredentials(signupData)
+      this.commonService.data = 'something else'
+      console.log(this.commonService.data);
+
       this.auth.signup(signupData).subscribe({
         next: (response) => {
           this.toastr.success('Awesome, registration is successfull!');
@@ -67,6 +71,10 @@ export class SignupComponent {
         },
         error: (error) => {
           this.loader.stop()
+          console.log(signupData);
+
+          this.commonService.updateEmailPasswordCredentials(signupData)
+          this.commonService.data = signupData
           if (error.error.detail === 'user already created') {
             this.toastr.error('Account already exists');
           }

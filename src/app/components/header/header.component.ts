@@ -37,7 +37,9 @@ export class HeaderComponent {
         },
       });
 
-    // this.commonService.isVerified$.subscribe({
+
+
+
 
     //   next: val => {
     //     console.log('subject isVerified equals: ', val);
@@ -89,8 +91,6 @@ export class HeaderComponent {
 
 
     this.isLoggedInSub = this.auth.isLoggedIn$.subscribe((isLoggedIn) => {
-      console.log(isLoggedIn);
-
       if (isLoggedIn) {
         this.myProfileSub = this.auth.getMyProfile().subscribe({
           next: (res) => {
