@@ -23,7 +23,6 @@ export class VerifyComponent implements OnInit {
     this.http.get(`${this.url}/verify/${this.userID}/${this.verificationCode}`).subscribe({
       next: (res) => {
         this.loading = false;
-        console.log(res)
         console.log('email succefully verified')
       },
       error: err => {
