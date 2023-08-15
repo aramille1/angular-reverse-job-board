@@ -184,8 +184,6 @@ export class EngineersComponent {
                 this.tempEngineers.push(e)
               }
             })
-            console.log(this.tempEngineers);
-
             this.engineers = this.tempEngineers;
 
           } else {
