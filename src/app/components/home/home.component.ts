@@ -44,7 +44,7 @@ export class HomeComponent {
               this.tempEngineers.push(e)
             }
           })
-          this.engineers = this.tempEngineers;
+          this.engineers = this.tempEngineers.reverse();
           this.loader.stop();
         } else {
           this.loader.stop();
