@@ -206,6 +206,7 @@ main {
   -o-filter: blur(5px);
   -ms-filter: blur(5px);
   filter: blur(2px);
+  pointer-events: none;
 }
 
 .filter-blur-block {
@@ -252,7 +253,7 @@ main {
   }
 }
 
-::ng-deep ul > li.current {
+::ng-deep ul>li.current {
   background: #000 !important;
 }
 

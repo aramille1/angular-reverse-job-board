@@ -1,3 +1,27 @@
+<button type="button" [hidden]="true" class="btn btn-primary" #modal data-bs-toggle="modal"
+  data-bs-target="#exampleModal">
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog custom-box-shadow mod">
+    <div class="modal-content">
+      <div class="modal-header">
+        <!-- <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1> -->
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body px-5 mb-4">
+        <div class="text-center">
+          <h2 class="fw-semibold mb-4 main-color">Contact us</h2>
+        </div>
+        <p>Please send an email at <a class="email" href="mailto:hello@angulartalents.com">hello@angulartalents.com</a>
+          with your hiring goals and we will do our best to fullfil them!</p>
+      </div>
+
+    </div>
+  </div>
+</div>
+<!--  -->
 <section class="heading">
   <div class="container py-4 mb150">
     <div class="px-4 pt-5 mt-5 pb-5 text-center">
@@ -93,7 +117,7 @@
               <span class="price-heading fw-bold main-color">$299</span> /month
             </h3>
             <a href="#" class="text-muted-darker mb-3">+ 10% first year salary</a>
-            <button class="btn btn-dark py-2 px-5">Get started today</button>
+            <button class="btn btn-dark py-2 px-5" (click)="getStarted()">Get started today</button>
           </div>
         </div>
       </div>
@@ -287,7 +311,8 @@
   <div class="container ptemp">
     <h1 class="fs-4 fw-semibold border-bottom pb-2 main-color">Frequently asked questions</h1>
     <div class="accordion" id="accordionExample">
-      <div class="accordion-item custom-box-shadow">
+      <div class="accordion-item custom-box-shadow pointer" data-bs-toggle="collapse" data-bs-target="#collapseTwo"
+        aria-expanded="false" aria-controls="collapseTwo">
         <h2 class="accordion-header" id="headingTwo">
           <button class="accordion-button collapsed main-color" type="button" data-bs-toggle="collapse"
             data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
@@ -304,7 +329,8 @@
     </div>
 
     <div class="accordion" id="accordionExample3">
-      <div class="accordion-item custom-box-shadow">
+      <div class="accordion-item custom-box-shadow pointer" data-bs-toggle="collapse" data-bs-target="#collapse3"
+        aria-expanded="false" aria-controls="collapse3">
         <h2 class="accordion-header" id="heading3">
           <button class="accordion-button collapsed main-color" type="button" data-bs-toggle="collapse"
             data-bs-target="#collapse3" aria-expanded="false" aria-controls="collapse3">
@@ -325,7 +351,8 @@
     </div>
 
     <div class="accordion" id="accordionExample4">
-      <div class="accordion-item custom-box-shadow">
+      <div class="accordion-item custom-box-shadow pointer" data-bs-toggle="collapse" data-bs-target="#collapse4"
+        aria-expanded="false" aria-controls="collapse4">
         <h2 class="accordion-header" id="heading4">
           <button class="accordion-button collapsed main-color" type="button" data-bs-toggle="collapse"
             data-bs-target="#collapse4" aria-expanded="false" aria-controls="collapse4">
@@ -342,7 +369,8 @@
     </div>
 
     <div class="accordion" id="accordionExample5">
-      <div class="accordion-item custom-box-shadow">
+      <div class="accordion-item custom-box-shadow pointer" data-bs-toggle="collapse" data-bs-target="#collapse5"
+        aria-expanded="false" aria-controls="collapse5">
         <h2 class="accordion-header" id="heading5">
           <button class="accordion-button collapsed main-color" type="button" data-bs-toggle="collapse"
             data-bs-target="#collapse5" aria-expanded="false" aria-controls="collapse5">
@@ -361,7 +389,8 @@
     </div>
 
     <div class="accordion" id="accordionExample6">
-      <div class="accordion-item custom-box-shadow">
+      <div class="accordion-item custom-box-shadow pointer" data-bs-toggle="collapse" data-bs-target="#collapse6"
+        aria-expanded="false" aria-controls="collapse6">
         <h2 class="accordion-header" id="heading6">
           <button class="accordion-button collapsed main-color" type="button" data-bs-toggle="collapse"
             data-bs-target="#collapse6" aria-expanded="false" aria-controls="collapse6">
@@ -377,7 +406,8 @@
         </div>
       </div>
     </div>
-    <div class="d-flex justify-content-center my-5"><a class="pushme"> <span class="inner fs-5 fw-bold">Get started
+    <div class="d-flex justify-content-center my-5" (click)="getStarted()"><a class="pushme"> <span
+          class="inner fs-5 fw-bold">Get started
           today!</span></a></div>
   </div>
 </section>
