@@ -184,7 +184,7 @@ export class EngineersComponent {
                 this.tempEngineers.push(e)
               }
             })
-            this.engineers = this.tempEngineers.reverse();
+            this.engineers = this.tempEngineers;
 
           } else {
             this.engineers = [];
