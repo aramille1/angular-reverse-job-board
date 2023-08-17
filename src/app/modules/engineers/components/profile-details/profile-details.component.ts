@@ -11,38 +11,47 @@ import { EngineerService } from 'src/app/services/engineer-service/engineer.serv
 export class ProfileDetailsComponent {
   engineer: any;
   userIsMe: Boolean;
+  profileNotFoundError: Boolean = false;
   recruiterIsMember: Boolean = false;
   loading: Boolean = true;
   constructor(
     private engineerService: EngineerService,
     private route: ActivatedRoute,
     private auth: AuthService
-  ) {}
+  ) { }
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
       this.engineerService
         .getEngineer(params['id'])
-        .subscribe((engineerFoundById: any) => {
-          this.auth.getMyProfile().subscribe({
-            next: (myProfile) => {
-              this.loading = false;
-              if(myProfile.type === "recruiter"){
-                this.recruiterIsMember = myProfile.user.IsMember
-              }
-              if(myProfile.type === "engineer" && (myProfile.user.ID === params['id'])){
-                this.engineer = myProfile.user
-                this.userIsMe = myProfile.user.ID === params['id'];
-              }else{
+        .subscribe({
+          next: engineerFoundById => {
+            this.auth.getMyProfile().subscribe({
+              next: (myProfile) => {
+                this.loading = false;
+                if (myProfile.type === "recruiter") {
+                  this.recruiterIsMember = myProfile.user.IsMember
+                }
+                if (myProfile.type === "engineer" && (myProfile.user.ID === params['id'])) {
+                  this.engineer = myProfile.user
+                  this.userIsMe = myProfile.user.ID === params['id'];
+                } else {
+                  this.engineer = engineerFoundById.engineer;
+                }
+              },
+              error: (err) => {
+                this.loading = false;
                 this.engineer = engineerFoundById.engineer;
+                console.error(err)
               }
-            },
-            error: (err) => {
-              this.loading = false;
-              this.engineer = engineerFoundById.engineer;
-              console.error(err)
-            }
-          });
+            });
+          },
+          error: err => {
+            console.log('profile not found');
+            console.error(err)
+            this.loading = false;
+            this.profileNotFoundError = true;
+          }
         });
-      });
-    }
+    });
   }
+}
