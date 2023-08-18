@@ -21,13 +21,14 @@ export class SigninComponent {
     email: ['', Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$')],
     password: ['', Validators.required],
   });
+  confirmEmailError: boolean = false;
   constructor(
     private auth: AuthService,
     private fb: FormBuilder,
     private router: Router,
     private loadingBar: LoadingBarService,
     private toastr: ToastrService
-  ) {}
+  ) { }
 
   toggleFieldTextType() {
     this.fieldTextType = !this.fieldTextType;
@@ -69,8 +70,22 @@ export class SigninComponent {
         });
       },
       error: (err) => {
+        this.showError = false;
+        this.confirmEmailError = false;
+        if (err.status === 403) {
+          new Error(err);
+          console.log(err);
+          this.confirmEmailError = true;
+          this.loader.stop();
+        }
+        if (err.status === 401) {
+          new Error(err);
+          console.log(err);
+          this.showError = true;
+          this.loader.stop();
+        }
+        console.log(err)
         new Error(err);
-        this.showError = true;
         this.loader.stop();
       },
     });
