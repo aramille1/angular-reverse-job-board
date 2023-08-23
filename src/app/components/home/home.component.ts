@@ -44,6 +44,7 @@ export class HomeComponent {
               this.tempEngineers.push(e)
             }
           })
+          this.tempEngineers.length = 7
           this.engineers = this.tempEngineers;
           this.loader.stop();
         } else {
