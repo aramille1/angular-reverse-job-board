@@ -1,0 +1,10 @@
+{
+  "/api": {
+    "target": "https://reverse-job-board-backend.onrender.com",
+    "secure": true,
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/api": ""
+    }
+  }
+}
