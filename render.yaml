@@ -2,10 +2,10 @@ services:
   - type: web
     name: angular-reverse-job-board
     env: node
-    buildCommand: npm install --legacy-peer-deps && npm run build
+    buildCommand: npm install && npm run build
     startCommand: npm run start
     envVars:
       - key: NODE_VERSION
-        value: 14.20.0
+        value: 16.20.0
       - key: NPM_VERSION
-        value: 6.14.17
+        value: 8.19.4
