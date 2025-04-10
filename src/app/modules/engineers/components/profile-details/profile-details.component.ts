@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Location } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/services/auth.service';
 import { CommonService } from 'src/app/services/common-service/common.service';
 import { EngineerService } from 'src/app/services/engineer-service/engineer.service';
+import { PaginationStateService } from 'src/app/services/pagination-state.service';
 
 @Component({
   selector: 'app-profile-details',
@@ -19,9 +21,12 @@ export class ProfileDetailsComponent {
   constructor(
     private engineerService: EngineerService,
     private route: ActivatedRoute,
+    private router: Router,
+    private location: Location,
     private auth: AuthService,
     private commonService: CommonService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private paginationStateService: PaginationStateService
   ) {
 
   }
@@ -72,5 +77,11 @@ export class ProfileDetailsComponent {
           }
         });
     });
+  }
+
+  // Method to navigate back to the engineers list with preserved pagination
+  goBackToList() {
+    // Use browser's back functionality if available
+    this.location.back();
   }
 }

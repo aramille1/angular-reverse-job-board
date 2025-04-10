@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { LoadingBarService } from '@ngx-loading-bar/core';
 import { PaginationInstance } from 'ngx-pagination';
 import { Observable, Subscription } from 'rxjs';
@@ -7,12 +7,14 @@ import { AuthService } from 'src/app/services/auth.service';
 import { EngineerService } from 'src/app/services/engineer-service/engineer.service';
 import { CloudinaryImage } from '@cloudinary/url-gen';
 import { quality } from "@cloudinary/url-gen/actions/delivery";
+import { PaginationStateService } from 'src/app/services/pagination-state.service';
+
 @Component({
   selector: 'app-engineers',
   templateUrl: './engineers.component.html',
   styleUrls: ['./engineers.component.scss'],
 })
-export class EngineersComponent {
+export class EngineersComponent implements OnInit {
   // variables
   engineers = new Array<any>();
   tempEngineers = new Array<any>();
@@ -24,8 +26,8 @@ export class EngineersComponent {
   // endIndex = 5;
   recruiterId: number;
   engineerId: number;
-  selectedLevelIndex: number;
-  selectedTypeIndex: number;
+  selectedLevelIndex: number | undefined;
+  selectedTypeIndex: number | undefined;
   userIs: string;
   // status: boolean = false;
   isMember: boolean = false;
@@ -84,13 +86,41 @@ export class EngineersComponent {
 
   constructor(
     private engineerService: EngineerService,
+    private loadingBar: LoadingBarService,
     private auth: AuthService,
     private http: HttpClient,
-    private loadingBar: LoadingBarService
+    private paginationStateService: PaginationStateService
   ) { }
 
   ngOnInit(): void {
     this.loader.start();
+
+    // Restore pagination state
+    this.page = this.paginationStateService.getEngineersPageState();
+    const savedFilters = this.paginationStateService.getEngineersFilters();
+    if (savedFilters) {
+      this.selectedCountry = savedFilters.country;
+      this.selectedRoleType = savedFilters.roleType;
+      this.selectedRoleLevel = savedFilters.roleLevel;
+
+      // Update filter UI to match saved state
+      if (this.selectedRoleLevel) {
+        const levelIndex = this.roleLevels.findIndex(level => level.value === this.selectedRoleLevel);
+        if (levelIndex !== -1) {
+          this.roleLevels[levelIndex].isSelected = true;
+          this.selectedLevelIndex = levelIndex;
+        }
+      }
+
+      if (this.selectedRoleType) {
+        const typeIndex = this.roleTypes.findIndex(type => type.value === this.selectedRoleType);
+        if (typeIndex !== -1) {
+          this.roleTypes[typeIndex].isSelected = true;
+          this.selectedTypeIndex = typeIndex;
+        }
+      }
+    }
+
     this.http
       .get('https://restcountries.com/v3.1/all?fields=name,flags')
       .subscribe({
@@ -199,12 +229,26 @@ export class EngineersComponent {
 
   pageChangeEvent(event: number) {
     this.page = event;
+    // Save pagination state when page changes
+    this.paginationStateService.saveEngineersPageState(
+      this.page,
+      this.selectedCountry,
+      this.selectedRoleType,
+      this.selectedRoleLevel
+    );
     this.getEngineers();
   }
 
   applyFilter() {
     this.page = 1;
     this.showNotFound = false;
+    // Save filter state
+    this.paginationStateService.saveEngineersPageState(
+      this.page,
+      this.selectedCountry,
+      this.selectedRoleType,
+      this.selectedRoleLevel
+    );
     this.getEngineersSub = this.engineerService
       .getEngineers(
         this.page,
@@ -238,10 +282,26 @@ export class EngineersComponent {
 
   selectCountry(item: any) {
     this.selectedCountry = item?.name;
+
+    // Save state when country changes
+    this.paginationStateService.saveEngineersPageState(
+      this.page,
+      this.selectedCountry,
+      this.selectedRoleType,
+      this.selectedRoleLevel
+    );
   }
 
   onCountryCleared(event: void) {
     event === undefined ? (this.selectedCountry = '') : null;
+
+    // Save state when country is cleared
+    this.paginationStateService.saveEngineersPageState(
+      this.page,
+      this.selectedCountry,
+      this.selectedRoleType,
+      this.selectedRoleLevel
+    );
   }
 
   handleChangeRoleLevel(e: any, index: any) {
@@ -251,6 +311,14 @@ export class EngineersComponent {
     } else {
       this.selectedRoleLevel = '';
     }
+
+    // Save state when filter changes
+    this.paginationStateService.saveEngineersPageState(
+      this.page,
+      this.selectedCountry,
+      this.selectedRoleType,
+      this.selectedRoleLevel
+    );
   }
 
   handleChangeRoleType(e: any, index: any) {
@@ -260,6 +328,14 @@ export class EngineersComponent {
     } else {
       this.selectedRoleType = '';
     }
+
+    // Save state when filter changes
+    this.paginationStateService.saveEngineersPageState(
+      this.page,
+      this.selectedCountry,
+      this.selectedRoleType,
+      this.selectedRoleLevel
+    );
   }
 
   clearFilter() {
@@ -269,6 +345,17 @@ export class EngineersComponent {
     this.selectedCountry = '';
     this.selectedRoleLevel = '';
     this.selectedRoleType = '';
+    this.selectedLevelIndex = undefined;
+    this.selectedTypeIndex = undefined;
+
+    // Save cleared state
+    this.paginationStateService.saveEngineersPageState(
+      this.page,
+      this.selectedCountry,
+      this.selectedRoleType,
+      this.selectedRoleLevel
+    );
+
     this.getEngineers();
   }
 
