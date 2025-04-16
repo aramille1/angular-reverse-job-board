@@ -49,8 +49,6 @@ export class SignupComponent implements OnInit {
 
   ngOnInit(): void {
     this.recaptchaSiteKey = environment.recaptcha.siteKey;
-    console.log(environment.recaptcha.siteKey);
-
   }
 
   toggleFieldTextType() {

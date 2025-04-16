@@ -5,7 +5,7 @@ export const environment = {
   apiUrl: 'https://angular-talents-backend.onrender.com',
   // apiUrl: '/api',
   recaptcha: {
-    siteKey: 'YOUR_RECAPTCHA_SITE_KEY', // Replace with your actual site key
+    siteKey: '6LdJ-BkrAAAAAE1f-Y-fC8vuM4RhsOz2q78DJ2se', // Replace with your actual site key
   },
   cloudinary: {
     cloud_name: '${CLOUDINARY_CLOUD_NAME}',
