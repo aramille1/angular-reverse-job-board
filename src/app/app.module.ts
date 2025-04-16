@@ -30,6 +30,7 @@ import { VerifyComponent } from './components/verify/verify/verify.component';
 import { MainComponent } from './components/main/main/main.component';
 import { EmailVerifyComponent } from './components/email-verify/email-verify/email-verify.component';
 import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha';
+import { environment } from '../../environments/environments';
 
 @NgModule({
   declarations: [
@@ -62,10 +63,10 @@ import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha';
     LoadingBarModule,
     CloudinaryModule.forRoot({ Cloudinary },
       {
-        cloud_name: process.env['CLOUDINARY_CLOUD_NAME'] || 'placeholder',
-        api_key: process.env['CLOUDINARY_API_KEY'] || 'placeholder',
-        api_secret: process.env['CLOUDINARY_API_SECRET'] || 'placeholder',
-        upload_preset: process.env['CLOUDINARY_UPLOAD_PRESET'] || 'placeholder'
+        cloud_name: environment.cloudinary.cloud_name,
+        api_key: environment.cloudinary.api_key,
+        api_secret: environment.cloudinary.api_secret,
+        upload_preset: environment.cloudinary.upload_preset
       } as CloudinaryConfiguration),
     FileUploadModule,
     RecaptchaModule,
