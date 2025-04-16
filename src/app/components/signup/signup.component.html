@@ -84,7 +84,22 @@
             Password is required
           </p>
 
-          <button type="submit" [disabled]="signupForm.invalid" class="btn btn-dark w-100 my-4">Sign up</button>
+          <!-- Honeypot field - hidden from real users -->
+          <div style="display:none">
+            <label for="website">Website</label>
+            <input type="text" formControlName="website" id="website">
+          </div>
+
+          <!-- reCAPTCHA -->
+          <div class="form-group mt-3">
+            <re-captcha
+              [siteKey]="recaptchaSiteKey"
+              formControlName="recaptchaResponse"
+              (resolved)="onRecaptchaResolved($event)">
+            </re-captcha>
+          </div>
+
+          <button type="submit" [disabled]="signupForm.invalid || !isRecaptchaValid" class="btn btn-dark w-100 my-4">Sign up</button>
         </form>
       </div>
       <div class="card-footer bg-white text-right">

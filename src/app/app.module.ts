@@ -29,6 +29,7 @@ import { TermsAndConditionsComponent } from './components/terms-and-conditions/t
 import { VerifyComponent } from './components/verify/verify/verify.component';
 import { MainComponent } from './components/main/main/main.component';
 import { EmailVerifyComponent } from './components/email-verify/email-verify/email-verify.component';
+import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha';
 
 @NgModule({
   declarations: [
@@ -61,12 +62,14 @@ import { EmailVerifyComponent } from './components/email-verify/email-verify/ema
     LoadingBarModule,
     CloudinaryModule.forRoot({ Cloudinary },
       {
-        cloud_name: 'rmsmms',
-        api_key: '323471786184868',
-        api_secret: 'hG7ZYBoalsywIR5RmZ6sIZkWsdU',
-        upload_preset: 'yakyhtcu'
+        cloud_name: process.env['CLOUDINARY_CLOUD_NAME'] || 'placeholder',
+        api_key: process.env['CLOUDINARY_API_KEY'] || 'placeholder',
+        api_secret: process.env['CLOUDINARY_API_SECRET'] || 'placeholder',
+        upload_preset: process.env['CLOUDINARY_UPLOAD_PRESET'] || 'placeholder'
       } as CloudinaryConfiguration),
     FileUploadModule,
+    RecaptchaModule,
+    RecaptchaFormsModule,
   ],
   providers: [
     AuthService,

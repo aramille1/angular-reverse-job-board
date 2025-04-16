@@ -1,6 +1,6 @@
 {
   "/api": {
-    "target": "https://reverse-job-board-backend.onrender.com",
+    "target": "http://localhost:8080",
     "secure": true,
     "changeOrigin": true,
     "pathRewrite": {
