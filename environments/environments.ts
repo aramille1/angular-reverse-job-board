@@ -4,8 +4,8 @@ export const environment = {
   // apiUrl: 'https://reverse-job-board-backend.onrender.com',
   apiUrl: 'https://angular-talents-backend.onrender.com',
   // apiUrl: '/api',
-  ecaptcha: {
-    siteKey: '${YOUR_RECAPTCHA_SITE_KEY}'
+  recaptcha: {
+    siteKey: 'YOUR_RECAPTCHA_SITE_KEY', // Replace with your actual site key
   },
   cloudinary: {
     cloud_name: '${CLOUDINARY_CLOUD_NAME}',
