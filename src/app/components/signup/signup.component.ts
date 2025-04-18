@@ -17,7 +17,7 @@ export class SignupComponent implements OnInit {
   fieldTextType: boolean;
   repeatFieldTextType: boolean;
   loader = this.loadingBar.useRef();
-  hcaptchaSiteKey: string;
+  // hcaptchaSiteKey: string;
   isCaptchaValid: boolean = false;
 
   // form initialization
@@ -48,7 +48,7 @@ export class SignupComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.hcaptchaSiteKey = environment.hcaptcha.siteKey;
+    // this.hcaptchaSiteKey = environment.hcaptcha.siteKey;
   }
 
   toggleFieldTextType() {
