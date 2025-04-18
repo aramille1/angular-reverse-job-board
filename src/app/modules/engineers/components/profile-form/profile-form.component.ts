@@ -99,7 +99,7 @@ export class ProfileFormComponent {
   ngOnInit(): void {
     this.profileForm = this.fb.group({
       firstName: ['', [Validators.required, trimValidator]],
-      lastName: ['', [Validators.required, trimValidator]],
+      lastName: ['', [Validators.required, trimValidator, Validators.pattern('^[a-zA-Z]+$')]],
       tagLine: ['', [Validators.required, trimValidator]],
       city: ['', [Validators.required, trimValidator]],
       state: [''],
@@ -255,7 +255,12 @@ export class ProfileFormComponent {
             },
             error: (error) => {
               this.loader.stop();
-              throw error;
+              console.error(error);
+
+              // Check for specific lastName validation error
+              if (error?.error?.detail && error.error.detail.includes("'LastName' failed on the 'alpha' tag")) {
+                this.errors.push("Last name must contain only alphabetic characters (a-z, A-Z)");
+              }
             },
           });
         } else {

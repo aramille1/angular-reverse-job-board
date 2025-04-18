@@ -44,6 +44,9 @@
                   <div class="text-danger" *ngIf="submitted && profileForm.controls['lastName'].errors">
                     Last name is required!
                   </div>
+                  <div class="text-danger" *ngIf="profileForm.controls['lastName'].errors?.['pattern']">
+                    Last name must contain only alphabetic characters (a-z, A-Z).
+                  </div>
               </div>
               <div class="mb-3">
                 <label for="exampleInputhero1" class="form-label text-color-sec">Tagline *</label>

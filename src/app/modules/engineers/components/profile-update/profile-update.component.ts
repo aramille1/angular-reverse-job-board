@@ -102,7 +102,7 @@ export class ProfileUpdateComponent {
     this.profileForm = this.fb.group({
       id: ['', [Validators.required]],
       firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
+      lastName: ['', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]],
       tagLine: ['', Validators.required],
       city: ['', Validators.required],
       state: [''],
@@ -261,6 +261,11 @@ export class ProfileUpdateComponent {
           error: (err) => {
             this.loader.stop();
             console.error(err);
+
+            // Check for specific lastName validation error
+            if (err?.error?.detail && err.error.detail.includes("'LastName' failed on the 'alpha' tag")) {
+              this.errors.push("Last name must contain only alphabetic characters (a-z, A-Z)");
+            }
           },
         });
       } else {
@@ -312,6 +317,11 @@ export class ProfileUpdateComponent {
                 this.errors = errorMessageGenerator(this.profileForm.controls);
                 this.loader.stop();
                 console.error(err);
+
+                // Check for specific lastName validation error
+                if (err?.error?.detail && err.error.detail.includes("'LastName' failed on the 'alpha' tag")) {
+                  this.errors.push("Last name must contain only alphabetic characters (a-z, A-Z)");
+                }
               },
             });
           },
