@@ -29,7 +29,6 @@ import { TermsAndConditionsComponent } from './components/terms-and-conditions/t
 import { VerifyComponent } from './components/verify/verify/verify.component';
 import { MainComponent } from './components/main/main/main.component';
 import { EmailVerifyComponent } from './components/email-verify/email-verify/email-verify.component';
-import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha';
 import { environment } from '../../environments/environments';
 
 @NgModule({
@@ -69,8 +68,6 @@ import { environment } from '../../environments/environments';
         upload_preset: environment.cloudinary.upload_preset
       } as CloudinaryConfiguration),
     FileUploadModule,
-    RecaptchaModule,
-    RecaptchaFormsModule,
   ],
   providers: [
     AuthService,

@@ -17,8 +17,8 @@ export class SignupComponent implements OnInit {
   fieldTextType: boolean;
   repeatFieldTextType: boolean;
   loader = this.loadingBar.useRef();
-  recaptchaSiteKey: string;
-  isRecaptchaValid: boolean = false;
+  hcaptchaSiteKey: string;
+  isCaptchaValid: boolean = false;
 
   // form initialization
   signupForm = this.fb.group({
@@ -48,7 +48,7 @@ export class SignupComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.recaptchaSiteKey = environment.recaptcha.siteKey;
+    this.hcaptchaSiteKey = environment.hcaptcha.siteKey;
   }
 
   toggleFieldTextType() {
@@ -59,11 +59,21 @@ export class SignupComponent implements OnInit {
     this.repeatFieldTextType = !this.repeatFieldTextType;
   }
 
-  onRecaptchaResolved(response: string) {
-    this.isRecaptchaValid = !!response;
+  onCaptchaVerify(token: string) {
+    this.isCaptchaValid = !!token;
     this.signupForm.patchValue({
-      recaptchaResponse: response
+      recaptchaResponse: token
     });
+  }
+
+  onCaptchaError() {
+    this.isCaptchaValid = false;
+    this.toastr.error('CAPTCHA verification failed. Please try again.');
+  }
+
+  onCaptchaExpired() {
+    this.isCaptchaValid = false;
+    this.toastr.warning('CAPTCHA expired. Please verify again.');
   }
 
   signup() {
@@ -75,7 +85,7 @@ export class SignupComponent implements OnInit {
       return;
     }
 
-    if (this.signupForm.valid && this.isRecaptchaValid) {
+    if (this.signupForm.valid && this.isCaptchaValid) {
       const signupData = {
         email: this.signupForm.value.email,
         password: this.signupForm.value.password,
@@ -94,17 +104,20 @@ export class SignupComponent implements OnInit {
           this.loader.stop();
           if (error.error.detail === 'user already created') {
             this.toastr.error('Account already exists');
-          } else if (error.error.code === 'signup.validate_recaptcha') {
-            this.toastr.error('reCAPTCHA validation failed. Please try again.');
+          } else if (error.error.code === 'signup.validate_captcha') {
+            this.toastr.error('CAPTCHA validation failed. Please try again.');
+          } else if (error.error.detail && error.error.detail.includes('unknown key')) {
+            this.toastr.error('Server validation error. Please contact support.');
+            console.error('API field mismatch:', error.error.detail);
           } else {
             this.toastr.error('Registration failed. Please try again.');
           }
-          throw error;
+          console.error(error);
         },
       });
     } else {
       this.loader.stop();
-      this.toastr.error('Please fill all required fields and complete the reCAPTCHA');
+      this.toastr.error('Please fill all required fields and complete the CAPTCHA');
     }
   }
 }
