@@ -1,10 +1,11 @@
 export const environment = {
   production: true,
-  // apiUrl: 'http://localhost:3000',
-  // apiUrl: 'https://reverse-job-board-backend.onrender.com',
-  // apiUrl: 'https://cors-anywhere.herokuapp.com/https://angular-talents-backend.onrender.com',
-  // apiUrl: '/api',
+  // Direct backend URL - use this if CORS is properly configured on the backend
   apiUrl: 'https://angular-talents-backend.onrender.com',
+
+  // If using proxy is necessary, uncomment this instead:
+  // apiUrl: '/api',
+
   cloudinary: {
     cloud_name: '${CLOUDINARY_CLOUD_NAME}',
     api_key: '${CLOUDINARY_API_KEY}',

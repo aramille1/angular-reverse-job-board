@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { LoadingBarService } from '@ngx-loading-bar/core';
 import { PaginationInstance } from 'ngx-pagination';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { EngineerService } from 'src/app/services/engineer-service/engineer.service';
 import { CloudinaryImage } from '@cloudinary/url-gen';
@@ -14,33 +14,28 @@ import { PaginationStateService } from 'src/app/services/pagination-state.servic
   templateUrl: './engineers.component.html',
   styleUrls: ['./engineers.component.scss'],
 })
-export class EngineersComponent implements OnInit {
+export class EngineersComponent implements OnInit, OnDestroy {
   // variables
   engineers = new Array<any>();
   tempEngineers = new Array<any>();
   limit: number = 10;
   page: number = 1;
   total: number = 22;  // TODO: I need total number of all engineers here from Axel
-  // pagesCount: Number[] = [1, 2, 3];
-  // startIndex = 0;
-  // endIndex = 5;
   recruiterId: number;
   engineerId: number;
   selectedLevelIndex: number | undefined;
   selectedTypeIndex: number | undefined;
   userIs: string;
-  // status: boolean = false;
   isMember: boolean = false;
   showBlur: boolean = false;
   showNotFound: boolean = false;
   showPagination: boolean = false;
   loading: boolean = true;
-  // countries: any = [];
   selectedCountry: string = '';
   selectedRoleLevel: string = '';
   selectedRoleType: string = '';
-  imgObj: CloudinaryImage = new CloudinaryImage(); //needs to be initialized
-  imgString: string = ''; //CloudinaryImage;
+  imgObj: CloudinaryImage = new CloudinaryImage();
+  imgString: string = '';
   keyword = 'name';
   countriesData: any = [];
   loader = this.loadingBar.useRef();
@@ -51,7 +46,6 @@ export class EngineersComponent implements OnInit {
     itemsPerPage: 10,
     currentPage: 1,
   };
-
 
   roleLevels = [
     { name: 'Junior', value: 'junior', isSelected: false },
@@ -159,32 +153,7 @@ export class EngineersComponent implements OnInit {
     this.getEngineers();
   }
 
-  // getPageAmout(length: number){
-
-  //   console.log(this.engineers.length)
-  //   return new Array(length/20)
-  // }
-
-  // getIndex(pageIndex: number){
-  // //   this.startIndex = pageIndex * 5;
-  // //  this.endIndex = this.startIndex + 5;
-  //  this.page = pageIndex+1
-  //  this.getEngineers()
-  // }
-  // prevIndex(){
-  //   this.page--
-  //   console.log(this.page)
-  //   this.getEngineers()
-  // }
-  // nextIndex(){
-  //   this.page++
-  //   this.status = !this.status
-  //   console.log(this.page)
-  //   this.getEngineers()
-  // }
-
   getEngineers() {
-
     this.getEngineersSub = this.engineerService
       .getEngineers(
         this.page,
@@ -201,7 +170,7 @@ export class EngineersComponent implements OnInit {
             this.showPagination = (res.engineers?.length < 10 && res.engineers && this.page === 1) ? false : true
             this.loader.stop();
             res.engineers.forEach((e: any) => {
-              if (e.Avatar.includes('https://res.cloudinary.com')) {
+              if (e.Avatar && e.Avatar.includes('https://res.cloudinary.com')) {
                 let urlString = e.Avatar.replace('https://res.cloudinary.com/rmsmms/image/upload/', '').replace('.jpg', '').slice(12)
                 // changing the image quality setting from cloudinary
                 this.imgObj = new CloudinaryImage(urlString, {
@@ -215,7 +184,6 @@ export class EngineersComponent implements OnInit {
               }
             })
             this.engineers = this.tempEngineers;
-
           } else {
             this.engineers = [];
           }

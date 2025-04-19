@@ -1,29 +1,28 @@
 import { Injectable } from '@angular/core';
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from 'environments/environments';
-import { AuthService } from '../services/auth.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-    constructor(private auth: AuthService){}
+    constructor() {}
 
-    intercept(req: HttpRequest<any>,
-              next: HttpHandler): Observable<HttpEvent<any>> {
-
+    intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         const idToken = localStorage.getItem("token");
-        if(req.url === "https://api.cloudinary.com/v1_1/rmsmms/upload"){
+
+        // Skip adding auth headers for Cloudinary uploads
+        if(req.url.includes("api.cloudinary.com")) {
           return next.handle(req);
         }
+
+        // Add authorization header if token exists
         if (idToken) {
           const cloned = req.clone({
             headers: req.headers.set("Authorization", `Bearer ${idToken}`)
           });
-            return next.handle(cloned);
+          return next.handle(cloned);
         }
-        else {
-            return next.handle(req);
-        }
+
+        return next.handle(req);
     }
 
     // this is a second option
