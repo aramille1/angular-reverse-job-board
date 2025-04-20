@@ -54,21 +54,26 @@ export class SignupComponent implements OnInit {
     }
 
     if (this.signupForm.valid) {
+      // Start the loading bar
+      this.loader.start();
+
       const signupData = {
         email: this.signupForm.value.email,
         password: this.signupForm.value.password,
-        // Remove recaptchaResponse
       };
 
       this.authService.signup(signupData).subscribe(
         (response) => {
+          // Stop the loading bar
+          this.loader.complete();
           this.toastr.success('Registration successful! Please check your email to verify your account.');
           this.router.navigate(['/signin']);
         },
         (error) => {
+          // Stop the loading bar on error
+          this.loader.stop();
           if (error.error.code === 'signup.email_registered') {
             this.toastr.error('This email is already registered.');
-          // Remove captcha validation error check
           } else {
             this.toastr.error(error.error.message || 'Registration failed. Please try again.');
           }
