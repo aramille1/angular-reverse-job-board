@@ -29,6 +29,20 @@ export class HeaderComponent {
         next: (data: updateObjectForHeader) => {
           this.myProfileImg = data.image;
           this.myProfileName = `${data.firstName} ${data.lastName}`;
+
+          // After profile creation/update, check if user type is known, or fetch it
+          if (data.userType) {
+            if (data.userType === 'recruiter') {
+              this.showMyBusinessProfile = true;
+              this.showMyEngineerProfile = false;
+            } else if (data.userType === 'engineer') {
+              this.showMyEngineerProfile = true;
+              this.showMyBusinessProfile = false;
+            }
+          } else {
+            // If user type is not provided, make a call to get profile type
+            this.fetchUserProfile();
+          }
         },
         error: (err) => {
           console.error(err);
@@ -37,34 +51,40 @@ export class HeaderComponent {
 
     this.isLoggedInSub = this.auth.isLoggedIn$.subscribe((isLoggedIn) => {
       if (isLoggedIn) {
-        this.myProfileSub = this.auth.getMyProfile().subscribe({
-          next: (res) => {
-            this.myProfileImg = res.user.Avatar || res.user.Logo;
-            this.myProfileID = res.user.ID;
-            if (res.type === 'engineer') {
-              this.showMyEngineerProfile = true;
-              this.myProfileName = `${res.user.Firstname} ${res.user.Lastname}`;
-            }
-            if (res.type === 'recruiter') {
-              this.showMyBusinessProfile = true;
-              this.myProfileName = `${res.user.Firstname} ${res.user.Lastname}`;
-            }
-          },
-          error: (error) => {
-            console.error(error);
-            if (error.error.code === 'authentication.validate_token') {
-              this.auth.signout();
-            }
-          },
-        });
+        this.fetchUserProfile();
       }
     });
   }
 
+  fetchUserProfile() {
+    this.myProfileSub = this.auth.getMyProfile().subscribe({
+      next: (res) => {
+        this.myProfileImg = res.user.Avatar || res.user.Logo;
+        this.myProfileID = res.user.ID;
+        if (res.type === 'engineer') {
+          this.showMyEngineerProfile = true;
+          this.showMyBusinessProfile = false;
+          this.myProfileName = `${res.user.Firstname} ${res.user.Lastname}`;
+        }
+        if (res.type === 'recruiter') {
+          this.showMyBusinessProfile = true;
+          this.showMyEngineerProfile = false;
+          this.myProfileName = `${res.user.Firstname} ${res.user.Lastname}`;
+        }
+      },
+      error: (error) => {
+        console.error(error);
+        if (error.error.code === 'authentication.validate_token') {
+          this.auth.signout();
+        }
+      },
+    });
+  }
+
   ngOnDestroy(): void {
-    this.isLoggedInSub.unsubscribe();
-    this.myProfileSub.unsubscribe();
-    this.updatedUserDataForHeaderSub.unsubscribe();
+    this.isLoggedInSub?.unsubscribe();
+    this.myProfileSub?.unsubscribe();
+    this.updatedUserDataForHeaderSub?.unsubscribe();
   }
 
   signout() {

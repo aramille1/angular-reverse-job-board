@@ -249,7 +249,8 @@ export class ProfileUpdateComponent {
             this.commonService.updateUsersDataForHeader({
               image: data.avatar,
               firstName: data.firstName,
-              lastName: data.lastName
+              lastName: data.lastName,
+              userType: 'engineer'
             })
             this.router.navigate([
               'engineers/details',
@@ -306,7 +307,8 @@ export class ProfileUpdateComponent {
                 this.commonService.updateUsersDataForHeader({
                   image: data.avatar,
                   firstName: data.firstName,
-                  lastName: data.lastName
+                  lastName: data.lastName,
+                  userType: 'engineer'
                 })
                 this.router.navigate([
                   'engineers/details',

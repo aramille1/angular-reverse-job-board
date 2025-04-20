@@ -247,7 +247,8 @@ export class ProfileFormComponent {
               this.commonService.updateUsersDataForHeader({
                 image: data.avatar,
                 firstName: data.firstName,
-                lastName: data.lastName
+                lastName: data.lastName,
+                userType: 'engineer'
               })
               this.router.navigate(['engineers/details', response.engineerId]);
               this.commonService.afterCreateProfileMessage.next(true)

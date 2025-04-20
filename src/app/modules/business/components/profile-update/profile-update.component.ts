@@ -96,7 +96,8 @@ export class ProfileUpdateComponent {
               this.commonService.updateUsersDataForHeader({
                 image: data.logo,
                 firstName: data.firstName,
-                lastName: data.lastName
+                lastName: data.lastName,
+                userType: 'recruiter'
               })
               this.router.navigate(['/business/details']);
               this.loader.stop();
@@ -127,7 +128,8 @@ export class ProfileUpdateComponent {
             this.commonService.updateUsersDataForHeader({
               image: data.logo,
               firstName: data.firstName,
-              lastName: data.lastName
+              lastName: data.lastName,
+              userType: 'recruiter'
             })
             this.router.navigate(['/business/details']);
             this.loader.stop();
