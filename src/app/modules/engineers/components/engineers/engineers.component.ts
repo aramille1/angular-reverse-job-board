@@ -2,7 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { LoadingBarService } from '@ngx-loading-bar/core';
 import { PaginationInstance } from 'ngx-pagination';
-import { Subscription } from 'rxjs';
+import { Subscription, forkJoin, of } from 'rxjs';
+import { catchError, finalize, switchMap, tap } from 'rxjs/operators';
 import { AuthService } from 'src/app/services/auth.service';
 import { EngineerService } from 'src/app/services/engineer-service/engineer.service';
 import { CloudinaryImage } from '@cloudinary/url-gen';
@@ -20,7 +21,7 @@ export class EngineersComponent implements OnInit, OnDestroy {
   tempEngineers = new Array<any>();
   limit: number = 10;
   page: number = 1;
-  total: number = 22;  // TODO: I need total number of all engineers here from Axel
+  total: number = 22;
   recruiterId: number;
   engineerId: number;
   selectedLevelIndex: number | undefined;
@@ -39,8 +40,7 @@ export class EngineersComponent implements OnInit, OnDestroy {
   keyword = 'name';
   countriesData: any = [];
   loader = this.loadingBar.useRef();
-  private getMyProfileSub: Subscription;
-  private getEngineersSub: Subscription;
+  private subscriptions = new Subscription();
   public config: PaginationInstance = {
     id: 'custom',
     itemsPerPage: 10,
@@ -98,101 +98,139 @@ export class EngineersComponent implements OnInit, OnDestroy {
       this.selectedRoleLevel = savedFilters.roleLevel;
 
       // Update filter UI to match saved state
-      if (this.selectedRoleLevel) {
-        const levelIndex = this.roleLevels.findIndex(level => level.value === this.selectedRoleLevel);
-        if (levelIndex !== -1) {
-          this.roleLevels[levelIndex].isSelected = true;
-          this.selectedLevelIndex = levelIndex;
-        }
-      }
+      this.updateFilterUI();
+    }
 
-      if (this.selectedRoleType) {
-        const typeIndex = this.roleTypes.findIndex(type => type.value === this.selectedRoleType);
-        if (typeIndex !== -1) {
-          this.roleTypes[typeIndex].isSelected = true;
-          this.selectedTypeIndex = typeIndex;
-        }
+    // Fetch all initial data with a single subscription using forkJoin
+    const countriesSub = this.http.get('https://restcountries.com/v3.1/all?fields=name,flags')
+      .pipe(catchError(error => {
+        console.error('Error loading countries:', error);
+        return of([]);
+      }));
+
+    const profileSub = this.auth.getMyProfile()
+      .pipe(catchError(error => {
+        console.error('Error loading profile:', error);
+        return of({type: '', user: {}});
+      }));
+
+    const engineersCountSub = this.engineerService.getEngineersCount()
+      .pipe(catchError(error => {
+        console.error('Error loading count:', error);
+        return of({engineers_count: 0});
+      }));
+
+    // Using forkJoin to combine all initial data requests
+    this.subscriptions.add(
+      forkJoin({
+        countries: countriesSub,
+        profile: profileSub,
+        count: engineersCountSub
+      }).pipe(
+        // After getting initial data, fetch engineers
+        tap(results => {
+          // Process countries
+          if (results.countries) {
+            for (const [key, value] of Object.entries(results.countries)) {
+              this.countriesData.push({
+                id: Number(key) + 1,
+                name: value.name.common,
+                flag: value.flags.svg,
+              });
+            }
+          }
+
+          // Process profile
+          const res = results.profile;
+          if (res.type === 'recruiter' && res.user.IsMember) {
+            this.recruiterId = res.user.ID;
+            this.isMember = true;
+            this.showBlur = true;
+            this.userIs = 'recruiter';
+          } else if (res.user?.ID) {
+            this.engineerId = res.user.ID;
+            this.userIs = 'engineer';
+          }
+
+          // Process count
+          if (results.count) {
+            this.total = results.count.engineers_count;
+          }
+        }),
+        // After processing initial data, get engineers
+        finalize(() => this.getEngineers())
+      ).subscribe()
+    );
+  }
+
+  private updateFilterUI(): void {
+    if (this.selectedRoleLevel) {
+      const levelIndex = this.roleLevels.findIndex(level => level.value === this.selectedRoleLevel);
+      if (levelIndex !== -1) {
+        this.roleLevels[levelIndex].isSelected = true;
+        this.selectedLevelIndex = levelIndex;
       }
     }
 
-    this.http
-      .get('https://restcountries.com/v3.1/all?fields=name,flags')
-      .subscribe({
-        next: (data) => {
-          for (const [key, value] of Object.entries(data)) {
-            this.countriesData.push({
-              id: Number(key + 1),
-              name: value.name.common,
-              flag: value.flags.svg,
-            });
-          }
-        },
-        error: (err) => console.error(err),
-      });
-    this.getMyProfileSub = this.auth.getMyProfile().subscribe({
-      next: (res) => {
-        if (res.type === 'recruiter' && res.user.IsMember) {
-          this.recruiterId = res.user.ID;
-          this.isMember = true;
-          this.showBlur = true;
-          this.userIs = 'recruiter';
-        } else {
-          this.engineerId = res.user.ID;
-          this.userIs = 'engineer';
-        }
-      },
-      error: (err) => {
-        console.error(err);
-      },
-    });
-    this.engineerService.getEngineersCount().subscribe({
-      next: (res => this.total = res.engineers_count),
-      error: (err) => console.error(err)
-    })
-    // TODO need to get number of all engineers and set it in total
-    this.getEngineers();
+    if (this.selectedRoleType) {
+      const typeIndex = this.roleTypes.findIndex(type => type.value === this.selectedRoleType);
+      if (typeIndex !== -1) {
+        this.roleTypes[typeIndex].isSelected = true;
+        this.selectedTypeIndex = typeIndex;
+      }
+    }
   }
 
   getEngineers() {
-    this.getEngineersSub = this.engineerService
-      .getEngineers(
-        this.page,
-        this.limit,
-        this.selectedCountry,
-        this.selectedRoleType,
-        this.selectedRoleLevel
-      )
-      .subscribe({
-        next: (res) => {
-          if (res.engineers !== null) {
-            this.tempEngineers = [];
-            this.loading = false
-            this.showPagination = (res.engineers?.length < 10 && res.engineers && this.page === 1) ? false : true
-            this.loader.stop();
-            res.engineers.forEach((e: any) => {
-              if (e.Avatar && e.Avatar.includes('https://res.cloudinary.com')) {
-                let urlString = e.Avatar.replace('https://res.cloudinary.com/rmsmms/image/upload/', '').replace('.jpg', '').slice(12)
-                // changing the image quality setting from cloudinary
-                this.imgObj = new CloudinaryImage(urlString, {
-                  cloudName: 'rmsmms',
-                }).format('auto').delivery(quality('auto:best'));;
-                // get the string for the img tag
-                e.Avatar = this.imgObj.toURL();
-                this.tempEngineers.push(e)
+    // Cancel previous subscription if it exists
+    if (this.subscriptions) {
+      this.subscriptions.add(
+        this.engineerService
+          .getEngineers(
+            this.page,
+            this.limit,
+            this.selectedCountry,
+            this.selectedRoleType,
+            this.selectedRoleLevel
+          )
+          .pipe(
+            finalize(() => this.loader.stop())
+          )
+          .subscribe({
+            next: (res) => {
+              if (res.engineers !== null) {
+                this.tempEngineers = [];
+                this.loading = false;
+                this.showPagination = (res.engineers?.length < 10 && res.engineers && this.page === 1) ? false : true;
+
+                res.engineers.forEach((e: any) => {
+                  if (e.Avatar && e.Avatar.includes('https://res.cloudinary.com')) {
+                    let urlString = e.Avatar.replace('https://res.cloudinary.com/rmsmms/image/upload/', '').replace('.jpg', '').slice(12)
+                    // changing the image quality setting from cloudinary
+                    this.imgObj = new CloudinaryImage(urlString, {
+                      cloudName: 'rmsmms',
+                    }).format('auto').delivery(quality('auto:best'));
+
+                    // get the string for the img tag
+                    e.Avatar = this.imgObj.toURL();
+                    this.tempEngineers.push(e)
+                  } else {
+                    this.tempEngineers.push(e)
+                  }
+                });
+
+                this.engineers = this.tempEngineers;
               } else {
-                this.tempEngineers.push(e)
+                this.engineers = [];
               }
-            })
-            this.engineers = this.tempEngineers;
-          } else {
-            this.engineers = [];
-          }
-        },
-        error: (err) => {
-          this.loader.stop();
-          console.error(err);
-        },
-      });
+            },
+            error: (err) => {
+              console.error(err);
+              this.engineers = [];
+            },
+          })
+      );
+    }
   }
 
   pageChangeEvent(event: number) {
@@ -217,35 +255,9 @@ export class EngineersComponent implements OnInit, OnDestroy {
       this.selectedRoleType,
       this.selectedRoleLevel
     );
-    this.getEngineersSub = this.engineerService
-      .getEngineers(
-        this.page,
-        this.limit,
-        this.selectedCountry,
-        this.selectedRoleType,
-        this.selectedRoleLevel
-      )
-      .subscribe({
-        next: (res) => {
-          if (res.engineers) {
-            if (res.engineers.length < 10) {
-              this.page = 1;
-              this.showPagination = false;
-              this.engineers = res.engineers;
-            } else {
-              this.showPagination = true;
-              this.engineers = res.engineers;
-            }
-          } else {
-            this.showNotFound = true;
-            this.showPagination = false;
-            this.engineers = [];
-          }
-        },
-        error: (err) => {
-          console.error(err);
-        },
-      });
+
+    // Use the existing getEngineers method instead of creating a new subscription
+    this.getEngineers();
   }
 
   selectCountry(item: any) {
@@ -316,7 +328,7 @@ export class EngineersComponent implements OnInit, OnDestroy {
     this.selectedLevelIndex = undefined;
     this.selectedTypeIndex = undefined;
 
-    // Save cleared state
+    // Save the cleared state
     this.paginationStateService.saveEngineersPageState(
       this.page,
       this.selectedCountry,
@@ -328,7 +340,9 @@ export class EngineersComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.getMyProfileSub.unsubscribe();
-    this.getEngineersSub.unsubscribe();
+    // Unsubscribe from all subscriptions
+    if (this.subscriptions) {
+      this.subscriptions.unsubscribe();
+    }
   }
 }
