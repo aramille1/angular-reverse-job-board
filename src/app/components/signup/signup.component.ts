@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { ToastrService } from 'ngx-toastr';
@@ -17,38 +17,26 @@ export class SignupComponent implements OnInit {
   fieldTextType: boolean;
   repeatFieldTextType: boolean;
   loader = this.loadingBar.useRef();
-  // hcaptchaSiteKey: string;
-  isCaptchaValid: boolean = false;
-
-  // form initialization
-  signupForm = this.fb.group({
-    email: ['', Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$')],
-    password: [
-      '',
-      Validators.compose([Validators.required, Validators.minLength(8)]),
-    ],
-    confirmPassword: [
-      '',
-      [
-        Validators.required,
-      ],
-    ],
-    website: [''], // honeypot field - should remain empty
-    recaptchaResponse: ['', Validators.required]
-  },
-    { validator: CustomValidators.MatchingPasswords });
+  signupForm: FormGroup;
 
   constructor(
-    private fb: FormBuilder,
-    private auth: AuthService,
+    private formBuilder: FormBuilder,
+    private authService: AuthService,
     private router: Router,
     private toastr: ToastrService,
     private loadingBar: LoadingBarService,
     private commonService: CommonService
-  ) { }
+  ) {
+    this.signupForm = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
+      password: ['', [Validators.required, Validators.minLength(8)]],
+      confirmPassword: ['', [Validators.required]],
+      website: ['']  // Honeypot field
+    }, { validator: this.checkPasswords });
+  }
 
   ngOnInit(): void {
-    // this.hcaptchaSiteKey = environment.hcaptcha.siteKey;
+    // Remove reCAPTCHA initialization
   }
 
   toggleFieldTextType() {
@@ -59,65 +47,41 @@ export class SignupComponent implements OnInit {
     this.repeatFieldTextType = !this.repeatFieldTextType;
   }
 
-  onCaptchaVerify(token: string) {
-    this.isCaptchaValid = !!token;
-    this.signupForm.patchValue({
-      recaptchaResponse: token
-    });
-  }
-
-  onCaptchaError() {
-    this.isCaptchaValid = false;
-    this.toastr.error('CAPTCHA verification failed. Please try again.');
-  }
-
-  onCaptchaExpired() {
-    this.isCaptchaValid = false;
-    this.toastr.warning('CAPTCHA expired. Please verify again.');
-  }
-
   signup() {
-    this.loader.start();
-    // Validate honeypot - if field is filled, it's probably a bot
+    // Check for bot submissions using honeypot
     if (this.signupForm.value.website) {
-      this.toastr.error('An error occurred');
-      this.loader.stop();
       return;
     }
 
-    if (this.signupForm.valid && this.isCaptchaValid) {
+    if (this.signupForm.valid) {
       const signupData = {
         email: this.signupForm.value.email,
         password: this.signupForm.value.password,
-        recaptchaResponse: this.signupForm.value.recaptchaResponse,
-        website: '' // Send empty honeypot field to backend for verification
+        // Remove recaptchaResponse
       };
 
-      this.auth.signup(signupData).subscribe({
-        next: () => {
-          this.toastr.success('Awesome, registration is successfull!');
-          this.signupForm.reset();
-          this.router.navigate(['/email-verify']);
-          this.loader.stop();
+      this.authService.signup(signupData).subscribe(
+        (response) => {
+          this.toastr.success('Registration successful! Please check your email to verify your account.');
+          this.router.navigate(['/signin']);
         },
-        error: (error) => {
-          this.loader.stop();
-          if (error.error.detail === 'user already created') {
-            this.toastr.error('Account already exists');
-          } else if (error.error.code === 'signup.validate_captcha') {
-            this.toastr.error('CAPTCHA validation failed. Please try again.');
-          } else if (error.error.detail && error.error.detail.includes('unknown key')) {
-            this.toastr.error('Server validation error. Please contact support.');
-            console.error('API field mismatch:', error.error.detail);
+        (error) => {
+          if (error.error.code === 'signup.email_registered') {
+            this.toastr.error('This email is already registered.');
+          // Remove captcha validation error check
           } else {
-            this.toastr.error('Registration failed. Please try again.');
+            this.toastr.error(error.error.message || 'Registration failed. Please try again.');
           }
-          console.error(error);
-        },
-      });
+        }
+      );
     } else {
-      this.loader.stop();
-      this.toastr.error('Please fill all required fields and complete the CAPTCHA');
+      this.toastr.error('Please fill all required fields');
     }
+  }
+
+  checkPasswords(group: FormGroup): { [key: string]: boolean } | null {
+    const pass = group.get('password')?.value;
+    const confirmPass = group.get('confirmPassword')?.value;
+    return pass === confirmPass ? null : { not_matching: true };
   }
 }

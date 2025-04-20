@@ -13,10 +13,10 @@
         and <br />
         everyone in between, you'll find them all here.
       </article>
-      <div class="d-flex addProfile" *ngIf="userIs === 'recruiter'">
+      <!-- <div class="d-flex addProfile" *ngIf="userIs === 'recruiter'">
         <a class="pushme" [routerLink]="['/business/update', recruiterId]">
           <span class="inner fw-bold"><i class="bi bi-pencil-fill"></i>&nbsp;Edit my profile</span></a>
-      </div>
+      </div> -->
       <div class="d-flex addProfile" *ngIf="userIs === 'engineer'">
         <a class="pushme" [routerLink]="['/engineers/update', engineerId]">
           <span class="inner fw-bold"><i class="bi bi-pencil-fill"></i>&nbsp;Edit my profile</span></a>

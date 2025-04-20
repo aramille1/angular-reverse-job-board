@@ -142,14 +142,21 @@ export class EngineersComponent implements OnInit, OnDestroy {
 
           // Process profile
           const res = results.profile;
-          if (res.type === 'recruiter' && res.user.IsMember) {
-            this.recruiterId = res.user.ID;
-            this.isMember = true;
-            this.showBlur = true;
-            this.userIs = 'recruiter';
-          } else if (res.user?.ID) {
-            this.engineerId = res.user.ID;
-            this.userIs = 'engineer';
+          switch (true) {
+            case res.type === 'recruiter' && res.user.IsMember:
+              this.recruiterId = res.user.ID;
+              this.isMember = true;
+              this.showBlur = true;
+              this.userIs = 'recruiter';
+              break;
+            case res.type === 'recruiter':
+              this.recruiterId = res.user.ID;
+              this.userIs = 'recruiter';
+              break;
+            case !!res.user?.ID:
+              this.engineerId = res.user.ID;
+              this.userIs = 'engineer';
+              break;
           }
 
           // Process count
