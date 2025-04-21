@@ -207,10 +207,12 @@ export class EngineersComponent implements OnInit, OnDestroy, AfterViewInit {
           )
           .subscribe({
             next: (res) => {
-              if (res.engineers !== null) {
-                this.tempEngineers = [];
-                this.loading = false;
-                this.showPagination = (res.engineers?.length < 10 && res.engineers && this.page === 1) ? false : true;
+              this.tempEngineers = [];
+              this.loading = false;
+
+              if (res.engineers && res.engineers.length > 0) {
+                this.showNotFound = false;
+                this.showPagination = (res.engineers.length < this.limit && this.page === 1) ? false : true;
 
                 res.engineers.forEach((e: any) => {
                   if (e.Avatar && e.Avatar.includes('https://res.cloudinary.com')) {
@@ -231,11 +233,15 @@ export class EngineersComponent implements OnInit, OnDestroy, AfterViewInit {
                 this.engineers = this.tempEngineers;
               } else {
                 this.engineers = [];
+                this.showNotFound = true;
+                this.showPagination = false;
               }
             },
             error: (err) => {
               console.error(err);
               this.engineers = [];
+              this.showNotFound = true;
+              this.showPagination = false;
             },
           })
       );

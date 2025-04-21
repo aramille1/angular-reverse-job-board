@@ -159,8 +159,8 @@
           </div>
 
           <!-- Engineer count display -->
-  <!-- <div class="mt-3 mb-3 d-flex align-items-center flex-wrap" *ngIf="!loading">
-    <span class="me-2">Showing <strong>{{ engineers.length }}</strong> of <strong>{{ total }}</strong> engineers</span>
+  <div class="p-4 mb-3 d-flex align-items-center flex-wrap" *ngIf="!loading">
+    <!-- <span class="me-2">Showing <strong>{{ engineers.length }}</strong> of <strong>{{ total }}</strong> engineers</span> -->
 
     <div class="d-flex flex-wrap gap-2 align-items-center" *ngIf="hasActiveFilters()">
       <span class="badge bg-light text-dark border">Filters applied</span>
@@ -177,11 +177,11 @@
         Type: {{ getRoleTypeName(selectedRoleType) }}
       </span>
 
-      <button class="btn btn-sm btn-outline-danger ms-2" (click)="clearFilter()" title="Clear all filters">
+      <!-- <button class="btn btn-sm btn-outline-danger ms-2" (click)="clearFilter()" title="Clear all filters">
         <i class="bi bi-x-circle"></i> Clear filters
-      </button>
+      </button> -->
     </div>
-  </div> -->
+  </div>
         </div>
         <div class="filter-blur-block" *ngIf="!isMember && !showBlur">
           <div class="blur-block-wrap mod">
@@ -198,7 +198,8 @@
     <!-- List of engineers -->
     <div class="col-xs-12 col-lg-9">
       <main>
-        <div class="engineer-wrapper">
+        <!-- Show engineers list if there are engineers -->
+        <div class="engineer-wrapper" *ngIf="engineers && engineers.length > 0">
           <div *ngFor="
               let engineer of engineers
                 | paginate
@@ -328,12 +329,31 @@
             </div>
           </div>
         </div>
-        <p class="text-center mt-5" *ngIf="showNotFound"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+
+        <!-- No engineers found message -->
+        <div *ngIf="!loading && (!engineers || engineers.length === 0)" class="text-center py-5">
+          <div class="empty-state">
+            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26"
             fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
             <path
               d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
-          </svg> Does not match any results!</p>
-        <pagination-controls *ngIf="isMember && showPagination"
+          </svg>
+            <h3 class="main-color mt-2">No engineers found</h3>
+            <p class="text-muted mb-4">There are no engineers matching your current filters.</p>
+            <button class="btn btn-outline-secondary" (click)="clearFilter()">
+              Clear filters
+            </button>
+          </div>
+        </div>
+
+        <!-- <p class="text-center mt-5" *ngIf="showNotFound"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+            fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+            <path
+              d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+          </svg> Does not match any results!</p> -->
+
+        <!-- Only show pagination if there are engineers -->
+        <pagination-controls *ngIf="isMember && showPagination && engineers && engineers.length > 0"
           (pageChange)="pageChangeEvent($event)"></pagination-controls>
         <!-- <ul class="pagination">
           <li class="page-item"><a (click)="prevIndex()" class="page-link">Previous</a></li>
