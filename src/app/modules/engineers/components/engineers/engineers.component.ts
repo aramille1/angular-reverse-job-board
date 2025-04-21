@@ -5,6 +5,7 @@ import { PaginationInstance } from 'ngx-pagination';
 import { Subscription, forkJoin, of } from 'rxjs';
 import { catchError, finalize, switchMap, tap } from 'rxjs/operators';
 import { AuthService } from 'src/app/services/auth.service';
+import { CountriesService } from 'src/app/services/countries/countries.service';
 import { EngineerService } from 'src/app/services/engineer-service/engineer.service';
 import { CloudinaryImage } from '@cloudinary/url-gen';
 import { quality } from "@cloudinary/url-gen/actions/delivery";
@@ -83,7 +84,8 @@ export class EngineersComponent implements OnInit, OnDestroy {
     private loadingBar: LoadingBarService,
     private auth: AuthService,
     private http: HttpClient,
-    private paginationStateService: PaginationStateService
+    private paginationStateService: PaginationStateService,
+    private countriesService: CountriesService
   ) { }
 
   ngOnInit(): void {
@@ -102,7 +104,7 @@ export class EngineersComponent implements OnInit, OnDestroy {
     }
 
     // Fetch all initial data with a single subscription using forkJoin
-    const countriesSub = this.http.get('https://restcountries.com/v3.1/all?fields=name,flags')
+    const countriesSub = this.countriesService.getCountries()
       .pipe(catchError(error => {
         console.error('Error loading countries:', error);
         return of([]);
@@ -130,14 +132,8 @@ export class EngineersComponent implements OnInit, OnDestroy {
         // After getting initial data, fetch engineers
         tap(results => {
           // Process countries
-          if (results.countries) {
-            for (const [key, value] of Object.entries(results.countries)) {
-              this.countriesData.push({
-                id: Number(key) + 1,
-                name: value.name.common,
-                flag: value.flags.svg,
-              });
-            }
+          if (results.countries && results.countries.length > 0) {
+            this.countriesData = results.countries;
           }
 
           // Process profile
