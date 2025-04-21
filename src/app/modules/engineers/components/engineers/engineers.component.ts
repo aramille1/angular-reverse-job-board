@@ -214,7 +214,13 @@ export class EngineersComponent implements OnInit, OnDestroy, AfterViewInit {
                 this.showNotFound = false;
                 this.showPagination = (res.engineers.length < this.limit && this.page === 1) ? false : true;
 
+                // Log the first engineer to see what fields it has
+                console.log('First engineer:', res.engineers[0]);
+
                 res.engineers.forEach((e: any) => {
+                  // Set isNew flag for each engineer
+                  e.isNew = this.isNewProfile(e);
+
                   if (e.Avatar && e.Avatar.includes('https://res.cloudinary.com')) {
                     let urlString = e.Avatar.replace('https://res.cloudinary.com/rmsmms/image/upload/', '').replace('.jpg', '').slice(12)
                     // changing the image quality setting from cloudinary
@@ -413,5 +419,43 @@ export class EngineersComponent implements OnInit, OnDestroy, AfterViewInit {
         console.log('Country search text restored:', this.countrySearchText);
       }
     });
+  }
+
+  /**
+   * Check if the engineer profile is new (less than 1 week old)
+   * @param engineer The engineer object to check
+   * @returns true if the profile is less than a week old
+   */
+  isNewProfile(engineer: any): boolean {
+    // Try different possible date fields
+    const dateField = engineer.CreatedAt || engineer.created_at || engineer.createdAt || engineer.created || engineer.CreateDate || engineer.creation_date;
+
+    // If no date field found, return false
+    if (!dateField) {
+      // For debugging:
+      console.log('No creation date found for engineer:', engineer.ID);
+      return false;
+    }
+
+    // Parse the date string into a Date object
+    const createdDate = new Date(dateField);
+
+    // Check if date is valid
+    if (isNaN(createdDate.getTime())) {
+      console.log('Invalid date format:', dateField);
+      return false;
+    }
+
+    // Get the current date
+    const currentDate = new Date();
+
+    // Calculate the difference in milliseconds
+    const differenceInTime = currentDate.getTime() - createdDate.getTime();
+
+    // Convert the difference to days
+    const differenceInDays = differenceInTime / (1000 * 3600 * 24);
+
+    // Return true if the profile is less than 7 days old
+    return differenceInDays < 7;
   }
 }
