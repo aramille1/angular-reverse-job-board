@@ -31,7 +31,10 @@ export class HomeComponent {
         this.loading = false;
         if (res) {
           res.engineers.forEach((e: any) => {
-            if (e.Avatar.includes('https://res.cloudinary.com')) {
+            // Check if the engineer profile is new and set the isNew flag
+            e.isNew = this.isNewProfile(e);
+
+            if (e.Avatar && e.Avatar.includes('https://res.cloudinary.com')) {
               let urlString = e.Avatar.replace('https://res.cloudinary.com/rmsmms/image/upload/', '').replace('.jpg', '').slice(12)
               // changing the image quality setting from cloudinary
               this.imgObj = new CloudinaryImage(urlString, {
@@ -44,6 +47,9 @@ export class HomeComponent {
               this.tempEngineers.push(e)
             }
           })
+          // Log the first few engineers to check isNew flag
+          console.log('First few engineers on homepage:', this.tempEngineers.slice(0, 3));
+
           this.tempEngineers.length = 7
           this.engineers = this.tempEngineers;
           this.loader.stop();
@@ -55,8 +61,44 @@ export class HomeComponent {
         console.error(err);
       },
     });
+  }
 
+  /**
+   * Check if the engineer profile is new (less than 1 week old)
+   * @param engineer The engineer object to check
+   * @returns true if the profile is less than a week old
+   */
+  isNewProfile(engineer: any): boolean {
+    // Try different possible date fields
+    const dateField = engineer.CreatedAt || engineer.created_at || engineer.createdAt || engineer.created || engineer.CreateDate || engineer.creation_date;
 
+    // If no date field found, return false
+    if (!dateField) {
+      // For debugging:
+      console.log('No creation date found for engineer:', engineer.ID);
+      return false;
+    }
+
+    // Parse the date string into a Date object
+    const createdDate = new Date(dateField);
+
+    // Check if date is valid
+    if (isNaN(createdDate.getTime())) {
+      console.log('Invalid date format:', dateField);
+      return false;
+    }
+
+    // Get the current date
+    const currentDate = new Date();
+
+    // Calculate the difference in milliseconds
+    const differenceInTime = currentDate.getTime() - createdDate.getTime();
+
+    // Convert the difference to days
+    const differenceInDays = differenceInTime / (1000 * 3600 * 24);
+
+    // Return true if the profile is less than 7 days old
+    return differenceInDays < 7;
   }
 
   ngOnDestroy(): void {
