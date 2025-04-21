@@ -9,7 +9,6 @@ import { EngineerService } from 'src/app/services/engineer-service/engineer.serv
 import { CloudinaryImage } from '@cloudinary/url-gen';
 import { quality } from "@cloudinary/url-gen/actions/delivery";
 import { PaginationStateService } from 'src/app/services/pagination-state.service';
-import { environment } from 'environments/environments';
 
 @Component({
   selector: 'app-engineers',
@@ -103,7 +102,7 @@ export class EngineersComponent implements OnInit, OnDestroy {
     }
 
     // Fetch all initial data with a single subscription using forkJoin
-    const countriesSub = this.http.get(`${environment.apiUrl}/countries`)
+    const countriesSub = this.http.get('https://restcountries.com/v3.1/all?fields=name,flags')
       .pipe(catchError(error => {
         console.error('Error loading countries:', error);
         return of([]);
