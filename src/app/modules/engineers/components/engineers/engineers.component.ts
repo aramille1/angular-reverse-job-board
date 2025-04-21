@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit, ElementRef } from '@angular/core';
 import { LoadingBarService } from '@ngx-loading-bar/core';
 import { PaginationInstance } from 'ngx-pagination';
 import { Subscription, forkJoin, of } from 'rxjs';
@@ -16,7 +16,7 @@ import { PaginationStateService } from 'src/app/services/pagination-state.servic
   templateUrl: './engineers.component.html',
   styleUrls: ['./engineers.component.scss'],
 })
-export class EngineersComponent implements OnInit, OnDestroy {
+export class EngineersComponent implements OnInit, OnDestroy, AfterViewInit {
   // variables
   engineers = new Array<any>();
   tempEngineers = new Array<any>();
@@ -34,6 +34,7 @@ export class EngineersComponent implements OnInit, OnDestroy {
   showPagination: boolean = false;
   loading: boolean = true;
   selectedCountry: string = '';
+  countrySearchText: string = '';
   selectedRoleLevel: string = '';
   selectedRoleType: string = '';
   imgObj: CloudinaryImage = new CloudinaryImage();
@@ -47,6 +48,10 @@ export class EngineersComponent implements OnInit, OnDestroy {
     itemsPerPage: 10,
     currentPage: 1,
   };
+
+  // References to autocomplete inputs
+  @ViewChild('countryAutocomplete') countryAutocomplete: any;
+  @ViewChild('mobileCountryAutocomplete') mobileCountryAutocomplete: any;
 
   roleLevels = [
     { name: 'Junior', value: 'junior', isSelected: false },
@@ -96,6 +101,7 @@ export class EngineersComponent implements OnInit, OnDestroy {
     const savedFilters = this.paginationStateService.getEngineersFilters();
     if (savedFilters) {
       this.selectedCountry = savedFilters.country;
+      this.countrySearchText = savedFilters.countrySearchText || '';
       this.selectedRoleType = savedFilters.roleType;
       this.selectedRoleLevel = savedFilters.roleLevel;
 
@@ -243,7 +249,8 @@ export class EngineersComponent implements OnInit, OnDestroy {
       this.page,
       this.selectedCountry,
       this.selectedRoleType,
-      this.selectedRoleLevel
+      this.selectedRoleLevel,
+      this.countrySearchText
     );
     this.getEngineers();
   }
@@ -256,7 +263,8 @@ export class EngineersComponent implements OnInit, OnDestroy {
       this.page,
       this.selectedCountry,
       this.selectedRoleType,
-      this.selectedRoleLevel
+      this.selectedRoleLevel,
+      this.countrySearchText
     );
 
     // Use the existing getEngineers method instead of creating a new subscription
@@ -265,25 +273,29 @@ export class EngineersComponent implements OnInit, OnDestroy {
 
   selectCountry(item: any) {
     this.selectedCountry = item?.name;
+    this.countrySearchText = item?.name;
 
     // Save state when country changes
     this.paginationStateService.saveEngineersPageState(
       this.page,
       this.selectedCountry,
       this.selectedRoleType,
-      this.selectedRoleLevel
+      this.selectedRoleLevel,
+      this.countrySearchText
     );
   }
 
   onCountryCleared(event: void) {
     event === undefined ? (this.selectedCountry = '') : null;
+    this.countrySearchText = '';
 
     // Save state when country is cleared
     this.paginationStateService.saveEngineersPageState(
       this.page,
       this.selectedCountry,
       this.selectedRoleType,
-      this.selectedRoleLevel
+      this.selectedRoleLevel,
+      this.countrySearchText
     );
   }
 
@@ -300,7 +312,8 @@ export class EngineersComponent implements OnInit, OnDestroy {
       this.page,
       this.selectedCountry,
       this.selectedRoleType,
-      this.selectedRoleLevel
+      this.selectedRoleLevel,
+      this.countrySearchText
     );
   }
 
@@ -317,7 +330,8 @@ export class EngineersComponent implements OnInit, OnDestroy {
       this.page,
       this.selectedCountry,
       this.selectedRoleType,
-      this.selectedRoleLevel
+      this.selectedRoleLevel,
+      this.countrySearchText
     );
   }
 
@@ -326,6 +340,7 @@ export class EngineersComponent implements OnInit, OnDestroy {
     this.roleTypes.forEach((c) => (c.isSelected = false));
     this.page = 1;
     this.selectedCountry = '';
+    this.countrySearchText = '';
     this.selectedRoleLevel = '';
     this.selectedRoleType = '';
     this.selectedLevelIndex = undefined;
@@ -336,7 +351,8 @@ export class EngineersComponent implements OnInit, OnDestroy {
       this.page,
       this.selectedCountry,
       this.selectedRoleType,
-      this.selectedRoleLevel
+      this.selectedRoleLevel,
+      this.countrySearchText
     );
 
     this.getEngineers();
@@ -347,5 +363,49 @@ export class EngineersComponent implements OnInit, OnDestroy {
     if (this.subscriptions) {
       this.subscriptions.unsubscribe();
     }
+  }
+
+  /**
+   * Check if any filters are currently active
+   */
+  hasActiveFilters(): boolean {
+    return !!(
+      this.selectedCountry ||
+      this.selectedRoleLevel ||
+      this.selectedRoleType
+    );
+  }
+
+  /**
+   * Get the readable name of a role level based on its value
+   */
+  getRoleLevelName(value: string): string {
+    const roleLevel = this.roleLevels.find(level => level.value === value);
+    return roleLevel ? roleLevel.name : value;
+  }
+
+  /**
+   * Get the readable name of a role type based on its value
+   */
+  getRoleTypeName(value: string): string {
+    const roleType = this.roleTypes.find(type => type.value === value);
+    return roleType ? roleType.name : value;
+  }
+
+  /**
+   * Lifecycle hook after the view is initialized
+   * Ensures the country autocomplete field reflects the saved value
+   */
+  ngAfterViewInit(): void {
+    // This will run after the view is initialized and components have been rendered
+    setTimeout(() => {
+      // Restore country search text if needed
+      // The input fields should already have the value due to [(ngModel)]
+      if (this.countrySearchText) {
+        // We don't need to manually set the value since ngModel does it,
+        // but we might need to do additional initialization if required by the component
+        console.log('Country search text restored:', this.countrySearchText);
+      }
+    });
   }
 }
