@@ -1,8 +1,18 @@
 <div class="container">
-  <div class="card mb-3 profile-details custom-box-shadow">
+  <!-- Loading spinner -->
+  <div *ngIf="isLoading" class="text-center my-5">
+    <div class="spinner-border" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p class="mt-2">Loading profile information...</p>
+  </div>
+
+  <!-- Profile content - only shown when not loading -->
+  <div *ngIf="!isLoading" class="card mb-3 profile-details custom-box-shadow">
     <div class="card-body">
       <div class="row">
-        <section class="info">
+        <!-- Show the basic info section if status is approved -->
+        <section class="info" *ngIf="approvalStatus === ApprovalStatus.APPROVED">
           <div class="row">
             <div class="d-flex align-items-center col-8">
               <img loading="lazy" fetchPriority="high"
@@ -20,8 +30,51 @@
           </div>
           <p class="card-text text-color-sec my-5 mx-3">{{recruiter?.Bio}}</p>
         </section>
+
+        <!-- Show the approval wrapper if status is pending -->
+        <app-approval-wrapper *ngIf="approvalStatus === ApprovalStatus.PENDING" [status]="approvalStatus">
+          <section class="info">
+            <div class="row">
+              <div class="d-flex align-items-center col-8">
+                <img loading="lazy" fetchPriority="high"
+                  [src]="recruiter?.Logo ? recruiter?.Logo : 'https://spng.pngfind.com/pngs/s/381-3819326_default-avatar-svg-png-icon-free-download-avatar.png'"
+                  class="rounded-circle mx-3 profile-image" />
+                <div>
+                  <h3 class="card-title fw-bold main-color">{{recruiter?.Company}}</h3>
+                  <p class="card-title">{{recruiter?.Firstname}} {{recruiter?.Lastname}}, {{recruiter?.Role}}</p>
+                </div>
+              </div>
+              <div class="btns col-xs-12 col-lg-4">
+                <button class="btn btn-outline-dark fw-bold" [routerLink]="['/business/update', recruiter?.ID]">Edit
+                  profile</button>
+              </div>
+            </div>
+            <p class="card-text text-color-sec my-5 mx-3">{{recruiter?.Bio}}</p>
+          </section>
+        </app-approval-wrapper>
+
+        <!-- Show the approval wrapper if status is rejected -->
+        <app-approval-wrapper *ngIf="approvalStatus === ApprovalStatus.REJECTED" [status]="approvalStatus">
+          <section class="info">
+            <div class="row">
+              <div class="d-flex align-items-center col-8">
+                <img loading="lazy" fetchPriority="high"
+                  [src]="recruiter?.Logo ? recruiter?.Logo : 'https://spng.pngfind.com/pngs/s/381-3819326_default-avatar-svg-png-icon-free-download-avatar.png'"
+                  class="rounded-circle mx-3 profile-image" />
+                <div>
+                  <h3 class="card-title fw-bold main-color">{{recruiter?.Company}}</h3>
+                  <p class="card-title">{{recruiter?.Firstname}} {{recruiter?.Lastname}}, {{recruiter?.Role}}</p>
+                </div>
+              </div>
+              <div class="btns col-xs-12 col-lg-4">
+                <button class="btn btn-outline-dark fw-bold" [routerLink]="['/business/update', recruiter?.ID]">Edit
+                  profile</button>
+              </div>
+            </div>
+            <p class="card-text text-color-sec my-5 mx-3">{{recruiter?.Bio}}</p>
+          </section>
+        </app-approval-wrapper>
       </div>
     </div>
   </div>
-
 </div>

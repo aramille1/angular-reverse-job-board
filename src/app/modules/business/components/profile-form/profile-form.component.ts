@@ -111,7 +111,7 @@ export class ProfileFormComponent {
                 lastName: data.lastName,
                 userType: 'recruiter'
               })
-              this.router.navigate(['/engineers']);
+              this.router.navigate(['/business/details']);
               this.loader.stop();
             },
             error: (error) => {

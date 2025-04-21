@@ -1,0 +1,11 @@
+<div class="approval-banner" [ngClass]="'status-' + getStatusColor()">
+  <div class="banner-content">
+    <div class="status-indicator">
+      <div class="status-dot"></div>
+      <span class="status-text">{{ status }}</span>
+    </div>
+    <div class="message">
+      {{ getMessage() }}
+    </div>
+  </div>
+</div>

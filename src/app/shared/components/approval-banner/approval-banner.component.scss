@@ -1,0 +1,88 @@
+.approval-banner {
+  position: relative;
+  width: 100%;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: rgba(255, 255, 255, 0.95);
+
+  .banner-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    .status-indicator {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+
+      .status-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        margin-right: 8px;
+      }
+
+      .status-text {
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 14px;
+        letter-spacing: 0.5px;
+      }
+    }
+
+    .message {
+      font-size: 16px;
+      line-height: 1.5;
+    }
+  }
+
+  &.status-warning {
+    border-left: 4px solid #ff9800;
+
+    .status-dot {
+      background-color: #ff9800;
+    }
+
+    .status-text {
+      color: #ff9800;
+    }
+  }
+
+  &.status-success {
+    border-left: 4px solid #4caf50;
+
+    .status-dot {
+      background-color: #4caf50;
+    }
+
+    .status-text {
+      color: #4caf50;
+    }
+  }
+
+  &.status-danger {
+    border-left: 4px solid #f44336;
+
+    .status-dot {
+      background-color: #f44336;
+    }
+
+    .status-text {
+      color: #f44336;
+    }
+  }
+
+  &.status-secondary {
+    border-left: 4px solid #9e9e9e;
+
+    .status-dot {
+      background-color: #9e9e9e;
+    }
+
+    .status-text {
+      color: #9e9e9e;
+    }
+  }
+}

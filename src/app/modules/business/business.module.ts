@@ -8,6 +8,7 @@ import { ProfileFormComponent } from './components/profile-form/profile-form.com
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProfileUpdateComponent } from './components/profile-update/profile-update.component';
 import { LoadingBarModule } from '@ngx-loading-bar/core';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import { LoadingBarModule } from '@ngx-loading-bar/core';
     FormsModule,
     ReactiveFormsModule,
     LoadingBarModule,
+    SharedModule,
   ]
 })
 export class BusinessModule { }

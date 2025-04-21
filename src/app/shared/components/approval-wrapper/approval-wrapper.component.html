@@ -1,0 +1,21 @@
+<div class="approval-wrapper">
+  <!-- The approval banner is shown for all statuses -->
+  <app-approval-banner [status]="status"></app-approval-banner>
+
+  <!-- Content is visible normally if approved -->
+  <div class="content-container" [class.blocked]="shouldBlockContent()">
+    <!-- If the content is blocked, show a semi-transparent overlay -->
+    <div class="content-blocker" *ngIf="shouldBlockContent()">
+      <div class="blocker-content">
+        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" class="bi bi-lock" viewBox="0 0 16 16">
+          <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2m3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2"/>
+        </svg>
+        <p *ngIf="status === ApprovalStatus.PENDING">Content will be unlocked after approval</p>
+        <p *ngIf="status === ApprovalStatus.REJECTED">Access denied</p>
+      </div>
+    </div>
+
+    <!-- The actual content that gets wrapped -->
+    <ng-content></ng-content>
+  </div>
+</div>
