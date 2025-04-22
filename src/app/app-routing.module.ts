@@ -8,6 +8,7 @@ import { RoleComponent } from './components/role/role.component';
 import { SigninComponent } from './components/signin/signin.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { AuthGuard } from './guards/auth.guard';
+import { AdminGuard } from './guards/admin.guard';
 import { RolePageGuard } from './guards/role-page-guard/role-page.guard';
 import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-policy/privacy-policy.component';
 import { AboutComponent } from './components/about/about/about.component';
@@ -41,7 +42,6 @@ const routes: Routes = [
       },
       {
         path: 'business',
-
         canActivate: [AuthGuard],
         loadChildren: () =>
           import('./modules/business/business.module').then(
@@ -50,6 +50,14 @@ const routes: Routes = [
       },
       { path: '', component: HomeComponent },
     ]
+  },
+  {
+    path: 'adminski',
+    canActivate: [AdminGuard],
+    loadChildren: () =>
+      import('./modules/admin/admin.module').then(
+        (m) => m.AdminModule
+      ),
   },
   {
     path: 'verify/:userID/:verificationCode', component: VerifyComponent

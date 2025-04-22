@@ -1,0 +1,60 @@
+// Admin header styling
+.admin-header {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+// Custom box shadow for the card
+.custom-box-shadow {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+// Table styling
+.table {
+  margin-bottom: 0;
+
+  th {
+    font-weight: 600;
+  }
+
+  td {
+    vertical-align: middle;
+  }
+}
+
+// Profile details styling
+.profile-details-container {
+  transition: all 0.3s ease;
+  border-top: 1px solid #dee2e6;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.profile-image-large {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.bio-text {
+  white-space: pre-line;
+  line-height: 1.6;
+}
+
+// Badge styling
+.badge {
+  padding: 8px 12px;
+  font-weight: 500;
+  font-size: 0.85rem;
+  border-radius: 20px;
+}
+
+// Button styling
+.btn {
+  margin-right: 5px;
+
+  &:last-child {
+    margin-right: 0;
+  }
+}
