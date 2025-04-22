@@ -1,0 +1,162 @@
+<div class="recruiters-container">
+  <div class="card">
+    <div class="card-header">
+      <h5 class="mb-0">Recruiters Management</h5>
+    </div>
+    <div class="card-body">
+      <!-- Status filter -->
+      <div class="status-filter mb-4">
+        <div class="btn-group" role="group">
+          <button
+            type="button"
+            class="btn"
+            [ngClass]="{'btn-primary': selectedStatus === ApprovalStatus.PENDING, 'btn-outline-primary': selectedStatus !== ApprovalStatus.PENDING}"
+            (click)="onStatusChange(ApprovalStatus.PENDING)">
+            Pending
+          </button>
+          <button
+            type="button"
+            class="btn"
+            [ngClass]="{'btn-primary': selectedStatus === ApprovalStatus.APPROVED, 'btn-outline-primary': selectedStatus !== ApprovalStatus.APPROVED}"
+            (click)="onStatusChange(ApprovalStatus.APPROVED)">
+            Approved
+          </button>
+          <button
+            type="button"
+            class="btn"
+            [ngClass]="{'btn-primary': selectedStatus === ApprovalStatus.REJECTED, 'btn-outline-primary': selectedStatus !== ApprovalStatus.REJECTED}"
+            (click)="onStatusChange(ApprovalStatus.REJECTED)">
+            Rejected
+          </button>
+        </div>
+      </div>
+
+      <!-- Error message -->
+      <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+
+      <!-- Loading spinner -->
+      <div *ngIf="loading" class="text-center py-5">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <p class="mt-2">Loading recruiters...</p>
+      </div>
+
+      <!-- No recruiters message -->
+      <div *ngIf="!loading && recruiters.length === 0" class="text-center py-5">
+        <i class="bi bi-inbox fs-1 text-muted"></i>
+        <p class="mt-3">No recruiters found with {{ selectedStatus }} status.</p>
+      </div>
+
+      <!-- Recruiters list -->
+      <div *ngIf="!loading && recruiters.length > 0" class="table-responsive">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>Company</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let recruiter of recruiters">
+              <td>
+                <div class="d-flex align-items-center">
+                  <div class="company-logo">
+                    <img [src]="recruiter.Logo || recruiter.logo || 'https://via.placeholder.com/40'" alt="{{ recruiter.Company || recruiter.company }}" class="rounded">
+                  </div>
+                  <span class="ms-2">{{ recruiter.Company || recruiter.company }}</span>
+                </div>
+              </td>
+              <td>{{ recruiter.Firstname || recruiter.firstname || recruiter.firstName }} {{ recruiter.Lastname || recruiter.lastname || recruiter.lastName }}</td>
+              <td>{{ recruiter.Email || recruiter.email }}</td>
+              <td>{{ recruiter.Role || recruiter.role }}</td>
+              <td>
+                <span class="badge" [ngClass]="{
+                  'bg-warning': (recruiter.Status || recruiter.status) === ApprovalStatus.PENDING,
+                  'bg-success': (recruiter.Status || recruiter.status) === ApprovalStatus.APPROVED,
+                  'bg-danger': (recruiter.Status || recruiter.status) === ApprovalStatus.REJECTED
+                }">{{ recruiter.Status || recruiter.status }}</span>
+              </td>
+              <td>
+                <div class="action-buttons">
+                  <!-- Only show approve/reject buttons for pending recruiters -->
+                  <ng-container *ngIf="selectedStatus === ApprovalStatus.PENDING">
+                    <button class="btn btn-sm btn-success me-2" (click)="approveRecruiter(recruiter.ID || recruiter.id)" [disabled]="loading">
+                      <i class="bi bi-check-circle me-1"></i> Approve
+                    </button>
+                    <button class="btn btn-sm btn-danger" (click)="openRejectModal(recruiter.ID || recruiter.id)" [disabled]="loading">
+                      <i class="bi bi-x-circle me-1"></i> Reject
+                    </button>
+                  </ng-container>
+
+                  <!-- Show view button for all recruiters -->
+                  <button class="btn btn-sm btn-outline-primary" [disabled]="loading">
+                    <i class="bi bi-eye me-1"></i> View
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Pagination -->
+      <div *ngIf="!loading && recruiters.length > 0 && totalPages > 1" class="pagination-container mt-4">
+        <nav aria-label="Recruiters pagination">
+          <ul class="pagination justify-content-center">
+            <li class="page-item" [ngClass]="{'disabled': currentPage === 1}">
+              <button class="page-link" (click)="onPageChange(currentPage - 1)" [disabled]="currentPage === 1">&laquo;</button>
+            </li>
+
+            <ng-container *ngFor="let page of [].constructor(totalPages); let i = index">
+              <li class="page-item" [ngClass]="{'active': currentPage === i + 1}">
+                <button class="page-link" (click)="onPageChange(i + 1)">{{ i + 1 }}</button>
+              </li>
+            </ng-container>
+
+            <li class="page-item" [ngClass]="{'disabled': currentPage === totalPages}">
+              <button class="page-link" (click)="onPageChange(currentPage + 1)" [disabled]="currentPage === totalPages">&raquo;</button>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Rejection Modal -->
+<div class="modal" [class.show]="showRejectModal" [style.display]="showRejectModal ? 'block' : 'none'" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Reject Recruiter</h5>
+        <button type="button" class="btn-close" (click)="closeRejectModal()"></button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="rejectionReason" class="form-label">Reason for rejection (optional):</label>
+          <textarea
+            id="rejectionReason"
+            class="form-control"
+            rows="3"
+            [(ngModel)]="rejectionReason"
+            placeholder="Provide a reason for rejecting this recruiter..."></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeRejectModal()">Cancel</button>
+        <button type="button" class="btn btn-danger" (click)="confirmReject()" [disabled]="loading">
+          <span *ngIf="loading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+          Confirm Rejection
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal backdrop -->
+<div class="modal-backdrop fade show" *ngIf="showRejectModal"></div>
