@@ -7,25 +7,12 @@ export class AuthInterceptor implements HttpInterceptor {
     constructor() {}
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        const idToken = localStorage.getItem("token");
+
         // Skip adding auth headers for Cloudinary uploads
         if(req.url.includes("api.cloudinary.com")) {
           return next.handle(req);
         }
-
-        // Check if this is an admin route
-        if (req.url.includes('/admin/')) {
-          const adminToken = localStorage.getItem("admin_token");
-
-          // Add authorization header if admin token exists
-          if (adminToken) {
-            const cloned = req.clone({
-              headers: req.headers.set("Authorization", `Bearer ${adminToken}`)
-            });
-            return next.handle(cloned);
-          }
-        } else {
-          // Regular user authentication
-          const idToken = localStorage.getItem("token");
 
         // Add authorization header if token exists
         if (idToken) {
@@ -33,7 +20,6 @@ export class AuthInterceptor implements HttpInterceptor {
             headers: req.headers.set("Authorization", `Bearer ${idToken}`)
           });
           return next.handle(cloned);
-          }
         }
 
         return next.handle(req);

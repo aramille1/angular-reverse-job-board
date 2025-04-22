@@ -41,6 +41,7 @@ const routes: Routes = [
       },
       {
         path: 'business',
+
         canActivate: [AuthGuard],
         loadChildren: () =>
           import('./modules/business/business.module').then(
@@ -52,13 +53,6 @@ const routes: Routes = [
   },
   {
     path: 'verify/:userID/:verificationCode', component: VerifyComponent
-  },
-  {
-    path: 'adminski',
-    loadChildren: () =>
-      import('./modules/admin/admin.module').then(
-        (m) => m.AdminModule
-      ),
   },
   { path: '**', component: NotFoundComponent },
 ];
