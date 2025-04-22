@@ -5,19 +5,22 @@ import { AdminRoutingModule } from './admin-routing.module';
 import { AdminPanelComponent } from './components/admin-panel/admin-panel.component';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AdminLoginComponent } from './components/admin-login/admin-login.component';
 
 
 @NgModule({
   declarations: [
-    AdminPanelComponent
+    AdminPanelComponent,
+    AdminLoginComponent
   ],
   imports: [
     CommonModule,
     AdminRoutingModule,
     RouterModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class AdminModule { }

@@ -1,0 +1,47 @@
+.admin-login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f8f9fa;
+  padding: 20px;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 450px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+}
+
+.login-title {
+  color: #333;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+/* Fix for invalid feedback in input group */
+.input-group .invalid-feedback {
+  position: absolute;
+  width: auto;
+  bottom: -20px;
+}
+
+/* Style for the password toggle button */
+.btn-outline-secondary {
+  border-color: #ced4da;
+}
+
+.btn-outline-secondary:hover {
+  background-color: #f8f9fa;
+  color: #212529;
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+  .login-card {
+    padding: 1.5rem;
+  }
+}

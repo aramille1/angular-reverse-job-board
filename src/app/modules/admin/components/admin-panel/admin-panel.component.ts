@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AdminService } from 'src/app/services/admin.service';
+import { AdminAuthService } from 'src/app/services/admin-auth.service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -13,7 +14,10 @@ export class AdminPanelComponent implements OnInit, OnDestroy {
   isLoading: boolean = true;
   private subscriptions: Subscription = new Subscription();
 
-  constructor(private adminService: AdminService) { }
+  constructor(
+    private adminService: AdminService,
+    private adminAuthService: AdminAuthService
+  ) { }
 
   ngOnInit(): void {
     this.loadRecruiters();
@@ -60,6 +64,10 @@ export class AdminPanelComponent implements OnInit, OnDestroy {
 
   isExpanded(recruiterId: string): boolean {
     return this.expandedRecruiterId === recruiterId;
+  }
+
+  logout(): void {
+    this.adminAuthService.logout();
   }
 
   ngOnDestroy(): void {

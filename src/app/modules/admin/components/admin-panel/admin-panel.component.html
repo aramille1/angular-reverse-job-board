@@ -1,9 +1,14 @@
 <div class="admin-header py-3 mb-4 border-bottom bg-dark">
-  <div class="container d-flex align-items-center">
-    <a routerLink="/" class="btn btn-outline-light me-3">
-      <i class="bi bi-arrow-left"></i> Back to Main Site
-    </a>
-    <span class="fs-4 text-white">Angular Talents Admin</span>
+  <div class="container d-flex align-items-center justify-content-between">
+    <div class="d-flex align-items-center">
+      <a routerLink="/" class="btn btn-outline-light me-3">
+        <i class="bi bi-arrow-left"></i> Back to Main Site
+      </a>
+      <span class="fs-4 text-white">Angular Talents Admin</span>
+    </div>
+    <button class="btn btn-outline-danger" (click)="logout()">
+      <i class="bi bi-box-arrow-right me-1"></i> Logout
+    </button>
   </div>
 </div>
 

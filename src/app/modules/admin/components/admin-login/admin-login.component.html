@@ -1,0 +1,77 @@
+<div class="admin-login-container">
+  <div class="login-card">
+    <div class="text-center mb-4">
+      <h2 class="login-title">Admin Login</h2>
+      <p class="text-muted">Enter your credentials to access the admin panel</p>
+    </div>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <!-- Username field -->
+      <div class="mb-3">
+        <label for="username" class="form-label">Username</label>
+        <input
+          type="text"
+          id="username"
+          formControlName="username"
+          class="form-control"
+          [ngClass]="{'is-invalid': loginForm.get('username')?.invalid && loginForm.get('username')?.touched}"
+          placeholder="Enter your username"
+        >
+        <div class="invalid-feedback" *ngIf="loginForm.get('username')?.invalid && loginForm.get('username')?.touched">
+          Username is required
+        </div>
+      </div>
+
+      <!-- Password field with toggle visibility -->
+      <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <div class="input-group">
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            id="password"
+            formControlName="password"
+            class="form-control"
+            [ngClass]="{'is-invalid': loginForm.get('password')?.invalid && loginForm.get('password')?.touched}"
+            placeholder="Enter your password"
+          >
+          <button
+            class="btn btn-outline-secondary"
+            type="button"
+            (click)="togglePasswordVisibility()"
+            [attr.aria-label]="showPassword ? 'Hide password' : 'Show password'"
+          >
+            <i class="bi" [ngClass]="showPassword ? 'bi-eye-slash' : 'bi-eye'"></i>
+          </button>
+          <div class="invalid-feedback" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+            Password is required
+          </div>
+        </div>
+      </div>
+
+      <!-- Remember me checkbox -->
+      <div class="mb-3 form-check">
+        <input type="checkbox" class="form-check-input" id="rememberMe" formControlName="rememberMe">
+        <label class="form-check-label" for="rememberMe">Remember me</label>
+      </div>
+
+      <!-- Error message -->
+      <div class="alert alert-danger mb-3" *ngIf="loginError">
+        {{ loginError }}
+      </div>
+
+      <!-- Submit button -->
+      <button
+        type="submit"
+        class="btn btn-primary w-100"
+        [disabled]="loginForm.invalid || isLoading"
+      >
+        <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+        {{ isLoading ? 'Logging in...' : 'Login' }}
+      </button>
+    </form>
+
+    <div class="text-center mt-3">
+      <a routerLink="/" class="text-decoration-none">Back to home</a>
+    </div>
+  </div>
+</div>

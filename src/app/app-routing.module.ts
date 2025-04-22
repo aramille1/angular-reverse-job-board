@@ -53,7 +53,6 @@ const routes: Routes = [
   },
   {
     path: 'adminski',
-    canActivate: [AdminGuard],
     loadChildren: () =>
       import('./modules/admin/admin.module').then(
         (m) => m.AdminModule

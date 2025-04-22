@@ -15,6 +15,7 @@ import { ForgotPasswordComponent } from './components/forgot-password/forgot-pas
 import { HeaderComponent } from './components/header/header.component';
 import { AuthService } from './services/auth.service';
 import { AuthInterceptor } from './interceptors/auth-interceptor.interceptor';
+import { AdminAuthInterceptor } from './interceptors/admin-auth.interceptor';
 import { PricingComponent } from './components/pricing/pricing.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
@@ -76,6 +77,11 @@ import { environment } from '../../environments/environments';
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AdminAuthInterceptor,
       multi: true
     }
   ],
