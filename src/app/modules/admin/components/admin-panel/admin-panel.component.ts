@@ -43,7 +43,7 @@ export class AdminPanelComponent implements OnInit, OnDestroy {
     this.subscriptions.add(
       this.adminService.updateRecruiterStatus(recruiter.ID, status).subscribe({
         next: () => {
-          recruiter.is_member = status;
+          recruiter.IsMember = status;
         },
         error: (error) => {
           console.error('Error updating recruiter status:', error);

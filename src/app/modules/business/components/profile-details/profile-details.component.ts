@@ -26,6 +26,7 @@ export class ProfileDetailsComponent implements OnInit, OnDestroy {
     this.myProfileSub = this.auth.getMyProfile().subscribe({
       next: (res) => {
         this.recruiter = res.user;
+        this.approvalStatus = res.user.IsMember ? ApprovalStatus.APPROVED : ApprovalStatus.PENDING;
         // In a real scenario, you would get the approval status from an API
         // For now, we're just using the default PENDING status
 

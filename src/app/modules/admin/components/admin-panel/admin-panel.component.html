@@ -61,16 +61,16 @@
                     <td>{{ recruiter.Role }}</td>
                     <td>{{ recruiter.Email }}</td>
                     <td>
-                      <span class="badge" [ngClass]="recruiter.is_member ? 'bg-success' : 'bg-warning'">
-                        {{ recruiter.is_member ? 'Approved' : 'Pending' }}
+                      <span class="badge" [ngClass]="recruiter.IsMember ? 'bg-success' : 'bg-warning'">
+                        {{ recruiter.IsMember ? 'Approved' : 'Pending' }}
                       </span>
                     </td>
                     <td>
-                      <button *ngIf="!recruiter.is_member" class="btn btn-sm btn-success me-2"
+                      <button *ngIf="!recruiter.IsMember" class="btn btn-sm btn-success me-2"
                               (click)="updateStatus(recruiter, true)">
                         Approve
                       </button>
-                      <button *ngIf="recruiter.is_member" class="btn btn-sm btn-warning me-2"
+                      <button *ngIf="recruiter.IsMember" class="btn btn-sm btn-warning me-2"
                               (click)="updateStatus(recruiter, false)">
                         Set Pending
                       </button>
@@ -122,8 +122,8 @@
                                 <div class="row">
                                   <div class="col-md-6">
                                     <h6 class="fw-bold">Membership Status</h6>
-                                    <span class="badge" [ngClass]="recruiter.is_member ? 'bg-success' : 'bg-warning'">
-                                      {{ recruiter.is_member ? 'Approved' : 'Pending' }}
+                                    <span class="badge" [ngClass]="recruiter.IsMember ? 'bg-success' : 'bg-warning'">
+                                      {{ recruiter.IsMember ? 'Approved' : 'Pending' }}
                                     </span>
                                   </div>
                                   <div class="col-md-6">
@@ -134,11 +134,11 @@
 
                                 <!-- Additional actions section -->
                                 <div class="mt-4 text-end">
-                                  <button *ngIf="!recruiter.is_member" class="btn btn-success me-2"
+                                  <button *ngIf="!recruiter.IsMember" class="btn btn-success me-2"
                                         (click)="updateStatus(recruiter, true)">
                                     Approve Profile
                                   </button>
-                                  <button *ngIf="recruiter.is_member" class="btn btn-warning me-2"
+                                  <button *ngIf="recruiter.IsMember" class="btn btn-warning me-2"
                                         (click)="updateStatus(recruiter, false)">
                                     Set as Pending
                                   </button>
