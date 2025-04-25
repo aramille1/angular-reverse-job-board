@@ -1,9 +1,6 @@
 <div class="admin-header py-3 mb-4 border-bottom bg-dark">
   <div class="container d-flex align-items-center justify-content-between">
     <div class="d-flex align-items-center">
-      <a routerLink="/" class="btn btn-outline-light me-3">
-        <i class="bi bi-arrow-left"></i> Back to Main Site
-      </a>
       <span class="fs-4 text-white">Angular Talents Admin</span>
     </div>
     <button class="btn btn-outline-danger" (click)="logout()">
@@ -15,11 +12,14 @@
 <div class="container my-4">
   <div class="row">
     <div class="col-12">
-      <div class="card custom-box-shadow">
-        <div class="card-header bg-primary text-white">
-          <h2 class="mb-0">Admin Panel - Business Profiles</h2>
+      <div class="card custom-box-shadow m-0">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h2 class="mb-0">Business Profiles</h2>
+          <button class="btn" (click)="refreshRecruiters()">
+            <i class="bi bi-arrow-clockwise me-1"></i> Refresh
+          </button>
         </div>
-        <div class="card-body">
+        <div class="">
           <!-- Loading spinner -->
           <div *ngIf="isLoading" class="text-center my-5">
             <div class="spinner-border" role="status">
@@ -33,132 +33,113 @@
             No business profiles found.
           </div>
 
-          <!-- Recruiters table -->
-          <div *ngIf="!isLoading && recruiters.length > 0" class="table-responsive">
-            <table class="table table-striped table-hover">
-              <thead>
-                <tr>
-                  <th>Company</th>
-                  <th>Name</th>
-                  <th>Role</th>
-                  <th>Email</th>
-                  <th>Status</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <ng-container *ngFor="let recruiter of recruiters">
-                  <!-- Main recruiter row -->
-                  <tr>
-                    <td>
-                      <div class="d-flex align-items-center">
+          <!-- Recruiters accordion list -->
+          <div *ngIf="!isLoading && recruiters.length > 0" class="accordion accordion-flush" id="recruiterAccordion">
+            <!-- Recruiter list items -->
+            <div class="list-group mb-4">
+              <div *ngFor="let recruiter of recruiters; let i = index" class="list-group-item list-group-item-action p-0 overflow-hidden">
+                <!-- Recruiter summary - always visible -->
+                <div class="p-3 d-flex justify-content-between align-items-center"
+                     (click)="toggleProfileDetails(recruiter.ID)"
+                     [class.bg-light]="isExpanded(recruiter.ID)"
+                     style="cursor: pointer;">
+                  <div class="d-flex align-items-center">
+                    <img [src]="recruiter.Logo || 'https://spng.pngfind.com/pngs/s/381-3819326_default-avatar-svg-png-icon-free-download-avatar.png'"
+                        class="rounded-circle me-3" alt="Company logo" width="50" height="50">
+                    <div>
+                      <h5 class="mb-0">{{ recruiter.Company }}</h5>
+                      <p class="mb-0 text-muted">{{ recruiter.Firstname }} {{ recruiter.Lastname }}</p>
+                    </div>
+                  </div>
+                  <div class="d-flex align-items-center">
+                    <span class="badge me-3" [ngClass]="recruiter.IsMember ? 'bg-success' : 'bg-warning text-dark'">
+                      {{ recruiter.IsMember ? 'Approved' : 'Pending' }}
+                    </span>
+                    <i class="bi" [ngClass]="isExpanded(recruiter.ID) ? 'bi-chevron-up' : 'bi-chevron-down'"></i>
+                  </div>
+                </div>
+
+                <!-- Expanded content - visible when clicked -->
+                <div class="collapse" [ngClass]="{'show': isExpanded(recruiter.ID)}">
+                  <div class="p-4 border-top">
+                    <div class="row">
+                      <!-- Left column with profile image and contact info -->
+                      <div class="col-md-4 text-center mb-4 mb-md-0">
                         <img [src]="recruiter.Logo || 'https://spng.pngfind.com/pngs/s/381-3819326_default-avatar-svg-png-icon-free-download-avatar.png'"
-                            class="rounded-circle me-2" alt="Company logo" width="40" height="40">
-                        <span>{{ recruiter.Company }}</span>
+                            class="img-fluid mb-3" alt="Company logo" style="max-width: 150px;">
+                        <div class="flex row">
+                          <span class="text-muted">company: </span><h4 class="fw-bold">{{ recruiter.Company }}</h4>
+                        </div>
+                        <p class="mb-2"><span class="text-muted">name:</span> {{ recruiter.Firstname }} {{ recruiter.Lastname }}</p>
+                        <p class="mb-2"><span class="text-muted">role:</span> {{ recruiter.Role }}</p>
+                        <p class="mb-2">
+                          <span class="text-muted">email:</span> {{ recruiter.Email ? recruiter.Email : 'N/A' }}
+                        </p>
+                        <div *ngIf="recruiter.LinkedIn" class="mt-2">
+                          <a [href]="recruiter.LinkedIn" target="_blank" class="btn btn-outline-primary btn-sm">
+                            <i class="bi bi-linkedin me-1"></i> LinkedIn
+                          </a>
+                        </div>
+                        <div *ngIf="recruiter.Website" class="mt-2">
+                          <a [href]="recruiter.Website" target="_blank" class="btn btn-outline-primary btn-sm">
+                            <i class="bi bi-globe me-1"></i> Website
+                          </a>
+                        </div>
                       </div>
-                    </td>
-                    <td>{{ recruiter.Firstname }} {{ recruiter.Lastname }}</td>
-                    <td>{{ recruiter.Role }}</td>
-                    <td>{{ recruiter.Email }}</td>
-                    <td>
-                      <span class="badge" [ngClass]="recruiter.IsMember ? 'bg-success' : 'bg-warning'">
-                        {{ recruiter.IsMember ? 'Approved' : 'Pending' }}
-                      </span>
-                    </td>
-                    <td>
-                      <button *ngIf="!recruiter.IsMember" class="btn btn-sm btn-success me-2"
-                              (click)="updateStatus(recruiter, true)">
-                        Approve
-                      </button>
-                      <button *ngIf="recruiter.IsMember" class="btn btn-sm btn-warning me-2"
-                              (click)="updateStatus(recruiter, false)">
-                        Set Pending
-                      </button>
-                      <button class="btn btn-sm btn-info" (click)="toggleProfileDetails(recruiter.ID)">
-                        {{ isExpanded(recruiter.ID) ? 'Hide Details' : 'View Profile' }}
-                      </button>
-                    </td>
-                  </tr>
 
-                  <!-- Expanded profile details row -->
-                  <tr *ngIf="isExpanded(recruiter.ID)">
-                    <td colspan="6" class="p-0">
-                      <div class="profile-details-container p-4 bg-light">
-                        <div class="row">
-                          <!-- Left column with profile image and contact info -->
-                          <div class="col-md-4 text-center mb-4 mb-md-0">
-                            <img [src]="recruiter.Logo || 'https://spng.pngfind.com/pngs/s/381-3819326_default-avatar-svg-png-icon-free-download-avatar.png'"
-                                class="img-fluid rounded-circle profile-image-large mb-3" alt="Company logo">
-                            <h4 class="fw-bold">{{ recruiter.Company }}</h4>
-                            <p class="mb-2">{{ recruiter.Firstname }} {{ recruiter.Lastname }}</p>
-                            <p class="mb-2 text-muted">{{ recruiter.Role }}</p>
-                            <p class="mb-2">
-                              <i class="bi bi-envelope me-2"></i>{{ recruiter.Email }}
-                            </p>
-                            <div *ngIf="recruiter.LinkedIn" class="mt-2">
-                              <a [href]="recruiter.LinkedIn" target="_blank" class="btn btn-outline-primary btn-sm">
-                                <i class="bi bi-linkedin me-1"></i> LinkedIn
-                              </a>
-                            </div>
-                            <div *ngIf="recruiter.Website" class="mt-2">
-                              <a [href]="recruiter.Website" target="_blank" class="btn btn-outline-primary btn-sm">
-                                <i class="bi bi-globe me-1"></i> Website
-                              </a>
-                            </div>
+                      <!-- Right column with bio, details and actions -->
+                      <div class="col-md-8">
+                        <div class="card">
+                          <div class="card-header">
+                            <h5 class="mb-0">Profile Details</h5>
                           </div>
+                          <div class="card-body">
+                            <h6 class="fw-bold">Bio</h6>
+                            <p class="bio-text">{{ recruiter.Bio }}</p>
 
-                          <!-- Right column with bio and details -->
-                          <div class="col-md-8">
-                            <div class="card h-100">
-                              <div class="card-header">
-                                <h5 class="mb-0">Profile Details</h5>
+                            <hr>
+
+                            <div class="row">
+                              <div class="col-md-6 mb-2">
+                                <h6 class="fw-bold">Membership Status</h6>
+                                <span class="badge" [ngClass]="recruiter.IsMember ? 'bg-success' : 'bg-warning'">
+                                  {{ recruiter.IsMember ? 'Approved' : 'Pending' }}
+                                </span>
                               </div>
-                              <div class="card-body">
-                                <h6 class="fw-bold">Bio</h6>
-                                <p class="bio-text">{{ recruiter.Bio }}</p>
-
-                                <hr>
-
-                                <div class="row">
-                                  <div class="col-md-6">
-                                    <h6 class="fw-bold">Membership Status</h6>
-                                    <span class="badge" [ngClass]="recruiter.IsMember ? 'bg-success' : 'bg-warning'">
-                                      {{ recruiter.IsMember ? 'Approved' : 'Pending' }}
-                                    </span>
-                                  </div>
-                                  <div class="col-md-6">
-                                    <h6 class="fw-bold">Profile ID</h6>
-                                    <p class="text-muted small">{{ recruiter.ID }}</p>
-                                  </div>
-                                </div>
-
-                                <!-- Additional actions section -->
-                                <div class="mt-4 text-end">
-                                  <button *ngIf="!recruiter.IsMember" class="btn btn-success me-2"
-                                        (click)="updateStatus(recruiter, true)">
-                                    Approve Profile
-                                  </button>
-                                  <button *ngIf="recruiter.IsMember" class="btn btn-warning me-2"
-                                        (click)="updateStatus(recruiter, false)">
-                                    Set as Pending
-                                  </button>
-                                  <button class="btn btn-secondary" (click)="toggleProfileDetails(recruiter.ID)">
-                                    Close Details
-                                  </button>
-                                </div>
+                              <div class="col-md-6">
+                                <h6 class="fw-bold">Profile ID</h6>
+                                <p class="text-muted small">{{ recruiter.ID }}</p>
                               </div>
+                            </div>
+
+                            <!-- Action buttons -->
+                            <div class="mt-4 d-flex flex-wrap justify-content-end gap-2">
+                              <button *ngIf="!recruiter.IsMember" class="btn btn-success"
+                                    (click)="updateStatus(recruiter, true)">
+                                <i class="bi bi-check-circle me-1"></i> Approve Profile
+                              </button>
+                              <button *ngIf="recruiter.IsMember" class="btn btn-warning"
+                                    (click)="updateStatus(recruiter, false)">
+                                <i class="bi bi-clock-history me-1"></i> Set as Pending
+                              </button>
+                              <button class="btn" (click)="toggleProfileDetails(recruiter.ID)">
+                                <i class="bi bi-chevron-up me-1"></i> Close Details
+                              </button>
                             </div>
                           </div>
                         </div>
                       </div>
-                    </td>
-                  </tr>
-                </ng-container>
-              </tbody>
-            </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+  <a routerLink="/" class="btn btn-outline-dark me-3 mt-4">
+    <i class="bi bi-arrow-left"></i> Back to Main Site
+  </a>
 </div>
