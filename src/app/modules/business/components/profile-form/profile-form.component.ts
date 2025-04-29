@@ -61,7 +61,7 @@ export class ProfileFormComponent {
         ],
       ],
       bio: ['', Validators.required],
-      logo: ['', Validators.required],
+      logo: [''],
       role: ['', Validators.required],
     });
   }
@@ -70,6 +70,8 @@ export class ProfileFormComponent {
     // getting an image and setting global variable imgFile
     const file = event.target.files[0];
     this.imgFile = file;
+    // Clear any existing errors when a file is selected
+    this.errors = [];
     var reader = new FileReader();
     reader.readAsDataURL(file);
     // File Preview
@@ -81,6 +83,12 @@ export class ProfileFormComponent {
 
   submit() {
     this.submitted = true;
+
+    if (!this.imgFile) {
+      this.errors = ['Please upload a company logo'];
+      return;
+    }
+
     this.loader.start();
     const formData = new FormData();
     formData.append('file', this.imgFile);

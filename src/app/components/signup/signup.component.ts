@@ -66,7 +66,7 @@ export class SignupComponent implements OnInit {
         (response) => {
           // Stop the loading bar
           this.loader.complete();
-          this.toastr.success('Registration successful! Please check your email to verify your account.');
+          this.toastr.success('Registration successful! Please check your email and spam folder to verify your account.');
           this.router.navigate(['/signin']);
         },
         (error) => {
