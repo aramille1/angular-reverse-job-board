@@ -18,6 +18,8 @@ export class ProfileDetailsComponent {
   profileNotFoundError: Boolean = false;
   recruiterIsMember: Boolean = false;
   loading: Boolean = true;
+  viewerIsEngineer: Boolean = false;
+
   constructor(
     private engineerService: EngineerService,
     private route: ActivatedRoute,
@@ -39,15 +41,20 @@ export class ProfileDetailsComponent {
             this.auth.getMyProfile().subscribe({
               next: (myProfile) => {
                 this.loading = false;
+
+                // Check if the viewer is an engineer
+                if (myProfile.type === "engineer") {
+                  this.viewerIsEngineer = true;
+                }
+
                 if (myProfile.type === "recruiter") {
-                  this.recruiterIsMember = myProfile.user.IsMember
+                  this.recruiterIsMember = myProfile.user.IsMember;
                 }
                 if (myProfile.type === "engineer" && (myProfile.user.ID === params['id'])) {
-                  this.engineer = myProfile.user
+                  this.engineer = myProfile.user;
                   this.userIsMe = myProfile.user.ID === params['id'];
                   this.commonService.afterCreateProfileMessage$.subscribe({
                     next: res => {
-                      console.log(res)
                       if (res) {
                         this.toastr.success('Now you just sit back and wait until companies contact you!', 'All done!', { timeOut: 5000 })
                       }

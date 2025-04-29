@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { HomeComponent } from './components/home/home.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
-import { PricingComponent } from './components/pricing/pricing.component';
+// import { PricingComponent } from './components/pricing/pricing.component';
 import { RoleComponent } from './components/role/role.component';
 import { SigninComponent } from './components/signin/signin.component';
 import { SignupComponent } from './components/signup/signup.component';
@@ -29,7 +29,7 @@ const routes: Routes = [
         component: RoleComponent,
         canActivate: [RolePageGuard]
       },
-      { path: 'pricing', component: PricingComponent },
+      // { path: 'pricing', component: PricingComponent },
       { path: 'privacy', component: PrivacyPolicyComponent },
       { path: 'terms', component: TermsAndConditionsComponent },
       { path: 'impressum', component: ImpressumComponent },
