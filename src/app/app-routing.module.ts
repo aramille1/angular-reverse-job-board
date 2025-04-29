@@ -16,6 +16,7 @@ import { TermsAndConditionsComponent } from './components/terms-and-conditions/t
 import { VerifyComponent } from './components/verify/verify/verify.component';
 import { MainComponent } from './components/main/main/main.component';
 import { EmailVerifyComponent } from './components/email-verify/email-verify/email-verify.component';
+import { ImpressumComponent } from './components/impressum/impressum.component';
 
 const routes: Routes = [
   {
@@ -31,6 +32,7 @@ const routes: Routes = [
       { path: 'pricing', component: PricingComponent },
       { path: 'privacy', component: PrivacyPolicyComponent },
       { path: 'terms', component: TermsAndConditionsComponent },
+      { path: 'impressum', component: ImpressumComponent },
       { path: 'about', component: AboutComponent },
       { path: 'email-verify', component: EmailVerifyComponent },
       {

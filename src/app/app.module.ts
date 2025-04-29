@@ -31,6 +31,8 @@ import { VerifyComponent } from './components/verify/verify/verify.component';
 import { MainComponent } from './components/main/main/main.component';
 import { EmailVerifyComponent } from './components/email-verify/email-verify/email-verify.component';
 import { environment } from '../../environments/environments';
+import { ImpressumComponent } from './components/impressum/impressum.component';
+import { CookieConsentComponent } from './components/cookie-consent/cookie-consent.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +52,8 @@ import { environment } from '../../environments/environments';
     VerifyComponent,
     MainComponent,
     EmailVerifyComponent,
+    ImpressumComponent,
+    CookieConsentComponent,
   ],
   imports: [
     BrowserModule,
