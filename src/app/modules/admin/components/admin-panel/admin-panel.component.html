@@ -10,7 +10,8 @@
 </div>
 
 <div class="container my-4">
-  <div class="row">
+  <!-- Business Profiles Section -->
+  <div class="row mb-4">
     <div class="col-12">
       <div class="card custom-box-shadow m-0">
         <div class="card-header d-flex justify-content-between align-items-center">
@@ -21,7 +22,7 @@
         </div>
         <div class="">
           <!-- Loading spinner -->
-          <div *ngIf="isLoading" class="text-center my-5">
+          <div *ngIf="isLoadingRecruiters" class="text-center my-5">
             <div class="spinner-border" role="status">
               <span class="visually-hidden">Loading...</span>
             </div>
@@ -29,12 +30,12 @@
           </div>
 
           <!-- No recruiters message -->
-          <div *ngIf="!isLoading && recruiters.length === 0" class="alert alert-info">
+          <div *ngIf="!isLoadingRecruiters && recruiters.length === 0" class="alert alert-info">
             No business profiles found.
           </div>
 
           <!-- Recruiters accordion list -->
-          <div *ngIf="!isLoading && recruiters.length > 0" class="accordion accordion-flush" id="recruiterAccordion">
+          <div *ngIf="!isLoadingRecruiters && recruiters.length > 0" class="accordion accordion-flush" id="recruiterAccordion">
             <!-- Recruiter list items -->
             <div class="list-group mb-4">
               <div *ngFor="let recruiter of recruiters; let i = index" class="list-group-item list-group-item-action p-0 overflow-hidden">
@@ -110,6 +111,11 @@
                                 <h6 class="fw-bold">Profile ID</h6>
                                 <p class="text-muted small">{{ recruiter.ID }}</p>
                               </div>
+                              <div class="col-md-6">
+                                <h6 class="fw-bold">Account Created</h6>
+                                <p class="text-muted small" *ngIf="recruiter.CreatedAt">{{ recruiter.CreatedAt | date:'medium' }}</p>
+                                <p class="text-muted small" *ngIf="!recruiter.CreatedAt">Not available</p>
+                              </div>
                             </div>
 
                             <!-- Action buttons -->
@@ -139,6 +145,137 @@
       </div>
     </div>
   </div>
+
+  <!-- Engineer Profiles Section -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="card custom-box-shadow m-0">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h2 class="mb-0">Engineer Profiles</h2>
+          <button class="btn" (click)="refreshEngineers()">
+            <i class="bi bi-arrow-clockwise me-1"></i> Refresh
+          </button>
+        </div>
+        <div class="">
+          <!-- Loading spinner -->
+          <div *ngIf="isLoadingEngineers" class="text-center my-5">
+            <div class="spinner-border" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mt-2">Loading engineer profiles...</p>
+          </div>
+
+          <!-- No engineers message -->
+          <div *ngIf="!isLoadingEngineers && engineers.length === 0" class="alert alert-info">
+            No engineer profiles found.
+          </div>
+
+          <!-- Engineers accordion list -->
+          <div *ngIf="!isLoadingEngineers && engineers.length > 0" class="accordion accordion-flush" id="engineerAccordion">
+            <!-- Engineer list items -->
+            <div class="list-group mb-4">
+              <div *ngFor="let engineer of engineers; let i = index" class="list-group-item list-group-item-action p-0 overflow-hidden">
+                <!-- Engineer summary - always visible -->
+                <div class="p-3 d-flex justify-content-between align-items-center"
+                     (click)="toggleEngineerDetails(engineer.ID)"
+                     [class.bg-light]="isEngineerExpanded(engineer.ID)"
+                     style="cursor: pointer;">
+                  <div class="d-flex align-items-center">
+                    <img [src]="engineer.Avatar || 'https://spng.pngfind.com/pngs/s/381-3819326_default-avatar-svg-png-icon-free-download-avatar.png'"
+                        class="rounded-circle me-3" alt="Engineer avatar" width="50" height="50">
+                    <div>
+                      <h5 class="mb-0">{{ engineer.Tagline || 'Angular Developer' }}</h5>
+                      <p class="mb-0 text-muted">{{ engineer.Firstname }} {{ engineer.Lastname }}</p>
+                    </div>
+                  </div>
+                  <div class="d-flex align-items-center">
+                    <span class="badge me-3 bg-info">
+                      {{ engineer.Country || 'Unknown Location' }}
+                    </span>
+                    <i class="bi" [ngClass]="isEngineerExpanded(engineer.ID) ? 'bi-chevron-up' : 'bi-chevron-down'"></i>
+                  </div>
+                </div>
+
+                <!-- Expanded content - visible when clicked -->
+                <div class="collapse" [ngClass]="{'show': isEngineerExpanded(engineer.ID)}">
+                  <div class="p-4 border-top">
+                    <div class="row">
+                      <!-- Left column with profile image and contact info -->
+                      <div class="col-md-4 text-center mb-4 mb-md-0">
+                        <img [src]="engineer.Avatar || 'https://spng.pngfind.com/pngs/s/381-3819326_default-avatar-svg-png-icon-free-download-avatar.png'"
+                            class="img-fluid mb-3" alt="Engineer avatar" style="max-width: 150px;">
+                        <div class="flex row">
+                          <h4 class="fw-bold">{{ engineer.Firstname }} {{ engineer.Lastname }}</h4>
+                        </div>
+                        <p class="mb-2"><span class="text-muted">email:</span> {{ engineer.Email ? engineer.Email : 'N/A' }}</p>
+                        <p class="mb-2"><span class="text-muted">location:</span> {{ engineer.City ? engineer.City + ', ' : '' }}{{ engineer.Country || 'Unknown' }}</p>
+
+                        <div class="mt-3">
+                          <div *ngIf="engineer.Github" class="mt-2">
+                            <a [href]="engineer.Github" target="_blank" class="btn btn-outline-secondary btn-sm">
+                              <i class="bi bi-github me-1"></i> GitHub
+                            </a>
+                          </div>
+                          <div *ngIf="engineer.LinkedIn" class="mt-2">
+                            <a [href]="engineer.LinkedIn" target="_blank" class="btn btn-outline-primary btn-sm">
+                              <i class="bi bi-linkedin me-1"></i> LinkedIn
+                            </a>
+                          </div>
+                          <div *ngIf="engineer.Website" class="mt-2">
+                            <a [href]="engineer.Website" target="_blank" class="btn btn-outline-primary btn-sm">
+                              <i class="bi bi-globe me-1"></i> Website
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Right column with bio, details -->
+                      <div class="col-md-8">
+                        <div class="card">
+                          <div class="card-header">
+                            <h5 class="mb-0">Profile Details</h5>
+                          </div>
+                          <div class="card-body">
+                            <h6 class="fw-bold">About</h6>
+                            <p class="bio-text">{{ engineer.Bio || 'No bio available' }}</p>
+
+                            <hr>
+
+                            <div class="row">
+                              <div class="col-12">
+                                <h6 class="fw-bold">Profile ID</h6>
+                                <p class="text-muted small">{{ engineer.ID }}</p>
+                              </div>
+                              <div class="col-12 mb-2">
+                                <h6 class="fw-bold">Account Created</h6>
+                                <p class="text-muted small" *ngIf="engineer.CreatedAt">{{ engineer.CreatedAt | date:'medium' }}</p>
+                                <p class="text-muted small" *ngIf="!engineer.CreatedAt">Not available</p>
+                              </div>
+                            </div>
+
+                            <!-- Action buttons -->
+                            <div class="mt-4 d-flex flex-wrap justify-content-end gap-2">
+                              <a [href]="'/engineers/details/' + engineer.ID" target="_blank" class="btn btn-outline-primary">
+                                <i class="bi bi-eye me-1"></i> View Public Profile
+                              </a>
+                              <button class="btn" (click)="toggleEngineerDetails(engineer.ID)">
+                                <i class="bi bi-chevron-up me-1"></i> Close Details
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <a routerLink="/" class="btn btn-outline-dark me-3 mt-4">
     <i class="bi bi-arrow-left"></i> Back to Main Site
   </a>

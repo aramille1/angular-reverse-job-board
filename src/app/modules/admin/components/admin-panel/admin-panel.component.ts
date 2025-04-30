@@ -4,6 +4,8 @@ import { AdminAuthService } from 'src/app/services/admin-auth.service';
 import { Subscription } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
+import { EngineerService } from 'src/app/services/engineer-service/engineer.service';
+import { UserService, UserEmailResponse } from 'src/app/services/user.service';
 
 interface Recruiter {
   ID: string;
@@ -17,6 +19,25 @@ interface Recruiter {
   LinkedIn?: string;
   Website?: string;
   IsMember: boolean;
+  UserID?: string;
+  CreatedAt?: string;
+}
+
+interface Engineer {
+  ID: string;
+  Firstname: string;
+  Lastname: string;
+  Email: string;
+  Tagline: string;
+  Bio: string;
+  Avatar?: string;
+  Github?: string;
+  LinkedIn?: string;
+  Website?: string;
+  City?: string;
+  Country?: string;
+  UserID?: string;
+  CreatedAt?: string;
 }
 
 @Component({
@@ -26,8 +47,11 @@ interface Recruiter {
 })
 export class AdminPanelComponent implements OnInit, OnDestroy {
   recruiters: Recruiter[] = [];
+  engineers: Engineer[] = [];
   expandedRecruiterId: string | null = null;
-  isLoading: boolean = true;
+  expandedEngineerId: string | null = null;
+  isLoadingRecruiters: boolean = true;
+  isLoadingEngineers: boolean = true;
   private subscriptions: Subscription = new Subscription();
 
   // Track status updates to prevent race conditions
@@ -36,15 +60,18 @@ export class AdminPanelComponent implements OnInit, OnDestroy {
   constructor(
     private adminService: AdminService,
     private adminAuthService: AdminAuthService,
+    private engineerService: EngineerService,
+    private userService: UserService,
     private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
     this.loadRecruiters();
+    this.loadEngineers();
   }
 
   loadRecruiters(): void {
-    this.isLoading = true;
+    this.isLoadingRecruiters = true;
     this.subscriptions.add(
       this.adminService.getAllRecruiters().subscribe({
         next: (response) => {
@@ -53,13 +80,22 @@ export class AdminPanelComponent implements OnInit, OnDestroy {
             if (this.pendingStatusUpdates.has(recruiter.ID)) {
               recruiter.IsMember = this.pendingStatusUpdates.get(recruiter.ID) || false;
             }
+
+            // If there's a UserID property, fetch the email
+            if (recruiter.UserID) {
+              this.fetchUserEmail(recruiter.UserID, (response) => {
+                recruiter.Email = response.email;
+                recruiter.CreatedAt = response.createdAt;
+              });
+            }
+
             return recruiter;
           });
-          this.isLoading = false;
+          this.isLoadingRecruiters = false;
         },
         error: (error: HttpErrorResponse) => {
           console.error('Error loading recruiters:', error);
-          this.isLoading = false;
+          this.isLoadingRecruiters = false;
 
           // If unauthorized (401) or forbidden (403), automatically log out
           if (error.status === 401 || error.status === 403) {
@@ -68,6 +104,70 @@ export class AdminPanelComponent implements OnInit, OnDestroy {
           } else {
             this.toastr.error('Failed to load recruiters', 'Error');
           }
+        }
+      })
+    );
+  }
+
+  loadEngineers(): void {
+    this.isLoadingEngineers = true;
+    this.subscriptions.add(
+      this.engineerService.getAllEngineers().subscribe({
+        next: (response) => {
+          // Get the 5 most recent engineers
+          this.engineers = (response.engineers || [])
+            .slice(0, 5)
+            .map((engineer: any) => {
+              const mappedEngineer = {
+                ID: engineer.ID,
+                Firstname: engineer.Firstname,
+                Lastname: engineer.Lastname,
+                Email: '',
+                Tagline: engineer.Tagline,
+                Bio: engineer.Bio,
+                Avatar: engineer.Avatar,
+                Github: engineer.Github,
+                LinkedIn: engineer.LinkedIn,
+                Website: engineer.Website,
+                City: engineer.City,
+                Country: engineer.Country,
+                UserID: engineer.UserID, // Save UserID to fetch email
+                CreatedAt: undefined as string | undefined
+              };
+
+              // If there's a UserID property, fetch the email
+              if (engineer.UserID) {
+                this.fetchUserEmail(engineer.UserID, (response) => {
+                  mappedEngineer.Email = response.email;
+                  mappedEngineer.CreatedAt = response.createdAt;
+                });
+              }
+
+              return mappedEngineer;
+            });
+          this.isLoadingEngineers = false;
+        },
+        error: (error: HttpErrorResponse) => {
+          console.error('Error loading engineers:', error);
+          this.isLoadingEngineers = false;
+          this.toastr.error('Failed to load engineers', 'Error');
+        }
+      })
+    );
+  }
+
+  // Helper method to fetch user emails
+  private fetchUserEmail(userId: string, callback: (response: UserEmailResponse) => void): void {
+    this.subscriptions.add(
+      this.userService.getUserEmailById(userId).subscribe({
+        next: (response) => {
+          if (response) {
+            callback(response);
+          }
+        },
+        error: (error) => {
+          console.error('Error fetching user email:', error);
+          callback({ email: 'Email not available' });
         }
       })
     );
@@ -120,8 +220,22 @@ export class AdminPanelComponent implements OnInit, OnDestroy {
     }
   }
 
+  toggleEngineerDetails(engineerId: string): void {
+    if (this.expandedEngineerId === engineerId) {
+      // If the same engineer is clicked, collapse it
+      this.expandedEngineerId = null;
+    } else {
+      // Otherwise, expand the clicked engineer
+      this.expandedEngineerId = engineerId;
+    }
+  }
+
   isExpanded(recruiterId: string): boolean {
     return this.expandedRecruiterId === recruiterId;
+  }
+
+  isEngineerExpanded(engineerId: string): boolean {
+    return this.expandedEngineerId === engineerId;
   }
 
   logout(): void {
@@ -131,6 +245,11 @@ export class AdminPanelComponent implements OnInit, OnDestroy {
   // Method to refresh recruiters data
   refreshRecruiters(): void {
     this.loadRecruiters();
+  }
+
+  // Method to refresh engineers data
+  refreshEngineers(): void {
+    this.loadEngineers();
   }
 
   ngOnDestroy(): void {
