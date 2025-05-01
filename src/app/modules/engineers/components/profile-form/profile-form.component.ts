@@ -17,8 +17,6 @@ import { EngineerService } from 'src/app/services/engineer-service/engineer.serv
 // } from 'src/app/services/location-service/location.service';
 import { errorMessageGenerator } from 'src/app/shared/helpers';
 import { regexValidator } from 'src/app/url-regex.validator';
-const place = null as unknown as google.maps.places.PlaceResult;
-type Components = typeof place.address_components;
 const trimValidator: any = (control: FormControl) => {
   if (control.value.startsWith(' ')) {
     return {

@@ -19,8 +19,6 @@ import { EngineerService } from 'src/app/services/engineer-service/engineer.serv
 import { errorMessageGenerator } from 'src/app/shared/helpers';
 import { regexValidator } from 'src/app/url-regex.validator';
 
-const place = null as unknown as google.maps.places.PlaceResult;
-type Components = typeof place.address_components;
 @Component({
   selector: 'app-profile-update',
   templateUrl: './profile-update.component.html',
