@@ -34,7 +34,8 @@
               "node_modules/ngx-toastr/toastr.css"
             ],
             "scripts": [],
-            "allowedCommonJsDependencies": ["cloudinary-core"]
+            "allowedCommonJsDependencies": ["cloudinary-core"],
+            "aot": true
           },
           "configurations": {
             "production": {
@@ -50,7 +51,14 @@
                   "maximumError": "8kb"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "aot": true,
+              "buildOptimizer": true,
+              "optimization": true,
+              "vendorChunk": false,
+              "extractLicenses": true,
+              "sourceMap": false,
+              "namedChunks": false
             },
             "development": {
               "buildOptimizer": false,
@@ -58,7 +66,8 @@
               "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
-              "namedChunks": true
+              "namedChunks": true,
+              "aot": true
             }
           },
           "defaultConfiguration": "production"

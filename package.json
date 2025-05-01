@@ -5,6 +5,9 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build:prod": "ng build --configuration=production --aot=true",
+    "build:stats": "ng build --configuration=production --aot=true --stats-json",
+    "analyze": "webpack-bundle-analyzer dist/jobboard/stats.json",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
@@ -49,7 +52,8 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.0.0",
-    "typescript": "~4.9.4"
+    "typescript": "~4.9.4",
+    "webpack-bundle-analyzer": "^4.10.2"
   },
   "engines": {
     "node": "18.10.0"
