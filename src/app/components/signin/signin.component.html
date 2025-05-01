@@ -47,11 +47,15 @@
           </p>
           <input type="submit" class="btn btn-dark w-100 my-4" value="Login" name="login">
           <p *ngIf="showError" class="text-danger text-center">
-            Username or Password incorrect! try again.
+            Wrong email or password
           </p>
-          <p *ngIf="confirmEmailError" class="text-danger text-center">
-            Please verify your email before login
-          </p>
+
+          <div *ngIf="confirmEmailError" class="alert alert-warning mt-3" role="alert">
+            <h6 class="alert-heading">Email verification required</h6>
+            <p class="mb-0">Please verify your email address before signing in. Check your inbox and spam folder for the verification link.</p>
+            <hr>
+            <small>Didn't receive the verification email? <a href="mailto:support@angular-talents.com" class="alert-link">Contact support</a></small>
+          </div>
         </form>
       </div>
       <div class="card-footer bg-white text-right ">

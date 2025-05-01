@@ -42,7 +42,7 @@ export class SigninComponent {
     this.loader.start();
     if (this.signinForm.invalid) {
       this.loader.stop();
-      this.toastr.error('please fill in your email and password');
+      this.toastr.error('Please fill in your email and password correctly');
       return;
     }
     const reqObject = {
@@ -72,21 +72,34 @@ export class SigninComponent {
       error: (err) => {
         this.showError = false;
         this.confirmEmailError = false;
-        if (err.status === 403) {
-          new Error(err);
-          console.log(err);
-          this.confirmEmailError = true;
-          this.loader.stop();
-        }
-        if (err.status === 401) {
-          new Error(err);
-          console.log(err);
-          this.showError = true;
-          this.loader.stop();
-        }
-        console.log(err)
-        new Error(err);
         this.loader.stop();
+
+        if (err.status === 403) {
+          this.confirmEmailError = true;
+          this.toastr.error('Please verify your email before signing in. Check your inbox and spam folder for the verification link.');
+        } else if (err.status === 401) {
+          this.showError = true;
+          this.toastr.error('Invalid email or password. Please try again.');
+        } else if (err.status === 0) {
+          this.toastr.error('Unable to connect to the server. Please check your internet connection and try again.');
+        } else if (err.error && err.error.code) {
+          // Handle specific error codes
+          switch (err.error.code) {
+            case 'authentication.validate_email':
+              this.confirmEmailError = true;
+              this.toastr.error('Your email address has not been verified. Please check your inbox for the verification link.');
+              break;
+            case 'login.verify_login':
+              this.toastr.error('The email or password you entered is incorrect.');
+              break;
+            default:
+              this.toastr.error('Sign in failed. Please try again later.');
+          }
+        } else {
+          this.toastr.error('An unexpected error occurred. Please try again later.');
+        }
+
+        console.log(err);
       },
     });
   }

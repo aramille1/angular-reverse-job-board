@@ -85,16 +85,21 @@
           </p>
 
           <!-- Honeypot field - hidden from real users -->
-          <div style="display:none">
-            <label for="website">Website</label>
-            <input type="text" formControlName="website" id="website">
+          <div style="display: none">
+            <input type="text" formControlName="website">
           </div>
 
-          <button type="submit" [disabled]="signupForm.invalid" class="btn btn-dark w-100 my-4">Sign up</button>
+          <!-- Error alert for existing email -->
+          <div *ngIf="existingEmailError" class="alert alert-warning mt-3" role="alert">
+            This email is already registered. <a routerLink="/signin" class="font-weight-bold">Sign in instead</a>
+          </div>
+
+          <button type="submit" [disabled]="signupForm.invalid" class="btn btn-dark w-100 my-4">Register</button>
+
         </form>
       </div>
       <div class="card-footer bg-white text-right">
-        <small><a class="footerlink" routerLink="/signin">Already registered? Click here to signin</a></small>
+        <small><a class="footerlink" routerLink="/signin">Already registered? Click here to login</a></small>
       </div>
     </div>
   </div>

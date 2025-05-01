@@ -18,6 +18,7 @@ export class SignupComponent implements OnInit {
   repeatFieldTextType: boolean;
   loader = this.loadingBar.useRef();
   signupForm: FormGroup;
+  existingEmailError = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -53,6 +54,9 @@ export class SignupComponent implements OnInit {
       return;
     }
 
+    // Reset existing email error flag
+    this.existingEmailError = false;
+
     if (this.signupForm.valid) {
       // Start the loading bar
       this.loader.start();
@@ -72,15 +76,42 @@ export class SignupComponent implements OnInit {
         (error) => {
           // Stop the loading bar on error
           this.loader.stop();
-          if (error.error.code === 'signup.email_registered') {
-            this.toastr.error('This email is already registered.');
+
+          // Provide more specific error messages based on error codes
+          if (error.error && error.error.code) {
+            switch (error.error.code) {
+              case 'signup.email_registered':
+              case 'signup.validate_user':
+                this.existingEmailError = true;
+                this.toastr.error('This email address is already registered. Please try signing in instead or use a different email address.');
+                break;
+              case 'signup.validate_body':
+                this.toastr.error('Please check your information. Your password must be between 8-20 characters.');
+                break;
+              case 'signup.send_confirmation_email':
+                this.toastr.error('Account created, but we couldn\'t send the verification email. Please contact support.');
+                break;
+              default:
+                this.toastr.error('Registration failed. Please try again later or contact support if the problem persists.');
+            }
+          } else if (error.status === 0) {
+            this.toastr.error('Unable to connect to the server. Please check your internet connection and try again.');
           } else {
-            this.toastr.error(error.error.message || 'Registration failed. Please try again.');
+            this.toastr.error('An unexpected error occurred. Please try again later.');
           }
         }
       );
     } else {
-      this.toastr.error('Please fill all required fields');
+      // Form validation error messages
+      if (this.signupForm.controls['email'].invalid && this.signupForm.controls['email'].touched) {
+        this.toastr.error('Please enter a valid email address.');
+      } else if (this.signupForm.controls['password'].invalid && this.signupForm.controls['password'].touched) {
+        this.toastr.error('Password must be at least 8 characters long.');
+      } else if (this.signupForm.controls['confirmPassword'].invalid && this.signupForm.controls['confirmPassword'].touched) {
+        this.toastr.error('Passwords do not match.');
+      } else {
+        this.toastr.error('Please fill all required fields correctly.');
+      }
     }
   }
 
