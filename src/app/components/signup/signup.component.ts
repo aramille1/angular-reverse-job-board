@@ -19,7 +19,6 @@ export class SignupComponent implements OnInit {
   loader = this.loadingBar.useRef();
   signupForm: FormGroup;
   existingEmailError = false;
-  emailSendingError = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -55,9 +54,8 @@ export class SignupComponent implements OnInit {
       return;
     }
 
-    // Reset error flags
+    // Reset existing email error flag
     this.existingEmailError = false;
-    this.emailSendingError = false;
 
     if (this.signupForm.valid) {
       // Start the loading bar
@@ -91,14 +89,7 @@ export class SignupComponent implements OnInit {
                 this.toastr.error('Please check your information. Your password must be between 8-20 characters.');
                 break;
               case 'signup.send_confirmation_email':
-                // Special handling for email sending failures
-                this.emailSendingError = true;
-                this.toastr.warning('Your account was created, but we could not send the verification email. Please contact support at support@angular-talents.com to verify your account.');
-
-                // Still navigate to signin page as the account was created
-                setTimeout(() => {
-                  this.router.navigate(['/signin']);
-                }, 5000); // Give user 5 seconds to read the message
+                this.toastr.error('Account created, but we couldn\'t send the verification email. Please contact support.');
                 break;
               default:
                 this.toastr.error('Registration failed. Please try again later or contact support if the problem persists.');
