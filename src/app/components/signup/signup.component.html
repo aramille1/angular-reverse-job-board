@@ -94,6 +94,14 @@
             This email is already registered. <a routerLink="/signin" class="font-weight-bold">Sign in instead</a>
           </div>
 
+          <!-- Email sending error alert -->
+          <div *ngIf="emailSendingError" class="alert alert-warning mt-3" role="alert">
+            <h6 class="alert-heading">Account created but verification email failed</h6>
+            <p class="mb-0">Your account was successfully created, but we could not send the verification email. You will need to contact support to verify your account.</p>
+            <hr>
+            <small>Please email <a href="mailto:hello.angulartalents@gmail.com" class="alert-link">hello.angulartalents@gmail.com</a> with your registered email address to request verification.</small>
+          </div>
+
           <button type="submit" [disabled]="signupForm.invalid" class="btn btn-dark w-100 my-4">Register</button>
 
         </form>
