@@ -45,7 +45,14 @@
             *ngIf="signinForm.controls['password'].hasError('required') && signinForm.controls['password'].touched">
             Password is required
           </p>
-          <input type="submit" class="btn btn-dark w-100 my-4" value="Login" name="login">
+          <button type="submit" class="btn btn-dark w-100 my-4">
+            <span *ngIf="!isLoading">Login</span>
+            <span *ngIf="isLoading" class="loading-dots">
+              <span></span>
+              <span></span>
+              <span></span>
+            </span>
+          </button>
           <p *ngIf="showError" class="text-danger text-center">
             Wrong email or password
           </p>

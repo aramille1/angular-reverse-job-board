@@ -16,6 +16,7 @@ export class SigninComponent {
   profile: any;
   // private signinSub: Subscription;
   loader = this.loadingBar.useRef();
+  isLoading: boolean = false;
   // form initialization
   signinForm = this.fb.group({
     email: ['', Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$')],
@@ -40,8 +41,10 @@ export class SigninComponent {
 
   signin() {
     this.loader.start();
+    this.isLoading = true;
     if (this.signinForm.invalid) {
       this.loader.stop();
+      this.isLoading = false;
       this.toastr.error('Please fill in your email and password correctly');
       return;
     }
@@ -59,11 +62,15 @@ export class SigninComponent {
         this.auth.setIsLoggedIn(true);
         console.log('loggedin!');
         this.auth.getMyProfile().subscribe({
-          next: () => this.router.navigate(['']),
+          next: () => {
+            this.isLoading = false;
+            this.router.navigate(['']);
+          },
           error: () => {
             console.log(
               'you are logged in! but your profile as engineer/recruiter doesnt exist yet'
             );
+            this.isLoading = false;
             this.router.navigate(['role']);
             this.loader.stop();
           },
@@ -73,6 +80,7 @@ export class SigninComponent {
         this.showError = false;
         this.confirmEmailError = false;
         this.loader.stop();
+        this.isLoading = false;
 
         if (err.status === 403) {
           this.confirmEmailError = true;

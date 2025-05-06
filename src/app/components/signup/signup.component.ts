@@ -19,6 +19,7 @@ export class SignupComponent implements OnInit {
   loader = this.loadingBar.useRef();
   signupForm: FormGroup;
   existingEmailError = false;
+  isLoading = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -60,6 +61,7 @@ export class SignupComponent implements OnInit {
     if (this.signupForm.valid) {
       // Start the loading bar
       this.loader.start();
+      this.isLoading = true;
 
       const signupData = {
         email: this.signupForm.value.email,
@@ -70,12 +72,14 @@ export class SignupComponent implements OnInit {
         (response) => {
           // Stop the loading bar
           this.loader.complete();
+          this.isLoading = false;
           this.toastr.success('Registration successful! Please check your email and spam folder to verify your account.');
           this.router.navigate(['/signin']);
         },
         (error) => {
           // Stop the loading bar on error
           this.loader.stop();
+          this.isLoading = false;
 
           // Provide more specific error messages based on error codes
           if (error.error && error.error.code) {

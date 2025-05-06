@@ -47,9 +47,6 @@ export class HomeComponent {
               this.tempEngineers.push(e)
             }
           })
-          // Log the first few engineers to check isNew flag
-          console.log('First few engineers on homepage:', this.tempEngineers.slice(0, 3));
-
           this.tempEngineers.length = 7
           this.engineers = this.tempEngineers;
           this.loader.stop();

@@ -94,7 +94,14 @@
             This email is already registered. <a routerLink="/signin" class="font-weight-bold">Sign in instead</a>
           </div>
 
-          <button type="submit" [disabled]="signupForm.invalid" class="btn btn-dark w-100 my-4">Register</button>
+          <button type="submit" [disabled]="signupForm.invalid" class="btn btn-dark w-100 my-4">
+            <span *ngIf="!isLoading">Register</span>
+            <span *ngIf="isLoading" class="loading-dots">
+              <span></span>
+              <span></span>
+              <span></span>
+            </span>
+          </button>
 
         </form>
       </div>
