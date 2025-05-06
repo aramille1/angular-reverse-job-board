@@ -1,5 +1,5 @@
 import { Subscription } from 'rxjs';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
@@ -10,7 +10,7 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: './signin.component.html',
   styleUrls: ['./signin.component.scss'],
 })
-export class SigninComponent {
+export class SigninComponent implements OnInit {
   showError: Boolean = false;
   fieldTextType: boolean;
   profile: any;
@@ -19,7 +19,7 @@ export class SigninComponent {
   isLoading: boolean = false;
   // form initialization
   signinForm = this.fb.group({
-    email: ['', Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$')],
+    email: ['', [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
     password: ['', Validators.required],
   });
   confirmEmailError: boolean = false;
@@ -40,14 +40,15 @@ export class SigninComponent {
   }
 
   signin() {
-    this.loader.start();
-    this.isLoading = true;
+    // Only proceed if the form is valid
     if (this.signinForm.invalid) {
-      this.loader.stop();
-      this.isLoading = false;
-      this.toastr.error('Please fill in your email and password correctly');
+      this.markFormFieldsAsTouched();
       return;
     }
+
+    this.loader.start();
+    this.isLoading = true;
+
     const reqObject = {
       email: this.signinForm.value.email,
       password: this.signinForm.value.password,
@@ -109,6 +110,14 @@ export class SigninComponent {
 
         console.log(err);
       },
+    });
+  }
+
+  // Helper method to mark all form fields as touched to trigger validation messages
+  markFormFieldsAsTouched() {
+    Object.keys(this.signinForm.controls).forEach(field => {
+      const control = this.signinForm.get(field);
+      control?.markAsTouched({ onlySelf: true });
     });
   }
 

@@ -41,3 +41,16 @@
     width: 70%;
   }
 }
+
+/* Add styling for the disabled button state */
+button[type="submit"]:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+  background-color: #6c757d;
+  border-color: #6c757d;
+}
+
+/* Optional: Add transition for smoother visual feedback */
+button[type="submit"] {
+  transition: all 0.3s ease;
+}
