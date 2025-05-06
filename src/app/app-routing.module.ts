@@ -10,6 +10,7 @@ import { SignupComponent } from './components/signup/signup.component';
 import { AuthGuard } from './guards/auth.guard';
 import { AdminGuard } from './guards/admin.guard';
 import { RolePageGuard } from './guards/role-page-guard/role-page.guard';
+import { PublicPagesGuard } from './guards/auth-guard/auth.guard';
 import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-policy/privacy-policy.component';
 import { AboutComponent } from './components/about/about/about.component';
 import { TermsAndConditionsComponent } from './components/terms-and-conditions/terms-and-conditions/terms-and-conditions.component';
@@ -22,8 +23,8 @@ const routes: Routes = [
   {
     path: '', component: MainComponent, children: [
       { path: 'forgot-password', component: ForgotPasswordComponent },
-      { path: 'signin', component: SigninComponent },
-      { path: 'signup', component: SignupComponent },
+      { path: 'signin', component: SigninComponent, canActivate: [PublicPagesGuard] },
+      { path: 'signup', component: SignupComponent, canActivate: [PublicPagesGuard] },
       {
         path: 'role',
         component: RoleComponent,

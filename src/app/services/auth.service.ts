@@ -15,9 +15,39 @@ export class AuthService {
   isLoggedIn$ = this._isLoggedIn$.asObservable();
 
   constructor(private http: HttpClient, private router: Router) {
+    this.updateLoginStatus();
+    this.engineerImageChange.subscribe(value => this.engineerImg = value);
+  }
+
+  /**
+   * Updates the login status based on token presence and expiration
+   */
+  private updateLoginStatus(): void {
     const token = localStorage.getItem('token');
-    this._isLoggedIn$.next(!!token);
-    this.engineerImageChange.subscribe(value => this.engineerImg = value)
+    const expires = localStorage.getItem('expires');
+
+    if (token && expires) {
+      const expiryTime = parseInt(expires, 10) * 1000; // Convert to milliseconds
+      const isValid = expiryTime > Date.now();
+      this._isLoggedIn$.next(isValid);
+
+      // If token is expired, clean up
+      if (!isValid) {
+        localStorage.removeItem('token');
+        localStorage.removeItem('expires');
+      }
+    } else {
+      this._isLoggedIn$.next(false);
+    }
+  }
+
+  /**
+   * Check if the user is currently logged in
+   * @returns boolean indicating if user is logged in with a valid token
+   */
+  isLoggedIn(): boolean {
+    this.updateLoginStatus(); // Always check current status
+    return this._isLoggedIn$.value;
   }
 
   getMyProfile(): Observable<any> {
@@ -36,7 +66,7 @@ export class AuthService {
     this._isLoggedIn$.next(val);
   }
 
-  signout(){
+  signout() {
     this._isLoggedIn$.next(false);
     localStorage.removeItem('token');
     localStorage.removeItem('expires');
