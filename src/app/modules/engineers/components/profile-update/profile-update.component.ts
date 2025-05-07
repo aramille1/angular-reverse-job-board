@@ -18,6 +18,7 @@ import { EngineerService } from 'src/app/services/engineer-service/engineer.serv
 // } from 'src/app/services/location-service/location.service';
 import { errorMessageGenerator } from 'src/app/shared/helpers';
 import { regexValidator } from 'src/app/url-regex.validator';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-profile-update',
@@ -31,6 +32,7 @@ export class ProfileUpdateComponent {
   submitted = false;
   imgFile: any;
   loader = this.loadingBar.useRef();
+  isLoading = false;
 
   constructor(
     private router: Router,
@@ -41,7 +43,8 @@ export class ProfileUpdateComponent {
     private fb: FormBuilder,
     public cloudinary: CloudinaryService,
     private loadingBar: LoadingBarService,
-    private commonService: CommonService
+    private commonService: CommonService,
+    private toastr: ToastrService
   ) {
     // locationService.api.then((maps) => {
     //   this.initAutocomplete(maps);
@@ -220,6 +223,7 @@ export class ProfileUpdateComponent {
     this.submitted = true;
     this.errors = [];
     this.loader.start();
+    this.isLoading = true;
 
     // If user havent added new image
     if (this.imgFile === undefined) {
@@ -244,6 +248,9 @@ export class ProfileUpdateComponent {
         this.engineerService.updateEngineer(data).subscribe({
           next: () => {
             this.submitted = false;
+            this.isLoading = false;
+            this.loader.complete();
+            this.toastr.success('Profile updated successfully!');
             this.commonService.updateUsersDataForHeader({
               image: data.avatar,
               firstName: data.firstName,
@@ -258,85 +265,75 @@ export class ProfileUpdateComponent {
 
           },
           error: (err) => {
+            this.isLoading = false;
             this.loader.stop();
             console.error(err);
-
-            // Check for specific lastName validation error
-            if (err?.error?.detail && err.error.detail.includes("'LastName' failed on the 'alpha' tag")) {
-              this.errors.push("Last name must contain only alphabetic characters (a-z, A-Z)");
-            }
+            this.errors = errorMessageGenerator(err);
           },
         });
       } else {
-        this.errors = errorMessageGenerator(this.profileForm.controls);
+        this.isLoading = false;
         this.loader.stop();
       }
     } else {
-      // when user changed avatar
       const formData = new FormData();
       formData.append('file', this.imgFile);
       formData.append('upload_preset', 'yakyhtcu');
-      if (this.profileForm.valid) {
-        this.cloudinary.uploadImg(formData).subscribe({
-          next: (res) => {
-            this.profileForm.patchValue({ avatar: res.secure_url });
+      this.cloudinary.uploadImg(formData).subscribe({
+        next: (res) => {
+          const responseUrl = res.secure_url;
+          const data = {
+            firstName: this.profileForm.value.firstName,
+            lastName: this.profileForm.value.lastName,
+            tagLine: this.profileForm.value.tagLine,
+            city: this.profileForm.value.city,
+            country: this.profileForm.value.country,
+            avatar: responseUrl,
+            bio: this.profileForm.value.bio,
+            searchStatus: this.profileForm.value.searchStatus,
+            roleType: this.profileForm.value.roleType,
+            roleLevel: this.profileForm.value.roleLevel,
+            website: 'https://' + this.profileForm.value.website,
+            twitter: 'https://twitter.com/' + this.profileForm.value.twitter,
+            stackoverflow:
+              'https://stackoverflow.com/users/' +
+              this.profileForm.value.stackoverflow,
+          };
 
-            const data = {
-              firstName: this.profileForm.value.firstName,
-              lastName: this.profileForm.value.lastName,
-              tagLine: this.profileForm.value.tagLine,
-              city: this.profileForm.value.city,
-              country: this.profileForm.value.country,
-              avatar: res.secure_url,
-              bio: this.profileForm.value.bio,
-              searchStatus: this.profileForm.value.searchStatus,
-              roleType: this.profileForm.value.roleType,
-              roleLevel: this.profileForm.value.roleLevel,
-              website: 'https://' + this.profileForm.value.website,
-              twitter: 'https://twitter.com/' + this.profileForm.value.twitter,
-              stackoverflow:
-                'https://stackoverflow.com/users/' +
-                this.profileForm.value.stackoverflow,
-            };
+          if (this.profileForm.valid) {
             this.engineerService.updateEngineer(data).subscribe({
               next: () => {
                 this.submitted = false;
-                this.loader.stop();
+                this.isLoading = false;
+                this.loader.complete();
+                this.toastr.success('Profile updated successfully!');
                 this.commonService.updateUsersDataForHeader({
                   image: data.avatar,
                   firstName: data.firstName,
                   lastName: data.lastName,
-                  userType: 'engineer'
-                })
-                this.router.navigate([
-                  'engineers/details',
-                  this.profileForm.value.id,
-                ]);
+                });
+                this.router.navigate(['engineers/profile']);
               },
               error: (err) => {
-                this.errors = errorMessageGenerator(this.profileForm.controls);
+                this.isLoading = false;
                 this.loader.stop();
                 console.error(err);
-
-                // Check for specific lastName validation error
-                if (err?.error?.detail && err.error.detail.includes("'LastName' failed on the 'alpha' tag")) {
-                  this.errors.push("Last name must contain only alphabetic characters (a-z, A-Z)");
-                }
+                this.errors = errorMessageGenerator(err);
               },
             });
-          },
-          error: (err) => {
+          } else {
+            this.isLoading = false;
             this.loader.stop();
-            console.error(err);
-          },
-        });
-      } else {
-        this.errors = errorMessageGenerator(this.profileForm.controls);
-        this.loader.stop();
-      }
-
+          }
+        },
+        error: (err) => {
+          this.isLoading = false;
+          this.loader.stop();
+          console.error(err);
+          this.errors.push('Failed to upload image. Please try again.');
+        }
+      });
     }
-    // this.commonService.updateEngineerName(this.profileForm.value.firstName)
   }
 
   // ROLE TYPE

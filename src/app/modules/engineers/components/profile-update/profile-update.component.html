@@ -320,7 +320,14 @@
           </ul>
         </div>
       </div>
-      <button type="submit" class="btn btn-dark mb-5 float-end">Save</button>
+      <button type="submit" class="btn btn-dark mb-5 float-end" [disabled]="isLoading">
+        <span *ngIf="!isLoading">Save</span>
+        <span *ngIf="isLoading" class="loading-dots">
+          <span></span>
+          <span></span>
+          <span></span>
+        </span>
+      </button>
     </form>
   </div>
 </div>

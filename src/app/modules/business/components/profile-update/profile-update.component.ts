@@ -8,6 +8,7 @@ import { CloudinaryService } from 'src/app/services/cloudinary/cloudinary.servic
 import { CommonService } from 'src/app/services/common-service/common.service';
 import { recruiterErrorMessageGenerator } from 'src/app/shared/helpers';
 import { regexValidator } from 'src/app/url-regex.validator';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-profile-update',
@@ -21,6 +22,7 @@ export class ProfileUpdateComponent {
   errors: Array<any> = [];
   submitted: boolean = false;
   loader = this.loadingBar.useRef();
+  isLoading: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -29,7 +31,8 @@ export class ProfileUpdateComponent {
     private businessService: BusinessService,
     private cloudinary: CloudinaryService,
     private loadingBar: LoadingBarService,
-    private commonService: CommonService
+    private commonService: CommonService,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -75,40 +78,53 @@ export class ProfileUpdateComponent {
   submit() {
     this.submitted = true;
     this.loader.start();
+    this.isLoading = true;
 
     if (this.imgFile) {
       const formData = new FormData();
       formData.append('file', this.imgFile);
       formData.append('upload_preset', 'yakyhtcu');
       if (this.profileForm.valid) {
-        this.cloudinary.uploadImg(formData).subscribe((res) => {
-          const data = {
-            firstName: this.profileForm.value.firstName,
-            lastName: this.profileForm.value.lastName,
-            company: this.profileForm.value.company,
-            website: 'https://' + this.profileForm.value.website,
-            bio: this.profileForm.value.bio,
-            logo: res.secure_url,
-            role: this.profileForm.value.role,
-          };
-          this.businessService.updateRecruiter(data).subscribe({
-            next: () => {
-              this.commonService.updateUsersDataForHeader({
-                image: data.logo,
-                firstName: data.firstName,
-                lastName: data.lastName,
-                userType: 'recruiter'
-              })
-              this.router.navigate(['/business/details']);
-              this.loader.stop();
-            },
-            error: (error) => {
-              this.loader.stop();
-              console.error(error);
-            },
-          });
+        this.cloudinary.uploadImg(formData).subscribe({
+          next: (res) => {
+            const data = {
+              firstName: this.profileForm.value.firstName,
+              lastName: this.profileForm.value.lastName,
+              company: this.profileForm.value.company,
+              website: 'https://' + this.profileForm.value.website,
+              bio: this.profileForm.value.bio,
+              logo: res.secure_url,
+              role: this.profileForm.value.role,
+            };
+            this.businessService.updateRecruiter(data).subscribe({
+              next: () => {
+                this.isLoading = false;
+                this.loader.complete();
+                this.toastr.success('Business profile updated successfully!');
+                this.commonService.updateUsersDataForHeader({
+                  image: data.logo,
+                  firstName: data.firstName,
+                  lastName: data.lastName,
+                  userType: 'recruiter'
+                })
+                this.router.navigate(['/business/details']);
+              },
+              error: (error) => {
+                this.isLoading = false;
+                this.loader.stop();
+                console.error(error);
+              },
+            });
+          },
+          error: (error) => {
+            this.isLoading = false;
+            this.loader.stop();
+            console.error(error);
+            this.errors.push('Failed to upload image. Please try again.');
+          }
         });
       } else {
+        this.isLoading = false;
         this.errors = recruiterErrorMessageGenerator(this.profileForm.controls);
         this.loader.stop();
       }
@@ -125,6 +141,9 @@ export class ProfileUpdateComponent {
         };
         this.businessService.updateRecruiter(data).subscribe({
           next: () => {
+            this.isLoading = false;
+            this.loader.complete();
+            this.toastr.success('Business profile updated successfully!');
             this.commonService.updateUsersDataForHeader({
               image: data.logo,
               firstName: data.firstName,
@@ -132,14 +151,15 @@ export class ProfileUpdateComponent {
               userType: 'recruiter'
             })
             this.router.navigate(['/business/details']);
-            this.loader.stop();
           },
           error: (error) => {
-            console.error(error);
+            this.isLoading = false;
             this.loader.stop();
+            console.error(error);
           },
         });
       } else {
+        this.isLoading = false;
         this.errors = recruiterErrorMessageGenerator(this.profileForm.controls);
         this.loader.stop();
       }
