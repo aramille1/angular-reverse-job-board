@@ -11,6 +11,8 @@ button:hover{
 .wrap{
   margin-top: 3rem;
   margin-bottom: 16rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
 }
 
 h2{
@@ -30,5 +32,10 @@ h3{
   button {
     margin-bottom: 20px;
     margin-right: 0;
+  }
+
+  .wrap{
+    padding-top: 0;
+    margin-bottom: 10rem;
   }
 }

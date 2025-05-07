@@ -162,6 +162,10 @@ main {
 
 /* Mobile styles */
 @media only screen and (max-width: 768px) {
+  article {
+    font-size: 18px;
+  }
+
   header {
     margin: 30px;
     padding: 0;
@@ -231,7 +235,7 @@ main {
   }
 
   .offcanvas {
-    max-width: 85%;
+    max-width: 65%;
 
     &-body {
       padding: 0;
