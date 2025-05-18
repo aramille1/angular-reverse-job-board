@@ -17,6 +17,7 @@ import { VerifyComponent } from './components/verify/verify/verify.component';
 import { MainComponent } from './components/main/main/main.component';
 import { EmailVerifyComponent } from './components/email-verify/email-verify/email-verify.component';
 import { ImpressumComponent } from './components/impressum/impressum.component';
+import { StaticLandingComponent } from './components/static-landing/static-landing.component';
 
 const routes: Routes = [
   {
@@ -50,7 +51,8 @@ const routes: Routes = [
             (m) => m.BusinessModule
           ),
       },
-      { path: '', component: HomeComponent },
+      { path: 'app-home', component: HomeComponent },
+      { path: '', component: StaticLandingComponent },
     ]
   },
   {

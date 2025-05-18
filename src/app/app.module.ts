@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, Title, Meta } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { JwtHelperService, JWT_OPTIONS } from "@auth0/angular-jwt";
 import { AppRoutingModule } from './app-routing.module';
@@ -33,6 +33,7 @@ import { EmailVerifyComponent } from './components/email-verify/email-verify/ema
 import { environment } from '../../environments/environments';
 import { ImpressumComponent } from './components/impressum/impressum.component';
 import { CookieConsentComponent } from './components/cookie-consent/cookie-consent.component';
+import { StaticLandingComponent } from './components/static-landing/static-landing.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { CookieConsentComponent } from './components/cookie-consent/cookie-conse
     EmailVerifyComponent,
     ImpressumComponent,
     CookieConsentComponent,
+    StaticLandingComponent,
   ],
   imports: [
     BrowserModule,
