@@ -10,6 +10,7 @@ import { EngineerService } from 'src/app/services/engineer-service/engineer.serv
 import { CloudinaryImage } from '@cloudinary/url-gen';
 import { quality } from "@cloudinary/url-gen/actions/delivery";
 import { PaginationStateService } from 'src/app/services/pagination-state.service';
+import { HttpCacheService } from 'src/app/interceptors/cache/http-cache.service';
 
 @Component({
   selector: 'app-engineers',
@@ -42,6 +43,7 @@ export class EngineersComponent implements OnInit, OnDestroy, AfterViewInit {
   keyword = 'name';
   countriesData: any = [];
   loader = this.loadingBar.useRef();
+  dataLoadTime: number = 0; // Track time taken to load data
   private subscriptions = new Subscription();
   public config: PaginationInstance = {
     id: 'custom',
@@ -90,11 +92,13 @@ export class EngineersComponent implements OnInit, OnDestroy, AfterViewInit {
     private auth: AuthService,
     private http: HttpClient,
     private paginationStateService: PaginationStateService,
-    private countriesService: CountriesService
+    private countriesService: CountriesService,
+    private httpCacheService: HttpCacheService
   ) { }
 
   ngOnInit(): void {
     this.loader.start();
+    const startTime = performance.now();
 
     // Restore pagination state
     this.page = this.paginationStateService.getEngineersPageState();
@@ -167,7 +171,12 @@ export class EngineersComponent implements OnInit, OnDestroy, AfterViewInit {
           }
         }),
         // After processing initial data, get engineers
-        finalize(() => this.getEngineers())
+        finalize(() => {
+          this.getEngineers();
+          this.dataLoadTime = performance.now() - startTime;
+          // Log time taken to load data (useful for performance monitoring)
+          console.log(`Engineers data loaded in ${this.dataLoadTime.toFixed(2)}ms`);
+        })
       ).subscribe()
     );
   }

@@ -34,6 +34,7 @@ import { environment } from '../../environments/environments';
 import { ImpressumComponent } from './components/impressum/impressum.component';
 import { CookieConsentComponent } from './components/cookie-consent/cookie-consent.component';
 import { StaticLandingComponent } from './components/static-landing/static-landing.component';
+import { HttpCacheInterceptor } from './interceptors/cache/http-cache.interceptor';
 
 @NgModule({
   declarations: [
@@ -89,7 +90,13 @@ import { StaticLandingComponent } from './components/static-landing/static-landi
       provide: HTTP_INTERCEPTORS,
       useClass: AdminAuthInterceptor,
       multi: true
-    }
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpCacheInterceptor,
+      multi: true
+    },
+    HttpCacheInterceptor // Provide as standalone service for injection
   ],
   bootstrap: [AppComponent]
 })
