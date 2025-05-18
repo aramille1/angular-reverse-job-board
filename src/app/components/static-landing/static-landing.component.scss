@@ -1,3 +1,70 @@
+/* Single-Track Animation Styles */
+.single-track-container {
+  position: relative;
+  width: 100%;
+  height: 150px;
+  overflow: hidden;
+  margin-top: 2rem;
+  margin-bottom: 3rem;
+}
+
+.mod {
+  margin-right: 50px;
+}
+
+.cloud-item {
+  position: absolute;
+  display: block;
+  width: 550px; /* Fixed width instead of auto/max-width */
+  transition: transform 0.3s ease-in-out;
+
+  &:hover {
+    transform: translateY(-10px); /* Small lift effect on hover */
+  }
+
+  .image-container {
+    img {
+      height: 120px;
+      width: auto;
+      object-fit: contain;
+    }
+  }
+}
+
+.cloud-one {
+  animation: moveRight 30s linear infinite;
+  animation-delay: 0s; /* Starts immediately */
+  top: 10px;
+  z-index: 3; /* Higher z-index to show on top if needed */
+}
+
+.cloud-two {
+  animation: moveRight 30s linear infinite;
+  animation-delay: -20s; /* Negative delay to position it further in the sequence */
+  top: 10px;
+  z-index: 2;
+}
+
+.cloud-three {
+  animation: moveRight 30s linear infinite;
+  animation-delay: -10s; /* Negative delay to position it further in the sequence */
+  top: 10px;
+  z-index: 1;
+}
+
+@keyframes moveRight {
+  0% {
+    left: -550px; /* Start completely off-screen by exact image width */
+    opacity: 1; /* Start fully visible */
+  }
+  100% {
+    left: 100%; /* End at right edge of viewport */
+    opacity: 1; /* Stay fully visible */
+  }
+}
+
+/* End Animation Styles */
+
 .custom-box-shadow {
   &:hover {
     box-shadow: none;
@@ -109,40 +176,6 @@
 
 }
 
-//animation for less words
-// @keyframes spin_words{
-//   10%{
-//       transform: translateY(-112%);
-//   }
-//   20%{
-//       transform: translateY(-100%);
-//   }
-//   30%{
-//       transform: translateY(-212%);
-//   }
-//   40%{
-//       transform: translateY(-200%);
-//   }
-//   50%{
-//       transform: translateY(-312%);
-//   }
-//   60%{
-//       transform: translateY(-300%);
-//   }
-//   70%{
-//       transform: translateY(-412%);
-//   }
-//   80%{
-//       transform: translateY(-400%);
-//   }
-//   90%{
-//     transform: translateY(-512%);
-// }
-// 100%{
-//   transform: translateY(-500%);
-// }
-// }
-
 @media only screen and (max-width: 768px) {
   header {
     margin: 30px !important;
@@ -171,10 +204,6 @@
     display: none !important;
   }
 
-  // .engineer-info-header h2{
-  //   width: 100%;
-  // }
-
   .item {
     margin: 0px !important;
 
@@ -192,10 +221,8 @@
     .engineer-info-status {
       display: none !important;
     }
-
-
-
   }
+
   .engineer {
     img {
       width: 85%;
@@ -209,6 +236,31 @@
   .engineer-info-header h2,
   .engineer-info-text {
     width: 100%
+  }
+
+  /* Mobile animation styles */
+  .single-track-container {
+    height: 100px;
+  }
+
+  .cloud-item {
+    width: 100%;
+    padding-left: 70px;
+  }
+
+  .cloud-item .image-container img {
+    height: 80px;
+  }
+
+  @keyframes moveRight {
+    0% {
+      left: -200px; /* Start completely off-screen by exact mobile image width */
+      opacity: 1;
+    }
+    100% {
+      left: 100%;
+      opacity: 1;
+    }
   }
 }
 

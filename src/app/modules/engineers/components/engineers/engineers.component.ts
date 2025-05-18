@@ -7,8 +7,6 @@ import { catchError, finalize, switchMap, tap } from 'rxjs/operators';
 import { AuthService } from 'src/app/services/auth.service';
 import { CountriesService } from 'src/app/services/countries/countries.service';
 import { EngineerService } from 'src/app/services/engineer-service/engineer.service';
-import { CloudinaryImage } from '@cloudinary/url-gen';
-import { quality } from "@cloudinary/url-gen/actions/delivery";
 import { PaginationStateService } from 'src/app/services/pagination-state.service';
 import { HttpCacheService } from 'src/app/interceptors/cache/http-cache.service';
 
@@ -38,8 +36,6 @@ export class EngineersComponent implements OnInit, OnDestroy, AfterViewInit {
   countrySearchText: string = '';
   selectedRoleLevel: string = '';
   selectedRoleType: string = '';
-  imgObj: CloudinaryImage = new CloudinaryImage();
-  imgString: string = '';
   keyword = 'name';
   countriesData: any = [];
   loader = this.loadingBar.useRef();
@@ -223,26 +219,10 @@ export class EngineersComponent implements OnInit, OnDestroy, AfterViewInit {
                 this.showNotFound = false;
                 this.showPagination = (res.engineers.length < this.limit && this.page === 1) ? false : true;
 
-                // Log the first engineer to see what fields it has
-                console.log('First engineer:', res.engineers[0]);
-
                 res.engineers.forEach((e: any) => {
                   // Set isNew flag for each engineer
                   e.isNew = this.isNewProfile(e);
-
-                  if (e.Avatar && e.Avatar.includes('https://res.cloudinary.com')) {
-                    let urlString = e.Avatar.replace('https://res.cloudinary.com/rmsmms/image/upload/', '').replace('.jpg', '').slice(12)
-                    // changing the image quality setting from cloudinary
-                    this.imgObj = new CloudinaryImage(urlString, {
-                      cloudName: 'rmsmms',
-                    }).format('auto').delivery(quality('auto:best'));
-
-                    // get the string for the img tag
-                    e.Avatar = this.imgObj.toURL();
-                    this.tempEngineers.push(e)
-                  } else {
-                    this.tempEngineers.push(e)
-                  }
+                  this.tempEngineers.push(e);
                 });
 
                 this.engineers = this.tempEngineers;

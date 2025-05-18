@@ -406,7 +406,7 @@
                     <div class="form-check" *ngFor="let roleLevel of roleLevels; index as i">
                       <input class="form-check-input" type="checkbox" [(ngModel)]="roleLevel.isSelected"
                         (change)="handleChangeRoleLevel($event, i)" value="{{ roleLevel.value }}"
-                        id="roleLevelIdx{{ i }}" [ngModel]="selectedLevelIndex === i" />
+                        id="roleLevelIdxMobile{{ i }}" [ngModel]="selectedLevelIndex === i" />
                       <label class="form-check-label" [attr.for]="'roleLevelIdxMobile' + i">
                         {{ roleLevel.name }}
                       </label>
@@ -427,7 +427,7 @@
                   <div class="accordion-body">
                     <div class="form-check" *ngFor="let roleType of roleTypes; index as i">
                       <input class="form-check-input" type="checkbox" [(ngModel)]="roleType.isSelected"
-                        (change)="handleChangeRoleType($event, i)" value="{{ roleType.value }}" id="roleTypeIdx{{ i }}"
+                        (change)="handleChangeRoleType($event, i)" value="{{ roleType.value }}" id="roleTypeIdxMobile{{ i }}"
                         [ngModel]="selectedTypeIndex === i" />
                       <label class="form-check-label" [attr.for]="'roleTypeIdxMobile' + i">
                         {{ roleType.name }}
