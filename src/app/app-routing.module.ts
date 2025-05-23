@@ -37,6 +37,13 @@ const routes: Routes = [
       { path: 'about', component: AboutComponent },
       { path: 'email-verify', component: EmailVerifyComponent },
       {
+        path: 'blog',
+        loadChildren: () =>
+          import('./modules/blog/blog.module').then(
+            (m) => m.BlogModule
+          ),
+      },
+      {
         path: 'engineers',
         loadChildren: () =>
           import('./modules/engineers/engineers.module').then(

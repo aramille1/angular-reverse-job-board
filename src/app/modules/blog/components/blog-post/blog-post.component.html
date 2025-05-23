@@ -1,0 +1,40 @@
+<div class="spinner d-flex justify-content-center vh-100 align-items-center" *ngIf="loading">
+  <div class="spinner-border" role="status">
+    <span class="sr-only"></span>
+  </div>
+</div>
+
+<div class="container my-5 pb-5" *ngIf="!loading && article">
+  <div class="row justify-content-center">
+    <div class="col-lg-9 col-md-10">
+      <div class="article-header mb-4">
+        <a [routerLink]="['/blog']" class="back-link">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+          </svg>
+          Back to all articles
+        </a>
+        <h1 class="display-6 fw-bold main-color mt-4">{{ article.title }}</h1>
+        <div class="article-meta">
+          <span class="article-date">{{ article.date | date:'fullDate' }}</span>
+          <span class="article-author">by {{ article.author }}</span>
+        </div>
+      </div>
+
+      <!-- <div class="article-image-container">
+        <img [src]="article.imageUrl ? article.imageUrl : 'assets/empty-article.png'" alt="{{ article.title }}" class="img-fluid rounded">
+      </div> -->
+
+      <div class="article-content custom-box-shadow" [innerHTML]="article.content"></div>
+
+      <div class="article-footer mt-5">
+        <a [routerLink]="['/blog']" class="btn btn-outline-secondary">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+          </svg>
+          Back to all articles
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

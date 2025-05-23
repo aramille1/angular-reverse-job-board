@@ -1,0 +1,77 @@
+<!-- <ngx-loading-bar color="#b21616" [includeSpinner]="false" height="3px"></ngx-loading-bar> -->
+<div class="spinner d-flex justify-content-center vh-100 align-items-center" *ngIf="loading">
+  <div class="spinner-border" role="status">
+    <span class="sr-only"></span>
+  </div>
+</div>
+<div class="container my-5 pb-5" *ngIf="!loading">
+  <header class="text-center">
+    <h1 class="display-5 fw-bold main-color">Angular <span style="color:#b21616">Blog</span></h1>
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <article>
+          Latest articles and insights about Angular development, best practices, and tips.<br />
+          Stay updated with our blog posts.
+        </article>
+      </div>
+    </div>
+  </header>
+
+  <div class="row justify-content-center mt-4">
+    <!-- List of blog posts -->
+    <div class="col-xs-12 col-md-10 col-lg-8">
+      <main>
+        <!-- Show blog posts list if there are posts -->
+        <div class="blog-wrapper" *ngIf="articles && articles.length > 0">
+          <div *ngFor="
+              let article of articles
+                | paginate
+                  : {
+                      itemsPerPage: limit,
+                      currentPage: page,
+                      totalItems: total
+                    };
+              let i = index
+            ">
+            <a class="article custom-box-shadow item" [routerLink]="['/blog', article.slug]">
+              <div class="article-info">
+                <div class="article-info-header">
+                  <h2>{{ article.title }}</h2>
+                  <div class="article-info-meta">
+                    <span class="article-date">{{ article.date | date:'mediumDate' }}</span>
+                    <span class="article-author">{{ article.author }}</span>
+                  </div>
+                </div>
+
+                <div class="article-info-text">
+                  {{ article.excerpt }}
+                </div>
+
+                <div class="mt-2">
+                  <span class="read-more">Read more</span>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <!-- No articles found message -->
+        <div *ngIf="!loading && (!articles || articles.length === 0)" class="text-center py-5">
+          <div class="empty-state">
+            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26"
+              fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+              <path
+                d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+            </svg>
+            <h3 class="main-color mt-2">No articles found</h3>
+            <p class="text-muted mb-4">There are no articles available at the moment.</p>
+          </div>
+        </div>
+
+        <!-- Only show pagination if there are articles -->
+        <pagination-controls *ngIf="articles && articles.length > limit"
+          (pageChange)="pageChangeEvent($event)"></pagination-controls>
+      </main>
+    </div>
+  </div>
+</div>
