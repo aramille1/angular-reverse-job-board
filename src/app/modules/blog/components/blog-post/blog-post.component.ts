@@ -43,6 +43,7 @@ interface BlogPostJsonLd {
 export class BlogPostComponent implements OnInit {
   article: Article | undefined;
   loading = true;
+  slug: string = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -54,9 +55,17 @@ export class BlogPostComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    // Set initial title from route data (will be overridden once article loads)
+    this.route.data.subscribe(data => {
+      if (data['title']) {
+        this.titleService.setTitle(`${data['title']} | Angular Talents`);
+      }
+    });
+
     this.route.paramMap.subscribe(params => {
       const slug = params.get('slug');
       if (slug) {
+        this.slug = slug;
         this.loadArticle(slug);
       } else {
         this.router.navigate(['/blog']);
@@ -81,7 +90,7 @@ export class BlogPostComponent implements OnInit {
   setupSEO(article: Article): void {
     // Get a clean version of the content for meta description (remove HTML tags)
     const cleanContent = article.content.replace(/<[^>]*>?/gm, '');
-    const metaDescription = cleanContent.substring(0, 160) + '...';
+    const metaDescription = article.metaDescription || article.excerpt || cleanContent.substring(0, 160) + '...';
 
     // Set page title
     this.titleService.setTitle(`${article.title} | Angular Blog`);
@@ -89,13 +98,13 @@ export class BlogPostComponent implements OnInit {
     // Update meta description
     this.metaService.updateTag({
       name: 'description',
-      content: article.excerpt
+      content: metaDescription
     });
 
     // Set article-specific tags
     this.metaService.updateTag({
       name: 'keywords',
-      content: `Angular blog, ${article.title}, Angular development, Angular tips, Angular tutorials, Angular framework`
+      content: article.keywords || `Angular blog, ${article.title}, Angular development, Angular tips, Angular tutorials, Angular framework`
     });
 
     // Set article published date
@@ -110,9 +119,12 @@ export class BlogPostComponent implements OnInit {
       content: article.author
     });
 
+    // Update canonical URL
+    this.updateCanonicalUrl(this.slug);
+
     // Open Graph tags for social sharing
     this.metaService.updateTag({ property: 'og:title', content: article.title });
-    this.metaService.updateTag({ property: 'og:description', content: article.excerpt });
+    this.metaService.updateTag({ property: 'og:description', content: metaDescription });
     this.metaService.updateTag({ property: 'og:type', content: 'article' });
     this.metaService.updateTag({ property: 'og:url', content: `https://angulartalents.com/blog/${article.slug}` });
     if (article.imageUrl) {
@@ -122,9 +134,24 @@ export class BlogPostComponent implements OnInit {
     // Twitter Card data
     this.metaService.updateTag({ name: 'twitter:card', content: 'summary_large_image' });
     this.metaService.updateTag({ name: 'twitter:title', content: article.title });
-    this.metaService.updateTag({ name: 'twitter:description', content: article.excerpt });
+    this.metaService.updateTag({ name: 'twitter:description', content: metaDescription });
     if (article.imageUrl) {
       this.metaService.updateTag({ name: 'twitter:image', content: article.imageUrl });
+    }
+  }
+
+  updateCanonicalUrl(slug: string): void {
+    // Update canonical URL for SEO
+    const head = document.getElementsByTagName('head')[0];
+    let canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement;
+
+    if (canonical) {
+      canonical.href = `https://angulartalents.com/blog/${slug}`;
+    } else {
+      const link = document.createElement('link');
+      link.setAttribute('rel', 'canonical');
+      link.setAttribute('href', `https://angulartalents.com/blog/${slug}`);
+      head.appendChild(link);
     }
   }
 
@@ -142,7 +169,7 @@ export class BlogPostComponent implements OnInit {
       '@context': 'https://schema.org',
       '@type': 'BlogPosting',
       'headline': article.title,
-      'description': article.excerpt,
+      'description': article.metaDescription || article.excerpt,
       'datePublished': article.date.toISOString(),
       'dateModified': article.date.toISOString(),
       'mainEntityOfPage': {

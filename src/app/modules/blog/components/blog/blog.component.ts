@@ -57,6 +57,7 @@ export class BlogComponent implements OnInit {
   ngOnInit(): void {
     this.loadArticles();
     this.setupSEO();
+    this.updateCanonicalUrl();
   }
 
   loadArticles(): void {
@@ -99,6 +100,21 @@ export class BlogComponent implements OnInit {
     this.metaService.updateTag({ name: 'twitter:description', content: 'Read the latest articles, tutorials, and insights about Angular development, best practices, and tips from our Angular experts.' });
   }
 
+  updateCanonicalUrl(): void {
+    // Update canonical URL for SEO
+    const head = document.getElementsByTagName('head')[0];
+    let canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement;
+
+    if (canonical) {
+      canonical.href = 'https://angulartalents.com/blog';
+    } else {
+      const link = document.createElement('link');
+      link.setAttribute('rel', 'canonical');
+      link.setAttribute('href', 'https://angulartalents.com/blog');
+      head.appendChild(link);
+    }
+  }
+
   generateJsonLd(): void {
     // Remove any existing blog JSON-LD
     const existingScripts = document.querySelectorAll('script[type="application/ld+json"]');
@@ -113,7 +129,7 @@ export class BlogComponent implements OnInit {
       return {
         '@type': 'BlogPosting',
         'headline': article.title,
-        'description': article.excerpt,
+        'description': article.metaDescription || article.excerpt,
         'datePublished': article.date.toISOString(),
         'author': {
           '@type': 'Person',

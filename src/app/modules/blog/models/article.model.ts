@@ -7,4 +7,6 @@ export interface Article {
   author: string;
   date: Date;
   imageUrl?: string;
+  metaDescription?: string;
+  keywords?: string;
 }

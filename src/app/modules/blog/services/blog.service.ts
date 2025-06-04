@@ -8,6 +8,134 @@ import { Article } from '../models/article.model';
 export class BlogService {
   private articles: Article[] = [
     {
+      id: 2,
+      title: 'Angular 19.2: Expanding the Reactivity Ecosystem',
+      slug: 'angular-19-2-expanding-reactivity-ecosystem',
+      excerpt: 'Explore the latest features in Angular 19.2 including new asynchronous reactivity APIs, improved template ergonomics, and productivity enhancements that make Angular development even more powerful.',
+      metaDescription: 'Angular 19.2 introduces powerful asynchronous reactivity with httpResource and rxResource APIs, along with improved template ergonomics and other significant enhancements.',
+      keywords: 'Angular 19.2, httpResource, rxResource, template literals, asynchronous reactivity, signals, resource API, Angular development',
+      content: `
+      <p>Angular development continues to evolve at an impressive pace, and with the release of Angular 19.2, we're seeing significant advances in how we handle asynchronous data and build reactive applications. This minor release builds upon the foundation laid in Angular 19.0 and introduces capabilities that will change how we approach data fetching and state management in our applications.</p>
+
+      <h2>The Evolution of Angular's Reactivity System</h2>
+
+      <p>Since signals were introduced in Angular 16, developers have embraced this synchronous reactivity model for managing state. However, one common question kept surfacing: "How can we apply signals' elegance to asynchronous operations?" Angular 19.2 directly addresses this need with expanded reactivity APIs that bridge the gap between synchronous and asynchronous worlds.</p>
+
+      <h2>Asynchronous Reactivity with httpResource</h2>
+
+      <p>One of the standout features in Angular 19.2 is the experimental <code>httpResource</code> API. This new addition makes reactive HTTP requests simple and intuitive, creating a seamless connection between your application's state and external data sources.</p>
+
+      <p>Here's how you can leverage this new API in your applications:</p>
+
+      <pre class="code-block typescript">
+      <code>
+      // Define a signal for the user ID
+      currentUserId = getCurrentUserId();
+
+      // Create a reactive HTTP resource that updates when the ID changes
+      user = httpResource(() => \`/api/user/\${currentUserId()}\`);
+      </code>
+      </pre>
+
+      <p>What makes this particularly powerful is that <code>httpResource</code> automatically reacts to changes in the signal value. When <code>currentUserId</code> changes, <code>httpResource</code> intelligently triggers a new request. Even better, since it's built on top of Angular's <code>HttpClient</code>, you retain access to all the features you already know and love, like interceptors for authentication and error handling.</p>
+
+      <h2>Streaming Multiple Values with rxResource</h2>
+
+      <p>Building on the reactivity theme, Angular 19.2 introduces <code>rxResource</code>, enabling support for streaming multiple responses over time. This is particularly valuable for applications that need to handle real-time data or long-running operations.</p>
+
+      <p>Consider this example:</p>
+
+      <pre class="code-block typescript">
+      <code>
+      // Create a BehaviorSubject that emits new values periodically
+      readonly subject = new BehaviorSubject&lt;number&gt;(1);
+      readonly intervalId = setInterval(() => {
+        this.subject.next(this.subject.value + 1);
+      }, 1000);
+
+      // Create a resource that streams these values as they arrive
+      readonly resource = rxResource({
+        loader: () => this.subject,
+      });
+      </code>
+      </pre>
+
+      <p>In your template, you can simply use:</p>
+
+      <pre class="code-block html">
+      <code>
+      &lt;p&gt;{{ resource.value() }}&lt;/p&gt;
+      </code>
+      </pre>
+
+      <p>This approach brings remarkable clarity to code that would otherwise require complex Observable handling and async pipes. The <code>rxResource</code> API seamlessly integrates with Angular's reactivity system, making it much more straightforward to work with streaming data sources.</p>
+
+      <h2>Understanding the Resource API Foundation</h2>
+
+      <p>Both <code>httpResource</code> and <code>rxResource</code> build upon the experimental resource API introduced in Angular 19. This foundation allows developers to interact with asynchronous data sources while maintaining the ergonomics and developer experience of signals.</p>
+
+      <p>Here's a basic example of the resource API in action:</p>
+
+      <pre class="code-block typescript">
+      <code>
+      readonly id = signal(1);
+      readonly todoResource = resource({
+        request: () => ({id: this.id()}),
+        loader: async ({request}) => (await fetch(
+          \`https://jsonplaceholder.typicode.com/todos/\${request.id}\`)).json(),
+      });
+      </code>
+      </pre>
+
+      <p>When the <code>id</code> signal changes, the resource automatically triggers a new fetch operation, and the template can access the current value with <code>todoResource.value()</code>. This pattern brings consistency between synchronous and asynchronous state management, creating a more unified development experience.</p>
+
+      <h2>Template Improvements for Better Ergonomics</h2>
+
+      <p>Beyond the reactivity enhancements, Angular 19.2 also delivers improvements to template authoring with support for untagged template literal expressions. This seemingly small addition makes a significant difference in day-to-day development, particularly when working with dynamic class names or other interpolated strings.</p>
+
+      <p>Previously, concatenating strings in templates could be somewhat verbose. With the new support for untagged template literals, you can now write:</p>
+
+      <pre class="code-block html">
+      <code>
+      &lt;div [class]="\`layout col-\${colWidth}\`"&gt;&lt;/div&gt;
+      </code>
+      </pre>
+
+      <p>This cleaner syntax reduces the friction when building dynamic UIs and makes templates more readable at a glance.</p>
+
+      <h2>Additional Enhancements</h2>
+
+      <p>Angular 19.2 includes several other noteworthy improvements:</p>
+
+      <ul>
+        <li><strong>Self-closing tag migration:</strong> A new migration utility helps convert appropriate elements to self-closing tags, improving markup consistency.</li>
+        <li><strong>Set type support in forms:</strong> Angular forms now provide better support for the Set type, expanding the data structures you can work with seamlessly.</li>
+        <li><strong>Skip hydration diagnostic:</strong> New diagnostics help identify and troubleshoot hydration issues more effectively.</li>
+      </ul>
+
+      <h2>Embracing Angular's Future Today</h2>
+
+      <p>While the resource APIs are still marked as experimental, they represent a clear direction for Angular's future. The framework is evolving to make asynchronous operations feel more natural and integrated with the rest of the application state.</p>
+
+      <p>As with any experimental feature, be mindful that the APIs might change before they're finalized. However, the core concepts around unifying synchronous and asynchronous reactivity are likely here to stay, making this an excellent time to start exploring these patterns in non-production projects.</p>
+
+      <h2>Getting Started with Angular 19.2</h2>
+
+      <p>Angular 19.2 is available now, and upgrading is straightforward for applications already on version 19. If you're looking to experiment with the new resource APIs, make sure to check the official documentation and consider participating in the RFC (Request for Comments) process to help shape these features as they move toward stability.</p>
+
+      <p>Whether you're building a new application or maintaining an existing one, Angular 19.2's enhancements to reactivity and template ergonomics offer tangible improvements that can make your development experience more productive and your code more maintainable.</p>
+
+      <p>The Angular ecosystem continues to advance rapidly, balancing innovation with stability in a way that respects the needs of enterprise applications while embracing modern development patterns. Angular 19.2 exemplifies this approach, delivering meaningful improvements that enhance the framework without disrupting existing codebases.</p>
+
+      <div class="article-tags">
+        <strong>Keywords:</strong> Angular 19.2, httpResource, rxResource, template literals, asynchronous reactivity, signals, Angular development, Angular features
+      </div>
+      `,
+      author: 'Angular Talents Team',
+      date: new Date('2024-03-10'),
+      imageUrl: 'assets/images/angular-19-2.jpg'
+    },
+    {
       id: 1,
       title: '@let in Angular: The Game Changer for Template Efficiency',
       slug: 'let-in-angular',
@@ -36,11 +164,13 @@ export class BlogService {
 
       <p>Here's what that third option might look like:</p>
 
-      <pre>
+      <pre class="code-block html">
+      <code>
       &lt;ng-container *ngIf="items | filterBy:searchTerm as filteredItems"&gt;
         &lt;div *ngFor="let item of filteredItems"&gt;{{ item.name }}&lt;/div&gt;
         &lt;div class="counter"&gt;Found {{ filteredItems.length }} matching items&lt;/div&gt;
       &lt;/ng-container&gt;
+      </code>
       </pre>
 
       <p>I don't know about you, but I always found this approach clunky. Why do I need an <code>*ngIf</code> when I'm not actually conditionally rendering anything? It's syntactic overhead that makes the template harder to understand at a glance.</p>
@@ -49,11 +179,13 @@ export class BlogService {
 
       <p>This is where <code>@let</code> comes to the rescue! It's like Angular finally realized we needed a more direct way to declare template variables. Here's how you'd solve the same problem with <code>@let</code>:</p>
 
-      <pre>
+      <pre class="code-block html">
+      <code>
       @let filteredItems = items | filterBy:searchTerm;
 
       &lt;div *ngFor="let item of filteredItems"&gt;{{ item.name }}&lt;/div&gt;
       &lt;div class="counter"&gt;Found {{ filteredItems.length }} matching items&lt;/div&gt;
+      </code>
       </pre>
 
       <p>Isn't that cleaner? More direct? More readable? That's the beauty of <code>@let</code> – it cuts right to the chase with no unnecessary wrappers or indirection.</p>
@@ -75,7 +207,8 @@ export class BlogService {
 
       <p>I was recently working on a form where certain fields became required based on other selections. With <code>@let</code>, it became so much cleaner:</p>
 
-      <pre>
+      <pre class="code-block html">
+      <code>
       @let isDeliveryRequired = form.get('serviceType')?.value === 'delivery';
       @let addressRequired = isDeliveryRequired && !form.get('useDefaultAddress')?.value;
 
@@ -87,13 +220,15 @@ export class BlogService {
       &lt;div class="helper-text" *ngIf="addressRequired"&gt;
         Please enter your full delivery address
       &lt;/div&gt;
+      </code>
       </pre>
 
       <h3>2. Data Transformations</h3>
 
       <p>When working with data that needs formatting or transformation before display, <code>@let</code> really shines:</p>
 
-      <pre>
+      <pre class="code-block html">
+      <code>
       @let fullName = user.firstName + ' ' + user.lastName;
       @let formattedPhone = user.phone ? formatPhoneNumber(user.phone) : 'No phone provided';
       @let memberSince = formatDate(user.joinDate, 'MMM yyyy');
@@ -105,13 +240,15 @@ export class BlogService {
           &lt;span&gt;🗓️ Member since {{ memberSince }}&lt;/span&gt;
         &lt;/div&gt;
       &lt;/div&gt;
+      </code>
       </pre>
 
       <h3>3. Working with Observables</h3>
 
       <p>This is perhaps my favorite use case. Combining <code>@let</code> with the async pipe makes working with observables a breeze:</p>
 
-      <pre>
+      <pre class="code-block html">
+      <code>
       @let user = userService.currentUser$ | async;
       @let isAdmin = user?.role === 'admin';
       @let hasPendingTasks = user?.tasks?.some(task => task.status === 'pending') ?? false;
@@ -125,6 +262,7 @@ export class BlogService {
           You have pending tasks that require your attention
         &lt;/div&gt;
       &lt;/div&gt;
+      </code>
       </pre>
 
       <p>No more RxJS gymnastics in your component class just to combine a few observable values!</p>
