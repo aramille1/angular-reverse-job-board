@@ -28,6 +28,11 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
+              {
+                "glob": "**/*",
+                "input": "src/assets/dharma-companion",
+                "output": "/dharma-companion"
+              },
               "src/sitemap.xml",
               "src/site.webmanifest",
               "src/favicon-16x16.png",
